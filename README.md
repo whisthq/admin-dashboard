@@ -1,3 +1,7 @@
+# Fractal Admin Dashboard
+
+This repository contains the code for the Fractal dashboard used to deliver support and monitor the Fractal cloud infrastructure.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
