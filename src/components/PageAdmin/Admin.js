@@ -146,10 +146,9 @@ class Admin extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state)
   return {
     authenticated: state.AccountReducer.authenticated,
-    vm_info: state.AccountReducer.vm_info
+    vm_info: state.AccountReducer.vm_info === null ? [] : state.AccountReducer.vm_info 
   }
 }
 
