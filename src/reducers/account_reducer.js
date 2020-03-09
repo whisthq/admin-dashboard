@@ -1,6 +1,6 @@
 import * as AccountAction from '../actions/index'
 
-const DEFAULT = {vm_info: {}, authenticated: false}
+const DEFAULT = {vm_info: [], authenticated: false}
 
 export default function(state = DEFAULT, action) {
   switch (action.type) {

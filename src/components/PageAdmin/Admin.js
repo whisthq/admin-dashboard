@@ -149,7 +149,7 @@ function mapStateToProps(state) {
   console.log(state.AccountReducer.vm_info)
   return {
     authenticated: state.AccountReducer.authenticated,
-    vm_info: state.AccountReducer.vm_info === null ? [] : state.AccountReducer.vm_info 
+    vm_info: state.AccountReducer.vm_info 
   }
 }
 
