@@ -4,9 +4,6 @@ div {
   font-family: 'Maven Pro' !important;
 }
 
-::placeholder {
-  color: white;
-}
 
 textarea:focus, input:focus{
     outline: none;
@@ -16,3 +13,26 @@ input[type=text], input {
   position: relative;
 }
 
+a {
+  text-decoration: none !important;
+  color: #333333 !important;
+}
+
+.edit-table:hover {
+	cursor: pointer;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #EBEBEB;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #C9C9C9;
+}

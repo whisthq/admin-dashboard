@@ -5,14 +5,13 @@ import history from "../history";
 import { push } from 'connected-react-router'
 
 function* updateDB(action) {
-  console.log("Saga sending")
-   const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/info/update_db', {
-   })
-   console.log("Sent initial POST request")
-   if(json.ID) {
-    console.log(json.ID)
-    yield put(FormAction.fetchVMs(json.ID))
-   }
+  if(!action.updated) {
+     const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/info/update_db', {
+     })
+     if(json.ID) {
+      yield put(FormAction.fetchVMs(json.ID))
+     }
+  }
 }
 
 function* fetchVMs(action) {
@@ -22,7 +21,7 @@ function* fetchVMs(action) {
     var {json, response} = yield call(apiGet, 'https://cube-celery-vm.herokuapp.com/status/'.concat(action.id))
   }
   yield put(FormAction.loadVMs(json.output.value))
-  console.log(json.output)
+  yield put(FormAction.updateDB(true))
 }
 
 function* loginUser(action) {
@@ -31,10 +30,31 @@ function* loginUser(action) {
   }
 }
 
+function* resetUser(action) {
+   const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/user/reset', {
+    username: action.username,
+    password: action.password,
+    vm_name: action.vm_name
+   })
+   if(json.status === 200) {
+    yield put(FormAction.updateDB(false))
+   }
+}
+
+function* fetchUserActivity(action) {
+   const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/tracker/fetch', {
+   })
+   if(json) {
+    yield put(FormAction.userActivityFetched(json.payload))
+   }
+}
+
 export default function* rootSaga() {
  	yield all([
     takeEvery(FormAction.UPDATE_DB, updateDB),
     takeEvery(FormAction.FETCH_VMS, fetchVMs),
-    takeEvery(FormAction.LOGIN_USER, loginUser)
+    takeEvery(FormAction.LOGIN_USER, loginUser),
+    takeEvery(FormAction.RESET_USER, resetUser),
+    takeEvery(FormAction.FETCH_USER_ACTIVITY, fetchUserActivity)
 	]);
 }

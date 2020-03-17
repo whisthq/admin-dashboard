@@ -3,6 +3,9 @@ export const UPDATE_DB = "UPDATE_DB"
 export const LOAD_VMS = "LOAD_VMS"
 export const LOGIN_USER = "LOGIN_USER"
 export const AUTHENTICATE_USER = "AUTHENTICATE_USER"
+export const RESET_USER = "RESET_USER"
+export const FETCH_USER_ACTIVITY = "FETCH_USER_ACTIVITY"
+export const USER_ACTIVITY_FETCHED = "USER_ACTIVITY_FETCHED"
 
 export function fetchVMs(id) {
 	return {
@@ -11,10 +14,10 @@ export function fetchVMs(id) {
 	};
 }
 
-export function updateDB() {
-	console.log("Update DB action caught")
+export function updateDB(updated) {
 	return {
 		type: UPDATE_DB,
+		updated
 	};
 }
 
@@ -36,5 +39,25 @@ export function loginUser(username, password) {
 export function authenticateUser() {
 	return {
 		type: AUTHENTICATE_USER
+	}
+}
+
+export function resetUser(vm_name, username, password) {
+	return {
+		type: RESET_USER,
+		vm_name, username, password
+	}
+}
+
+export function fetchUserActivity() {
+	return {
+		type: FETCH_USER_ACTIVITY
+	}
+}
+
+export function userActivityFetched(payload) {
+	return {
+		type: USER_ACTIVITY_FETCHED,
+		payload
 	}
 }

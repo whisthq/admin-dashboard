@@ -57,7 +57,6 @@ ReactDOM.render(
             <title>Fractal</title>
           </Helmet>
               <Route exact path="/" component={Admin} />
-              <Footer/>
           </PersistGate>
           </Provider>
       </Router>,
