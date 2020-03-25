@@ -22,7 +22,8 @@ import Logo from '../../assets/logo.svg'
 class Admin extends Component {
   constructor(props) {
     super(props)
-    this.state = { width: 0, height: 0, modalShow: false, showPopup: false, loaded: false, emailLogin: '', passwordLogin: '', day: 0, month: 0, year: 0, isEditing: -1, editedUsername: '', editedPassword: '' }
+    this.state = { width: 0, height: 0, modalShow: false, showPopup: false, loaded: false, emailLogin: '', 
+    passwordLogin: '', day: 0, month: 0, year: 0, isEditing: -1, editedUsername: ''}
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
   }
 
@@ -49,7 +50,7 @@ class Admin extends Component {
 
   monthConvert = (month) => {
     var months = [ "January", "February", "March", "April", "May", "June", 
-               "July", "August", "September", "October", "November", "December" ];
+                   "July", "August", "September", "October", "November", "December" ];
     var selectedMonthName = months[month];
     return selectedMonthName;
   }
@@ -89,9 +90,9 @@ class Admin extends Component {
   }
 
   doneEditing = (index) => {
-    if(this.state.editedUsername != '' && this.state.editedPassword != '') {
+    if(this.state.editedUsername != '') {
       this.setState({isEditing: -1}, function() {
-        this.props.dispatch(resetUser(this.props.vm_info[index].vm_name, this.state.editedUsername, this.state.editedPassword))
+        this.props.dispatch(resetUser(this.props.vm_info[index].vm_name, this.state.editedUsername))
       })
     }
   }
@@ -114,12 +115,6 @@ class Admin extends Component {
   updateVMUsername = (evt) => {
     this.setState({
       editedUsername: evt.target.value
-    })
-  }
-
-  updateVMPassword = (evt) => {
-    this.setState({
-      editedPassword: evt.target.value
     })
   }
 
@@ -203,32 +198,23 @@ class Admin extends Component {
             <table style = {{backgroundColor: "#FFFFFF", width: '100%'}}>
               <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left'}}>
                 <th style = {{padding: '20px 20px'}}>Username</th>
-                <th>Password</th>
                 <th>IP Address</th>
                 <th>VM Name</th>
                 <th>Location</th>
                 <th></th>
               </tr>
               {this.props.vm_info.map((value, index) => {
+                var defaultUsername = value.username
                 return (
                   <tr style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12}}>
                     {
                       this.state.isEditing === index
                       ?
                       <td style = {{width: '19%', paddingLeft: 20, paddingTop: 10, paddingBottom: 10}}>
-                        <input type = "text" placeholder = {value.username} style = {{width: 100}} onChange = {this.updateVMUsername}/>
+                        <input defaultValue = {defaultUsername} type = "text" placeholder = {value.username} style = {{width: 100}} onChange = {this.updateVMUsername}/>
                       </td>
                       :
                       <td style = {{width: '19%', paddingLeft: 20, paddingTop: 10, paddingBottom: 10}}>{value.username}</td>
-                    }
-                    {
-                      this.state.isEditing === index
-                      ?
-                      <td style = {{width: '19%', paddingTop: 10, paddingBottom: 10}}>
-                        <input type = "text" placeholder = {value.password} style = {{width: 100}} onChange = {this.updateVMPassword}/>
-                      </td>
-                      :
-                      <td style = {{width: '19%'}}>{value.password}</td>
                     }
                     <td style = {{width: '19%', paddingTop: 10, paddingBottom: 10}}>{value.ip}</td>
                     <td style = {{width: '19%'}}>{value.vm_name}</td>

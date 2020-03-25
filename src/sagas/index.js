@@ -21,6 +21,8 @@ function* fetchVMs(action) {
     var {json, response} = yield call(apiGet, 'https://cube-celery-vm.herokuapp.com/status/'.concat(action.id))
   }
   yield put(FormAction.loadVMs(json.output.value))
+  console.log("VMS FETCHED")
+  console.log(json)
   yield put(FormAction.updateDB(true))
 }
 
@@ -33,7 +35,6 @@ function* loginUser(action) {
 function* resetUser(action) {
    const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/user/reset', {
     username: action.username,
-    password: action.password,
     vm_name: action.vm_name
    })
    if(json.status === 200) {

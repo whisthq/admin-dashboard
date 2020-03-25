@@ -42,10 +42,10 @@ export function authenticateUser() {
 	}
 }
 
-export function resetUser(vm_name, username, password) {
+export function resetUser(vm_name, username) {
 	return {
 		type: RESET_USER,
-		vm_name, username, password
+		vm_name, username
 	}
 }
 
