@@ -24,7 +24,7 @@ a {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 0px;
 }
 
 /* Track */
@@ -35,4 +35,8 @@ a {
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #C9C9C9;
+}
+
+.pointerOnHover:hover {
+	cursor: pointer;
 }

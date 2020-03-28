@@ -6,6 +6,9 @@ export const AUTHENTICATE_USER = "AUTHENTICATE_USER"
 export const RESET_USER = "RESET_USER"
 export const FETCH_USER_ACTIVITY = "FETCH_USER_ACTIVITY"
 export const USER_ACTIVITY_FETCHED = "USER_ACTIVITY_FETCHED"
+export const FETCH_USER_TABLE = "FETCH_USER_TABLE"
+export const USER_TABLE_FETCHED = "USER_TABLE_FETCHED"
+export const DELETE_USER = "DELETE_USER"
 
 export function fetchVMs(id) {
 	return {
@@ -59,5 +62,26 @@ export function userActivityFetched(payload) {
 	return {
 		type: USER_ACTIVITY_FETCHED,
 		payload
+	}
+}
+
+export function fetchUserTable(updated) {
+	return {
+		type: FETCH_USER_TABLE,
+		updated
+	}
+}
+
+export function userTableFetched(payload) {
+	return {
+		type: USER_TABLE_FETCHED,
+		payload
+	}
+}
+
+export function deleteUser(user) {
+	return {
+		type: DELETE_USER,
+		user
 	}
 }

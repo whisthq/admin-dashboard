@@ -50,12 +50,34 @@ function* fetchUserActivity(action) {
    }
 }
 
+function* fetchUserTable(action) {
+  if(!action.updated) {
+     const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/account/fetchUsers', {
+     })
+     if(json && json.status === 200) {
+      yield put(FormAction.userTableFetched(json.users))
+      yield put(FormAction.fetchUserTable(true))
+     }
+  }
+}
+
+function* deleteUser(action) {
+  const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/account/delete', {
+    username: action.user 
+  })
+  if(json && json.status === 200) {
+    yield put(FormAction.fetchUserTable(false))
+  }
+}
+
 export default function* rootSaga() {
  	yield all([
     takeEvery(FormAction.UPDATE_DB, updateDB),
     takeEvery(FormAction.FETCH_VMS, fetchVMs),
     takeEvery(FormAction.LOGIN_USER, loginUser),
     takeEvery(FormAction.RESET_USER, resetUser),
-    takeEvery(FormAction.FETCH_USER_ACTIVITY, fetchUserActivity)
+    takeEvery(FormAction.FETCH_USER_ACTIVITY, fetchUserActivity),
+    takeEvery(FormAction.FETCH_USER_TABLE, fetchUserTable),
+    takeEvery(FormAction.DELETE_USER, deleteUser)
 	]);
 }

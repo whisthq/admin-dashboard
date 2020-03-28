@@ -5,6 +5,7 @@ import Table from 'react-bootstrap/Table'
 import Container from 'react-bootstrap/Container'
 import FormControl from 'react-bootstrap/FormControl'
 import InputGroup from 'react-bootstrap/InputGroup'
+import Popup from "reactjs-popup";
 import '../../static/App.css';
 
 import Button from 'react-bootstrap/Button'
@@ -12,10 +13,10 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { HashLink } from 'react-router-hash-link';
 import { ReactTypeformEmbed } from 'react-typeform-embed';
-import { updateDB, loginUser, resetUser, fetchUserActivity } from '../../actions/index.js'
+import { updateDB, loginUser, resetUser, fetchUserActivity, fetchUserTable, deleteUser } from '../../actions/index.js'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faCheck, faCircleNotch } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faCheck, faCircleNotch, faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import Logo from '../../assets/logo.svg'
 
@@ -37,7 +38,8 @@ class Admin extends Component {
       year: today.getFullYear()
     })
     this.refreshDB()
-    this.props.dispatch(fetchUserActivity())
+    this.props.dispatch(fetchUserActivity(false))
+    this.props.dispatch(fetchUserTable())
   }
 
   componentWillUnmount() {
@@ -95,6 +97,10 @@ class Admin extends Component {
         this.props.dispatch(resetUser(this.props.vm_info[index].vm_name, this.state.editedUsername))
       })
     }
+  }
+
+  deleteUser = (user) => {
+    this.props.dispatch(deleteUser(user))
   }
 
   formatTime = (log) => {
@@ -187,67 +193,119 @@ class Admin extends Component {
             <div>
             {this.state.month} {this.state.day}, {this.state.year}
             </div>
-            <div style = {{marginTop: 5, fontSize: 45, fontWeight: 'bold'}}>
+            <div style = {{marginTop: 5, fontSize: 45, fontWeight: 'bold', marginBottom: 60}}>
               DASHBOARD
             </div>
             <div style = {{display: 'flex', marginTop: 45}}>
-            {
-            this.props.updated 
-            ?
-            <div style = {{maxHeight: 500, overflowY: 'scroll', width: '75%', boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)"}}>
-            <table style = {{backgroundColor: "#FFFFFF", width: '100%'}}>
-              <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left'}}>
-                <th style = {{padding: '20px 20px'}}>Username</th>
-                <th>IP Address</th>
-                <th>VM Name</th>
-                <th>Location</th>
-                <th></th>
-              </tr>
-              {this.props.vm_info.map((value, index) => {
-                var defaultUsername = value.username
-                return (
-                  <tr style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12}}>
-                    {
-                      this.state.isEditing === index
-                      ?
-                      <td style = {{width: '19%', paddingLeft: 20, paddingTop: 10, paddingBottom: 10}}>
-                        <input defaultValue = {defaultUsername} type = "text" placeholder = {value.username} style = {{width: 100}} onChange = {this.updateVMUsername}/>
+              <div style = {{display: 'block', width: '75%', position: 'relative', bottom: 36}}>
+              <div style = {{fontSize: 18, marginBottom: 10}}>
+                Cloud PCs
+              </div>
+              {
+              this.props.updated 
+              ?
+              <div style = {{maxHeight: 500, overflowY: 'scroll', width: '100%', boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)", display: 'block'}}>
+              <table style = {{backgroundColor: "#FFFFFF", width: '100%'}}>
+                <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left'}}>
+                  <th style = {{padding: '20px 20px'}}>Username</th>
+                  <th>IP Address</th>
+                  <th>VM Name</th>
+                  <th>Location</th>
+                  <th></th>
+                </tr>
+                {this.props.vm_info.map((value, index) => {
+                  var defaultUsername = value.username
+                  return (
+                    <tr style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12}}>
+                      {
+                        this.state.isEditing === index
+                        ?
+                        <td style = {{width: '19%', paddingLeft: 20, paddingTop: 10, paddingBottom: 10}}>
+                          <input defaultValue = {defaultUsername} type = "text" placeholder = {value.username} style = {{width: 100}} onChange = {this.updateVMUsername}/>
+                        </td>
+                        :
+                        <td style = {{width: '19%', paddingLeft: 20, paddingTop: 10, paddingBottom: 10}}>{value.username}</td>
+                      }
+                      <td style = {{width: '19%', paddingTop: 10, paddingBottom: 10}}>{value.ip}</td>
+                      <td style = {{width: '19%'}}>{value.vm_name}</td>
+                      <td style = {{width: '19%'}}>{value.location}</td>
+                      {
+                        this.state.isEditing === index
+                        ?
+                        <td style = {{width: '5%'}}><FontAwesomeIcon icon={faCheck} style = {{color: "#5EC4EB", width: 12}} className = "edit-table" onClick = {() => this.doneEditing(index)}/></td>
+                        :
+                        <td style = {{width: '5%'}}><FontAwesomeIcon icon={faEdit} style = {{color: "#5EC4EB", width: 12}} className = "edit-table" onClick = {() => this.isEditing(index)}/></td>
+                      }
+                    </tr>
+                  )
+                })}
+              </table>
+              </div>
+              :
+              <div style = {{boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)", width: '100%', height: 500}}>
+              <table style = {{backgroundColor: "#FFFFFF", width: '100%'}}>
+                <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left'}}>
+                  <th style = {{padding: '20px 20px'}}>Username</th>
+                  <th>IP Address</th>
+                  <th>VM Name</th>
+                  <th>Location</th>
+                  <th></th>
+                </tr>
+              </table>
+              <div style = {{width: '100%', textAlign: 'center'}}>
+                  <FontAwesomeIcon icon={faCircleNotch} spin style = {{color: "#1e1f36", margin: 'auto', marginTop: 220}}/>
+              </div>
+              </div>
+              }
+              <div style = {{fontSize: 18, marginBottom: 10, marginTop: 35}}>
+                Users
+              </div>
+              {
+              this.props.usersUpdated
+              ?
+              <div style = {{maxHeight: 500, overflowY: 'scroll', width: '100%', boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)"}}>
+              <table style = {{backgroundColor: "#FFFFFF", width: '100%'}}>
+                <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left'}}>
+                  <th style = {{padding: '20px 20px'}}>Username</th>
+                  <th>Promo Code</th>
+                  <th></th>
+                </tr>
+                {this.props.userTable.map((value, index) => {
+                  return (
+                    <tr style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12}}>
+                      <td style = {{width: '45%', paddingLeft: 20, paddingTop: 10, paddingBottom: 10}}>{value.username}</td>
+                      <td style = {{width: '45%', paddingTop: 10, paddingBottom: 10}}>{value.code}</td>
+                      <td style = {{width: '10%', textAlign: 'right', paddingRight: 25}}>
+                        <Popup trigger = {
+                        <FontAwesomeIcon className = "pointerOnHover" icon={faTimes} style = {{color: "#b01717", width: 12}}/>
+                        } modal contentStyle = {{width: 400, borderRadius: 5, backgroundColor: "white", border: "none", height: 210, padding: 30, textAlign: 'center'}}>
+                          <div style = {{fontWeight: 'bold', fontSize: 20, color: "#333333"}}><strong>Are You Sure?</strong></div>
+                          <div style = {{fontSize: 12, color: "#555555", marginTop: 15}}>You are about to permanently delete <strong>{value.username}</strong></div>
+                          <button onClick = {() => this.deleteUser(value.username)} style = {{fontWeight: 'bold', marginTop: 30, outline: 'none', width: '100%', fontSize: 12, borderRadius: 5, display: 'inline', padding: '10px 10px', border: 'solid 1px #e34d4d', color: '#e34d4d', backgroundColor: 'rgba(227, 77, 77, 0.05)'}}>
+                            DELETE USER
+                          </button>
+                        </Popup>
                       </td>
-                      :
-                      <td style = {{width: '19%', paddingLeft: 20, paddingTop: 10, paddingBottom: 10}}>{value.username}</td>
-                    }
-                    <td style = {{width: '19%', paddingTop: 10, paddingBottom: 10}}>{value.ip}</td>
-                    <td style = {{width: '19%'}}>{value.vm_name}</td>
-                    <td style = {{width: '19%'}}>{value.location}</td>
-                    {
-                      this.state.isEditing === index
-                      ?
-                      <td style = {{width: '5%'}}><FontAwesomeIcon icon={faCheck} style = {{color: "#5EC4EB", width: 12}} className = "edit-table" onClick = {() => this.doneEditing(index)}/></td>
-                      :
-                      <td style = {{width: '5%'}}><FontAwesomeIcon icon={faEdit} style = {{color: "#5EC4EB", width: 12}} className = "edit-table" onClick = {() => this.isEditing(index)}/></td>
-                    }
-                  </tr>
-                )
-              })}
-            </table>
+                    </tr>
+                  )
+                })}
+              </table>
+              </div>
+              :
+              <div style = {{boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)", width: '100%', height: 500, marginTop: 35}}>
+              <table style = {{backgroundColor: "#FFFFFF", width: '100%'}}>
+                <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left'}}>
+                  <th style = {{padding: '20px 20px'}}>Username</th>
+                  <th>Promo Code</th>
+                  <th></th>
+                </tr>
+              </table>
+              <div style = {{width: '100%', textAlign: 'center'}}>
+                  <FontAwesomeIcon icon={faCircleNotch} spin style = {{color: "#1e1f36", margin: 'auto', marginTop: 220}}/>
+              </div>
+              </div>
+              }
             </div>
-            :
-            <div style = {{boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)", width: '72%', height: 500}}>
-            <table style = {{backgroundColor: "#FFFFFF", width: '100%'}}>
-              <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left'}}>
-                <th style = {{padding: '20px 20px'}}>Username</th>
-                <th>Password</th>
-                <th>IP Address</th>
-                <th>VM Name</th>
-                <th>Location</th>
-                <th></th>
-              </tr>
-            </table>
-            <div style = {{width: '100%', textAlign: 'center'}}>
-                <FontAwesomeIcon icon={faCircleNotch} spin style = {{color: "#1e1f36", margin: 'auto', marginTop: 220}}/>
-            </div>
-            </div>
-            }
             <div style = {{width: '28%', position: 'relative', bottom: 40, paddingLeft: 25}}>
               <div>
                 <div style = {{textAlign: 'right', fontSize: 18}}>
@@ -320,7 +378,9 @@ function mapStateToProps(state) {
     vm_info: state.AccountReducer.vm_info ? state.AccountReducer.vm_info : [],
     updated: state.AccountReducer.updated,
     activityFetched: state.AccountReducer.activityFetched,
-    userActivity: state.AccountReducer.userActivity ? state.AccountReducer.userActivity : []
+    userActivity: state.AccountReducer.userActivity ? state.AccountReducer.userActivity : [],
+    userTable: state.AccountReducer.userTable ? state.AccountReducer.userTable : [],
+    usersUpdated: state.AccountReducer.usersUpdated
   }
 }
 

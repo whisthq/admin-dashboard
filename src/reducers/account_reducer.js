@@ -1,6 +1,7 @@
 import * as AccountAction from '../actions/index'
 
-const DEFAULT = {vm_info: [], authenticated: false, updated: false, activityFetched: false, userActivity: []}
+const DEFAULT = {vm_info: [], authenticated: false, updated: false, activityFetched: false, userActivity: [], 
+  userTable: [], usersUpdated: false}
 
 export default function(state = DEFAULT, action) {
   switch (action.type) {
@@ -24,6 +25,16 @@ export default function(state = DEFAULT, action) {
         ...state,
         activityFetched: true,
         userActivity: action.payload
+      }
+    case AccountAction.FETCH_USER_TABLE:
+      return {
+        ...state,
+        usersUpdated: action.updated
+      }
+    case AccountAction.USER_TABLE_FETCHED:
+      return {
+        ...state,
+        userTable: action.payload
       }
     default:
       return state
