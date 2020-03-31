@@ -9,6 +9,7 @@ export const USER_ACTIVITY_FETCHED = "USER_ACTIVITY_FETCHED"
 export const FETCH_USER_TABLE = "FETCH_USER_TABLE"
 export const USER_TABLE_FETCHED = "USER_TABLE_FETCHED"
 export const DELETE_USER = "DELETE_USER"
+export const DELETE_SUBSCRIPTION = "DELETE_SUBSCRIPTION"
 
 export function fetchVMs(id) {
 	return {
@@ -82,6 +83,13 @@ export function userTableFetched(payload) {
 export function deleteUser(user) {
 	return {
 		type: DELETE_USER,
+		user
+	}
+}
+
+export function deleteSubscription(user) {
+	return {
+		type: DELETE_SUBSCRIPTION,
 		user
 	}
 }

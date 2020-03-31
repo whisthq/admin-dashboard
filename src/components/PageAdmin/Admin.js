@@ -268,13 +268,27 @@ class Admin extends Component {
                 <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left'}}>
                   <th style = {{padding: '20px 20px'}}>Username</th>
                   <th>Promo Code</th>
+                  <th>Unclaimed Credits</th>
+                  <th>Email Verified</th>
                   <th></th>
                 </tr>
                 {this.props.userTable.map((value, index) => {
                   return (
                     <tr style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12}}>
-                      <td style = {{width: '45%', paddingLeft: 20, paddingTop: 10, paddingBottom: 10}}>{value.username}</td>
-                      <td style = {{width: '45%', paddingTop: 10, paddingBottom: 10}}>{value.code}</td>
+                      <td style = {{width: '35%', paddingLeft: 20, paddingTop: 10, paddingBottom: 10}}>{value.username}</td>
+                      <td style = {{width: '25%', paddingTop: 10, paddingBottom: 10}}>{value.code}</td>
+                      <td style = {{width: '25%', paddingTop: 10, paddingBottom: 10}}>{value.creditsOutstanding}</td>
+                      {
+                      value.verified 
+                      ?
+                      <td style = {{width: '15%', paddingTop: 10, paddingBottom: 10, textAlign: 'center'}}>
+                        <div style = {{width: 6, height: 6, borderRadius: 3, background: '#36cf78'}}></div>
+                      </td>
+                      :
+                      <td style = {{width: '15%', paddingTop: 10, paddingBottom: 10, textAlign: 'center'}}>
+                        <div style = {{width: 6, height: 6, borderRadius: 3, background: '#ad2c28'}}></div>
+                      </td>
+                      }
                       <td style = {{width: '10%', textAlign: 'right', paddingRight: 25}}>
                         <Popup trigger = {
                         <FontAwesomeIcon className = "pointerOnHover" icon={faTimes} style = {{color: "#b01717", width: 12}}/>
@@ -297,6 +311,8 @@ class Admin extends Component {
                 <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left'}}>
                   <th style = {{padding: '20px 20px'}}>Username</th>
                   <th>Promo Code</th>
+                  <th>Unclaimed Credits</th>
+                  <th>Email Verified</th>
                   <th></th>
                 </tr>
               </table>

@@ -21,8 +21,6 @@ function* fetchVMs(action) {
     var {json, response} = yield call(apiGet, 'https://cube-celery-vm.herokuapp.com/status/'.concat(action.id))
   }
   yield put(FormAction.loadVMs(json.output.value))
-  console.log("VMS FETCHED")
-  console.log(json)
   yield put(FormAction.updateDB(true))
 }
 
@@ -67,7 +65,14 @@ function* deleteUser(action) {
   })
   if(json && json.status === 200) {
     yield put(FormAction.fetchUserTable(false))
+    yield put(FormAction.deleteSubscription(action.user))
   }
+}
+
+function* deleteSubscription(action) {
+   const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/stripe/cancel', {
+      email: action.user
+   });
 }
 
 export default function* rootSaga() {
@@ -78,6 +83,7 @@ export default function* rootSaga() {
     takeEvery(FormAction.RESET_USER, resetUser),
     takeEvery(FormAction.FETCH_USER_ACTIVITY, fetchUserActivity),
     takeEvery(FormAction.FETCH_USER_TABLE, fetchUserTable),
-    takeEvery(FormAction.DELETE_USER, deleteUser)
+    takeEvery(FormAction.DELETE_USER, deleteUser),
+    takeEvery(FormAction.DELETE_SUBSCRIPTION, deleteSubscription)
 	]);
 }
