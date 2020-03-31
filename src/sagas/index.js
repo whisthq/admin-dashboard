@@ -25,7 +25,11 @@ function* fetchVMs(action) {
 }
 
 function* loginUser(action) {
-  if(action.username === "fractal-admin" && action.password === "password1234567.") {
+  const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/admin/login', {
+    username: action.username,
+    password: action.password
+  })
+  if(json && json.status === 200) {
     yield put(FormAction.authenticateUser())
   }
 }
