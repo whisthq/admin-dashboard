@@ -3,10 +3,11 @@ import * as FormAction from "../actions/index.js"
 import { apiPost, apiGet } from '../utils/Api.js'
 import history from "../history";
 import { push } from 'connected-react-router'
+import { config } from '../constants.js'
 
 function* updateDB(action) {
   if (!action.updated) {
-    const { json, response } = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/info/update_db', {
+    const { json, response } = yield call(apiPost, config.url.PRIMARY_SERVER + '/info/update_db', {
     })
     if (json.ID) {
       yield put(FormAction.fetchVMs(json.ID))
@@ -15,17 +16,17 @@ function* updateDB(action) {
 }
 
 function* fetchVMs(action) {
-  var { json, response } = yield call(apiGet, 'https://cube-celery-vm.herokuapp.com/status/'.concat(action.id))
+  var { json, response } = yield call(apiGet, config.url.PRIMARY_SERVER + '/status/'.concat(action.id))
   while (json.state === 'PENDING') {
     yield delay(2000)
-    var { json, response } = yield call(apiGet, 'https://cube-celery-vm.herokuapp.com/status/'.concat(action.id))
+    var { json, response } = yield call(apiGet, config.url.PRIMARY_SERVER + '/status/'.concat(action.id))
   }
   yield put(FormAction.loadVMs(json.output.value))
   yield put(FormAction.updateDB(true))
 }
 
 function* loginUser(action) {
-  const { json, response } = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/admin/login', {
+  const { json, response } = yield call(apiPost, config.url.PRIMARY_SERVER + '/admin/login', {
     username: action.username,
     password: action.password
   })
@@ -35,7 +36,7 @@ function* loginUser(action) {
 }
 
 function* resetUser(action) {
-  const { json, response } = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/user/reset', {
+  const { json, response } = yield call(apiPost, config.url.PRIMARY_SERVER + '/user/reset', {
     username: action.username,
     vm_name: action.vm_name
   })
@@ -45,7 +46,7 @@ function* resetUser(action) {
 }
 
 function* fetchUserActivity(action) {
-  const { json, response } = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/tracker/fetch', {
+  const { json, response } = yield call(apiPost, config.url.PRIMARY_SERVER + '/tracker/fetch', {
   })
   if (json) {
     yield put(FormAction.userActivityFetched(json.payload))
@@ -54,7 +55,7 @@ function* fetchUserActivity(action) {
 
 function* fetchUserTable(action) {
   if (!action.updated) {
-    const { json, response } = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/account/fetchUsers', {
+    const { json, response } = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/fetchUsers', {
     })
     if (json && json.status === 200) {
       yield put(FormAction.userTableFetched(json.users))
@@ -64,7 +65,7 @@ function* fetchUserTable(action) {
 }
 
 function* deleteUser(action) {
-  const { json, response } = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/account/delete', {
+  const { json, response } = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/delete', {
     username: action.user
   })
   if (json && json.status === 200) {
@@ -75,7 +76,7 @@ function* deleteUser(action) {
 
 function* fetchCustomerTable(action) {
   if (!action.updated) {
-    const { json, response } = yield call(apiPost, 'https://cube-celery-staging.herokuapp.com/account/fetchCustomers', {
+    const { json, response } = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/fetchCustomers', {
     })
     if (json && json.status === 200) {
       yield put(FormAction.customerTableFetched(json.customers))
@@ -85,7 +86,7 @@ function* fetchCustomerTable(action) {
 }
 
 function* deleteSubscription(action) {
-  const { json, response } = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/stripe/cancel', {
+  const { json, response } = yield call(apiPost, config.url.PRIMARY_SERVER + '/stripe/cancel', {
     email: action.user
   });
 }

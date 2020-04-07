@@ -131,7 +131,7 @@ class Admin extends Component {
         {
           !this.props.authenticated
             ?
-            <div style={{ height: '100vh' }}>
+            <div className="vh-100">
               <div style={{ width: 350, margin: 'auto', marginTop: 150 }}>
                 <InputGroup className="mb-3" style={{ marginTop: 30 }}>
                   <FormControl
@@ -162,43 +162,41 @@ class Admin extends Component {
             </div>
             :
             <div style={{ backgroundColor: "#FFFFFF" }}>
-              <div style={{ display: 'flex', width: '100%' }}>
-                <div style={{ width: '15%', minHeight: '100vh', maxWidth: 300, background: "#EBEBEB", paddingTop: 50, paddingLeft: 45 }}>
-                  <img src={Logo} style={{ width: 40, height: 40 }} />
-                  <div style={{ marginTop: 25, fontSize: 18 }}>
-                    <div style={{ marginBottom: 15 }}>
-                      <strong>Dashboard</strong>
-                    </div>
-                    <div style={{ marginBottom: 15 }}>
-                      <a target="_blank" href="https://drive.google.com/open?id=1kbpGbVeYd5LVJgzGN0dKro-ryizQr2kg">
-                        Google Drive
-                </a>
-                    </div>
-                    <div style={{ marginBottom: 15 }}>
-                      <a target="_blank" href="https://trello.com/b/C00Hu4a0/fractal-engineering">
-                        Trello
-                </a>
-                    </div>
-                    <div style={{ marginBottom: 15 }}>
-                      <a target="_blank" href="https://fractalcomputers.slack.com">
-                        Slack
-                </a>
-                    </div>
-                  </div>
-                </div>
-                <div style={{ width: '85%', padding: 50 }}>
-                  <div>
-                    {this.state.month} {this.state.day}, {this.state.year}
-                  </div>
-                  <div style={{ marginTop: 5, fontSize: 45, fontWeight: 'bold', marginBottom: 60 }}>
-                    DASHBOARD
-                  </div>
-                  <div style={{ display: 'flex', marginTop: 45 }}>
-                    <div style={{ display: 'block', width: '75%', position: 'relative', bottom: 36 }}>
-                      {/*VMs table*/}
-                      <div style={{ fontSize: 18, marginBottom: 10 }}>
-                        Cloud PCs
+              <Row>
+                <Col md="2" className="min-vh-100 pt-5 pl-4" style={{ background: "#EBEBEB" }}>
+                  <Container>
+                    <img src={Logo} style={{ width: 40, height: 40 }} />
+                    <div style={{ marginTop: 25, fontSize: 18 }}>
+                      <div style={{ marginBottom: 15 }}>
+                        <strong>Dashboard</strong>
                       </div>
+                      <div style={{ marginBottom: 15 }}>
+                        <a target="_blank" href="https://drive.google.com/open?id=1kbpGbVeYd5LVJgzGN0dKro-ryizQr2kg">
+                          Google Drive
+                      </a>
+                      </div>
+                      <div style={{ marginBottom: 15 }}>
+                        <a target="_blank" href="https://trello.com/b/C00Hu4a0/fractal-engineering">
+                          Trello
+                      </a>
+                      </div>
+                      <div style={{ marginBottom: 15 }}>
+                        <a target="_blank" href="https://fractalcomputers.slack.com">
+                          Slack
+                      </a>
+                      </div>
+                    </div>
+                  </Container>
+                </Col>
+                <Col md="10" className="p-5">
+                  {this.state.month} {this.state.day}, {this.state.year}
+                  <h1 className="mt-1 mb-5 font-weight-bold">DASHBOARD</h1>
+
+                  <Row className="mt-5">
+                    <Col md="9">
+
+                      {/*VMs table*/}
+                      <h5 className="mb-2">Cloud PCs</h5>
                       {
                         this.props.updated
                           ?
@@ -257,9 +255,7 @@ class Admin extends Component {
                       }
 
                       {/*Users table*/}
-                      <div style={{ fontSize: 18, marginBottom: 10, marginTop: 35 }}>
-                        Users
-                      </div>
+                      <h5 className="mb-2 mt-5">Users</h5>
                       {
                         this.props.usersUpdated
                           ?
@@ -321,7 +317,7 @@ class Admin extends Component {
                       }
 
                       {/*Customers table*/}
-                      <h6 className="mb-2 mt-4">Customers</h6>
+                      <h5 className="mb-2 mt-5">Customers</h5>
                       {
                         this.props.customersUpdated
                           ?
@@ -362,14 +358,12 @@ class Admin extends Component {
                             </div>
                           </div>
                       }
+                    </Col>
 
-                    </div>
-
-
-                    <div style={{ width: '28%', position: 'relative', bottom: 40, paddingLeft: 25 }}>
+                    <Col md="3" className="pr-4">
                       <div>
-                        <div style={{ textAlign: 'right', fontSize: 18 }}>
-                          Recent Activity
+                        <div className="float-right">
+                          <h5>Recent Activity</h5>
                         </div>
                         <div style={{ boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)", width: '100%', marginTop: 13, padding: 25, overflowY: 'scroll', height: 500 }}>
                           {
@@ -420,10 +414,10 @@ class Admin extends Component {
                           }
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
             </div>
         }
       </div>
