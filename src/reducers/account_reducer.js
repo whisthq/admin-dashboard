@@ -1,7 +1,7 @@
 import * as AccountAction from '../actions/index'
 
 const DEFAULT = {
-  vm_info: [], authenticated: false, updated: false, activityFetched: false, userActivity: [],
+  vm_info: [], authenticated: false, updated: false, disk_info: [], disksFetched: false, activityFetched: false, userActivity: [],
   userTable: [], usersUpdated: false, customerTable: [], customersUpdated: false
 }
 
@@ -16,6 +16,16 @@ export default function (state = DEFAULT, action) {
       return {
         ...state,
         vm_info: action.payload
+      }
+    case AccountAction.FETCH_DISK_TABLE:
+      return {
+        ...state,
+        disksFetched: action.updated
+      }
+    case AccountAction.DISK_TABLE_FETCHED:
+      return {
+        ...state,
+        disk_info: action.payload
       }
     case AccountAction.UPDATE_DB:
       return {

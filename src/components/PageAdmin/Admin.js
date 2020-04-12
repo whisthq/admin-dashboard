@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { HashLink } from 'react-router-hash-link';
 import { ReactTypeformEmbed } from 'react-typeform-embed';
-import { updateDB, loginUser, resetUser, fetchUserActivity, fetchUserTable, deleteUser, fetchCustomerTable } from '../../actions/index.js'
+import { updateDB, loginUser, resetUser, fetchUserActivity, fetchUserTable, deleteUser, fetchCustomerTable, fetchDiskTable } from '../../actions/index.js'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faCheck, faCircleNotch, faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -37,6 +37,7 @@ class Admin extends Component {
     this.props.dispatch(fetchUserActivity(false))
     this.props.dispatch(fetchUserTable())
     this.props.dispatch(fetchCustomerTable())
+    this.props.dispatch(fetchDiskTable())
   }
 
   componentWillUnmount() {
@@ -254,6 +255,49 @@ class Admin extends Component {
                           </div>
                       }
 
+                      {/*Disks table*/}
+                      <h5 className="mb-2 mt-5">Disks</h5>
+                      {
+                        this.props.disksFetched
+                          ?
+                          <div style={{ maxHeight: 500, overflowY: 'scroll', width: '100%', boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)" }}>
+                            <table style={{ backgroundColor: "#FFFFFF", width: '100%' }}>
+                              <tr style={{ color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left' }}>
+                                <th style={{ padding: '20px 20px' }}>Disk Name</th>
+                                <th>Username</th>
+                                <th>Vm Name</th>
+                                <th>Location</th>
+                                <th></th>
+                              </tr>
+                              {this.props.disk_info.map((value, index) => (
+                                <tr style={{ borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12 }} key={index}>
+                                  <td style={{ width: '35%', paddingLeft: 20, paddingTop: 10, paddingBottom: 10 }}>{value.disk_name}</td>
+                                  <td style={{ width: '25%', paddingTop: 10, paddingBottom: 10 }}>{value.username}</td>
+                                  <td style={{ width: '25%', paddingTop: 10, paddingBottom: 10 }}>{value.vm_name}</td>
+                                  <td style={{ width: '25%', paddingTop: 10, paddingBottom: 10 }}>{value.location}</td>
+                                  <td style={{ width: '10%', textAlign: 'right', paddingRight: 25 }}>
+                                  </td>
+                                </tr>
+                              ))}
+                            </table>
+                          </div>
+                          :
+                          <div style={{ boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)", width: '100%', height: 500, marginTop: 35 }}>
+                            <table style={{ backgroundColor: "#FFFFFF", width: '100%' }}>
+                              <tr style={{ color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left' }}>
+                                <th style={{ padding: '20px 20px' }}>Disk Name</th>
+                                <th>Username</th>
+                                <th>Vm Name</th>
+                                <th>Location</th>
+                                <th></th>
+                              </tr>
+                            </table>
+                            <div style={{ width: '100%', textAlign: 'center' }}>
+                              <FontAwesomeIcon icon={faCircleNotch} spin style={{ color: "#1e1f36", margin: 'auto', marginTop: 220 }} />
+                            </div>
+                          </div>
+                      }
+
                       {/*Users table*/}
                       <h5 className="mb-2 mt-5">Users</h5>
                       {
@@ -431,6 +475,8 @@ function mapStateToProps(state) {
     authenticated: state.AccountReducer.authenticated,
     vm_info: state.AccountReducer.vm_info ? state.AccountReducer.vm_info : [],
     updated: state.AccountReducer.updated,
+    disk_info: state.AccountReducer.disk_info ? state.AccountReducer.disk_info : [],
+    disksFetched: state.AccountReducer.disksFetched,
     activityFetched: state.AccountReducer.activityFetched,
     userActivity: state.AccountReducer.userActivity ? state.AccountReducer.userActivity : [],
     userTable: state.AccountReducer.userTable ? state.AccountReducer.userTable : [],

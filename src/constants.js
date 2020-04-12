@@ -6,7 +6,8 @@ const production = {
 
 const staging = {
     url: {
-        PRIMARY_SERVER: "https://cube-celery-staging.herokuapp.com"
+        PRIMARY_SERVER: "http://127.0.0.1:5000"
+        //PRIMARY_SERVER: "https://cube-celery-staging.herokuapp.com"
     }
 };
 

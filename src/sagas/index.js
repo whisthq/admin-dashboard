@@ -25,6 +25,16 @@ function* fetchVMs(action) {
   yield put(FormAction.updateDB(true))
 }
 
+function* fetchDiskTable(action) {
+  if (!action.updated) {
+    const { json, response } = yield call(apiGet, config.url.PRIMARY_SERVER + '/info/list_all_disks', {})
+    if (json && json.disks) {
+      yield put(FormAction.diskTableFetched(json.disks))
+      yield put(FormAction.fetchDiskTable(true))
+    }
+  }
+}
+
 function* loginUser(action) {
   const { json, response } = yield call(apiPost, config.url.PRIMARY_SERVER + '/admin/login', {
     username: action.username,
@@ -95,6 +105,7 @@ export default function* rootSaga() {
   yield all([
     takeEvery(FormAction.UPDATE_DB, updateDB),
     takeEvery(FormAction.FETCH_VMS, fetchVMs),
+    takeEvery(FormAction.FETCH_DISK_TABLE, fetchDiskTable),
     takeEvery(FormAction.LOGIN_USER, loginUser),
     takeEvery(FormAction.RESET_USER, resetUser),
     takeEvery(FormAction.FETCH_USER_ACTIVITY, fetchUserActivity),

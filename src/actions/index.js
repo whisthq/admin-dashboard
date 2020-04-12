@@ -1,6 +1,8 @@
 export const FETCH_VMS = "FETCH_VMS"
 export const UPDATE_DB = "UPDATE_DB"
 export const LOAD_VMS = "LOAD_VMS"
+export const FETCH_DISK_TABLE = "FETCH_DISK_TABLE"
+export const DISK_TABLE_FETCHED = "DISK_TABLE_FETCHED"
 export const LOGIN_USER = "LOGIN_USER"
 export const AUTHENTICATE_USER = "AUTHENTICATE_USER"
 export const RESET_USER = "RESET_USER"
@@ -30,6 +32,20 @@ export function updateDB(updated) {
 export function loadVMs(payload) {
 	return {
 		type: LOAD_VMS,
+		payload
+	}
+}
+
+export function fetchDiskTable(updated) {
+	return {
+		type: FETCH_DISK_TABLE,
+		updated
+	}
+}
+
+export function diskTableFetched(payload) {
+	return {
+		type: DISK_TABLE_FETCHED,
 		payload
 	}
 }
