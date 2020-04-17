@@ -3,59 +3,46 @@ import * as FormAction from "../actions/index.js"
 import { apiPost, apiGet } from '../utils/Api.js'
 import history from "../history";
 import { push } from 'connected-react-router'
+import {config} from '../constants.js'
 
 function* updateDB(action) {
+  const state = yield select()
   if(!action.updated) {
-     const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/info/update_db', {
+     const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/vm/fetchall', {
      })
-     if(json.ID) {
-      yield put(FormAction.fetchVMs(json.ID))
+     console.log(json)
+     if(json && json.payload) {
+      yield put(FormAction.loadVMs(json.payload))
      }
   }
 }
 
-function* fetchVMs(action) {
-  var {json, response} = yield call(apiGet, 'https://cube-celery-vm.herokuapp.com/status/'.concat(action.id))
-  while(json.state === 'PENDING') {
-    yield delay(2000)
-    var {json, response} = yield call(apiGet, 'https://cube-celery-vm.herokuapp.com/status/'.concat(action.id))
-  }
-  yield put(FormAction.loadVMs(json.output.value))
-  yield put(FormAction.updateDB(true))
-}
-
 function* loginUser(action) {
-  const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/admin/login', {
+  const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/admin/login', {
     username: action.username,
     password: action.password
   })
   if(json && json.status === 200) {
     yield put(FormAction.authenticateUser())
+    yield put(FormAction.storeJWT(json.access_token, json.refresh_token))
   }
 }
 
-function* resetUser(action) {
-   const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/user/reset', {
-    username: action.username,
-    vm_name: action.vm_name
-   })
-   if(json.status === 200) {
-    yield put(FormAction.updateDB(false))
-   }
-}
 
 function* fetchUserActivity(action) {
-   const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/tracker/fetch', {
-   })
+  const state = yield select()
+   const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/tracker/fetch', {
+   }, state.AccountReducer.access_token)
    if(json) {
     yield put(FormAction.userActivityFetched(json.payload))
    }
 }
 
 function* fetchUserTable(action) {
+  const state = yield select()
   if(!action.updated) {
-     const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/account/fetchUsers', {
-     })
+     const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/fetchUsers', {
+     }, state.AccountReducer.access_token)
      if(json && json.status === 200) {
       yield put(FormAction.userTableFetched(json.users))
       yield put(FormAction.fetchUserTable(true))
@@ -64,9 +51,10 @@ function* fetchUserTable(action) {
 }
 
 function* deleteUser(action) {
-  const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/account/delete', {
+  const state = yield select()
+  const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/delete', {
     username: action.user 
-  })
+  }, state.AccountReducer.access_token)
   if(json && json.status === 200) {
     yield put(FormAction.fetchUserTable(false))
     yield put(FormAction.deleteSubscription(action.user))
@@ -74,17 +62,16 @@ function* deleteUser(action) {
 }
 
 function* deleteSubscription(action) {
-   const {json, response} = yield call(apiPost, 'https://cube-celery-vm.herokuapp.com/stripe/cancel', {
+  const state = yield select()
+   const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/stripe/cancel', {
       email: action.user
-   });
+   }, state.AccountReducer.access_token);
 }
 
 export default function* rootSaga() {
  	yield all([
     takeEvery(FormAction.UPDATE_DB, updateDB),
-    takeEvery(FormAction.FETCH_VMS, fetchVMs),
     takeEvery(FormAction.LOGIN_USER, loginUser),
-    takeEvery(FormAction.RESET_USER, resetUser),
     takeEvery(FormAction.FETCH_USER_ACTIVITY, fetchUserActivity),
     takeEvery(FormAction.FETCH_USER_TABLE, fetchUserTable),
     takeEvery(FormAction.DELETE_USER, deleteUser),

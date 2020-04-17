@@ -25,18 +25,43 @@ a {
 /* width */
 ::-webkit-scrollbar {
   width: 0px;
+  height: 0px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
   background: #EBEBEB;
+  height: 0px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #C9C9C9;
+  height: 0px;
 }
 
 .pointerOnHover:hover {
 	cursor: pointer;
+}
+
+
+.blue-gradient {
+  background: linear-gradient(258.54deg, #5ec3eb 0%, #d023eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.react-tabs__tab {
+  padding: 5px 10px !important;
+  color: #111111 !important;
+  font-weight: normal !important;
+  margin-right: 20px;
+}
+
+.react-tabs__tab--selected {
+  border: 0px !important;
+  outline: none !important;
+  border-bottom: solid 2px #111111 !important;
+  color: #111111 !important;
+  background-color: rgba(0,0,0,0.0) !important;
 }

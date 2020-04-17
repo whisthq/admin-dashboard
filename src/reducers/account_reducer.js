@@ -1,7 +1,7 @@
 import * as AccountAction from '../actions/index'
 
-const DEFAULT = {vm_info: [], authenticated: false, updated: false, activityFetched: false, userActivity: [], 
-  userTable: [], usersUpdated: false}
+const DEFAULT = {vm_info: [], authenticated: false, vmsUpdated: false, activityFetched: false, userActivity: [], 
+  userTable: [], usersUpdated: false, access_token: '', refresh_token: ''}
 
 export default function(state = DEFAULT, action) {
   switch (action.type) {
@@ -13,12 +13,13 @@ export default function(state = DEFAULT, action) {
     case AccountAction.LOAD_VMS:
       return {
         ...state,
-        vm_info: action.payload
+        vm_info: action.payload,
+        vmsUpdated: true
       }
     case AccountAction.UPDATE_DB:
       return {
         ...state,
-        updated: action.updated
+        vmsUpdated: action.updated
       }
     case AccountAction.USER_ACTIVITY_FETCHED:
       return {
@@ -35,6 +36,12 @@ export default function(state = DEFAULT, action) {
       return {
         ...state,
         userTable: action.payload
+      }
+    case AccountAction.STORE_JWT:
+      return {
+        ...state,
+        access_token: action.access_token,
+        refresh_token: action.refresh_token
       }
     default:
       return state
