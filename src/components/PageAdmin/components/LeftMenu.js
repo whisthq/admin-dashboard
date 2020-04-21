@@ -60,7 +60,4 @@ class LeftMenu extends Component {
   }
 }
 
-function mapStateToProps(state) {
-}
-
-export default connect(mapStateToProps)(LeftMenu)
+export default LeftMenu;

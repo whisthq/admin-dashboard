@@ -54,6 +54,7 @@ class UserTable extends Component {
           header.push(key)
       });
     }
+    header.reverse()
     return (
       <div>
       {
@@ -136,7 +137,7 @@ class UserTable extends Component {
 
 function mapStateToProps(state) {
   return {
-    userTable: state.AccountReducer.userTable ? state.AccountReducer.userTable : [],
+    userTable: state.AccountReducer.userTable ? state.AccountReducer.userTable.reverse() : [],
     usersUpdated: state.AccountReducer.usersUpdated
   }
 }

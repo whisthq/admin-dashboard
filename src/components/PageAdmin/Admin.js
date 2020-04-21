@@ -44,7 +44,6 @@ class Admin extends Component {
     })
     this.props.dispatch(updateDB(false))
     this.props.dispatch(fetchUserActivity(false))
-    this.props.dispatch(fetchUserTable())
   }
 
   componentWillUnmount() {
@@ -62,6 +61,12 @@ class Admin extends Component {
     return selectedMonthName;
   }
 
+  componentDidUpdate(prevProps) {
+    console.log(this.props)
+    if(this.props.access_token && this.props.userTable.length === 0) {
+      this.props.dispatch(fetchUserTable())
+    }
+  }
 
   deleteUser = (user) => {
     this.props.dispatch(deleteUser(user))
@@ -133,7 +138,6 @@ class Admin extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state.AccountReducer)
   return {
     authenticated: state.AccountReducer.authenticated,
     vm_info: state.AccountReducer.vm_info ? state.AccountReducer.vm_info : [],
@@ -141,7 +145,8 @@ function mapStateToProps(state) {
     activityFetched: state.AccountReducer.activityFetched,
     userActivity: state.AccountReducer.userActivity ? state.AccountReducer.userActivity : [],
     userTable: state.AccountReducer.userTable ? state.AccountReducer.userTable : [],
-    usersUpdated: state.AccountReducer.usersUpdated
+    usersUpdated: state.AccountReducer.usersUpdated,
+    access_token: state.AccountReducer.access_token
   }
 }
 

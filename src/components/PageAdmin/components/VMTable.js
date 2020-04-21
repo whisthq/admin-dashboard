@@ -45,6 +45,8 @@ class VMTable extends Component {
           header.push(key)
       });
     }
+    header.reverse()
+
     return (
       <div>
       {
@@ -106,7 +108,7 @@ class VMTable extends Component {
 
 function mapStateToProps(state) {
   return {
-    vm_info: state.AccountReducer.vm_info ? state.AccountReducer.vm_info : [],
+    vm_info: state.AccountReducer.vm_info ? state.AccountReducer.vm_info.reverse() : [],
     vmsUpdated: state.AccountReducer.vmsUpdated,
   }
 }

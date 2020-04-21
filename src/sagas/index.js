@@ -22,6 +22,7 @@ function* loginUser(action) {
     username: action.username,
     password: action.password
   })
+
   if(json && json.status === 200) {
     yield put(FormAction.authenticateUser())
     yield put(FormAction.storeJWT(json.access_token, json.refresh_token))
@@ -40,9 +41,18 @@ function* fetchUserActivity(action) {
 
 function* fetchUserTable(action) {
   const state = yield select()
+
+  yield delay(5000)
+
+  console.log(state)
+
   if(!action.updated) {
      const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/fetchUsers', {
      }, state.AccountReducer.access_token)
+
+     console.log("user table")
+     console.log(json)
+
      if(json && json.status === 200) {
       yield put(FormAction.userTableFetched(json.users))
       yield put(FormAction.fetchUserTable(true))
