@@ -12,6 +12,7 @@ function* updateDB(action) {
      })
      console.log(json)
      if(json && json.payload) {
+      console.log("FETCHED VMS")
       yield put(FormAction.loadVMs(json.payload))
      }
   }
@@ -45,21 +46,25 @@ function* fetchUserActivity(action) {
 function* fetchUserTable(action) {
   const state = yield select()
 
-  yield delay(5000)
-
-  console.log(state)
-
   if(!action.updated) {
      const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/fetchUsers', {
      }, state.AccountReducer.access_token)
-
-     console.log("user table")
-     console.log(json)
 
      if(json && json.status === 200) {
       yield put(FormAction.userTableFetched(json.users))
       yield put(FormAction.fetchUserTable(true))
      }
+  }
+}
+
+function* fetchCustomers(action) {
+  const state = yield select()
+
+  const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/fetchCustomers', {
+  }, state.AccountReducer.access_token)
+
+  if(json && json.status === 200) {
+    yield put(FormAction.storeCustomers(json.customers))
   }
 }
 
@@ -81,6 +86,48 @@ function* deleteSubscription(action) {
    }, state.AccountReducer.access_token);
 }
 
+function* startVM(action) {
+  const state = yield select()
+  console.log("START VM SAGA")
+  const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/vm/start', {
+    vm_name: action.vm_name
+  }, state.AccountReducer.access_token);
+  console.log(json)
+  if (json) {
+    if (json.ID) {
+      yield call(getVMStatus, json.ID, action.vm_name)
+    }
+  }
+}
+
+function* deallocateVM(action) {
+  const state = yield select()
+  const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/vm/deallocate', {
+    vm_name: action.vm_name
+  }, state.AccountReducer.access_token);
+
+  if (json) {
+    if (json.ID) {
+      yield call(getVMStatus, json.ID, action.vm_name)
+    }
+  }
+}
+
+function* getVMStatus(id, vm_name) {
+  var { json, response } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
+
+  while (json.state === "PENDING" || json.state === "STARTED") {
+    console.log(json)
+    var { json, response } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
+    yield delay(5000)
+  }
+
+  if(json && json.output) {
+    yield put(FormAction.updateDB(false))
+    yield put(FormAction.doneUpdating(vm_name))
+  }
+}
+
 export default function* rootSaga() {
  	yield all([
     takeEvery(FormAction.UPDATE_DB, updateDB),
@@ -88,6 +135,9 @@ export default function* rootSaga() {
     takeEvery(FormAction.FETCH_USER_ACTIVITY, fetchUserActivity),
     takeEvery(FormAction.FETCH_USER_TABLE, fetchUserTable),
     takeEvery(FormAction.DELETE_USER, deleteUser),
-    takeEvery(FormAction.DELETE_SUBSCRIPTION, deleteSubscription)
+    takeEvery(FormAction.DELETE_SUBSCRIPTION, deleteSubscription),
+    takeEvery(FormAction.FETCH_CUSTOMERS, fetchCustomers),
+    takeEvery(FormAction.START_VM, startVM),
+    takeEvery(FormAction.DEALLOCATE_VM, deallocateVM)
 	]);
 }

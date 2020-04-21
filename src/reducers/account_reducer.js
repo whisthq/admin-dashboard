@@ -1,7 +1,8 @@
 import * as AccountAction from '../actions/index'
 
 const DEFAULT = {vm_info: [], authenticated: false, vmsUpdated: false, activityFetched: false, userActivity: [], 
-  userTable: [], usersUpdated: false, access_token: '', refresh_token: '', login_attempts: 0}
+  userTable: [], usersUpdated: false, access_token: '', refresh_token: '', login_attempts: 0, customers: [],
+  vms_updating: []}
 
 export default function(state = DEFAULT, action) {
   switch (action.type) {
@@ -11,6 +12,8 @@ export default function(state = DEFAULT, action) {
         authenticated: action.authenticated
       }
     case AccountAction.LOAD_VMS:
+      console.log("LOAD VM REDUCER")
+      console.log(action.payload)
       return {
         ...state,
         vm_info: action.payload,
@@ -47,6 +50,26 @@ export default function(state = DEFAULT, action) {
       return {
         ...state,
         login_attempts: state.login_attempts + 1
+      }
+    case AccountAction.STORE_CUSTOMERS:
+      return {
+        ...state,
+        customers: action.customers
+      }
+    case AccountAction.START_VM:
+      return {
+        ...state,
+        vms_updating: [...state.vms_updating, action.vm_name]
+      }
+    case AccountAction.DEALLOCATE_VM:
+      return {
+        ...state,
+        vms_updating: [...state.vms_updating, action.vm_name]
+      }
+    case AccountAction.DONE_UPDATING:
+      return {
+        ...state,
+        vms_updating: state.vms_updating.filter(vm => vm !== action.vm_name)
       }
     case AccountAction.LOGOUT:
       return DEFAULT

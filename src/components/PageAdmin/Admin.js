@@ -23,7 +23,7 @@ import LoginPage from './components/LoginPage.js'
 import LeftMenu from './components/LeftMenu.js'
 import VMTable from './components/VMTable.js'
 import UserTable from './components/UserTable.js'
-
+import CustomerTable from './components/CustomerTable.js'
 
 class Admin extends Component {
   constructor(props) {
@@ -42,7 +42,6 @@ class Admin extends Component {
       month: this.monthConvert(today.getMonth()),
       year: today.getFullYear()
     })
-    this.props.dispatch(updateDB(false))
     this.props.dispatch(fetchUserActivity(false))
   }
 
@@ -125,12 +124,16 @@ class Admin extends Component {
                   <TabList style = {{textAlign: 'left', border: 'none', border: 'none', fontSize: 16}}>
                     <Tab>Cloud PCs</Tab>
                     <Tab>Users</Tab>
+                    <Tab>Customers</Tab>
                   </TabList>
                   <TabPanel style = {{paddingTop: 20}}>
                     <VMTable/>
                   </TabPanel>
                   <TabPanel style = {{paddingTop: 20}}>
                     <UserTable/>
+                  </TabPanel>
+                  <TabPanel style = {{paddingTop: 20}}>
+                    <CustomerTable/>
                   </TabPanel>
                 </Tabs>
               </div>

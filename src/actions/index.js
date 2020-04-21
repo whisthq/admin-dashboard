@@ -13,6 +13,12 @@ export const DELETE_SUBSCRIPTION = "DELETE_SUBSCRIPTION"
 export const STORE_JWT = "STORE_JWT"
 export const LOGOUT = "LOGOUT"
 export const INCREMENT_LOGIN_ATTEMPTS = "INCREMENT_LOGIN_ATTEMPTS"
+export const FETCH_CUSTOMERS = "FETCH_CUSTOMERS"
+export const STORE_CUSTOMERS = "STORE_CUSTOMERS"
+export const START_VM = "START_VM"
+export const DEALLOCATE_VM = "DEALLOCATE_VM"
+export const DONE_UPDATING = "DONE_UPDATING"
+
 
 export function fetchVMs(id) {
 	return {
@@ -115,5 +121,39 @@ export function logout() {
 export function incrementLoginAttempts() {
 	return {
 		type: INCREMENT_LOGIN_ATTEMPTS
+	}
+}
+
+export function fetchCustomers() {
+	return {
+		type: FETCH_CUSTOMERS
+	}
+}
+
+export function storeCustomers(customers) {
+	return {
+		type: STORE_CUSTOMERS,
+		customers
+	}
+}
+
+export function startVM(vm_name) {
+	return {
+		type: START_VM,
+		vm_name
+	}
+}
+
+export function deallocateVM(vm_name) {
+	return {
+		type: DEALLOCATE_VM,
+		vm_name
+	}
+}
+
+export function doneUpdating(vm_name) {
+	return {
+		type: DONE_UPDATING,
+		vm_name
 	}
 }
