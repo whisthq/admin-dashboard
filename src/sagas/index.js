@@ -24,8 +24,11 @@ function* loginUser(action) {
   })
 
   if(json && json.status === 200) {
-    yield put(FormAction.authenticateUser())
+    yield put(FormAction.authenticateUser(true))
     yield put(FormAction.storeJWT(json.access_token, json.refresh_token))
+  } else {
+    yield put(FormAction.authenticateUser(false))
+    yield put(FormAction.incrementLoginAttempts())
   }
 }
 

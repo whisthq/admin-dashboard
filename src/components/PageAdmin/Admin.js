@@ -119,7 +119,7 @@ class Admin extends Component {
                   </Button>
                 </div>
               </div>
-              <div style = {{display: 'flex', marginTop: 45}}>
+              <div style = {{display: 'flex', marginTop: 5}}>
                 <div style = {{display: 'block', width: '100%', position: 'relative', bottom: 36}}>
                 <Tabs>
                   <TabList style = {{textAlign: 'left', border: 'none', border: 'none', fontSize: 16}}>
@@ -153,7 +153,8 @@ function mapStateToProps(state) {
     userActivity: state.AccountReducer.userActivity ? state.AccountReducer.userActivity : [],
     userTable: state.AccountReducer.userTable ? state.AccountReducer.userTable : [],
     usersUpdated: state.AccountReducer.usersUpdated,
-    access_token: state.AccountReducer.access_token
+    access_token: state.AccountReducer.access_token,
+    login_attempts: state.AccountReducer.login_attempts
   }
 }
 

@@ -12,6 +12,7 @@ export const DELETE_USER = "DELETE_USER"
 export const DELETE_SUBSCRIPTION = "DELETE_SUBSCRIPTION"
 export const STORE_JWT = "STORE_JWT"
 export const LOGOUT = "LOGOUT"
+export const INCREMENT_LOGIN_ATTEMPTS = "INCREMENT_LOGIN_ATTEMPTS"
 
 export function fetchVMs(id) {
 	return {
@@ -42,9 +43,10 @@ export function loginUser(username, password) {
 	}
 }
 
-export function authenticateUser() {
+export function authenticateUser(authenticated) {
 	return {
-		type: AUTHENTICATE_USER
+		type: AUTHENTICATE_USER,
+		authenticated
 	}
 }
 
@@ -107,5 +109,11 @@ export function storeJWT(access_token, refresh_token) {
 export function logout() {
 	return {
 		type: LOGOUT
+	}
+}
+
+export function incrementLoginAttempts() {
+	return {
+		type: INCREMENT_LOGIN_ATTEMPTS
 	}
 }

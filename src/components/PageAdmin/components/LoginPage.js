@@ -22,7 +22,7 @@ import { faEdit, faCheck, faCircleNotch, faTimes } from '@fortawesome/free-solid
 class LoginPage extends Component {
   constructor(props) {
     super(props)
-    this.state = {emailLogin: '', passwordLogin: ''}
+    this.state = {emailLogin: '', passwordLogin: '', loggingIn: false, failed_login_attempt: false}
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
   }
 
@@ -47,11 +47,13 @@ class LoginPage extends Component {
 
   loginKeyPress = (event) => {
     if(event.key === 'Enter'){
+      this.setState({loggingIn: true, failed_login_attempt: false})
       this.props.dispatch(loginUser(this.state.emailLogin, this.state.passwordLogin));
     }
   }
 
   handleLogin = () => {
+    this.setState({loggingIn: true, failed_login_attempt: false})
     this.props.dispatch(loginUser(this.state.emailLogin, this.state.passwordLogin));
   }
 
@@ -65,6 +67,11 @@ class LoginPage extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if(prevProps.login_attempts != this.props.login_attempts && !this.state.failed_login_attempt) {
+      this.setState({failed_login_attempt: true, loggingIn: false})
+    }
+  }
 
   render() {
     let modalClose = () => this.setState({ modalShow: false })
@@ -74,10 +81,19 @@ class LoginPage extends Component {
     return (
       <div style = {{height: '100vh'}}>
         <div style = {{width: 300, margin: 'auto', marginTop: 150}}>
-          <div style = {{textAlign: 'center', fontWeight: 'bold', fontSize: 30, marginBottom: 50}}>
+          <div style = {{textAlign: 'center', fontWeight: 'bold', fontSize: 30, marginBottom: 30}}>
             Fractal Admin
           </div>
-          <InputGroup className="mb-3" style = {{marginTop: 30}}>
+          {
+          this.state.failed_login_attempt
+          ?
+          <div style = {{textAlign: 'center', fontSize: 14, color: "#f9000b", background: "#fdf0f1", width: '100%', padding: 10, borderRadius: 5, fontWeight: 'bold', marginBottom: 20}}>
+            Invalid credentials
+          </div>
+          :
+          <div></div>
+          }
+          <InputGroup className="mb-3">
             <FormControl
               type = "email"
               aria-label="Default"
@@ -100,10 +116,17 @@ class LoginPage extends Component {
               style = {{borderRadius: 5, maxWidth: 600, backgroundColor: "#F4F4F4", border: "none", padding: "30px 20px"}}
             />
           </InputGroup>
-
+          {
+          !this.state.loggingIn
+          ?
           <Button  onClick = {this.handleLogin} style = {{marginTop: 10, fontWeight: 'bold', color: 'white', width: '100%', border: 'none', background: 'black', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)', padding: '15px'}}>
               LOG IN
           </Button>
+          :
+          <Button  disabled = "true" style = {{marginTop: 10, fontWeight: 'bold', color: 'white', width: '100%', border: 'none', background: 'black', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)', padding: '15px', textAlign: 'center'}}>
+              <FontAwesomeIcon icon = {faCircleNotch} spin style = {{color: 'white', fontSize: 13}}/>
+          </Button>
+          }
         </div>
       </div>
     );
@@ -112,6 +135,7 @@ class LoginPage extends Component {
 
 function mapStateToProps(state) {
   return {
+    login_attempts: state.AccountReducer.login_attempts
   }
 }
 
