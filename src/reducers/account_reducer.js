@@ -43,6 +43,8 @@ export default function(state = DEFAULT, action) {
         access_token: action.access_token,
         refresh_token: action.refresh_token
       }
+    case AccountAction.LOGOUT:
+      return DEFAULT
     default:
       return state
   }

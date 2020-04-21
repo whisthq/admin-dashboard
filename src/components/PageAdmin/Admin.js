@@ -18,7 +18,7 @@ import "react-tabs/style/react-tabs.css";
 
 import Logo from '../../assets/logo.svg'
 import '../../static/App.css';
-import { updateDB, loginUser, resetUser, fetchUserActivity, fetchUserTable, deleteUser } from '../../actions/index.js'
+import { updateDB, loginUser, resetUser, fetchUserActivity, fetchUserTable, deleteUser, logout} from '../../actions/index.js'
 import LoginPage from './components/LoginPage.js'
 import LeftMenu from './components/LeftMenu.js'
 import VMTable from './components/VMTable.js'
@@ -29,7 +29,7 @@ class Admin extends Component {
   constructor(props) {
     super(props)
     this.state = { width: 0, height: 0, modalShow: false, showPopup: false, loaded: false, 
-      day: 0, month: 0, year: 0}
+      day: 0, month: 0, year: 0, userTableFetched: false}
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
   }
 
@@ -62,9 +62,9 @@ class Admin extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(this.props)
-    if(this.props.access_token && this.props.userTable.length === 0) {
+    if(this.props.access_token && this.props.userTable.length === 0 && !this.state.userTableFetched) {
       this.props.dispatch(fetchUserTable())
+      this.setState({userTableFetched: true})
     }
   }
 
@@ -109,8 +109,15 @@ class Admin extends Component {
               <div>
               {this.state.month} {this.state.day}, {this.state.year}
               </div>
-              <div style = {{marginTop: 5, fontSize: 45, fontWeight: 'bold', marginBottom: 60, width: 275, color: '#111111'}}>
-                DASHBOARD
+              <div style = {{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+                <div style = {{marginTop: 5, fontSize: 45, fontWeight: 'bold', marginBottom: 60, width: 275, color: '#111111'}}>
+                  DASHBOARD
+                </div>
+                <div style = {{float: 'right'}}>
+                  <Button onClick = {() => this.props.dispatch(logout())} style = {{border: 'none', padding: '10px 30px', fontWeight: 'bold', color: '#1ba8e0', background: 'rgba(94, 195, 235, 0.2)', borderRadius: 3}}>
+                    Logout
+                  </Button>
+                </div>
               </div>
               <div style = {{display: 'flex', marginTop: 45}}>
                 <div style = {{display: 'block', width: '100%', position: 'relative', bottom: 36}}>

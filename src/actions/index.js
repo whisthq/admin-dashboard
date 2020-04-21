@@ -11,6 +11,7 @@ export const USER_TABLE_FETCHED = "USER_TABLE_FETCHED"
 export const DELETE_USER = "DELETE_USER"
 export const DELETE_SUBSCRIPTION = "DELETE_SUBSCRIPTION"
 export const STORE_JWT = "STORE_JWT"
+export const LOGOUT = "LOGOUT"
 
 export function fetchVMs(id) {
 	return {
@@ -100,5 +101,11 @@ export function storeJWT(access_token, refresh_token) {
 		type: STORE_JWT,
 		access_token,
 		refresh_token
+	}
+}
+
+export function logout() {
+	return {
+		type: LOGOUT
 	}
 }
