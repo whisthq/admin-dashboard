@@ -162,11 +162,11 @@ class Logs extends Component {
                             value1.includes('logs')
                             ?
                             <div style = {{maxHeight: 100, overflowY: 'scroll'}}>
-                              {value[value1].toString()}
+                              {value[value1].toString().replace(/\n/g, "<br />")}
                             </div>
                             :
                             <div>
-                              {value[value1].toString()}
+                              {value[value1].toString().replace(/\n/g, "<br />")}
                             </div>
                             )
                             )
