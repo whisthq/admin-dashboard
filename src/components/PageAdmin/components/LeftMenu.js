@@ -37,7 +37,14 @@ class LeftMenu extends Component {
         <img src = {Logo} style = {{width: 40, height: 40}}/>
         <div style = {{marginTop: 25, fontSize: 18}}>
           <div style = {{marginBottom: 15}}>
-            <strong>Dashboard</strong>
+            <Link style = {{textDecoration: 'none', color: '#111111'}} to = "/">
+              <strong>Dashboard</strong>
+            </Link>
+          </div>
+          <div style = {{marginBottom: 15}}>
+            <Link style = {{textDecoration: 'none', color: '#111111'}} to = "/logs">
+              Logs
+            </Link>
           </div>
           <div style = {{marginBottom: 15}}>
             <a target="_blank" href = "https://drive.google.com/open?id=1kbpGbVeYd5LVJgzGN0dKro-ryizQr2kg">

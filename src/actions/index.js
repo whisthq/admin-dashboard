@@ -18,6 +18,8 @@ export const STORE_CUSTOMERS = "STORE_CUSTOMERS"
 export const START_VM = "START_VM"
 export const DEALLOCATE_VM = "DEALLOCATE_VM"
 export const DONE_UPDATING = "DONE_UPDATING"
+export const FETCH_LOGS = "FETCH_LOGS"
+export const STORE_LOGS = "STORE_LOGS"
 
 
 export function fetchVMs(id) {
@@ -155,5 +157,19 @@ export function doneUpdating(vm_name) {
 	return {
 		type: DONE_UPDATING,
 		vm_name
+	}
+}
+
+export function fetchLogs(username) {
+	return {
+		type: FETCH_LOGS,
+		username
+	}
+}
+
+export function storeLogs(logs) {
+	return {
+		type: STORE_LOGS,
+		logs
 	}
 }

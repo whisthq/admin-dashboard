@@ -12,6 +12,7 @@ import ReduxPromise from 'redux-promise'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import Admin from './components/PageAdmin/Admin';
+import Logs from './components/PageAdmin/Logs'
 
 import rootSaga from './sagas';
 import { Route, Switch, Link, HashRouter } from 'react-router-dom';
@@ -57,6 +58,7 @@ ReactDOM.render(
             <title>Fractal</title>
           </Helmet>
               <Route exact path="/" component={Admin} />
+              <Route exact path="/logs" component={Logs} />
           </PersistGate>
           </Provider>
       </Router>,

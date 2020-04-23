@@ -2,7 +2,7 @@ import * as AccountAction from '../actions/index'
 
 const DEFAULT = {vm_info: [], authenticated: false, vmsUpdated: false, activityFetched: false, userActivity: [], 
   userTable: [], usersUpdated: false, access_token: '', refresh_token: '', login_attempts: 0, customers: [],
-  vms_updating: []}
+  vms_updating: [], logs: []}
 
 export default function(state = DEFAULT, action) {
   switch (action.type) {
@@ -12,8 +12,6 @@ export default function(state = DEFAULT, action) {
         authenticated: action.authenticated
       }
     case AccountAction.LOAD_VMS:
-      console.log("LOAD VM REDUCER")
-      console.log(action.payload)
       return {
         ...state,
         vm_info: action.payload,
@@ -70,6 +68,11 @@ export default function(state = DEFAULT, action) {
       return {
         ...state,
         vms_updating: state.vms_updating.filter(vm => vm !== action.vm_name)
+      }
+    case AccountAction.STORE_LOGS:
+      return {
+        ...state,
+        logs: action.logs
       }
     case AccountAction.LOGOUT:
       return DEFAULT

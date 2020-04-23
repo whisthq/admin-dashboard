@@ -128,6 +128,31 @@ function* getVMStatus(id, vm_name) {
   }
 }
 
+function* fetchLogs(action) {
+  const state = yield select()
+
+  const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/logs/fetch', {
+    username: action.username
+  }, state.AccountReducer.access_token);
+
+  if(json && json.ID) {
+    yield call(getLogStatus, json.ID)
+  }
+}
+
+function* getLogStatus(id) {
+  var { json, response } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
+
+  while (json.state === "PENDING" || json.state === "STARTED") {
+    var { json, response } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
+    yield delay(5000)
+  }
+
+  if(json && json.output) {
+    yield put(FormAction.storeLogs(json.output))
+  }
+}
+
 export default function* rootSaga() {
  	yield all([
     takeEvery(FormAction.UPDATE_DB, updateDB),
@@ -138,6 +163,7 @@ export default function* rootSaga() {
     takeEvery(FormAction.DELETE_SUBSCRIPTION, deleteSubscription),
     takeEvery(FormAction.FETCH_CUSTOMERS, fetchCustomers),
     takeEvery(FormAction.START_VM, startVM),
-    takeEvery(FormAction.DEALLOCATE_VM, deallocateVM)
+    takeEvery(FormAction.DEALLOCATE_VM, deallocateVM),
+    takeEvery(FormAction.FETCH_LOGS, fetchLogs)
 	]);
 }
