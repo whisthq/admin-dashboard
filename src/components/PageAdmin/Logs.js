@@ -147,7 +147,7 @@ class Logs extends Component {
                     <tr style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12}}>
                       {header.map((value1, index1) => {
                         return(
-                          <td style = {{paddingLeft: 20, paddingTop: 10, paddingBottom: 10, maxWidth: 200}}>
+                          <td style = {{paddingLeft: 20, paddingTop: 10, paddingBottom: 10, maxWidth: 225}}>
                             {
                             value[value1] == null
                             ?
@@ -162,11 +162,11 @@ class Logs extends Component {
                             value1.includes('logs')
                             ?
                             <div style = {{maxHeight: 100, overflowY: 'scroll'}}>
-                              {value[value1].toString().replace(/\n/g, "<br />")}
+                              {value[value1].toString().replace(/\n/g, "<br/>")}
                             </div>
                             :
                             <div>
-                              {value[value1].toString().replace(/\n/g, "<br />")}
+                              {value[value1].toString().replace(/\n/g, "<br/>")}
                             </div>
                             )
                             )
