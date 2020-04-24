@@ -14,6 +14,7 @@ import { HashLink } from 'react-router-hash-link';
 import { ReactTypeformEmbed } from 'react-typeform-embed';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faCheck, faCircleNotch, faTimes } from '@fortawesome/free-solid-svg-icons'
+import reactStringReplace from 'react-string-replace'
 import "react-tabs/style/react-tabs.css";
 
 import Logo from '../../assets/logo.svg'
@@ -93,6 +94,16 @@ class Logs extends Component {
     this.props.dispatch(fetchLogs(this.state.username))
   }
 
+  flatMap = (array, fn) => {
+    var result = [];
+    for (var i = 0; i < array.length; i++) {
+      var mapping = fn(array[i]);
+      result = result.concat(mapping);
+    }
+    return result;
+  }
+
+
   render() {
     let modalClose = () => this.setState({ modalShow: false })
     if (this.state.width > 700 && this.state.modalShow) {
@@ -127,8 +138,7 @@ class Logs extends Component {
                 </div>
               </div>
               <div>
-                No logs found! Search for a user's logs here:
-                <input type = "text" onChange = {this.updateUser}/>
+                <input type = "text" placeholder = "Username" onChange = {this.updateUser}/>
                 <Button onClick = {() => this.searchUser()}>Search</Button>
               </div>
               <div>
@@ -162,11 +172,13 @@ class Logs extends Component {
                             value1.includes('logs')
                             ?
                             <div style = {{maxHeight: 100, overflowY: 'scroll'}}>
-                              {value[value1].toString().replace(/\n/g, "<br/>")}
+                              {reactStringReplace(value[value1].toString(), '\n', (match, i) => (
+                                <br/>
+                              ))}
                             </div>
                             :
                             <div>
-                              {value[value1].toString().replace(/\n/g, "<br/>")}
+                              {value[value1].toString()}
                             </div>
                             )
                             )

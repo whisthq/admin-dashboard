@@ -33,6 +33,7 @@
     "react-router-redux": "^4.0.8",
     "react-scripts": "^3.2.0",
     "react-spinners": "^0.6.1",
+    "react-string-replace": "^0.4.4",
     "react-stripe-elements": "^6.0.1",
     "react-tabs": "^3.0.0",
     "react-typeform-embed": "^0.2.1",
