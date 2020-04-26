@@ -154,7 +154,7 @@ class Logs extends Component {
                 </tr>
                 {this.props.logs.map((value, index) => {
                   return (
-                    <tr style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12}}>
+                    <tr className = "log-row" style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12}}>
                       {header.map((value1, index1) => {
                         return(
                           <td style = {{paddingLeft: 20, paddingTop: 10, paddingBottom: 10, maxWidth: 225}}>
