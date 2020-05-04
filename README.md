@@ -5,6 +5,7 @@ This repository contains the code for the Fractal dashboard used to deliver supp
 The dashboard webpage is hosted on Netlify at: https://fractal-dashboard.netlify.app/
 
 The username to access the dashboard: fractal-admin
+
 The password to access the dasbhoard: !!fractal-admin-password!!123
 
 ## Available Scripts
