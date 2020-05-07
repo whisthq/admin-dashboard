@@ -89,9 +89,9 @@ class VMTable extends Component {
         <div style = {{height: 18, width: 18, position: 'relative', top: 4, borderRadius: 2, backgroundColor: 'rgba(171, 235, 235, 0.6)'}}></div>
         <div style = {{marginLeft: 10, marginRight: 10}}> Dev Mode </div>
         <div style = {{height: 18, width: 18, position: 'relative', top: 4, borderRadius: 2, backgroundColor: 'rgba(242, 181, 179, 0.2)'}}></div>
-        <div style = {{marginLeft: 10, marginRight: 10}}> Unlocked </div>
-        <div style = {{height: 18, width: 18, position: 'relative', top: 4, borderRadius: 2, backgroundColor: 'rgba(193, 245, 174, 0.2)'}}></div>
         <div style = {{marginLeft: 10, marginRight: 10}}> Locked </div>
+        <div style = {{height: 18, width: 18, position: 'relative', top: 4, borderRadius: 2, backgroundColor: 'rgba(193, 245, 174, 0.2)'}}></div>
+        <div style = {{marginLeft: 10, marginRight: 10}}> Unlocked </div>
       </div>
       <table style = {{backgroundColor: "#FFFFFF", width: '100%', boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)"}}>
         <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left'}}>
