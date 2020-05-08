@@ -129,11 +129,14 @@ function* getVMStatus(id, vm_name) {
 }
 
 function* fetchLogs(action) {
+  console.log('FETCH LOG SAGA')
   const state = yield select()
 
   const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/logs/fetch', {
     username: action.username
   }, state.AccountReducer.access_token);
+
+  console.log(json)
 
   if(json && json.ID) {
     yield call(getLogStatus, json.ID)
@@ -141,17 +144,21 @@ function* fetchLogs(action) {
 }
 
 function* getLogStatus(id) {
+  console.log('GET LOG STATUS')
   var { json, response } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
 
   while (json.state === "PENDING" || json.state === "STARTED") {
     var { json, response } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
     yield delay(2000)
+    console.log(json)
   }
 
+  console.log(json)
+
   if(json && json.output) {
-    yield put(FormAction.storeLogs(json.output))
+    yield put(FormAction.storeLogs(json.output, false))
   } else {
-    yield put(FormAction.storeLogs([]))
+    yield put(FormAction.storeLogs([], true))
   }
 }
 

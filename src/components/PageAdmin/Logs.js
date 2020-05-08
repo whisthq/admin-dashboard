@@ -19,7 +19,7 @@ import "react-tabs/style/react-tabs.css";
 
 import Logo from '../../assets/logo.svg'
 import '../../static/App.css';
-import { updateDB, loginUser, resetUser, fetchUserActivity, fetchUserTable, deleteUser, logout, fetchLogs} from '../../actions/index.js'
+import { updateDB, loginUser, resetUser, fetchUserActivity, fetchUserTable, deleteUser, logout, fetchLogs, logsFound} from '../../actions/index.js'
 import LoginPage from './components/LoginPage.js'
 import LeftMenu from './components/LeftMenu.js'
 import CustomerTable from './components/CustomerTable.js'
@@ -42,6 +42,7 @@ class Logs extends Component {
       year: today.getFullYear()
     })
     this.props.dispatch(fetchUserActivity(false))
+    this.props.dispatch(logsFound(false))
   }
 
   componentWillUnmount() {
@@ -60,6 +61,7 @@ class Logs extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log(this.props)
     if(this.props.access_token && this.props.logs.length === 0 && !this.state.logsFetched) {
       this.setState({logsFetched: true})
     }
@@ -160,18 +162,26 @@ class Logs extends Component {
                 }
               </div>
               <div>
-              <table style = {{width: 550, marginTop: 25}}>
+              {
+              this.props.logs_fetched && this.props.logs.length === 0 && this.props.logs_not_found
+              ?
+              <div style = {{marginTop: 10, color: '#999999', fontSize: 14, background: 'rgba(94, 195, 235, 0.1)', color: '#1ba8e0', width: 430, fontWeight: 'bold', padding: 15, borderRadius: 3}}>
+                No logs found! Search for a valid user.
+              </div>
+              :
+              <table style = {{width: 650, marginTop: 25}}>
                 {this.props.logs.map((value, index) => {
                   return (
-                    <tr style = {{fontSize: 15, height: 40, padding: 10}}>
+                    <tr style = {{fontSize: 15, height: 50, padding: 10, paddingBottom: 20}}>
                       <td style = {{width: 125}}><a target = "_blank" href = {value["server_logs"]} style = {{background: 'rgba(94, 195, 235, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#1ba8e0'}}>Server Logs</span></a></td>
                       <td style = {{width: 125}}><a target = "_blank" href = {value["client_logs"]} style = {{background: 'rgba(2, 207, 57, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#02cf39'}}>Client Logs</span></a></td>
                       <td style = {{textAlign: 'center'}}>{value["last_updated"]}</td>
-                      <td>{value["connection_id"]}</td>
+                      <td>Connection {value["connection_id"]}</td>
                     </tr>
                   )
                 })}
               </table>
+              }
               </div>
             </div>
         </div>
@@ -184,7 +194,8 @@ function mapStateToProps(state) {
   return {
     logs: state.AccountReducer.logs ? state.AccountReducer.logs : [],
     access_token: state.AccountReducer.access_token,
-    logs_fetched: state.AccountReducer.logs_fetched ? state.AccountReducer.logs_fetched : false
+    logs_fetched: state.AccountReducer.logs_fetched ? state.AccountReducer.logs_fetched : false,
+    logs_not_found: state.AccountReducer.logs_not_found ? state.AccountReducer.logs_not_found : false
   }
 }
 

@@ -19,7 +19,9 @@ export const START_VM = "START_VM"
 export const DEALLOCATE_VM = "DEALLOCATE_VM"
 export const DONE_UPDATING = "DONE_UPDATING"
 export const FETCH_LOGS = "FETCH_LOGS"
+export const FETCH_ALL_LOGS = "FETCH_ALL_LOGS"
 export const STORE_LOGS = "STORE_LOGS"
+export const LOGS_FOUND = "LOGS_FOUND"
 
 
 export function fetchVMs(id) {
@@ -160,16 +162,32 @@ export function doneUpdating(vm_name) {
 	}
 }
 
-export function fetchLogs(username) {
+export function fetchLogs(username, logs_not_found) {
 	return {
 		type: FETCH_LOGS,
-		username
+		username,
+		logs_not_found
 	}
 }
 
-export function storeLogs(logs) {
+export function fetchAllLogs(logs_not_found) {
+	return {
+		type: FETCH_ALL_LOGS,
+		logs_not_found
+	}
+}
+
+export function storeLogs(logs, logs_not_found) {
 	return {
 		type: STORE_LOGS,
-		logs
+		logs,
+		logs_not_found
+	}
+}
+
+export function logsFound(found) {
+	return {
+		type: LOGS_FOUND,
+		found
 	}
 }

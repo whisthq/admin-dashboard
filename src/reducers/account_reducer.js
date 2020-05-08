@@ -2,7 +2,7 @@ import * as AccountAction from '../actions/index'
 
 const DEFAULT = {vm_info: [], authenticated: false, vmsUpdated: false, activityFetched: false, userActivity: [], 
   userTable: [], usersUpdated: false, access_token: '', refresh_token: '', login_attempts: 0, customers: [],
-  vms_updating: [], logs: [], logs_fetched: false}
+  vms_updating: [], logs: [], logs_fetched: false, logs_not_found: false}
 
 export default function(state = DEFAULT, action) {
   switch (action.type) {
@@ -70,16 +70,29 @@ export default function(state = DEFAULT, action) {
         vms_updating: state.vms_updating.filter(vm => vm !== action.vm_name)
       }
     case AccountAction.STORE_LOGS:
+      console.log('STORE LOG REDUCEr')
+      console.log(action)
       return {
         ...state,
         logs: action.logs,
-        logs_fetched: true
+        logs_fetched: true,
+        logs_not_found: action.logs_not_found 
       }
     case AccountAction.FETCH_USER_ACTIVITY:
       return {
         ...state,
-        logs: [],
-        logs_fetched: false
+        logs: []
+      }
+    case AccountAction.FETCH_LOGS:
+      return {
+        ...state,
+        logs_fetched: false,
+        logs_not_found: false
+      }
+    case AccountAction.LOGS_FOUND:
+      return {
+        ...state,
+        logs_not_found: action.found
       }
     case AccountAction.LOGOUT:
       return DEFAULT
