@@ -160,13 +160,13 @@ class Logs extends Component {
                 }
               </div>
               <div>
-              <table style = {{width: 600, marginTop: 25}}>
+              <table style = {{width: 550, marginTop: 25}}>
                 {this.props.logs.map((value, index) => {
                   return (
                     <tr style = {{fontSize: 15, height: 40, padding: 10}}>
                       <td style = {{width: 125}}><a target = "_blank" href = {value["server_logs"]} style = {{background: 'rgba(94, 195, 235, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#1ba8e0'}}>Server Logs</span></a></td>
                       <td style = {{width: 125}}><a target = "_blank" href = {value["client_logs"]} style = {{background: 'rgba(2, 207, 57, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#02cf39'}}>Client Logs</span></a></td>
-                      <td style = {{textAlign: 'right'}}>{value["last_updated"]}</td>
+                      <td style = {{textAlign: 'center'}}>{value["last_updated"]}</td>
                       <td>{value["connection_id"]}</td>
                     </tr>
                   )
