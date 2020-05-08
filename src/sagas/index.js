@@ -145,11 +145,13 @@ function* getLogStatus(id) {
 
   while (json.state === "PENDING" || json.state === "STARTED") {
     var { json, response } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
-    yield delay(5000)
+    yield delay(2000)
   }
 
   if(json && json.output) {
     yield put(FormAction.storeLogs(json.output))
+  } else {
+    yield put(FormAction.storeLogs([]))
   }
 }
 

@@ -2,7 +2,7 @@ import * as AccountAction from '../actions/index'
 
 const DEFAULT = {vm_info: [], authenticated: false, vmsUpdated: false, activityFetched: false, userActivity: [], 
   userTable: [], usersUpdated: false, access_token: '', refresh_token: '', login_attempts: 0, customers: [],
-  vms_updating: [], logs: []}
+  vms_updating: [], logs: [], logs_fetched: false}
 
 export default function(state = DEFAULT, action) {
   switch (action.type) {
@@ -72,7 +72,14 @@ export default function(state = DEFAULT, action) {
     case AccountAction.STORE_LOGS:
       return {
         ...state,
-        logs: action.logs
+        logs: action.logs,
+        logs_fetched: true
+      }
+    case AccountAction.FETCH_USER_ACTIVITY:
+      return {
+        ...state,
+        logs: [],
+        logs_fetched: false
       }
     case AccountAction.LOGOUT:
       return DEFAULT

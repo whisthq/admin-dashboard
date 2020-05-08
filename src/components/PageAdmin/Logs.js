@@ -28,7 +28,7 @@ class Logs extends Component {
   constructor(props) {
     super(props)
     this.state = { width: 0, height: 0, modalShow: false, showPopup: false, loaded: false, 
-      day: 0, month: 0, year: 0, logsFetched: false, username: ''}
+      day: 0, month: 0, year: 0, logsFetched: false, username: '', processing: false}
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
   }
 
@@ -63,6 +63,9 @@ class Logs extends Component {
     if(this.props.access_token && this.props.logs.length === 0 && !this.state.logsFetched) {
       this.setState({logsFetched: true})
     }
+    if(!prevProps.logs_fetched && this.props.logs_fetched && this.state.processing) {
+      this.setState({processing: false})
+    }
   }
 
   deleteUser = (user) => {
@@ -92,6 +95,13 @@ class Logs extends Component {
 
   searchUser = () => {
     this.props.dispatch(fetchLogs(this.state.username))
+    this.setState({processing: true})
+  }
+
+  searchUserKey = (evt) => {
+    if(evt.key === 'Enter' && !this.state.processing) {
+      this.searchUser()
+    }
   }
 
   flatMap = (array, fn) => {
@@ -138,54 +148,26 @@ class Logs extends Component {
                 </div>
               </div>
               <div>
-                <input type = "text" placeholder = "Username" onChange = {this.updateUser}/>
-                <Button onClick = {() => this.searchUser()}>Search</Button>
+                <input type = "text" placeholder = "Username" onChange = {this.updateUser} onKeyPress = {this.searchUserKey} style = {{padding: '10px 15px', backgroundColor: '#EFEFEF', borderRadius: 3, marginRight: 10, border: 'none', height: 45, width: 300}}/>
+                {
+                !this.state.processing 
+                ?
+                <Button onClick = {() => this.searchUser()} style = {{padding: '10px 30px', fontWeight: 'bold', backgroundColor: '#111111', borderRadius: 3, marginRight: 10, border: 'none', height: 45, position: 'relative', bottom: 2, width: 120}}>Search</Button>
+                :
+                <Button disabled = "true" style = {{width: 120, padding: '10px 30px', fontWeight: 'bold', backgroundColor: '#111111', borderRadius: 3, marginRight: 10, border: 'none', height: 45, position: 'relative', bottom: 2}}>
+                  <FontAwesomeIcon icon = {faCircleNotch} spin />
+                </Button>
+                }
               </div>
               <div>
-              <table>
-                <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left'}}>
-                  {header.map((value, index) => {
-                    if(value !== 'username') {
-                      return(
-                        <th style = {{padding: 20}}>{value}</th>
-                      )
-                    }
-                  })}
-                </tr>
+              <table style = {{width: 600, marginTop: 25}}>
                 {this.props.logs.map((value, index) => {
                   return (
-                    <tr className = "log-row" style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12}}>
-                      {header.map((value1, index1) => {
-                        return(
-                          <td style = {{paddingLeft: 20, paddingTop: 10, paddingBottom: 10, maxWidth: 225}}>
-                            {
-                            value[value1] == null
-                            ?
-                            <div></div>
-                            :
-                            (
-                            value1 === 'username'
-                            ?
-                            <div></div>
-                            :
-                            (
-                            value1.includes('logs')
-                            ?
-                            <div style = {{maxHeight: 100, overflowY: 'scroll'}}>
-                              {reactStringReplace(value[value1].toString(), '\n', (match, i) => (
-                                <br/>
-                              ))}
-                            </div>
-                            :
-                            <div>
-                              {value[value1].toString()}
-                            </div>
-                            )
-                            )
-                            }
-                          </td>
-                        )
-                      })}
+                    <tr style = {{fontSize: 15, height: 40, padding: 10}}>
+                      <td style = {{width: 125}}><a target = "_blank" href = {value["server_logs"]} style = {{background: 'rgba(94, 195, 235, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#1ba8e0'}}>Server Logs</span></a></td>
+                      <td style = {{width: 125}}><a target = "_blank" href = {value["client_logs"]} style = {{background: 'rgba(2, 207, 57, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#02cf39'}}>Client Logs</span></a></td>
+                      <td style = {{textAlign: 'right'}}>{value["last_updated"]}</td>
+                      <td>{value["connection_id"]}</td>
                     </tr>
                   )
                 })}
@@ -201,7 +183,8 @@ class Logs extends Component {
 function mapStateToProps(state) {
   return {
     logs: state.AccountReducer.logs ? state.AccountReducer.logs : [],
-    access_token: state.AccountReducer.access_token
+    access_token: state.AccountReducer.access_token,
+    logs_fetched: state.AccountReducer.logs_fetched ? state.AccountReducer.logs_fetched : false
   }
 }
 
