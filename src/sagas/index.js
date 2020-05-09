@@ -133,7 +133,8 @@ function* fetchLogs(action) {
   const state = yield select()
 
   const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/logs/fetch', {
-    username: action.username
+    username: action.username,
+    fetch_all: action.fetch_all
   }, state.AccountReducer.access_token);
 
   console.log(json)

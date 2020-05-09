@@ -28,7 +28,7 @@ class Logs extends Component {
   constructor(props) {
     super(props)
     this.state = { width: 0, height: 0, modalShow: false, showPopup: false, loaded: false, 
-      day: 0, month: 0, year: 0, logsFetched: false, username: '', processing: false}
+      day: 0, month: 0, year: 0, logsFetched: false, username: '', processing: false, last_index: 10}
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
   }
 
@@ -96,14 +96,19 @@ class Logs extends Component {
   }
 
   searchUser = () => {
-    this.props.dispatch(fetchLogs(this.state.username))
-    this.setState({processing: true})
+    this.props.dispatch(fetchLogs(this.state.username, true, false))
+    this.setState({processing: true, last_index: 20})
   }
 
   searchUserKey = (evt) => {
     if(evt.key === 'Enter' && !this.state.processing) {
       this.searchUser()
     }
+  }
+
+  searchAllUsers = () => {
+    this.props.dispatch(fetchLogs(this.state.username, true, true))
+    this.setState({processing: true})
   }
 
   flatMap = (array, fn) => {
@@ -160,6 +165,15 @@ class Logs extends Component {
                   <FontAwesomeIcon icon = {faCircleNotch} spin />
                 </Button>
                 }
+                {
+                !this.state.processing 
+                ?
+                <Button onClick = {() => this.searchAllUsers()} style = {{color: '#111111', padding: '10px 30px', fontWeight: 'bold', backgroundColor: '#c4fffe', borderRadius: 3, marginRight: 10, border: 'none', height: 45, position: 'relative', bottom: 2, width: 180}}>Search All Users</Button>
+                :
+                <Button disabled = "true" style = {{width: 120, padding: '10px 30px', fontWeight: 'bold', backgroundColor: '#c4fffe', borderRadius: 3, marginRight: 10, border: 'none', height: 45, position: 'relative', bottom: 2}}>
+                  <FontAwesomeIcon icon = {faCircleNotch} spin />
+                </Button>
+                }
               </div>
               <div>
               {
@@ -169,18 +183,36 @@ class Logs extends Component {
                 No logs found! Search for a valid user.
               </div>
               :
-              <table style = {{width: 650, marginTop: 25}}>
-                {this.props.logs.map((value, index) => {
-                  return (
-                    <tr style = {{fontSize: 15, height: 50, padding: 10, paddingBottom: 20}}>
-                      <td style = {{width: 125}}><a target = "_blank" href = {value["server_logs"]} style = {{background: 'rgba(94, 195, 235, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#1ba8e0'}}>Server Logs</span></a></td>
-                      <td style = {{width: 125}}><a target = "_blank" href = {value["client_logs"]} style = {{background: 'rgba(2, 207, 57, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#02cf39'}}>Client Logs</span></a></td>
-                      <td style = {{textAlign: 'center'}}>{value["last_updated"]}</td>
-                      <td>Connection {value["connection_id"]}</td>
-                    </tr>
-                  )
-                })}
-              </table>
+              <div style = {{maxHeight: 600, overflowY: 'scroll', marginTop: 25}}>
+                <table style = {{width: 700}}>
+                  {this.props.logs.slice(0, Math.min(this.props.logs.length, this.state.last_index)).map((value, index) => {
+                    return (
+                      <tr style = {{fontSize: 15, height: 50, padding: 10, paddingBottom: 20}}>
+                        <td style = {{width: 125}}><a target = "_blank" href = {value["server_logs"]} style = {{background: 'rgba(94, 195, 235, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#1ba8e0'}}>Server Logs</span></a></td>
+                        <td style = {{width: 125}}><a target = "_blank" href = {value["client_logs"]} style = {{background: 'rgba(2, 207, 57, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#02cf39'}}>Client Logs</span></a></td>
+                        <td style = {{textAlign: 'center'}}>{value["last_updated"]}</td>
+                        <td>Connection {value["connection_id"]}</td>
+                        {
+                         value["username"]
+                         ?
+                        <td style = {{maxWidth: 100}}>{value["username"]}</td>
+                        :
+                        <td style = {{color: "#888888"}}>No username</td>
+                        }
+                      </tr>
+                    )
+                  })}
+                </table>
+                {
+                this.props.logs && Math.min(20, this.state.last_index) < this.props.logs.length
+                ?
+                <div style = {{marginTop: 20, color: '#5ec3eb'}} className = "pointerOnHover" onClick = {() => this.setState({last_index: this.state.last_index + 20})}>
+                  Load More Logs
+                </div>
+                :
+                <div></div>
+                }
+              </div>
               }
               </div>
             </div>

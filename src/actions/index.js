@@ -162,18 +162,12 @@ export function doneUpdating(vm_name) {
 	}
 }
 
-export function fetchLogs(username, logs_not_found) {
+export function fetchLogs(username, logs_not_found, fetch_all) {
 	return {
 		type: FETCH_LOGS,
 		username,
-		logs_not_found
-	}
-}
-
-export function fetchAllLogs(logs_not_found) {
-	return {
-		type: FETCH_ALL_LOGS,
-		logs_not_found
+		logs_not_found,
+		fetch_all
 	}
 }
 
