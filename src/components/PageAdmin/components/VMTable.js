@@ -57,20 +57,20 @@ class VMTable extends Component {
     }
     header.reverse()
 
-    const vmButton = (state, vm_name) => {
+    const vmButton = (state, vm_name, lock) => {
       if(this.props.vms_updating.includes(vm_name)) {
         return(
           <td style = {{paddingLeft: 20, paddingRight: 10, fontSize: 11}} className = "pointerOnHover">
             <FontAwesomeIcon icon = {faCircleNotch} spin style = {{color: '#111111'}}/>
           </td>
         )
-      } else if(state === 'NOT_RUNNING_AVAILABLE') {
+      } else if(state === 'STOPPED' || state === 'DEALLOCATED' && !lock) {
         return(
           <td onClick = {() => this.startVM(vm_name)} style = {{paddingLeft: 20, paddingRight: 10, fontSize: 11}} className = "pointerOnHover">
             <FontAwesomeIcon icon = {faPlay} style = {{color: '#111111'}}/>
           </td>
         )
-      } else if(state === 'RUNNING_AVAILABLE') {
+      } else if(state === 'RUNNING_AVAILABLE' && !lock) {
         return(
           <td onClick = {() => this.deallocateVM(vm_name)} style = {{paddingLeft: 20, paddingRight: 10, fontSize: 11}} className = "pointerOnHover">
             <FontAwesomeIcon icon = {faPause} style = {{color: '#111111'}}/>
@@ -107,7 +107,7 @@ class VMTable extends Component {
           return (
             <tr style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12, backgroundColor: value['dev'] ? 'rgba(171, 235, 235, 0.3)' : (value['lock'] ? 'rgba(242, 181, 179, 0.2)' : 'rgba(193, 245, 174, 0.2)')}}>
               <td>
-              {vmButton(value['state'], value['vm_name'])}
+              {vmButton(value['state'], value['vm_name'], value['lock'])}
               </td>
               {header.map((value1, index1) => {
                 return(
