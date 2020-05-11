@@ -14,6 +14,19 @@ export const FETCH_CUSTOMER_TABLE = "FETCH_CUSTOMER_TABLE"
 export const CUSTOMER_TABLE_FETCHED = "CUSTOMER_TABLE_FETCHED"
 export const DELETE_USER = "DELETE_USER"
 export const DELETE_SUBSCRIPTION = "DELETE_SUBSCRIPTION"
+export const STORE_JWT = "STORE_JWT"
+export const LOGOUT = "LOGOUT"
+export const INCREMENT_LOGIN_ATTEMPTS = "INCREMENT_LOGIN_ATTEMPTS"
+export const FETCH_CUSTOMERS = "FETCH_CUSTOMERS"
+export const STORE_CUSTOMERS = "STORE_CUSTOMERS"
+export const START_VM = "START_VM"
+export const DEALLOCATE_VM = "DEALLOCATE_VM"
+export const DONE_UPDATING = "DONE_UPDATING"
+export const FETCH_LOGS = "FETCH_LOGS"
+export const FETCH_ALL_LOGS = "FETCH_ALL_LOGS"
+export const STORE_LOGS = "STORE_LOGS"
+export const LOGS_FOUND = "LOGS_FOUND"
+
 
 export function fetchVMs(id) {
 	return {
@@ -58,9 +71,10 @@ export function loginUser(username, password) {
 	}
 }
 
-export function authenticateUser() {
+export function authenticateUser(authenticated) {
 	return {
-		type: AUTHENTICATE_USER
+		type: AUTHENTICATE_USER,
+		authenticated
 	}
 }
 
@@ -123,5 +137,83 @@ export function deleteSubscription(user) {
 	return {
 		type: DELETE_SUBSCRIPTION,
 		user
+	}
+}
+
+export function storeJWT(access_token, refresh_token) {
+	return {
+		type: STORE_JWT,
+		access_token,
+		refresh_token
+	}
+}
+
+export function logout() {
+	return {
+		type: LOGOUT
+	}
+}
+
+export function incrementLoginAttempts() {
+	return {
+		type: INCREMENT_LOGIN_ATTEMPTS
+	}
+}
+
+export function fetchCustomers() {
+	return {
+		type: FETCH_CUSTOMERS
+	}
+}
+
+export function storeCustomers(customers) {
+	return {
+		type: STORE_CUSTOMERS,
+		customers
+	}
+}
+
+export function startVM(vm_name) {
+	return {
+		type: START_VM,
+		vm_name
+	}
+}
+
+export function deallocateVM(vm_name) {
+	return {
+		type: DEALLOCATE_VM,
+		vm_name
+	}
+}
+
+export function doneUpdating(vm_name) {
+	return {
+		type: DONE_UPDATING,
+		vm_name
+	}
+}
+
+export function fetchLogs(username, logs_not_found, fetch_all) {
+	return {
+		type: FETCH_LOGS,
+		username,
+		logs_not_found,
+		fetch_all
+	}
+}
+
+export function storeLogs(logs, logs_not_found) {
+	return {
+		type: STORE_LOGS,
+		logs,
+		logs_not_found
+	}
+}
+
+export function logsFound(found) {
+	return {
+		type: LOGS_FOUND,
+		found
 	}
 }

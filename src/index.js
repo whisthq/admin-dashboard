@@ -12,6 +12,7 @@ import ReduxPromise from 'redux-promise'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import Admin from './components/PageAdmin/Admin';
+import Logs from './components/PageAdmin/Logs'
 
 import rootSaga from './sagas';
 import { Route, Switch, Link, HashRouter } from 'react-router-dom';
@@ -28,6 +29,7 @@ import Col from 'react-bootstrap/Col'
 import { HashLink } from 'react-router-hash-link'
 import './static/App.css';
 import Footer from './shared_components/footer'
+import LoginPage from './components/PageLogin/LoginPage';
 
 const persistConfig = {
   key: 'rootKey',
@@ -56,10 +58,11 @@ ReactDOM.render(
           <Helmet>
             <title>Fractal</title>
           </Helmet>
-              <Route exact path="/" component={Admin} />
+              <Route exact path="/" component={LoginPage} />
+              <Route exact path="/admin" component={Admin} />
+              <Route exact path="/logs" component={Logs} />
           </PersistGate>
           </Provider>
       </Router>,
   document.getElementById('root')
 )
-

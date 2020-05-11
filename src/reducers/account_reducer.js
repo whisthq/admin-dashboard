@@ -1,21 +1,21 @@
 import * as AccountAction from '../actions/index'
 
-const DEFAULT = {
-  vm_info: [], authenticated: false, updated: false, disk_info: [], disksFetched: false, activityFetched: false, userActivity: [],
-  userTable: [], usersUpdated: false, customerTable: [], customersUpdated: false
-}
+const DEFAULT = {vm_info: [], authenticated: false, vmsUpdated: false, activityFetched: false, userActivity: [], 
+  userTable: [], usersUpdated: false, access_token: '', refresh_token: '', login_attempts: 0, customers: [],
+  vms_updating: [], logs: [], logs_fetched: false, logs_not_found: false}
 
 export default function (state = DEFAULT, action) {
   switch (action.type) {
     case AccountAction.AUTHENTICATE_USER:
       return {
         ...state,
-        authenticated: true
+        authenticated: action.authenticated
       }
     case AccountAction.LOAD_VMS:
       return {
         ...state,
-        vm_info: action.payload
+        vm_info: action.payload,
+        vmsUpdated: true
       }
     case AccountAction.FETCH_DISK_TABLE:
       return {
@@ -30,7 +30,7 @@ export default function (state = DEFAULT, action) {
     case AccountAction.UPDATE_DB:
       return {
         ...state,
-        updated: action.updated
+        vmsUpdated: action.updated
       }
     case AccountAction.USER_ACTIVITY_FETCHED:
       return {
@@ -48,16 +48,64 @@ export default function (state = DEFAULT, action) {
         ...state,
         userTable: action.payload
       }
-    case AccountAction.FETCH_CUSTOMER_TABLE:
+    case AccountAction.STORE_JWT:
       return {
         ...state,
-        customersUpdated: action.updated
+        access_token: action.access_token,
+        refresh_token: action.refresh_token
       }
-    case AccountAction.CUSTOMER_TABLE_FETCHED:
+    case AccountAction.INCREMENT_LOGIN_ATTEMPTS:
       return {
         ...state,
-        customerTable: action.payload
+        login_attempts: state.login_attempts + 1
       }
+    case AccountAction.STORE_CUSTOMERS:
+      return {
+        ...state,
+        customers: action.customers
+      }
+    case AccountAction.START_VM:
+      return {
+        ...state,
+        vms_updating: [...state.vms_updating, action.vm_name]
+      }
+    case AccountAction.DEALLOCATE_VM:
+      return {
+        ...state,
+        vms_updating: [...state.vms_updating, action.vm_name]
+      }
+    case AccountAction.DONE_UPDATING:
+      return {
+        ...state,
+        vms_updating: state.vms_updating.filter(vm => vm !== action.vm_name)
+      }
+    case AccountAction.STORE_LOGS:
+      console.log('STORE LOG REDUCEr')
+      console.log(action)
+      return {
+        ...state,
+        logs: action.logs,
+        logs_fetched: true,
+        logs_not_found: action.logs_not_found 
+      }
+    case AccountAction.FETCH_USER_ACTIVITY:
+      return {
+        ...state,
+        logs: []
+      }
+    case AccountAction.FETCH_LOGS:
+      return {
+        ...state,
+        logs_fetched: false,
+        logs_not_found: false
+      }
+    case AccountAction.LOGS_FOUND:
+      return {
+        ...state,
+        logs_not_found: action.found
+      }
+    case AccountAction.LOGOUT:
+      return DEFAULT
     default:
       return state
   }
