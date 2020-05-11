@@ -1,22 +1,14 @@
 import React, { Component } from 'react'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Table from 'react-bootstrap/Table'
-import Container from 'react-bootstrap/Container'
 import FormControl from 'react-bootstrap/FormControl'
 import InputGroup from 'react-bootstrap/InputGroup'
-import Popup from "reactjs-popup";
 import '../../static/App.css';
 
 import Button from 'react-bootstrap/Button'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { HashLink } from 'react-router-hash-link';
-import { ReactTypeformEmbed } from 'react-typeform-embed';
 import { loginUser } from '../../actions/index.js'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faCheck, faCircleNotch, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 
 
 class LoginPage extends Component {
@@ -68,7 +60,7 @@ class LoginPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(prevProps.login_attempts != this.props.login_attempts && !this.state.failed_login_attempt) {
+    if(prevProps.login_attempts !== this.props.login_attempts && !this.state.failed_login_attempt) {
       this.setState({failed_login_attempt: true, loggingIn: false})
     }
   }

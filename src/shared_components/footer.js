@@ -4,8 +4,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import { Link } from 'react-router-dom'
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'react-bootstrap'
-import { FaBars } from 'react-icons/fa'
 import '../static/App.css';
 import { HashLink } from 'react-router-hash-link';
 

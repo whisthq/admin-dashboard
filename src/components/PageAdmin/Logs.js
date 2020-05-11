@@ -1,29 +1,14 @@
 import React, { Component } from 'react'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Table from 'react-bootstrap/Table'
-import Container from 'react-bootstrap/Container'
-import FormControl from 'react-bootstrap/FormControl'
-import InputGroup from 'react-bootstrap/InputGroup'
-import Popup from "reactjs-popup";
 import Button from 'react-bootstrap/Button'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { HashLink } from 'react-router-hash-link';
-import { ReactTypeformEmbed } from 'react-typeform-embed';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faCheck, faCircleNotch, faTimes } from '@fortawesome/free-solid-svg-icons'
-import reactStringReplace from 'react-string-replace'
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import "react-tabs/style/react-tabs.css";
 import { Redirect } from "react-router-dom"
 
-import Logo from '../../assets/logo.svg'
 import '../../static/App.css';
-import { updateDB, loginUser, resetUser, fetchUserActivity, fetchUserTable, deleteUser, logout, fetchLogs, logsFound} from '../../actions/index.js'
-import LoginPage from './../PageLogin/LoginPage.js'
+import { fetchUserActivity, deleteUser, logout, fetchLogs, logsFound} from '../../actions/index.js'
 import LeftMenu from './components/LeftMenu.js'
-import CustomerTable from './components/CustomerTable.js'
 
 class Logs extends Component {
   constructor(props) {
@@ -183,7 +168,7 @@ class Logs extends Component {
               {
               this.props.logs_fetched && this.props.logs.length === 0 && this.props.logs_not_found
               ?
-              <div style = {{marginTop: 10, color: '#999999', fontSize: 14, background: 'rgba(94, 195, 235, 0.1)', color: '#1ba8e0', width: 430, fontWeight: 'bold', padding: 15, borderRadius: 3}}>
+              <div style = {{marginTop: 10, fontSize: 14, background: 'rgba(94, 195, 235, 0.1)', color: '#1ba8e0', width: 430, fontWeight: 'bold', padding: 15, borderRadius: 3}}>
                 No logs found! Search for a valid user.
               </div>
               :
@@ -192,8 +177,8 @@ class Logs extends Component {
                   {this.props.logs.slice(0, Math.min(this.props.logs.length, this.state.last_index)).map((value, index) => {
                     return (
                       <tr style = {{fontSize: 15, height: 50, padding: 10, paddingBottom: 20}}>
-                        <td style = {{width: 125}}><a target = "_blank" href = {value["server_logs"]} style = {{background: 'rgba(94, 195, 235, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#1ba8e0'}}>Server Logs</span></a></td>
-                        <td style = {{width: 125}}><a target = "_blank" href = {value["client_logs"]} style = {{background: 'rgba(2, 207, 57, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#02cf39'}}>Client Logs</span></a></td>
+                        <td style = {{width: 125}}><a target = "_blank" rel="noopener noreferrer" href = {value["server_logs"]} style = {{background: 'rgba(94, 195, 235, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#1ba8e0'}}>Server Logs</span></a></td>
+                        <td style = {{width: 125}}><a target = "_blank" rel="noopener noreferrer" href = {value["client_logs"]} style = {{background: 'rgba(2, 207, 57, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#02cf39'}}>Client Logs</span></a></td>
                         <td style = {{textAlign: 'center'}}>{value["last_updated"]}</td>
                         <td>Connection {value["connection_id"]}</td>
                         {

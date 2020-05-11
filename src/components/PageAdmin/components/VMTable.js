@@ -1,15 +1,7 @@
 import React, { Component } from 'react'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Table from 'react-bootstrap/Table'
-import Container from 'react-bootstrap/Container'
-import FormControl from 'react-bootstrap/FormControl'
-import InputGroup from 'react-bootstrap/InputGroup'
-import Button from 'react-bootstrap/Button'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faCheck, faCircleNotch, faTimes, faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
+import { faCircleNotch, faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
 
 import { startVM, deallocateVM, updateDB } from '../../../actions/index.js'
 
@@ -64,7 +56,7 @@ class VMTable extends Component {
             <FontAwesomeIcon icon = {faCircleNotch} spin style = {{color: '#111111'}}/>
           </td>
         )
-      } else if(state === 'STOPPED' || state === 'DEALLOCATED' && !lock) {
+      } else if((state === 'STOPPED' || state === 'DEALLOCATED') && !lock) {
         return(
           <td onClick = {() => this.startVM(vm_name)} style = {{paddingLeft: 20, paddingRight: 10, fontSize: 11}} className = "pointerOnHover">
             <FontAwesomeIcon icon = {faPlay} style = {{color: '#111111'}}/>
@@ -103,7 +95,6 @@ class VMTable extends Component {
           })}
         </tr>
         {this.props.vm_info.map((value, index) => {
-          var defaultUsername = value.username
           return (
             <tr style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12, backgroundColor: value['dev'] ? 'rgba(171, 235, 235, 0.3)' : (value['lock'] ? 'rgba(242, 181, 179, 0.2)' : 'rgba(193, 245, 174, 0.2)')}}>
               <td>

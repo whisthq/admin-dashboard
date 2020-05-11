@@ -1,19 +1,11 @@
 import React, { Component } from 'react'
-import { Row, Col, Table, Container, FormControl, InputGroup, Button } from 'react-bootstrap'
-import Popup from "reactjs-popup";
+import { Button } from 'react-bootstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { HashLink } from 'react-router-hash-link';
-import { ReactTypeformEmbed } from 'react-typeform-embed';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faCheck, faCircleNotch, faTimes } from '@fortawesome/free-solid-svg-icons'
 import "react-tabs/style/react-tabs.css";
 
-import Logo from '../../assets/logo.svg'
 import '../../static/App.css';
-import { updateDB, loginUser, resetUser, fetchUserActivity, fetchUserTable, deleteUser, logout} from '../../actions/index.js'
-import LoginPage from '../PageLogin/LoginPage.js'
+import { fetchUserActivity, fetchUserTable, deleteUser, logout} from '../../actions/index.js'
 import LeftMenu from './components/LeftMenu.js'
 import VMTable from './components/VMTable.js'
 import UserTable from './components/UserTable.js'
@@ -110,7 +102,7 @@ class Admin extends Component {
               <div style = {{display: 'flex', marginTop: 5}}>
                 <div style = {{display: 'block', width: '100%', position: 'relative', bottom: 36}}>
                 <Tabs>
-                  <TabList style = {{textAlign: 'left', border: 'none', border: 'none', fontSize: 16}}>
+                  <TabList style = {{textAlign: 'left', border: 'none', fontSize: 16}}>
                     <Tab>Cloud PCs</Tab>
                     <Tab>Users</Tab>
                     <Tab>Customers</Tab>

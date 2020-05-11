@@ -1,14 +1,13 @@
-import { put, takeLatest, takeEvery, all, call, select, delay } from 'redux-saga/effects';
+/* eslint-disable no-unused-vars */
+import { put, takeEvery, all, call, select, delay } from 'redux-saga/effects';
 import * as FormAction from "../actions/index.js"
 import { apiPost, apiGet } from '../utils/Api.js'
 import history from "../history";
-import { push } from 'connected-react-router'
 import {config} from '../constants.js'
 
 function* updateDB(action) {
-  const state = yield select()
   if(!action.updated) {
-     const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/vm/fetchall', {
+     const {json, } = yield call(apiPost, config.url.PRIMARY_SERVER + '/vm/fetchall', {
      })
      console.log(json)
      if(json && json.payload) {
@@ -19,7 +18,7 @@ function* updateDB(action) {
 }
 
 function* loginUser(action) {
-  const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/admin/login', {
+  const {json, } = yield call(apiPost, config.url.PRIMARY_SERVER + '/admin/login', {
     username: action.username,
     password: action.password
   })
@@ -36,7 +35,7 @@ function* loginUser(action) {
 
 function* fetchUserActivity(action) {
   const state = yield select()
-   const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/tracker/fetch', {
+   const {json, } = yield call(apiPost, config.url.PRIMARY_SERVER + '/tracker/fetch', {
    }, state.AccountReducer.access_token)
    if(json) {
     yield put(FormAction.userActivityFetched(json.payload))
@@ -47,7 +46,7 @@ function* fetchUserTable(action) {
   const state = yield select()
 
   if(!action.updated) {
-     const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/fetchUsers', {
+     const {json, } = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/fetchUsers', {
      }, state.AccountReducer.access_token)
 
      if(json && json.status === 200) {
@@ -60,7 +59,7 @@ function* fetchUserTable(action) {
 function* fetchCustomers(action) {
   const state = yield select()
 
-  const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/fetchCustomers', {
+  const {json, } = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/fetchCustomers', {
   }, state.AccountReducer.access_token)
 
   if(json && json.status === 200) {
@@ -70,7 +69,7 @@ function* fetchCustomers(action) {
 
 function* deleteUser(action) {
   const state = yield select()
-  const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/delete', {
+  const {json, } = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/delete', {
     username: action.user 
   }, state.AccountReducer.access_token)
   if(json && json.status === 200) {
@@ -81,7 +80,7 @@ function* deleteUser(action) {
 
 function* fetchCustomerTable(action) {
   if (!action.updated) {
-    const { json, response } = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/fetchCustomers', {
+    const { json, } = yield call(apiPost, config.url.PRIMARY_SERVER + '/account/fetchCustomers', {
     })
     if (json && json.status === 200) {
       yield put(FormAction.customerTableFetched(json.customers))
@@ -92,15 +91,15 @@ function* fetchCustomerTable(action) {
 
 function* deleteSubscription(action) {
   const state = yield select()
-   const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/stripe/cancel', {
+    yield call(apiPost, config.url.PRIMARY_SERVER + '/stripe/cancel', {
       email: action.user
-   }, state.AccountReducer.access_token);
+    }, state.AccountReducer.access_token);
 }
 
 function* startVM(action) {
   const state = yield select()
   console.log("START VM SAGA")
-  const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/vm/start', {
+  const {json, } = yield call(apiPost, config.url.PRIMARY_SERVER + '/vm/start', {
     vm_name: action.vm_name
   }, state.AccountReducer.access_token);
   console.log(json)
@@ -113,7 +112,7 @@ function* startVM(action) {
 
 function* deallocateVM(action) {
   const state = yield select()
-  const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/vm/deallocate', {
+  const {json, } = yield call(apiPost, config.url.PRIMARY_SERVER + '/vm/deallocate', {
     vm_name: action.vm_name
   }, state.AccountReducer.access_token);
 
@@ -125,11 +124,11 @@ function* deallocateVM(action) {
 }
 
 function* getVMStatus(id, vm_name) {
-  var { json, response } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
+  var { json, } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
 
   while (json.state === "PENDING" || json.state === "STARTED") {
     console.log(json)
-    var { json, response } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
+    var { json, } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
     yield delay(5000)
   }
 
@@ -143,7 +142,7 @@ function* fetchLogs(action) {
   console.log('FETCH LOG SAGA')
   const state = yield select()
 
-  const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/logs/fetch', {
+  const {json, } = yield call(apiPost, config.url.PRIMARY_SERVER + '/logs/fetch', {
     username: action.username,
     fetch_all: action.fetch_all
   }, state.AccountReducer.access_token);
@@ -157,10 +156,10 @@ function* fetchLogs(action) {
 
 function* getLogStatus(id) {
   console.log('GET LOG STATUS')
-  var { json, response } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
+  var { json, } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
 
   while (json.state === "PENDING" || json.state === "STARTED") {
-    var { json, response } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
+    var { json, } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
     yield delay(2000)
     console.log(json)
   }
