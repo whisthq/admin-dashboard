@@ -19,7 +19,7 @@ import "react-tabs/style/react-tabs.css";
 import Logo from '../../assets/logo.svg'
 import '../../static/App.css';
 import { updateDB, loginUser, resetUser, fetchUserActivity, fetchUserTable, deleteUser, logout} from '../../actions/index.js'
-import LoginPage from './components/LoginPage.js'
+import LoginPage from './components/PageLogin/LoginPage.js'
 import LeftMenu from './components/LeftMenu.js'
 import VMTable from './components/VMTable.js'
 import UserTable from './components/UserTable.js'

@@ -19,7 +19,7 @@ import "react-tabs/style/react-tabs.css";
 import Logo from '../../assets/logo.svg'
 import '../../static/App.css';
 import { updateDB, loginUser, resetUser, fetchUserActivity, fetchUserTable, deleteUser, logout} from '../../actions/index.js'
-import LoginPage from './components/LoginPage.js'
+import LoginPage from '../PageLogin/LoginPage.js'
 import LeftMenu from './components/LeftMenu.js'
 import VMTable from './components/VMTable.js'
 import UserTable from './components/UserTable.js'
@@ -94,11 +94,6 @@ class Admin extends Component {
     }
     return (
       <div>
-      {
-      !this.props.authenticated
-      ?
-      <LoginPage/>
-      :
         <div style = {{backgroundColor: "#FFFFFF"}}>
           <div style = {{display: 'flex', width: '100%'}}>
             <div style = {{width: '20%', minHeight: '100vh', maxWidth: 300, background: "white", paddingTop: 50, paddingLeft: 75}}>
@@ -141,7 +136,6 @@ class Admin extends Component {
             </div>
           </div>
         </div>
-      }
       </div>
     );
   }

@@ -25,6 +25,7 @@ function* loginUser(action) {
   })
 
   if(json && json.status === 200) {
+    history.push('/admin')
     yield put(FormAction.authenticateUser(true))
     yield put(FormAction.storeJWT(json.access_token, json.refresh_token))
   } else {

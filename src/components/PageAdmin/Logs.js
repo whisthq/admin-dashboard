@@ -16,11 +16,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faCheck, faCircleNotch, faTimes } from '@fortawesome/free-solid-svg-icons'
 import reactStringReplace from 'react-string-replace'
 import "react-tabs/style/react-tabs.css";
+import { Redirect } from "react-router-dom"
 
 import Logo from '../../assets/logo.svg'
 import '../../static/App.css';
 import { updateDB, loginUser, resetUser, fetchUserActivity, fetchUserTable, deleteUser, logout, fetchLogs, logsFound} from '../../actions/index.js'
-import LoginPage from './components/LoginPage.js'
+import LoginPage from './../PageLogin/LoginPage.js'
 import LeftMenu from './components/LeftMenu.js'
 import CustomerTable from './components/CustomerTable.js'
 
@@ -136,6 +137,9 @@ class Logs extends Component {
 
     return (
       <div style = {{backgroundColor: "#FFFFFF"}}>
+        {
+        this.props.authenticated
+        ?
         <div style = {{display: 'flex', width: '100%'}}>
           <div style = {{width: '20%', minHeight: '100vh', maxWidth: 300, background: "white", paddingTop: 50, paddingLeft: 75}}>
             <LeftMenu/>
@@ -217,6 +221,9 @@ class Logs extends Component {
               </div>
             </div>
         </div>
+        :
+        <Redirect to = "/"/>
+        }
       </div>
     );
   }
@@ -227,7 +234,8 @@ function mapStateToProps(state) {
     logs: state.AccountReducer.logs ? state.AccountReducer.logs : [],
     access_token: state.AccountReducer.access_token,
     logs_fetched: state.AccountReducer.logs_fetched ? state.AccountReducer.logs_fetched : false,
-    logs_not_found: state.AccountReducer.logs_not_found ? state.AccountReducer.logs_not_found : false
+    logs_not_found: state.AccountReducer.logs_not_found ? state.AccountReducer.logs_not_found : false,
+    authenticated: state.AccountReducer.authenticated
   }
 }
 

@@ -29,6 +29,7 @@ import Col from 'react-bootstrap/Col'
 import { HashLink } from 'react-router-hash-link'
 import './static/App.css';
 import Footer from './shared_components/footer'
+import LoginPage from './components/PageLogin/LoginPage';
 
 const persistConfig = {
   key: 'rootKey',
@@ -57,7 +58,8 @@ ReactDOM.render(
           <Helmet>
             <title>Fractal</title>
           </Helmet>
-              <Route exact path="/" component={Admin} />
+              <Route exact path="/" component={LoginPage} />
+              <Route exact path="/admin" component={Admin} />
               <Route exact path="/logs" component={Logs} />
           </PersistGate>
           </Provider>
