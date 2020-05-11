@@ -34,7 +34,6 @@ function* loginUser(action) {
   }
 }
 
-
 function* fetchUserActivity(action) {
   const state = yield select()
    const {json, response} = yield call(apiPost, config.url.PRIMARY_SERVER + '/tracker/fetch', {

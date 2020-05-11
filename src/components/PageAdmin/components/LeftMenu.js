@@ -72,6 +72,11 @@ class LeftMenu extends Component {
             </a>
           </div>
           <div style = {{marginBottom: 15}}>
+            <a target="_blank" href = "https://github.com/orgs/fractalcomputers/dashboard">
+              GitHub
+            </a>
+          </div>
+          <div style = {{marginBottom: 15}}>
             <a target="_blank" href = "https://www.notion.so/fractalcomputers/2fa59d87701b4ec7967377450c75008a?v=f20e6d7d6d5f4d4c9a0f886871259833">
               Notion
             </a>
