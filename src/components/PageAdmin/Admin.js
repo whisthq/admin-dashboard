@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col, Table, Container, FormControl, InputGroup, Button } from 'react-bootstrap'
 import Popup from "reactjs-popup";
-import Button from 'react-bootstrap/Button'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
@@ -127,10 +126,11 @@ class Admin extends Component {
                   </TabPanel>
                 </Tabs>
               </div>
-              </div>
             </div>
-        }
+          </div>
+        </div>
       </div>
+    </div>
     );
   }
 }
