@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import FormControl from 'react-bootstrap/FormControl'
 import InputGroup from 'react-bootstrap/InputGroup'
 import '../../static/App.css';
+import { Redirect } from 'react-router-dom'
 
 import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux';
@@ -72,6 +73,11 @@ class LoginPage extends Component {
     }
     return (
       <div style = {{height: '100vh'}}>
+        {
+        this.props.authenticated
+        ?
+        <Redirect to = "/admin"/>
+        :
         <div style = {{width: 300, margin: 'auto', marginTop: 150}}>
           <div style = {{textAlign: 'center', fontWeight: 'bold', fontSize: 30, marginBottom: 30}}>
             Fractal Admin
@@ -120,6 +126,7 @@ class LoginPage extends Component {
           </Button>
           }
         </div>
+        }
       </div>
     );
   }
@@ -127,7 +134,8 @@ class LoginPage extends Component {
 
 function mapStateToProps(state) {
   return {
-    login_attempts: state.AccountReducer.login_attempts
+    login_attempts: state.AccountReducer.login_attempts,
+    authenticated: state.AccountReducer.authenticated
   }
 }
 
