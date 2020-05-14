@@ -173,7 +173,7 @@ class Logs extends Component {
               </div>
               :
               <div style = {{maxHeight: 600, overflowY: 'scroll', marginTop: 25}}>
-                <table style = {{width: 700}}>
+                <table style = {{width: 900}}>
                   {this.props.logs.slice(0, Math.min(this.props.logs.length, this.state.last_index)).map((value, index) => {
                     return (
                       <tr style = {{fontSize: 15, height: 50, padding: 10, paddingBottom: 20}}>
@@ -184,10 +184,12 @@ class Logs extends Component {
                         {
                          value["username"]
                          ?
-                        <td style = {{maxWidth: 100}}>{value["username"]}</td>
-                        :
-                        <td style = {{color: "#888888"}}>No username</td>
+                         <td style = {{maxWidth: 100}}>{value["username"]}</td>
+                         :
+                         <td style = {{color: "#888888"}}>No username</td>
                         }
+                        {/* TODO */}
+                        <td style = {{width: 125, paddingLeft: 90}}><a target = "_blank" rel="noopener noreferrer" href = {value["client_logs"]} style = {{background: 'rgba(232, 78, 78, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#e30b0b'}}>X</span></a></td>
                       </tr>
                     )
                   })}

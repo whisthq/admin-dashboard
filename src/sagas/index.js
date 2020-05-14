@@ -124,10 +124,10 @@ function* deallocateVM(action) {
 }
 
 function* getVMStatus(id, vm_name) {
-  var { json, } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
+  var { json1, } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
 
-  while (json.state === "PENDING" || json.state === "STARTED") {
-    console.log(json)
+  while (json1.state === "PENDING" || json1.state === "STARTED") {
+    console.log(json1)
     var { json, } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
     yield delay(5000)
   }
@@ -156,9 +156,9 @@ function* fetchLogs(action) {
 
 function* getLogStatus(id) {
   console.log('GET LOG STATUS')
-  var { json, } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
+  var { json1, } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
 
-  while (json.state === "PENDING" || json.state === "STARTED") {
+  while (json1.state === "PENDING" || json1.state === "STARTED") {
     var { json, } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
     yield delay(2000)
     console.log(json)
