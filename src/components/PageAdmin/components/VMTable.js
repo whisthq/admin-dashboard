@@ -76,7 +76,7 @@ class VMTable extends Component {
       {
       this.props.vmsUpdated
       ?
-      <div style = {{maxHeight: 500, overflowY: 'scroll', width: '100%', display: 'block'}}>
+      <div style = {{maxHeight: 600, overflowY: 'scroll', width: '100%', display: 'block'}}>
       <div style = {{background: 'none', display: 'flex', marginBottom: 20}}>
         <div style = {{height: 18, width: 18, position: 'relative', top: 4, borderRadius: 2, backgroundColor: 'rgba(171, 235, 235, 0.6)'}}></div>
         <div style = {{marginLeft: 10, marginRight: 10}}> Dev Mode </div>
