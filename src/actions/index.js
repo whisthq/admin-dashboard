@@ -212,11 +212,10 @@ export function storeLogs(logs, logs_not_found) {
 	}
 }
 
-export function deleteLogs(client_logs, server_logs) {
+export function deleteLogs(connection_id) {
 	return {
 		type: DELETE_LOGS,
-		client_logs,
-		server_logs
+		connection_id
 	}
 }
 

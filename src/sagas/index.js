@@ -159,8 +159,7 @@ function* deleteLogs(action) {
   const state = yield select()
 
   const {json, } = yield call(apiPost, config.url.PRIMARY_SERVER + '/logs/delete', {
-    client_logs: action.client_logs,
-    server_logs: action.server_logs
+    connection_id: action.connection_id
   }, state.AccountReducer.access_token);
 
   console.log(json)
