@@ -154,6 +154,22 @@ function* fetchLogs(action) {
   }
 }
 
+function* deleteLogs(action) {
+  console.log('DELETE LOG SAGA')
+  const state = yield select()
+
+  const {json, } = yield call(apiPost, config.url.PRIMARY_SERVER + '/logs/delete', {
+    client_logs: action.client_logs,
+    server_logs: action.server_logs
+  }, state.AccountReducer.access_token);
+
+  console.log(json)
+
+  if(json) {
+    yield call(getLogStatus)
+  }
+}
+
 function* getLogStatus(id) {
   console.log('GET LOG STATUS')
   var { json, } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
@@ -184,6 +200,7 @@ export default function* rootSaga() {
     takeEvery(FormAction.FETCH_CUSTOMERS, fetchCustomers),
     takeEvery(FormAction.START_VM, startVM),
     takeEvery(FormAction.DEALLOCATE_VM, deallocateVM),
-    takeEvery(FormAction.FETCH_LOGS, fetchLogs)
+    takeEvery(FormAction.FETCH_LOGS, fetchLogs),
+    takeEvery(FormAction.DELETE_LOGS, deleteLogs)
 	]);
 }

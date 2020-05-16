@@ -26,6 +26,7 @@ export const FETCH_LOGS = "FETCH_LOGS"
 export const FETCH_ALL_LOGS = "FETCH_ALL_LOGS"
 export const STORE_LOGS = "STORE_LOGS"
 export const LOGS_FOUND = "LOGS_FOUND"
+export const DELETE_LOGS = "DELETE_LOGS"
 
 
 export function fetchVMs(id) {
@@ -208,6 +209,14 @@ export function storeLogs(logs, logs_not_found) {
 		type: STORE_LOGS,
 		logs,
 		logs_not_found
+	}
+}
+
+export function deleteLogs(client_logs, server_logs) {
+	return {
+		type: DELETE_LOGS,
+		client_logs,
+		server_logs
 	}
 }
 
