@@ -184,20 +184,33 @@ class Logs extends Component {
               </div>
               :
               <div style = {{maxHeight: 600, overflowY: 'scroll', marginTop: 25}}>
+<<<<<<< HEAD
                 <table style = {{width: 900}}>
+=======
+                <table style = {{width: 1000}}>
+>>>>>>> c43557653c38cdd1821388e7dd3b6462cc6cd899
                   {this.props.logs.slice(0, Math.min(this.props.logs.length, this.state.last_index)).map((value, index) => {
                     return (
                       <tr style = {{fontSize: 15, height: 50, padding: 10, paddingBottom: 20, key: "logs"}}>
                         <td style = {{width: 125}}><a target = "_blank" rel="noopener noreferrer" href = {value["server_logs"]} style = {{background: 'rgba(94, 195, 235, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#1ba8e0'}}>Server Logs</span></a></td>
                         <td style = {{width: 125}}><a target = "_blank" rel="noopener noreferrer" href = {value["client_logs"]} style = {{background: 'rgba(2, 207, 57, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#02cf39'}}>Client Logs</span></a></td>
-                        <td style = {{textAlign: 'center'}}>{value["last_updated"]}</td>
+                        <td style = {{textAlign: 'center', maxWidth: 100}}>{value["last_updated"]}</td>
                         <td>Connection {value["connection_id"]}</td>
+                        <td style = {{maxWidth: 100}}>Version {value["version"]}</td>
                         {
+<<<<<<< HEAD
                          value["username"]
                          ?
                          <td style = {{maxWidth: 100}}>{value["username"]}</td>
                          :
                          <td style = {{color: "#888888"}}>No username</td>
+=======
+                        value["username"]
+                        ?
+                        <td style = {{width: 100}}>{value["username"]}</td>
+                        :
+                        <td style = {{color: "#888888"}}>No username</td>
+>>>>>>> c43557653c38cdd1821388e7dd3b6462cc6cd899
                         }
                         <Button onClick = {() => this.deleteLogs(value["connection_id"])} style = {{marginLeft: 120, background: 'rgba(232, 78, 78, 0.1)', bottom: 0, padding: '4px 8px', borderRadius: 2, border: 'none', fontWeight: 'bold', color: '#e30b0b'}}>X</Button>               
                       </tr>
