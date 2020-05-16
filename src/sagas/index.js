@@ -155,7 +155,6 @@ function* fetchLogs(action) {
 }
 
 function* getLogStatus(id) {
-  console.log('GET LOG STATUS')
   var { json, } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
 
   while (json.state === "PENDING" || json.state === "STARTED") {
