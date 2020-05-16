@@ -64,6 +64,11 @@ class LeftMenu extends Component {
             }
           </div>
           <div style = {{marginBottom: 15}}>
+            <a target="_blank" rel="noopener noreferrer" href = "https://papertrailapp.com/dashboard">
+              Papertrail
+            </a>
+          </div>
+          <div style = {{marginBottom: 15}}>
             <a target="_blank" rel="noopener noreferrer" href = "https://drive.google.com/open?id=1kbpGbVeYd5LVJgzGN0dKro-ryizQr2kg">
               Google Drive
             </a>

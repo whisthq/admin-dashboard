@@ -7,7 +7,7 @@ import "react-tabs/style/react-tabs.css";
 import { Redirect } from "react-router-dom"
 
 import '../../static/App.css';
-import { fetchUserActivity, deleteUser, logout, fetchLogs, logsFound} from '../../actions/index.js'
+import {fetchUserActivity, deleteUser, logout, fetchLogs, logsFound} from '../../actions/index.js'
 import LeftMenu from './components/LeftMenu.js'
 
 class Logs extends Component {
@@ -189,7 +189,7 @@ class Logs extends Component {
                          <td style = {{color: "#888888"}}>No username</td>
                         }
                         {/* TODO */}
-                        <td style = {{width: 125, paddingLeft: 90}}><a target = "_blank" rel="noopener noreferrer" href = {value["client_logs"]} style = {{background: 'rgba(232, 78, 78, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#e30b0b'}}>X</span></a></td>
+                        <Button onClick = {() => this.DeleteLogs(value["client_logs"], value["server_logs"])} style = {{marginLeft: 120, background: 'rgba(232, 78, 78, 0.1)', bottom: 0, padding: '4px 8px', borderRadius: 2, border: 'none', fontWeight: 'bold', color: '#e30b0b'}}>X</Button>               
                       </tr>
                     )
                   })}
