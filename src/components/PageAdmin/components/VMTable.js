@@ -86,7 +86,7 @@ class VMTable extends Component {
         <div style = {{marginLeft: 10, marginRight: 10}}> Unlocked </div>
       </div>
       <table style = {{backgroundColor: "#FFFFFF", width: '100%', boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)"}}>
-        <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left'}}>
+        <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left', key: "vm-header"}}>
           <th></th>
           {header.map((value, index) => {
             return(
@@ -96,7 +96,7 @@ class VMTable extends Component {
         </tr>
         {this.props.vm_info.map((value, index) => {
           return (
-            <tr style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12, backgroundColor: value['dev'] ? 'rgba(171, 235, 235, 0.3)' : (value['lock'] ? 'rgba(242, 181, 179, 0.2)' : 'rgba(193, 245, 174, 0.2)')}}>
+            <tr style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12, key: "vm-body", backgroundColor: value['dev'] ? 'rgba(171, 235, 235, 0.3)' : (value['lock'] ? 'rgba(242, 181, 179, 0.2)' : 'rgba(193, 245, 174, 0.2)')}}>
               <td>
               {vmButton(value['state'], value['vm_name'], value['lock'])}
               </td>

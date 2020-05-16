@@ -52,7 +52,7 @@ class UserTable extends Component {
       ?
       <div style = {{maxHeight: 500, overflowY: 'scroll', width: '100%', boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)"}}>
       <table style = {{backgroundColor: "#FFFFFF", width: '100%'}}>
-        <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left'}}>
+        <tr style = {{color: 'white', backgroundColor: "#1e1f36", fontSize: 13, textAlign: 'left', key: "user-header"}}>
           <th></th>
           {header.map((value, index) => {
             return(
@@ -62,7 +62,7 @@ class UserTable extends Component {
         </tr>
         {this.props.userTable.map((value, index) => {
           return (
-            <tr style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12}}>
+            <tr style = {{borderTop: "solid 0.5px #EBEBEB", color: "#333333", fontSize: 12, key: "user-body"}}>
               <td style = {{width: '10%', textAlign: 'right', paddingLeft: 20}}>
                 <Popup trigger = {
                 <FontAwesomeIcon className = "pointerOnHover" icon={faTimes} style = {{color: "#b01717", width: 12}}/>

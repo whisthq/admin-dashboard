@@ -27,6 +27,7 @@ export const FETCH_ALL_LOGS = "FETCH_ALL_LOGS"
 export const STORE_LOGS = "STORE_LOGS"
 export const LOGS_FOUND = "LOGS_FOUND"
 export const DELETE_LOGS = "DELETE_LOGS"
+export const DELETE_LOG_SUCCESS = "DELETE_LOG_SUCCESS"
 
 
 export function fetchVMs(id) {
@@ -223,5 +224,12 @@ export function logsFound(found) {
 	return {
 		type: LOGS_FOUND,
 		found
+	}
+}
+
+export function deleteLogSuccess(connection_id) {
+	return {
+		type: DELETE_LOG_SUCCESS,
+		connection_id
 	}
 }

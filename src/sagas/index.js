@@ -164,13 +164,12 @@ function* deleteLogs(action) {
 
   console.log(json)
 
-  if(json) {
-    yield call(getLogStatus)
+  if(json && json.ID) {
+    yield put(FormAction.deleteLogSuccess(action.connection_id))
   }
 }
 
 function* getLogStatus(id) {
-  console.log('GET LOG STATUS')
   var { json, } = yield call(apiGet, (config.url.PRIMARY_SERVER + '/status/').concat(id), '')
 
   while (json.state === "PENDING" || json.state === "STARTED") {

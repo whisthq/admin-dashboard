@@ -99,8 +99,14 @@ class Logs extends Component {
 
   deleteLogs = (connection_id) => {
     this.props.dispatch(deleteLogs(connection_id))
-    this.setState({processing: true})
+
+
+    // then reload the page
+    // this.props.dispatch(fetchLogs(this.state.username, true, false))
+
+
   }
+
 
   flatMap = (array, fn) => {
     var result = [];
@@ -155,7 +161,7 @@ class Logs extends Component {
                 ?
                 <Button onClick = {() => this.searchUser()} style = {{padding: '10px 30px', fontWeight: 'bold', backgroundColor: '#111111', borderRadius: 3, marginRight: 10, border: 'none', height: 45, position: 'relative', bottom: 2, width: 120}}>Search</Button>
                 :
-                <Button disabled = "true" style = {{width: 120, padding: '10px 30px', fontWeight: 'bold', backgroundColor: '#111111', borderRadius: 3, marginRight: 10, border: 'none', height: 45, position: 'relative', bottom: 2}}>
+                <Button disabled = {true} style = {{width: 120, padding: '10px 30px', fontWeight: 'bold', backgroundColor: '#111111', borderRadius: 3, marginRight: 10, border: 'none', height: 45, position: 'relative', bottom: 2}}>
                   <FontAwesomeIcon icon = {faCircleNotch} spin />
                 </Button>
                 }
@@ -164,7 +170,7 @@ class Logs extends Component {
                 ?
                 <Button onClick = {() => this.searchAllUsers()} style = {{color: '#111111', padding: '10px 30px', fontWeight: 'bold', backgroundColor: '#c4fffe', borderRadius: 3, marginRight: 10, border: 'none', height: 45, position: 'relative', bottom: 2, width: 180}}>Search All Users</Button>
                 :
-                <Button disabled = "true" style = {{width: 120, padding: '10px 30px', fontWeight: 'bold', backgroundColor: '#c4fffe', borderRadius: 3, marginRight: 10, border: 'none', height: 45, position: 'relative', bottom: 2}}>
+                <Button disabled = {true} style = {{width: 120, padding: '10px 30px', fontWeight: 'bold', backgroundColor: '#c4fffe', borderRadius: 3, marginRight: 10, border: 'none', height: 45, position: 'relative', bottom: 2}}>
                   <FontAwesomeIcon icon = {faCircleNotch} spin />
                 </Button>
                 }
@@ -181,7 +187,7 @@ class Logs extends Component {
                 <table style = {{width: 900}}>
                   {this.props.logs.slice(0, Math.min(this.props.logs.length, this.state.last_index)).map((value, index) => {
                     return (
-                      <tr style = {{fontSize: 15, height: 50, padding: 10, paddingBottom: 20}}>
+                      <tr style = {{fontSize: 15, height: 50, padding: 10, paddingBottom: 20, key: "logs"}}>
                         <td style = {{width: 125}}><a target = "_blank" rel="noopener noreferrer" href = {value["server_logs"]} style = {{background: 'rgba(94, 195, 235, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#1ba8e0'}}>Server Logs</span></a></td>
                         <td style = {{width: 125}}><a target = "_blank" rel="noopener noreferrer" href = {value["client_logs"]} style = {{background: 'rgba(2, 207, 57, 0.1)', padding: '10px 12px', borderRadius: 2, fontWeight: 'bold'}}><span style = {{color: '#02cf39'}}>Client Logs</span></a></td>
                         <td style = {{textAlign: 'center'}}>{value["last_updated"]}</td>
@@ -193,7 +199,6 @@ class Logs extends Component {
                          :
                          <td style = {{color: "#888888"}}>No username</td>
                         }
-                        {/* TODO */}
                         <Button onClick = {() => this.deleteLogs(value["connection_id"])} style = {{marginLeft: 120, background: 'rgba(232, 78, 78, 0.1)', bottom: 0, padding: '4px 8px', borderRadius: 2, border: 'none', fontWeight: 'bold', color: '#e30b0b'}}>X</Button>               
                       </tr>
                     )

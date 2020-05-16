@@ -77,10 +77,10 @@ export default function (state = DEFAULT, action) {
     case AccountAction.DONE_UPDATING:
       return {
         ...state,
-        vms_updating: state.vms_updating.filter(vm => vm !== action.vm_name)
+        vms_updating: state.vms_updating ? state.vms_updating.filter(vm => vm !== action.vm_name) : []
       }
     case AccountAction.STORE_LOGS:
-      console.log('STORE LOG REDUCEr')
+      console.log('STORE LOG REDUCER')
       console.log(action)
       return {
         ...state,
@@ -103,6 +103,11 @@ export default function (state = DEFAULT, action) {
       return {
         ...state,
         logs_not_found: action.found
+      }
+    case AccountAction.DELETE_LOG_SUCCESS:
+      return {
+        ...state,
+        logs: state.logs ? state.logs.filter(log => log.connection_id !== action.connection_id) : []
       }
     case AccountAction.LOGOUT:
       return DEFAULT
