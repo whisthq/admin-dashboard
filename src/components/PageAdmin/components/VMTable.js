@@ -18,13 +18,26 @@ class VMTable extends Component {
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
+  // intervalID var to keep track of auto-refreshing across functions
+  intervalID;
+
   componentDidMount() {
     this.updateWindowDimensions();
     this.props.dispatch(updateDB(false));
+
+    // refresh the VM table every 60 seconds
+    this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000);
   }
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateWindowDimensions);
+
+    // stop auto-refreshing
+    clearInterval(this.intervalID);    
+  }
+
+  getUpdatedDatabase() {
+    this.props.dispatch(updateDB(false));
   }
 
   updateWindowDimensions() {

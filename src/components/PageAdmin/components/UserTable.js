@@ -13,7 +13,7 @@ class UserTable extends Component {
     this.state = { width: 0, height: 0, modalShow: false };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
-
+  
   componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener("resize", this.updateWindowDimensions);

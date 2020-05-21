@@ -18,13 +18,22 @@ class CustomerTable extends Component {
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
+  // intervalID var to keep track of auto-refreshing across functions
+  intervalID;
+
   componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener("resize", this.updateWindowDimensions);
+
+    // refresh the customer table every 60 seconds
+    this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000);
   }
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateWindowDimensions);
+
+    // stop auto-refreshing
+    clearInterval(this.intervalID);
   }
 
   componentDidUpdate(prevProps) {
@@ -35,7 +44,14 @@ class CustomerTable extends Component {
     ) {
       this.props.dispatch(fetchCustomers());
       this.setState({ customers_fetched: true });
+
+      // refresh the customer table every 60 seconds
+      this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000);
     }
+  }
+
+  getUpdatedDatabase() {
+    this.props.dispatch(fetchCustomers());
   }
 
   updateWindowDimensions() {
