@@ -138,11 +138,12 @@ function* startVM(action) {
     },
     state.AccountReducer.access_token
   );
-  console.log(json);
+  
+  yield put(FormAction.updateDB(false))
+
   if (json) {
     if (json.ID) {
       yield call(getVMStatus, json.ID, action.vm_name);
-      yield put(FormAction.updateDB(false))
     }
   }
 }
@@ -158,10 +159,12 @@ function* deallocateVM(action) {
     state.AccountReducer.access_token
   );
 
+  yield put(FormAction.updateDB(false));
+  
   if (json) {
     if (json.ID) {
       yield call(getVMStatus, json.ID, action.vm_name);
-      yield put(FormAction.updateDB(false))
+     
     }
   }
 }
