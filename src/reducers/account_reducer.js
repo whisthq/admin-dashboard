@@ -81,12 +81,12 @@ export default function (state = DEFAULT, action) {
     case AccountAction.START_VM:
       return {
         ...state,
-        vms_updating: [...state.vms_updating, action.vm_name],
+        vms_updating: state.vms_updating ? [...state.vms_updating, action.vm_name] : [],
       };
     case AccountAction.DEALLOCATE_VM:
       return {
         ...state,
-        vms_updating: [...state.vms_updating, action.vm_name],
+        vms_updating: state.vms_updating ? [...state.vms_updating, action.vm_name] : [],
       };
     case AccountAction.DONE_UPDATING:
       return {
@@ -96,8 +96,6 @@ export default function (state = DEFAULT, action) {
           : [],
       };
     case AccountAction.STORE_LOGS:
-      console.log("STORE LOG REDUCER");
-      console.log(action);
       return {
         ...state,
         logs: action.logs,

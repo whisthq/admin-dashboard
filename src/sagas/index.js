@@ -14,7 +14,6 @@ function* updateDB(action) {
     );
     console.log(json);
     if (json && json.payload) {
-      console.log("FETCHED VMS");
       yield put(FormAction.loadVMs(json.payload));
     }
   }
@@ -143,6 +142,7 @@ function* startVM(action) {
   if (json) {
     if (json.ID) {
       yield call(getVMStatus, json.ID, action.vm_name);
+      yield put(FormAction.updateDB(false))
     }
   }
 }
@@ -161,6 +161,7 @@ function* deallocateVM(action) {
   if (json) {
     if (json.ID) {
       yield call(getVMStatus, json.ID, action.vm_name);
+      yield put(FormAction.updateDB(false))
     }
   }
 }

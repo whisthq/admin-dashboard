@@ -66,7 +66,8 @@ class VMTable extends Component {
     header.reverse();
 
     const vmButton = (state, vm_name, lock) => {
-      if (this.props.vms_updating.includes(vm_name)) {
+      const intermediate_states = ['DEALLOCATING', 'STARTING', 'ATTACHING', 'STOPPING']
+      if (this.props.vms_updating.includes(vm_name) && intermediate_states.includes(state)) {
         return (
           <td
             style={{ paddingLeft: 20, paddingRight: 10, fontSize: 11 }}
