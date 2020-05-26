@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { faCircleNotch, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "react-tabs/style/react-tabs.css";
 import { Redirect } from "react-router-dom";
 
@@ -417,16 +417,15 @@ class Logs extends Component {
                                 }
                                 style={{
                                   marginLeft: 40,
-                                  background: "rgba(232, 78, 78, 0.1)",
-                                  bottom: 0,
-                                  padding: "4px 8px",
-                                  borderRadius: 2,
+                                  color: "#111111",
+                                  background: "none",
                                   border: "none",
-                                  fontWeight: "bold",
-                                  color: "#e30b0b",
+                                  fontSize: 14,
+                                  position: "relative",
+                                  top: 10
                                 }}
                               >
-                                X
+                                <FontAwesomeIcon icon={faTrash}/>
                               </Button>
                             </tr>
                           );
