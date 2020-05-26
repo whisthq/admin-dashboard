@@ -218,8 +218,9 @@ class VMTable extends Component {
                 <th>dev</th>
                 {header.map((value, index) => {
                   if(value !== "dev") {
-                    return <th style={{ padding: 20 }}>{value}</th>;
+                    return(<th style={{ padding: 20 }}>{value}</th>);
                   }
+                  return(<th style={{width: 0}}></th>);
                 })}
               </tr>
               {this.props.vm_info.sort(this.sortArray("vm_name")).map((value, index) => {
@@ -260,7 +261,7 @@ class VMTable extends Component {
                     </td>
                     {header.map((value1, index1) => {
                       if(value1 !== "dev") {
-                        if(value1 === "ready_to_connect") {
+                        if(value1 === "ready_to_connect" || value1 === "temporary_lock") {
                           return (
                             <td
                               style={{
