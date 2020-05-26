@@ -59,11 +59,11 @@ class VMTable extends Component {
 
   sortArray = (prop) => {    
     return function(a, b) {  
-        a[prop] = a[prop].toLowerCase();
-        b[prop] = b[prop].toLowerCase(); 
-        if (a[prop] > b[prop]) {    
+        var a_temp = a[prop].toLowerCase();
+        var b_temp = b[prop].toLowerCase(); 
+        if (a_temp > b_temp) {    
             return 1;    
-        } else if (a[prop] < b[prop]) {    
+        } else if (a_temp < b_temp) {    
             return -1;    
         }    
         return 0;    
