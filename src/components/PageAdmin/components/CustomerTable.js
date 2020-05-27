@@ -88,26 +88,21 @@ class CustomerTable extends Component {
                   );
                 })}
               </tr>
-              {this.props.customers.map((value, index) => {
-                console.log(value);
-                return (
-                  <tr className={Style.tableRow}>
-                    {header.map((value1, index1) => {
-                      return (
-                        <td className={Style.tableCell}>
-                          {value[value1] == null ? (
-                            <div></div>
-                          ) : (
-                            <div style={{ maxWidth: 150, overflowX: "scroll" }}>
-                              {value[value1].toString()}
-                            </div>
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
+              {this.props.customers.map((value, index) => (
+                <tr className={Style.tableRow} key={index}>
+                  {header.map((value1, index1) => (
+                    <td className={Style.tableCell} key={index1}>
+                      {value[value1] == null ? (
+                        <div></div>
+                      ) : (
+                        <div style={{ maxWidth: 150, overflowX: "scroll" }}>
+                          {value[value1].toString()}
+                        </div>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
             </table>
           </div>
         ) : (

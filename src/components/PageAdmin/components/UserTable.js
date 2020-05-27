@@ -59,14 +59,7 @@ class UserTable extends Component {
                 ))}
               </tr>
               {this.props.userTable.map((value, index) => (
-                <tr
-                  style={{
-                    borderTop: "solid 0.5px #EBEBEB",
-                    color: "#333333",
-                    fontSize: 12,
-                    key: "user-body",
-                  }}
-                >
+                <tr className={Style.tableRow} key={index}>
                   <td
                     style={{
                       width: "10%",
@@ -132,41 +125,25 @@ class UserTable extends Component {
                       </button>
                     </Popup>
                   </td>
-                  {header.map((value1, index1) => {
-                    return (
-                      <td
-                        style={{
-                          paddingLeft: 20,
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                          minWidth: 100,
-                        }}
-                      >
-                        {value[value1] == null ? (
-                          <div></div>
-                        ) : value1 === "password" ? (
-                          <div style={{ maxWidth: 150, overflowX: "scroll" }}>
-                            {value[value1].toString()}
-                          </div>
-                        ) : (
-                          <div>{value[value1].toString()}</div>
-                        )}
-                      </td>
-                    );
-                  })}
+                  {header.map((value1, index1) => (
+                    <td className={Style.tableCell} key={index1}>
+                      {value[value1] == null ? (
+                        <div />
+                      ) : value1 === "password" ? (
+                        <div style={{ maxWidth: 150, overflowX: "scroll" }}>
+                          {value[value1].toString()}
+                        </div>
+                      ) : (
+                        <div>{value[value1].toString()}</div>
+                      )}
+                    </td>
+                  ))}
                 </tr>
               ))}
             </table>
           </div>
         ) : (
-          <div
-            style={{
-              boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)",
-              width: "100%",
-              height: 500,
-              marginTop: 35,
-            }}
-          >
+          <div className={Style.spinnerContainer}>
             <div style={{ width: "100%", textAlign: "center" }}>
               <FontAwesomeIcon
                 icon={faCircleNotch}
