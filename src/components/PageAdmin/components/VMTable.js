@@ -1,20 +1,28 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ToggleButton from "react-toggle-button";
 import {
   faCircleNotch,
   faPlay,
   faPause,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { startVM, deallocateVM, updateDB } from "../../../actions/index.js";
+import {
+  startVM,
+  deallocateVM,
+  updateDB,
+  setDev,
+} from "../../../actions/index.js";
+
+import Style from "../../../styles/components/pageAdmin.module.css";
 
 import "../../../static/App.css";
 
 class VMTable extends Component {
   constructor(props) {
     super(props);
-    this.state = { width: 0, height: 0, modalShow: false };
+    this.state = { width: 0, height: 0, modalShow: false, sortBy: "vm_name" };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
@@ -33,7 +41,7 @@ class VMTable extends Component {
     window.removeEventListener("resize", this.updateWindowDimensions);
 
     // stop auto-refreshing
-    clearInterval(this.intervalID);    
+    clearInterval(this.intervalID);
   }
 
   getUpdatedDatabase() {
@@ -52,6 +60,64 @@ class VMTable extends Component {
     this.props.dispatch(deallocateVM(vm_name));
   };
 
+  toggleDev = (mode: any, vm_name) => {
+    this.props.dispatch(setDev(vm_name, !mode));
+  };
+
+  sortArray = (prop) => {
+    return function (a, b) {
+      if (a[prop] === null) {
+        return 1;
+      }
+      if (b[prop] === null) {
+        return -1;
+      }
+
+      var a_temp = a[prop].toString().toLowerCase();
+      var b_temp = b[prop].toString().toLowerCase();
+      if (a_temp > b_temp) {
+        return 1;
+      } else if (a_temp < b_temp) {
+        return -1;
+      }
+
+      return 0;
+    };
+  };
+
+  unixToDate = (unix) => {
+    if (unix && unix > 0) {
+      // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+      var date = new Date(unix * 1000);
+      // Hours part from the timestamp
+      var hours = date.getHours();
+      // Minutes part from the timestamp
+      var minutes = "0" + date.getMinutes();
+      // Seconds part from the timestamp
+      var seconds = "0" + date.getSeconds();
+
+      // Will display time in 10:30:23 format
+      var formattedTime =
+        hours + ":" + minutes.substr(-2) + ":" + seconds.substr(-2);
+
+      const milliseconds = unix * 1000;
+      const dateObject = new Date(milliseconds);
+      const humanDateFormat = dateObject.toLocaleString("en-US").split(",")[0];
+      var dateArr = humanDateFormat.split("/");
+      const month = dateArr[0].toString();
+      var finalDate =
+        month + "/" + dateArr[1].toString() + "/" + dateArr[2].toString();
+      return finalDate + ", " + formattedTime;
+    } else {
+      return "Never Winlogon'ed";
+    }
+  };
+
+  setSortBy = (type) => {
+    this.setState({ sortBy: type });
+    console.log("set sort by " + type);
+  };
+
   render() {
     let modalClose = () => this.setState({ modalShow: false });
     if (this.state.width > 700 && this.state.modalShow) {
@@ -66,11 +132,19 @@ class VMTable extends Component {
     header.reverse();
 
     const vmButton = (state, vm_name, lock) => {
-      const intermediate_states = ['DEALLOCATING', 'STARTING', 'ATTACHING', 'STOPPING']
-      if (this.props.vms_updating.includes(vm_name) && intermediate_states.includes(state)) {
+      const intermediate_states = [
+        "DEALLOCATING",
+        "STARTING",
+        "ATTACHING",
+        "STOPPING",
+      ];
+      if (
+        this.props.vms_updating.includes(vm_name) &&
+        intermediate_states.includes(state)
+      ) {
         return (
           <td
-            style={{ paddingLeft: 20, paddingRight: 10, fontSize: 11 }}
+            style={{ paddingLeft: 20, paddingRight: 30, fontSize: 11 }}
             className="pointerOnHover"
           >
             <FontAwesomeIcon
@@ -84,7 +158,7 @@ class VMTable extends Component {
         return (
           <td
             onClick={() => this.startVM(vm_name)}
-            style={{ paddingLeft: 20, paddingRight: 10, fontSize: 11 }}
+            style={{ paddingLeft: 20, paddingRight: 30, fontSize: 11 }}
             className="pointerOnHover"
           >
             <FontAwesomeIcon icon={faPlay} style={{ color: "#111111" }} />
@@ -94,7 +168,7 @@ class VMTable extends Component {
         return (
           <td
             onClick={() => this.deallocateVM(vm_name)}
-            style={{ paddingLeft: 20, paddingRight: 10, fontSize: 11 }}
+            style={{ paddingLeft: 20, paddingRight: 30, fontSize: 11 }}
             className="pointerOnHover"
           >
             <FontAwesomeIcon icon={faPause} style={{ color: "#111111" }} />
@@ -168,12 +242,28 @@ class VMTable extends Component {
                 }}
               >
                 <th></th>
+                <th>dev</th>
                 {header.map((value, index) => {
-                  return <th style={{ padding: 20 }}>{value}</th>;
+                  if (value !== "dev") {
+                    return (
+                      <th
+                        style={{ padding: 20 }}
+                        name={value}
+                        onClick={() => this.setSortBy(value)}
+                        className={
+                          this.state.sortBy == value && Style.tableHeadFocus
+                        }
+                      >
+                        {value}
+                      </th>
+                    );
+                  }
+                  return <th style={{ width: 0 }}></th>;
                 })}
               </tr>
-              {this.props.vm_info.map((value, index) => {
-                return (
+              {this.props.vm_info
+                .sort(this.sortArray(this.state.sortBy))
+                .map((value, index) => (
                   <tr
                     style={{
                       borderTop: "solid 0.5px #EBEBEB",
@@ -186,6 +276,7 @@ class VMTable extends Component {
                         ? "rgba(242, 181, 179, 0.2)"
                         : "rgba(193, 245, 174, 0.2)",
                     }}
+                    key={index}
                   >
                     <td>
                       {vmButton(
@@ -194,36 +285,63 @@ class VMTable extends Component {
                         value["lock"]
                       )}
                     </td>
+                    <td style={{ paddingRight: 15 }}>
+                      <ToggleButton
+                        value={value["dev"]}
+                        onToggle={(mode) =>
+                          this.toggleDev(mode, value["vm_name"])
+                        }
+                        colors={{
+                          active: {
+                            base: "#5EC4EB",
+                          },
+                          inactive: {
+                            base: "#161936",
+                          },
+                        }}
+                      />
+                    </td>
                     {header.map((value1, index1) => {
-                      return (
-                        <td
-                          style={{
-                            paddingLeft: 20,
-                            paddingTop: 10,
-                            paddingBottom: 10,
-                          }}
-                        >
-                          {value[value1] == null ? (
-                            <div></div>
-                          ) : (
-                            <div>{value[value1].toString()}</div>
-                          )}
-                        </td>
-                      );
+                      if (value1 !== "dev") {
+                        if (
+                          value1 === "ready_to_connect" ||
+                          value1 === "temporary_lock"
+                        ) {
+                          return (
+                            <td
+                              style={{
+                                paddingLeft: 20,
+                                paddingTop: 10,
+                                paddingBottom: 10,
+                              }}
+                            >
+                              {value[value1] == null ? (
+                                <div></div>
+                              ) : (
+                                <div>
+                                  {this.unixToDate(value[value1]).toString()}
+                                </div>
+                              )}
+                            </td>
+                          );
+                        }
+                        return (
+                          <td className={Style.tableCell}>
+                            {value[value1] == null ? (
+                              <div />
+                            ) : (
+                              <div>{value[value1].toString()}</div>
+                            )}
+                          </td>
+                        );
+                      }
                     })}
                   </tr>
-                );
-              })}
+                ))}
             </table>
           </div>
         ) : (
-          <div
-            style={{
-              boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)",
-              width: "100%",
-              height: 500,
-            }}
-          >
+          <div className={Style.spinnerContainer}>
             <div style={{ width: "100%", textAlign: "center" }}>
               <FontAwesomeIcon
                 icon={faCircleNotch}

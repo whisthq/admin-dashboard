@@ -129,7 +129,6 @@ function* deleteSubscription(action) {
 
 function* startVM(action) {
   const state = yield select();
-  console.log("START VM SAGA");
   const { json } = yield call(
     apiPost,
     config.url.PRIMARY_SERVER + "/vm/start",
@@ -160,7 +159,7 @@ function* deallocateVM(action) {
   );
 
   yield put(FormAction.updateDB(false));
-  
+
   if (json) {
     if (json.ID) {
       yield call(getVMStatus, json.ID, action.vm_name);
@@ -214,7 +213,6 @@ function* fetchLogs(action) {
 }
 
 function* deleteLogs(action) {
-  console.log("DELETE LOG SAGA");
   const state = yield select();
 
   const { json } = yield call(
@@ -250,7 +248,6 @@ function* getLogStatus(id) {
     console.log(json);
   }
 
-  console.log(json);
 
   if (json && json.output) {
     yield put(FormAction.storeLogs(json.output, false));
@@ -258,6 +255,24 @@ function* getLogStatus(id) {
     yield put(FormAction.storeLogs([], true));
   }
 }
+
+function* setDev(action) {
+  const state = yield select();
+
+  const { json } = yield call(
+    apiPost,
+    config.url.PRIMARY_SERVER + "/vm/setDev",
+    {
+      vm_name: action.vm_name,
+      dev: action.dev 
+    },
+    state.AccountReducer.access_token
+  );
+
+  if(json) {
+    yield put(FormAction.updateDB(false))
+  }
+} 
 
 export default function* rootSaga() {
   yield all([
@@ -272,5 +287,6 @@ export default function* rootSaga() {
     takeEvery(FormAction.DEALLOCATE_VM, deallocateVM),
     takeEvery(FormAction.FETCH_LOGS, fetchLogs),
     takeEvery(FormAction.DELETE_LOGS, deleteLogs),
+    takeEvery(FormAction.SET_DEV, setDev)
   ]);
 }
