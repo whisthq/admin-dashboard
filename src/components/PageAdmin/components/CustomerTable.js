@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { fetchCustomers } from "../../../actions/index.js";
 
+import Style from "../../../styles/components/pageAdmin.module.css";
+
 import "../../../static/App.css";
 
 class CustomerTable extends Component {
@@ -75,49 +77,24 @@ class CustomerTable extends Component {
     return (
       <div>
         {this.props.customers.length > 0 ? (
-          <div
-            style={{
-              maxHeight: 500,
-              overflowY: "scroll",
-              width: "100%",
-              boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)",
-            }}
-          >
-            <table style={{ backgroundColor: "#FFFFFF", width: "100%" }}>
-              <tr
-                style={{
-                  color: "white",
-                  backgroundColor: "#1e1f36",
-                  fontSize: 13,
-                  textAlign: "left",
-                  key: "customer-header",
-                }}
-              >
+          <div className={Style.tableContainer}>
+            <table className={Style.table}>
+              <tr className={Style.tableHead}>
                 {header.map((value, index) => {
-                  return <th style={{ padding: 20 }}>{value}</th>;
+                  return (
+                    <th style={{ padding: 20 }} key={index}>
+                      {value}
+                    </th>
+                  );
                 })}
               </tr>
               {this.props.customers.map((value, index) => {
                 console.log(value);
                 return (
-                  <tr
-                    style={{
-                      borderTop: "solid 0.5px #EBEBEB",
-                      color: "#333333",
-                      fontSize: 12,
-                      key: "customer-body",
-                    }}
-                  >
+                  <tr className={Style.tableRow}>
                     {header.map((value1, index1) => {
                       return (
-                        <td
-                          style={{
-                            paddingLeft: 20,
-                            paddingTop: 10,
-                            paddingBottom: 10,
-                            minWidth: 100,
-                          }}
-                        >
+                        <td className={Style.tableCell}>
                           {value[value1] == null ? (
                             <div></div>
                           ) : (
@@ -134,14 +111,7 @@ class CustomerTable extends Component {
             </table>
           </div>
         ) : (
-          <div
-            style={{
-              boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.20)",
-              width: "100%",
-              height: 500,
-              marginTop: 35,
-            }}
-          >
+          <div className={Style.spinnerContainer}>
             <div style={{ width: "100%", textAlign: "center" }}>
               <FontAwesomeIcon
                 icon={faCircleNotch}
