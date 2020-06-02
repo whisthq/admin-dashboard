@@ -224,28 +224,36 @@ class VMTable extends Component {
                 }}
               ></div>
               <div style={{ marginLeft: 10, marginRight: 10 }}> Unlocked </div>
-              <FontAwesomeIcon icon={faPlay}
+              <FontAwesomeIcon
+                icon={faPlay}
                 style={{
                   fontSize: 14,
                   position: "relative",
                   top: 5,
                   marginLeft: 10,
                   borderRadius: 2,
-                  color: "#961418"
+                  color: "#961418",
                 }}
               />
-              <div style={{ marginLeft: 10, marginRight: 10 }}> Powered off (click to start) </div>
-              <FontAwesomeIcon icon={faPause}
+              <div style={{ marginLeft: 10, marginRight: 10 }}>
+                {" "}
+                Powered off (click to start){" "}
+              </div>
+              <FontAwesomeIcon
+                icon={faPause}
                 style={{
                   fontSize: 14,
                   position: "relative",
                   top: 5,
                   marginLeft: 10,
                   borderRadius: 2,
-                  color: "#1ac447"
+                  color: "#1ac447",
                 }}
               />
-              <div style={{ marginLeft: 10, marginRight: 10 }}> Powered on (click to deallocate) </div>
+              <div style={{ marginLeft: 10, marginRight: 10 }}>
+                {" "}
+                Powered on (click to deallocate){" "}
+              </div>
             </div>
             <table
               style={{
@@ -273,7 +281,9 @@ class VMTable extends Component {
                         name={value}
                         onClick={() => this.setSortBy(value)}
                         className={
-                          this.state.sortBy === value ? Style.tableHeadFocus : Style.tableHead
+                          this.state.sortBy === value
+                            ? Style.tableHeadFocus
+                            : Style.tableHead
                         }
                       >
                         {value}
@@ -294,7 +304,9 @@ class VMTable extends Component {
                       key: "vm-body",
                       backgroundColor: value["dev"]
                         ? "rgba(171, 235, 235, 0.3)"
-                        : value["lock"] || Number(value["temporary_lock"]) > Math.round((new Date()).getTime() / 1000)
+                        : value["lock"] ||
+                          Number(value["temporary_lock"]) >
+                            Math.round(new Date().getTime() / 1000)
                         ? "rgba(242, 181, 179, 0.2)"
                         : "rgba(193, 245, 174, 0.2)",
                     }}

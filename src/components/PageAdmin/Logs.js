@@ -422,10 +422,10 @@ class Logs extends Component {
                                   border: "none",
                                   fontSize: 14,
                                   position: "relative",
-                                  top: 10
+                                  top: 10,
                                 }}
                               >
-                                <FontAwesomeIcon icon={faTrash}/>
+                                <FontAwesomeIcon icon={faTrash} />
                               </Button>
                             </tr>
                           );

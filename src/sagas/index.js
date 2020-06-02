@@ -137,8 +137,8 @@ function* startVM(action) {
     },
     state.AccountReducer.access_token
   );
-  
-  yield put(FormAction.updateDB(false))
+
+  yield put(FormAction.updateDB(false));
 
   if (json) {
     if (json.ID) {
@@ -163,7 +163,6 @@ function* deallocateVM(action) {
   if (json) {
     if (json.ID) {
       yield call(getVMStatus, json.ID, action.vm_name);
-     
     }
   }
 }
@@ -248,7 +247,6 @@ function* getLogStatus(id) {
     console.log(json);
   }
 
-
   if (json && json.output) {
     yield put(FormAction.storeLogs(json.output, false));
   } else {
@@ -264,15 +262,15 @@ function* setDev(action) {
     config.url.PRIMARY_SERVER + "/vm/setDev",
     {
       vm_name: action.vm_name,
-      dev: action.dev 
+      dev: action.dev,
     },
     state.AccountReducer.access_token
   );
 
-  if(json) {
-    yield put(FormAction.updateDB(false))
+  if (json) {
+    yield put(FormAction.updateDB(false));
   }
-} 
+}
 
 export default function* rootSaga() {
   yield all([
@@ -287,6 +285,6 @@ export default function* rootSaga() {
     takeEvery(FormAction.DEALLOCATE_VM, deallocateVM),
     takeEvery(FormAction.FETCH_LOGS, fetchLogs),
     takeEvery(FormAction.DELETE_LOGS, deleteLogs),
-    takeEvery(FormAction.SET_DEV, setDev)
+    takeEvery(FormAction.SET_DEV, setDev),
   ]);
 }
