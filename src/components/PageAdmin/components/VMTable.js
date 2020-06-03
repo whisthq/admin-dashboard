@@ -6,7 +6,6 @@ import {
   faCircleNotch,
   faPlay,
   faPause,
-  faCaretUp
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -274,7 +273,7 @@ class VMTable extends Component {
                         name={value}
                         onClick={() => this.setSortBy(value)}
                         className={
-                          this.state.sortBy == value ? Style.tableHeadFocus : Style.tableHead
+                          this.state.sortBy === value ? Style.tableHeadFocus : Style.tableHead
                         }
                       >
                         {value}
@@ -358,6 +357,7 @@ class VMTable extends Component {
                           </td>
                         );
                       }
+                      return(<div></div>)
                     })}
                   </tr>
                 ))}
