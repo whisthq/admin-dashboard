@@ -92,7 +92,8 @@ class LeftMenu extends Component {
             >
               AWS S3
             </a>
-          </div>          <div style={{ marginBottom: 15 }}>
+          </div>{" "}
+          <div style={{ marginBottom: 15 }}>
             <a
               target="_blank"
               rel="noopener noreferrer"

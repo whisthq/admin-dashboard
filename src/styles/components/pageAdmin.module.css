@@ -17,12 +17,12 @@
   text-align: left;
 }
 
-
 .tableHeadFocus {
   background-color: #464880;
 }
 
-.tableHeadFocus:hover, .tableHead:hover {
+.tableHeadFocus:hover,
+.tableHead:hover {
   cursor: pointer;
 }
 
