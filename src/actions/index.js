@@ -29,6 +29,7 @@ export const LOGS_FOUND = "LOGS_FOUND";
 export const DELETE_LOGS = "DELETE_LOGS";
 export const DELETE_LOG_SUCCESS = "DELETE_LOG_SUCCESS";
 export const SET_DEV = "SET_DEV";
+export const CHANGE_BRANCH = "CHANGE_BRANCH";
 
 export function fetchVMs(id) {
   return {
@@ -239,6 +240,14 @@ export function setDev(vm_name, dev) {
   return {
     type: SET_DEV,
     vm_name,
-    dev,
-  };
+    dev
+  }
+}
+
+export function changeBranch(disk_name, branch) {
+  return {
+    type: CHANGE_BRANCH,
+    disk_name,
+    branch
+  }
 }
