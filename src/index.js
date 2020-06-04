@@ -9,6 +9,7 @@ import ReduxPromise from "redux-promise";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import Admin from "./components/PageAdmin/Admin";
+import Analytics from "./components/PageAdmin/Analytics";
 import Logs from "./components/PageAdmin/Logs";
 
 import rootSaga from "./sagas";
@@ -50,6 +51,7 @@ ReactDOM.render(
         </Helmet>
         <Route exact path="/" component={LoginPage} />
         <Route exact path="/admin" component={Admin} />
+        <Route exact path="/analytics" component={Analytics} />
         <Route exact path="/logs" component={Logs} />
       </PersistGate>
     </Provider>

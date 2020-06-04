@@ -38,42 +38,31 @@ class LeftMenu extends Component {
         <img src={Logo} alt="" style={{ width: 40, height: 40 }} />
         <div style={{ marginTop: 25, fontSize: 18 }}>
           <div style={{ marginBottom: 15 }}>
-            {this.state.page === "dashboard" ? (
-              <Link
-                onClick={() => this.setState({ page: "dashboard" })}
-                style={{ textDecoration: "none", color: "#111111" }}
-                to="/"
-              >
-                Dashboard
-              </Link>
-            ) : (
-              <Link
-                onClick={() => this.setState({ page: "dashboard" })}
-                style={{ textDecoration: "none", color: "#111111" }}
-                to="/"
-              >
-                Dashboard
-              </Link>
-            )}
+            <Link
+              onClick={() => this.setState({ page: "dashboard" })}
+              style={{ textDecoration: "none", color: "#111111" }}
+              to="/"
+            >
+              Dashboard
+            </Link>
           </div>
           <div style={{ marginBottom: 15 }}>
-            {this.state.page === "dashboard" ? (
-              <Link
-                onClick={() => this.setState({ page: "logs" })}
-                style={{ textDecoration: "none", color: "#111111" }}
-                to="/logs"
-              >
-                User Logs
-              </Link>
-            ) : (
-              <Link
-                onClick={() => this.setState({ page: "logs" })}
-                style={{ textDecoration: "none", color: "#111111" }}
-                to="/logs"
-              >
-                User Logs
-              </Link>
-            )}
+            <Link
+              onClick={() => this.setState({ page: "logs" })}
+              style={{ textDecoration: "none", color: "#111111" }}
+              to="/analytics"
+            >
+              Analytics
+            </Link>
+          </div>
+          <div style={{ marginBottom: 15 }}>
+            <Link
+              onClick={() => this.setState({ page: "logs" })}
+              style={{ textDecoration: "none", color: "#111111" }}
+              to="/logs"
+            >
+              User Logs
+            </Link>
           </div>
           <div style={{ marginBottom: 15 }}>
             <a
