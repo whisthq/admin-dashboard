@@ -24,8 +24,7 @@ import LeftMenu from './components/LeftMenu.js'
 import { convertUnix } from '../util.js'
 
 import Sunburst from 'sunburst-chart'
-
-import Style from '../../styles/components/analytics.module.css'
+import UsageChart from './components/UsageChart.js'
 
 class Logs extends Component {
     constructor(props) {
@@ -38,6 +37,7 @@ class Logs extends Component {
             month: 0,
             year: 0,
             logsFetched: false,
+            timelineMode: 'day',
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
@@ -83,7 +83,7 @@ class Logs extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.latestReport != this.props.latestReport) {
+        if (prevProps.latestReport !== this.props.latestReport) {
             let sunburstData = {
                 name: 'All Regions',
                 color: '#eceff1',
@@ -202,13 +202,13 @@ class Logs extends Component {
         }
     }
 
-    render() {
-        if (this.props.latestReport) {
-            console.log(this.props.latestReport)
-        }
+    handleChartSelect = (val) => {
+        this.setState({ timelineMode: val })
+    }
 
+    render() {
         let summaryCard = (
-            <Card className="mb-3">
+            <Card>
                 <Card.Body>
                     {this.props.latestReport ? (
                         <div>
@@ -326,33 +326,47 @@ class Logs extends Component {
                             </div>
                             <Row>
                                 <Col className="mb-4">
-                                    {summaryCard}
                                     <Card>
                                         <Card.Body>
-                                            <h6>Active Users</h6>
                                             <ToggleButtonGroup
                                                 type="radio"
-                                                name="options"
-                                                defaultValue={1}
+                                                name="select"
+                                                defaultValue={'day'}
+                                                onChange={
+                                                    this.handleChartSelect
+                                                }
                                             >
-                                                <ToggleButton value={1}>
-                                                    Day
+                                                <ToggleButton value={'day'}>
+                                                    24 Hours
                                                 </ToggleButton>
-                                                <ToggleButton value={2}>
-                                                    Week
+                                                <ToggleButton
+                                                    value={'week'}
+                                                    disabled
+                                                >
+                                                    7 Days
                                                 </ToggleButton>
-                                                <ToggleButton value={3}>
-                                                    Month
+                                                <ToggleButton
+                                                    value={'month'}
+                                                    disabled
+                                                >
+                                                    30 Days
                                                 </ToggleButton>
-                                                <ToggleButton value={4}>
+                                                <ToggleButton
+                                                    value={'all'}
+                                                    disabled
+                                                >
                                                     All Time
                                                 </ToggleButton>
                                             </ToggleButtonGroup>
+                                            <h6>Active Users</h6>
+                                            <UsageChart />
+                                            {/* <p>{this.state.timelineMode}</p> */}
                                         </Card.Body>
                                     </Card>
                                 </Col>
-                                <Col xl="auto" className="mb-4">
-                                    <Card>
+                                <Col xl="auto">
+                                    {summaryCard}
+                                    <Card className="mt-4">
                                         <Card.Body>
                                             <h6>Current virtual machines</h6>
                                             <div

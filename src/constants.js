@@ -17,6 +17,16 @@ const staging = {
     },
 }
 
+const staging2 = {
+    url: {
+        PRIMARY_SERVER: 'https://cube-celery-staging2.herokuapp.com',
+        MAIL_SERVER: 'https://fractal-mail-staging.herokuapp.com',
+    },
+    stripe: {
+        PUBLIC_KEY: 'pk_test_7y07LrJWC5LzNu17sybyn9ce004CLPaOXb',
+    },
+}
+
 const development = {
     url: {
         PRIMARY_SERVER: 'http://127.0.0.1:5000',
@@ -27,4 +37,4 @@ const development = {
 }
 
 export const config =
-    process.env.NODE_ENV === 'development' ? development : staging
+    process.env.NODE_ENV === 'development' ? development : staging2

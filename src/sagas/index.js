@@ -307,8 +307,6 @@ function* fetchDiskTable(action) {
 }
 
 function* fetchLatestReport() {
-    const state = yield select()
-
     const { json } = yield call(
         apiGet,
         config.url.PRIMARY_SERVER + '/report/latest',
@@ -317,6 +315,18 @@ function* fetchLatestReport() {
 
     if (json) {
         yield put(FormAction.latestReportFetched(json))
+    }
+}
+
+function* fetchUserReport() {
+    const { json } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER + '/report/userReport',
+        ''
+    )
+
+    if (json) {
+        yield put(FormAction.userReportFetched(json))
     }
 }
 
@@ -337,5 +347,6 @@ export default function* rootSaga() {
         takeEvery(FormAction.FETCH_DISK_TABLE, fetchDiskTable),
         takeEvery(FormAction.CHANGE_BRANCH, changeBranch),
         takeEvery(FormAction.FETCH_LATEST_REPORT, fetchLatestReport),
+        takeEvery(FormAction.FETCH_USER_REPORT, fetchUserReport),
     ])
 }

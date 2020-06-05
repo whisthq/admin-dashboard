@@ -19,6 +19,7 @@ const DEFAULT = {
     disk_info: [],
     disks_fetched: false,
     latestReport: null,
+    userRerpot: null,
 }
 
 export default function (state = DEFAULT, action) {
@@ -140,7 +141,11 @@ export default function (state = DEFAULT, action) {
                 ...state,
                 latestReport: action.report,
             }
-
+        case AccountAction.USER_REPORT_FETCHED:
+            return {
+                ...state,
+                userReport: action.report,
+            }
         case AccountAction.LOGOUT:
             return DEFAULT
         default:

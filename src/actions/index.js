@@ -32,6 +32,8 @@ export const SET_DEV = 'SET_DEV'
 export const CHANGE_BRANCH = 'CHANGE_BRANCH'
 export const FETCH_LATEST_REPORT = 'FETCH_LATEST_REPORT'
 export const LATEST_REPORT_FETCHED = 'LATEST_REPORT_FETCHED'
+export const FETCH_USER_REPORT = 'FETCH_USER_REPORT'
+export const USER_REPORT_FETCHED = 'USER_REPORT_FETCHED'
 
 export function fetchVMs(id) {
     return {
@@ -263,6 +265,19 @@ export function fetchLatestReport() {
 export function latestReportFetched(report) {
     return {
         type: LATEST_REPORT_FETCHED,
+        report,
+    }
+}
+
+export function fetchUserReport() {
+    return {
+        type: FETCH_USER_REPORT,
+    }
+}
+
+export function userReportFetched(report) {
+    return {
+        type: USER_REPORT_FETCHED,
         report,
     }
 }
