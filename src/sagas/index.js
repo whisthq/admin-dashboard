@@ -272,6 +272,40 @@ function* setDev(action) {
   }
 }
 
+function* changeBranch(action) {
+  const state = yield select();
+
+  const { json } = yield call(
+    apiPost,
+    config.url.PRIMARY_SERVER + "/disk/setVersion",
+    {
+      disk_name: action.disk_name,
+      branch: action.branch
+    },
+    state.AccountReducer.access_token
+  );
+
+  if(json) {
+    yield put(FormAction.fetchDiskTable(false))
+  }
+} 
+
+function* fetchDiskTable(action) {
+  const state = yield select();
+
+  const { json } = yield call(
+    apiPost,
+    config.url.PRIMARY_SERVER + "/disk/fetchAll",
+    {
+    },
+    state.AccountReducer.access_token
+  );
+
+  if(json) {
+    yield put(FormAction.diskTableFetched(json.disks))
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(FormAction.UPDATE_DB, updateDB),
@@ -286,5 +320,7 @@ export default function* rootSaga() {
     takeEvery(FormAction.FETCH_LOGS, fetchLogs),
     takeEvery(FormAction.DELETE_LOGS, deleteLogs),
     takeEvery(FormAction.SET_DEV, setDev),
+    takeEvery(FormAction.FETCH_DISK_TABLE, fetchDiskTable),
+    takeEvery(FormAction.CHANGE_BRANCH, changeBranch)
   ]);
 }

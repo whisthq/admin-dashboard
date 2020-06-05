@@ -15,6 +15,7 @@ import LeftMenu from "./components/LeftMenu.js";
 import VMTable from "./components/VMTable.js";
 import UserTable from "./components/UserTable.js";
 import CustomerTable from "./components/CustomerTable.js";
+import DiskTable from "./components/DiskTable.js";
 
 class Admin extends Component {
   constructor(props) {
@@ -184,11 +185,15 @@ class Admin extends Component {
                       }}
                     >
                       <Tab>Cloud PCs</Tab>
+                      <Tab>Disks</Tab>
                       <Tab>Users</Tab>
                       <Tab>Customers</Tab>
                     </TabList>
                     <TabPanel style={{ paddingTop: 20 }}>
                       <VMTable />
+                    </TabPanel>
+                    <TabPanel style={{ paddingTop: 20 }}>
+                      <DiskTable />
                     </TabPanel>
                     <TabPanel style={{ paddingTop: 20 }}>
                       <UserTable />
