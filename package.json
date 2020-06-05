@@ -17,6 +17,7 @@
     "enzyme-adapter-react-16": "1.14.0",
     "immutable": "^3.8.2",
     "jquery": "^3.5.1",
+    "logkitty": "^0.7.1",
     "moment": "^2.26.0",
     "popper.js": "^1.16.1",
     "prettier": "^2.0.5",
