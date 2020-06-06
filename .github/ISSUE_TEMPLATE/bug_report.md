@@ -1,9 +1,9 @@
 ---
 name: Bug Report
 about: Report a bug related to this project
-title: ""
-labels: ""
-assignees: ""
+title: ''
+labels: ''
+assignees: ''
 ---
 
 **Bug Description**
