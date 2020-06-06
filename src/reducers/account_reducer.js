@@ -17,7 +17,7 @@ const DEFAULT = {
   logs_fetched: false,
   logs_not_found: false,
   disk_info: [],
-  disks_fetched: false
+  disks_fetched: false,
 };
 
 export default function (state = DEFAULT, action) {
@@ -42,7 +42,7 @@ export default function (state = DEFAULT, action) {
       return {
         ...state,
         disk_info: action.payload,
-        disks_fetched: true
+        disks_fetched: true,
       };
     case AccountAction.UPDATE_DB:
       return {

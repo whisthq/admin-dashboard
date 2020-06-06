@@ -1,14 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleNotch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
-import {
-  fetchDiskTable,
-  changeBranch
-} from "../../../actions/index.js";
+import { fetchDiskTable, changeBranch } from "../../../actions/index.js";
 
 import Style from "../../../styles/components/pageAdmin.module.css";
 
@@ -33,14 +28,13 @@ class DiskTable extends Component {
     clearInterval(this.intervalID);
   }
 
-
   updateWindowDimensions() {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
   changeBranch = (disk_name, branch) => {
-    this.props.dispatch(changeBranch(disk_name, branch))
-  }
+    this.props.dispatch(changeBranch(disk_name, branch));
+  };
 
   sortArray = (prop) => {
     return function (a, b) {
@@ -107,50 +101,70 @@ class DiskTable extends Component {
         header.push(key);
       });
     }
-    header.sort(function(x,y){ return x === "username" ? -1 : y === "username" ? 1 : 0; });
+    header.sort(function (x, y) {
+      return x === "username" ? -1 : y === "username" ? 1 : 0;
+    });
 
     const branchToggle = (disk_name, branch) => {
-      return(
-          <td className={Style.tableCell} style = {{display: "flex"}}>
-            <div style = {{marginRight: 6,
-                      fontWeight: branch === "dev" ? "bold" : "normal",
-                      color: "#1ba8e0",
-                      background: branch === "dev" ? "rgba(94, 195, 235, 0.2)" : "none",
-                      border: branch === "dev" ? "none" : "solid 1px rgba(94, 195, 235, 0.2)",
-                      padding: "5px 10px",
-                      borderRadius: 2}}
-              onClick = {() => this.changeBranch(disk_name, "dev")}
-              className = "pointerOnHover"
-            >
-              Dev 
-            </div>
-            <div style = {{marginRight: 6,
-                      fontWeight: branch === "staging" ? "bold" : "normal",
-                      color: "#1ba8e0",
-                      background: branch === "staging" ? "rgba(94, 195, 235, 0.2)" : "none",
-                      border: branch === "staging" ? "none" : "solid 1px rgba(94, 195, 235, 0.2)",
-                      padding: "5px 10px",
-                      borderRadius: 2}}
-              onClick = {() => this.changeBranch(disk_name, "staging")}
-              className = "pointerOnHover"
-            >
-              Staging
-            </div>
-            <div style = {{marginRight: 6,
-                      fontWeight: branch === "master" ? "bold" : "normal",
-                      color: "#1ba8e0",
-                      background: branch === "master" ? "rgba(94, 195, 235, 0.2)" : "none",
-                      border: branch === "master" ? "none" : "solid 1px rgba(94, 195, 235, 0.2)",
-                      padding: "5px 10px",
-                      borderRadius: 2}}
-              onClick = {() => this.changeBranch(disk_name, "master")}
-              className = "pointerOnHover"
-            >
-              Master
-            </div>
-          </td>
-      )
-    }
+      return (
+        <td className={Style.tableCell} style={{ display: "flex" }}>
+          <div
+            style={{
+              marginRight: 6,
+              fontWeight: branch === "dev" ? "bold" : "normal",
+              color: "#1ba8e0",
+              background: branch === "dev" ? "rgba(94, 195, 235, 0.2)" : "none",
+              border:
+                branch === "dev" ? "none" : "solid 1px rgba(94, 195, 235, 0.2)",
+              padding: "5px 10px",
+              borderRadius: 2,
+            }}
+            onClick={() => this.changeBranch(disk_name, "dev")}
+            className="pointerOnHover"
+          >
+            Dev
+          </div>
+          <div
+            style={{
+              marginRight: 6,
+              fontWeight: branch === "staging" ? "bold" : "normal",
+              color: "#1ba8e0",
+              background:
+                branch === "staging" ? "rgba(94, 195, 235, 0.2)" : "none",
+              border:
+                branch === "staging"
+                  ? "none"
+                  : "solid 1px rgba(94, 195, 235, 0.2)",
+              padding: "5px 10px",
+              borderRadius: 2,
+            }}
+            onClick={() => this.changeBranch(disk_name, "staging")}
+            className="pointerOnHover"
+          >
+            Staging
+          </div>
+          <div
+            style={{
+              marginRight: 6,
+              fontWeight: branch === "master" ? "bold" : "normal",
+              color: "#1ba8e0",
+              background:
+                branch === "master" ? "rgba(94, 195, 235, 0.2)" : "none",
+              border:
+                branch === "master"
+                  ? "none"
+                  : "solid 1px rgba(94, 195, 235, 0.2)",
+              padding: "5px 10px",
+              borderRadius: 2,
+            }}
+            onClick={() => this.changeBranch(disk_name, "master")}
+            className="pointerOnHover"
+          >
+            Master
+          </div>
+        </td>
+      );
+    };
 
     return (
       <div>
@@ -179,23 +193,30 @@ class DiskTable extends Component {
                   key: "vm-header",
                 }}
               >
-                <th style = {{padding: 20, paddingLeft: 40}} onClick={() => this.setSortBy("branch")}>branch</th>
+                <th
+                  style={{ padding: 20, paddingLeft: 40 }}
+                  onClick={() => this.setSortBy("branch")}
+                >
+                  branch
+                </th>
                 {header.map((value, index) => {
-                  if(value !== "branch") {
+                  if (value !== "branch") {
                     return (
                       <th
                         style={{ padding: 20 }}
                         name={value}
                         onClick={() => this.setSortBy(value)}
                         className={
-                          this.state.sortBy === value ? Style.tableHeadFocus : Style.tableHead
+                          this.state.sortBy === value
+                            ? Style.tableHeadFocus
+                            : Style.tableHead
                         }
                       >
                         {value}
                       </th>
                     );
                   }
-                  return(<div></div>)
+                  return <div></div>;
                 })}
               </tr>
               {this.props.disk_info
@@ -206,26 +227,26 @@ class DiskTable extends Component {
                       borderTop: "solid 0.5px #EBEBEB",
                       color: "#333333",
                       fontSize: 12,
-                      key: "vm-body"
+                      key: "vm-body",
                     }}
                     key={index}
                   >
-                    <td className={Style.tableCell} style = {{display: "flex"}}>
+                    <td className={Style.tableCell} style={{ display: "flex" }}>
                       {branchToggle(value["disk_name"], value["branch"])}
                     </td>
                     {header.map((value1, index1) => {
-                        if(value1 !== "branch") {
-                          return (
-                            <td className={Style.tableCell}>
-                              {value[value1] == null ? (
-                                <div />
-                              ) : (
-                                <div>{value[value1].toString()}</div>
-                              )}
-                            </td>
-                          );
-                        }
-                        return(<div></div>)
+                      if (value1 !== "branch") {
+                        return (
+                          <td className={Style.tableCell}>
+                            {value[value1] == null ? (
+                              <div />
+                            ) : (
+                              <div>{value[value1].toString()}</div>
+                            )}
+                          </td>
+                        );
+                      }
+                      return <div></div>;
                     })}
                   </tr>
                 ))}
@@ -252,7 +273,9 @@ function mapStateToProps(state) {
     disk_info: state.AccountReducer.disk_info
       ? state.AccountReducer.disk_info
       : [],
-    disks_fetched: state.AccountReducer.disks_fetched ? state.AccountReducer.disks_fetched : false
+    disks_fetched: state.AccountReducer.disks_fetched
+      ? state.AccountReducer.disks_fetched
+      : false,
   };
 }
 

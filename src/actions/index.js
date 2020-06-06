@@ -240,14 +240,14 @@ export function setDev(vm_name, dev) {
   return {
     type: SET_DEV,
     vm_name,
-    dev
-  }
+    dev,
+  };
 }
 
 export function changeBranch(disk_name, branch) {
   return {
     type: CHANGE_BRANCH,
     disk_name,
-    branch
-  }
+    branch,
+  };
 }
