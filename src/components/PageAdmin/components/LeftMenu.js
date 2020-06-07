@@ -1,36 +1,30 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { withRouter } from "react-router-dom";
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
-import Logo from "../../../assets/logo.svg";
-import "../../../static/App.css";
+import Logo from '../../../assets/logo.svg'
+import '../../../static/App.css'
 
-withRouter((props) => <LeftMenu {...props} />);
+withRouter((props) => <LeftMenu {...props} />)
 
 class LeftMenu extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { width: 0, height: 0, page: "dashboard" };
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-  }
+    constructor(props) {
+        super(props)
+        this.state = { width: 0, height: 0, page: 'dashboard' }
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
+    }
 
-  componentDidMount() {
-    this.updateWindowDimensions();
-    window.addEventListener("resize", this.updateWindowDimensions);
-  }
+    componentDidMount() {
+        this.updateWindowDimensions()
+        window.addEventListener('resize', this.updateWindowDimensions)
+    }
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.updateWindowDimensions);
-  }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions)
+    }
 
-  updateWindowDimensions() {
-    this.setState({ width: window.innerWidth, height: window.innerHeight });
-  }
-
-  render() {
-    let modalClose = () => this.setState({ modalShow: false });
-    if (this.state.width > 700 && this.state.modalShow) {
-      modalClose();
+    updateWindowDimensions() {
+        this.setState({ width: window.innerWidth, height: window.innerHeight })
     }
 
     return (
@@ -133,4 +127,4 @@ class LeftMenu extends Component {
   }
 }
 
-export default LeftMenu;
+export default LeftMenu

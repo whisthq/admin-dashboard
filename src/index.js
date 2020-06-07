@@ -24,23 +24,23 @@ import "./static/App.css";
 import LoginPage from "./components/PageLogin/LoginPage";
 
 const persistConfig = {
-  key: "rootKey",
-  storage,
-};
+    key: 'rootKey',
+    storage,
+}
 
-const sagaMiddleware = createSagaMiddleware();
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const sagaMiddleware = createSagaMiddleware()
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-let middleware = [routerMiddleware(history), ReduxPromise, sagaMiddleware];
+let middleware = [routerMiddleware(history), ReduxPromise, sagaMiddleware]
 
 const store = createStore(
-  persistedReducer,
-  composeWithDevTools(applyMiddleware(...middleware))
-);
+    persistedReducer,
+    composeWithDevTools(applyMiddleware(...middleware))
+)
 
-const persistor = persistStore(store);
+const persistor = persistStore(store)
 
-sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(rootSaga)
 
 ReactDOM.render(
   <Router history={history}>

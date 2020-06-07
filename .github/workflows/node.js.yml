@@ -1,6 +1,4 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-# This workflow will also format the code via Prettier.io
+# This workflow will do a clean install of node dependencies, build the source code on Node 10 and 12, and format via Prettier
 
 name: Node.js CI
 
@@ -11,20 +9,19 @@ on:
     branches: [ master, staging ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x]
+        strategy:
+            matrix:
+                node-version: [10.x, 12.x]
 
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm run format
-    # - run: npm test # TODO: we should make tests here
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm ci
+            - run: npm run build --if-present
+            - run: npm run format
