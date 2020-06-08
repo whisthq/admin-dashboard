@@ -157,8 +157,8 @@ class Logs extends Component {
             }
             this.sunburstChart
                 .data(sunburstData)
-                .width(this.state.height / 2)
-                .height(this.state.height / 2)
+                .width(this.state.height / 4)
+                .height(this.state.height / 4)
                 .size('size')
                 .color('color')
                 .tooltipContent((d, node) => `VMs: <i>${node.value}</i>`)(
