@@ -19,6 +19,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 import '../../static/App.css'
+
 import { logout, fetchLatestReport } from '../../actions/index.js'
 import LeftMenu from './components/LeftMenu.js'
 import { convertUnix } from '../util.js'
@@ -325,46 +326,54 @@ class Logs extends Component {
                                 </div>
                             </div>
                             <Row>
-                                <Col className="mb-4">
-                                    <Card>
-                                        <Card.Body>
-                                            <ToggleButtonGroup
-                                                type="radio"
-                                                name="select"
-                                                defaultValue={'day'}
-                                                onChange={
-                                                    this.handleChartSelect
-                                                }
+                                <Col md = {12}>
+                                    <div style = {{
+                                        fontWeight: "bold",
+                                        fontSize: 24,
+                                        marginBottom: 30
+                                    }}>
+                                        Active Users
+                                    </div>
+                                    <div style = {{
+                                        position: "relative",
+                                        right: 30
+                                    }}>
+                                        <UsageChart />
+                                    </div>
+                                    <div style = {{
+                                        marginTop: 25,
+                                        marginBottom: 25
+                                    }}>
+                                        <ToggleButtonGroup
+                                            type="radio"
+                                            name="select"
+                                            defaultValue={'day'}
+                                            onChange={
+                                                this.handleChartSelect
+                                            }
+                                        >
+                                            <ToggleButton value={'day'}>
+                                                24 Hours
+                                            </ToggleButton>
+                                            <ToggleButton
+                                                value={'week'}
                                             >
-                                                <ToggleButton value={'day'}>
-                                                    24 Hours
-                                                </ToggleButton>
-                                                <ToggleButton
-                                                    value={'week'}
-                                                    disabled
-                                                >
-                                                    7 Days
-                                                </ToggleButton>
-                                                <ToggleButton
-                                                    value={'month'}
-                                                    disabled
-                                                >
-                                                    30 Days
-                                                </ToggleButton>
-                                                <ToggleButton
-                                                    value={'all'}
-                                                    disabled
-                                                >
-                                                    All Time
-                                                </ToggleButton>
-                                            </ToggleButtonGroup>
-                                            <h6>Active Users</h6>
-                                            <UsageChart />
-                                            {/* <p>{this.state.timelineMode}</p> */}
-                                        </Card.Body>
-                                    </Card>
+                                                7 Days
+                                            </ToggleButton>
+                                            <ToggleButton
+                                                value={'month'}
+                                            >
+                                                30 Days
+                                            </ToggleButton>
+                                            <ToggleButton
+                                                value={'all'}
+                                            >
+                                                All Time
+                                            </ToggleButton>
+                                        </ToggleButtonGroup>
+                                    </div>
                                 </Col>
-                                <Col xl="auto">
+                                <Col md = {12}>
                                     {summaryCard}
                                     <Card className="mt-4">
                                         <Card.Body>

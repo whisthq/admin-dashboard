@@ -12,6 +12,6 @@ Briefly describe your approach, design, implementation to solve the problem if a
 
 ## Checklist
 
-- [ ] Appropriate Unit test coverage
-- [ ] Manual top-hatting has been performed
-- [ ] This PR is linted, tested and follows the best practices of the organization
+-   [ ] Appropriate Unit test coverage
+-   [ ] Manual top-hatting has been performed
+-   [ ] This PR is linted, tested and follows the best practices of the organization

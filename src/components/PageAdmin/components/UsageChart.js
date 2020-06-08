@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
-import { ResponsiveLine } from '@nivo/line'
 import { fetchUserReport } from '../../../actions/index.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { Badge } from 'react-bootstrap'
+import { 
+    LineChart, 
+    Line, 
+    ResponsiveContainer,
+    XAxis, 
+    YAxis,
+    Tooltip
+} from 'recharts';
 
 import Style from '../../../styles/components/analytics.module.css'
 
@@ -35,72 +42,71 @@ class UsageChart extends Component {
     }
 
     getRequiredDateFormat = (timeStamp, format = 'MM-DD-YYYY') => {
-        return moment(timeStamp).format(format)
+        return moment(timeStamp).format(format) + " UTC"
     }
+    
     render() {
         if (this.state.dataList) {
+            let component = this;
+            this.state.dataList = this.state.dataList.map(function(el, index, arr) {
+                var curr_x = component.getRequiredDateFormat(el.x, 'h A');
+                if(index > 0) {
+                    var prev_x = component.getRequiredDateFormat(arr[index - 1].x, 'h A');
+                    if(curr_x !== prev_x) {
+                        return {
+                            'x': curr_x,
+                            'Number of users': el.y
+                        }
+                    }
+                } else {
+                    return {
+                        'x': curr_x,
+                        'Number of users': el.y
+                    }  
+                }
+            }).filter(function(x) {
+                return x !== undefined;
+            })
+
             return (
                 <div className={Style.usageChart}>
-                    <ResponsiveLine
-                        data={[
-                            {
-                                id: 'Read',
-                                data: this.state.dataList,
-                            },
-                        ]}
-                        margin={{
-                            top: 10,
-                            right: 10,
-                            bottom: 10,
-                            left: 10,
-                        }}
-                        yScale={{
-                            type: 'linear',
-                            stacked: false,
-                        }}
-                        xScale={{
-                            type: 'time',
-                            precision: 'every hour',
-                            format: 'native',
-                        }}
-                        axisBottom={null}
-                        axisLeft={null}
-                        enableGridY={false}
-                        enableGridX={false}
-                        colors={{ scheme: 'nivo' }}
-                        pointSize={10}
-                        pointColor={{ theme: 'background' }}
-                        pointBorderWidth={2}
-                        pointBorderColor={{ from: 'serieColor' }}
-                        enableArea={true}
-                        enableSlices="x"
-                        sliceTooltip={({ slice }) => {
-                            const date = slice.points[0].data.xFormatted
-                            return (
-                                <Badge variant="light">
-                                    <div className={Style.chartTooltipDiv}>
-                                        <strong className="pr-2">
-                                            {`${this.getRequiredDateFormat(
-                                                date,
-                                                'h A'
-                                            )}`}
-                                        </strong>
-                                        {slice.points.map((point) => (
-                                            <div key={point.id}>
-                                                <strong
-                                                    style={{
-                                                        color: point.serieColor,
-                                                    }}
-                                                >
-                                                    {`${point.data.yFormatted}`}
-                                                </strong>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </Badge>
-                            )
-                        }}
-                    />
+                    <ResponsiveContainer height='100%' width='100%'>
+                        <LineChart 
+                            data={this.state.dataList}
+                        >
+                            <Line 
+                                type="monotone" 
+                                dataKey="Number of users" 
+                                dot={false}
+                                strokeWidth={2}    
+                                stroke="#8884d8" 
+                            />
+                            <XAxis 
+                                dataKey = "x" 
+                                axisLine={false}
+                                tickLine={false}
+                                tick={{
+                                    fontSize: 12,
+                                    transform: 'translate(0, 10)'
+                                }}
+                            />
+                            <YAxis 
+                                dataKey = "Number of users" 
+                                axisLine={false}
+                                tickLine={false}
+                                allowDecimals={false}
+                                tick={{
+                                    fontSize: 12
+                                }}
+                            />
+                            <Tooltip 
+                                contentStyle = {{
+                                    border: "none",
+                                    fontSize: 14
+                                }}
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
                 </div>
             )
         } else {
