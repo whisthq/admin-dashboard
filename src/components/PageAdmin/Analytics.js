@@ -1,12 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Button,
-    Card,
-    Row,
-    Col,
-    ToggleButtonGroup,
-    ToggleButton,
-} from 'react-bootstrap'
+import { Button, Row, Col } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faCircleNotch,
@@ -38,7 +31,6 @@ class Logs extends Component {
             month: 0,
             year: 0,
             logsFetched: false,
-            timelineMode: 'day',
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
@@ -203,10 +195,6 @@ class Logs extends Component {
         }
     }
 
-    handleChartSelect = (val) => {
-        this.setState({ timelineMode: val })
-    }
-
     render() {
         let summaryCard = (
             <div>
@@ -319,49 +307,7 @@ class Logs extends Component {
                             </div>
                             <Row>
                                 <Col lg={8}>
-                                    <div
-                                        style={{
-                                            fontWeight: 'bold',
-                                            fontSize: 24,
-                                            marginBottom: 30,
-                                        }}
-                                    >
-                                        Active Users
-                                    </div>
-                                    <div
-                                        style={{
-                                            position: 'relative',
-                                            right: 30,
-                                        }}
-                                    >
-                                        <UsageChart />
-                                    </div>
-                                    <div
-                                        style={{
-                                            marginTop: 25,
-                                            marginBottom: 25,
-                                        }}
-                                    >
-                                        <ToggleButtonGroup
-                                            type="radio"
-                                            name="select"
-                                            defaultValue={'day'}
-                                            onChange={this.handleChartSelect}
-                                        >
-                                            <ToggleButton value={'day'}>
-                                                24 Hours
-                                            </ToggleButton>
-                                            <ToggleButton value={'week'}>
-                                                7 Days
-                                            </ToggleButton>
-                                            <ToggleButton value={'month'}>
-                                                30 Days
-                                            </ToggleButton>
-                                            <ToggleButton value={'all'}>
-                                                All Time
-                                            </ToggleButton>
-                                        </ToggleButtonGroup>
-                                    </div>
+                                    <UsageChart />
                                 </Col>
                                 <Col lg={4}>
                                     <div

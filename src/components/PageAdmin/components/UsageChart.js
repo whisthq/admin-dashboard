@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import { Badge } from 'react-bootstrap'
+import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
 import {
     LineChart,
     Line,
@@ -26,6 +26,7 @@ class UsageChart extends Component {
             eastus: null,
             northcentralus: null,
             southcentralus: null,
+            timelineMode: 'day',
         }
     }
 
@@ -81,6 +82,10 @@ class UsageChart extends Component {
 
     getRequiredDateFormat = (timeStamp, format = 'MM-DD-YYYY') => {
         return moment(timeStamp).format(format) + ' UTC'
+    }
+
+    handleChartSelect = (val) => {
+        this.setState({ timelineMode: val })
     }
 
     chartElement = (userType) => {
@@ -146,6 +151,38 @@ class UsageChart extends Component {
         if (this.state.total) {
             return (
                 <div>
+                    <div className=" d-flex justify-content-between">
+                        <div
+                            style={{
+                                fontWeight: 'bold',
+                                fontSize: 24,
+                                marginBottom: 30,
+                            }}
+                        >
+                            Active Users
+                        </div>
+                        <div>
+                            <ToggleButtonGroup
+                                type="radio"
+                                name="select"
+                                defaultValue={'day'}
+                                onChange={this.handleChartSelect}
+                            >
+                                <ToggleButton value={'day'}>
+                                    24 Hours
+                                </ToggleButton>
+                                <ToggleButton value={'week'}>
+                                    7 Days
+                                </ToggleButton>
+                                <ToggleButton value={'month'}>
+                                    30 Days
+                                </ToggleButton>
+                                <ToggleButton value={'all'}>
+                                    All Time
+                                </ToggleButton>
+                            </ToggleButtonGroup>
+                        </div>
+                    </div>
                     <p>Total</p>
                     {this.chartElement('total')}
                     <p>Eastus</p>
