@@ -14,6 +14,7 @@ import {
     fetchLogs,
     logsFound,
     deleteLogs,
+    changePage
 } from '../../actions/index.js'
 import LeftMenu from './components/LeftMenu.js'
 
@@ -40,6 +41,7 @@ class Logs extends Component {
     componentDidMount() {
         this.updateWindowDimensions()
         window.addEventListener('resize', this.updateWindowDimensions)
+        this.props.dispatch(changePage('logs'))
         var today = new Date()
         this.setState({
             day: today.getDate(),

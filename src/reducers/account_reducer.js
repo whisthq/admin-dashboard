@@ -19,7 +19,8 @@ const DEFAULT = {
     disk_info: [],
     disks_fetched: false,
     latestReport: null,
-    userRerpot: null,
+    userReport: null,
+    page: 'dashboard'
 }
 
 export default function (state = DEFAULT, action) {
@@ -145,6 +146,11 @@ export default function (state = DEFAULT, action) {
             return {
                 ...state,
                 userReport: action.report,
+            }
+        case AccountAction.CHANGE_PAGE:
+            return {
+                ...state,
+                page: action.page
             }
         case AccountAction.LOGOUT:
             return DEFAULT

@@ -34,6 +34,7 @@ export const FETCH_LATEST_REPORT = 'FETCH_LATEST_REPORT'
 export const LATEST_REPORT_FETCHED = 'LATEST_REPORT_FETCHED'
 export const FETCH_USER_REPORT = 'FETCH_USER_REPORT'
 export const USER_REPORT_FETCHED = 'USER_REPORT_FETCHED'
+export const CHANGE_PAGE = 'CHANGE_PAGE'
 
 export function fetchVMs(id) {
     return {
@@ -279,5 +280,12 @@ export function userReportFetched(report) {
     return {
         type: USER_REPORT_FETCHED,
         report,
+    }
+}
+
+export function changePage(page) {
+    return {
+        type: CHANGE_PAGE,
+        page
     }
 }

@@ -20,7 +20,7 @@ import { Redirect } from 'react-router-dom'
 
 import '../../static/App.css'
 
-import { logout, fetchLatestReport } from '../../actions/index.js'
+import { logout, fetchLatestReport, changePage } from '../../actions/index.js'
 import LeftMenu from './components/LeftMenu.js'
 import { convertUnix } from '../util.js'
 
@@ -46,6 +46,7 @@ class Logs extends Component {
     componentDidMount() {
         this.updateWindowDimensions()
         window.addEventListener('resize', this.updateWindowDimensions)
+        this.props.dispatch(changePage('analytics'))
         var today = new Date()
         this.setState({
             day: today.getDate(),
@@ -266,7 +267,7 @@ class Logs extends Component {
                     <div style={{ display: 'flex', width: '100%' }}>
                         <div
                             style={{
-                                width: '20%',
+                                width: '15%',
                                 minHeight: '100vh',
                                 maxWidth: 300,
                                 background: 'white',
@@ -278,7 +279,7 @@ class Logs extends Component {
                         </div>
                         <div
                             style={{
-                                width: '80%',
+                                width: '85%',
                                 padding: 50,
                                 paddingRight: 75,
                             }}
@@ -336,7 +337,7 @@ class Logs extends Component {
                                     </div>
                                     <div style = {{
                                         position: "relative",
-                                        right: 30
+                                        right: 40
                                     }}>
                                         <UsageChart />
                                     </div>
@@ -353,7 +354,7 @@ class Logs extends Component {
                                             }
                                         >
                                             <ToggleButton value={'day'}>
-                                                24 Hours
+                                                Last 24 Hours
                                             </ToggleButton>
                                             <ToggleButton
                                                 value={'week'}
