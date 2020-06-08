@@ -19,6 +19,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 import '../../static/App.css'
+
 import { logout, fetchLatestReport } from '../../actions/index.js'
 import LeftMenu from './components/LeftMenu.js'
 import { convertUnix } from '../util.js'
@@ -208,55 +209,47 @@ class Logs extends Component {
 
     render() {
         let summaryCard = (
-            <Card>
-                <Card.Body>
-                    {this.props.latestReport ? (
-                        <div>
-                            <div className="d-flex justify-content-between">
-                                <h6>
-                                    <FontAwesomeIcon icon={faClock} /> Last
-                                    updated:
-                                </h6>
-                                <h6>
-                                    {convertUnix(
-                                        this.props.latestReport.timestamp
-                                    )}
-                                </h6>
-                            </div>
-                            <div className="d-flex justify-content-between">
-                                <h6>
-                                    <FontAwesomeIcon icon={faPowerOff} /> VMs
-                                    deallocated past hour:
-                                </h6>
-                                <h6>
-                                    {
-                                        this.props.latestReport
-                                            .total_vms_deallocated
-                                    }
-                                </h6>
-                            </div>
-                            <div className="d-flex justify-content-between">
-                                <h6>
-                                    <FontAwesomeIcon icon={faUserCircle} />
-                                    {'  '}
-                                    Logons past hour:
-                                </h6>
-                                <h6>{this.props.latestReport.logons}</h6>
-                            </div>
-                            <div className="d-flex justify-content-between">
-                                <h6>
-                                    <FontAwesomeIcon icon={faUserClock} />
-                                    {'  '}
-                                    Logoffs past hour:
-                                </h6>
-                                <h6>{this.props.latestReport.logoffs}</h6>
-                            </div>
+            <div>
+                {this.props.latestReport ? (
+                    <div>
+                        <div className="d-flex justify-content-between">
+                            <h6>
+                                <FontAwesomeIcon icon={faClock} /> Last updated:
+                            </h6>
+                            <h6>
+                                {convertUnix(this.props.latestReport.timestamp)}
+                            </h6>
                         </div>
-                    ) : (
-                        <FontAwesomeIcon icon={faCircleNotch} spin />
-                    )}
-                </Card.Body>
-            </Card>
+                        <div className="d-flex justify-content-between">
+                            <h6>
+                                <FontAwesomeIcon icon={faPowerOff} /> VMs
+                                deallocated past hour:
+                            </h6>
+                            <h6>
+                                {this.props.latestReport.total_vms_deallocated}
+                            </h6>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <h6>
+                                <FontAwesomeIcon icon={faUserCircle} />
+                                {'  '}
+                                Logons past hour:
+                            </h6>
+                            <h6>{this.props.latestReport.logons}</h6>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <h6>
+                                <FontAwesomeIcon icon={faUserClock} />
+                                {'  '}
+                                Logoffs past hour:
+                            </h6>
+                            <h6>{this.props.latestReport.logoffs}</h6>
+                        </div>
+                    </div>
+                ) : (
+                    <FontAwesomeIcon icon={faCircleNotch} spin />
+                )}
+            </div>
         )
 
         return (
@@ -325,56 +318,73 @@ class Logs extends Component {
                                 </div>
                             </div>
                             <Row>
-                                <Col className="mb-4">
-                                    <Card>
-                                        <Card.Body>
-                                            <ToggleButtonGroup
-                                                type="radio"
-                                                name="select"
-                                                defaultValue={'day'}
-                                                onChange={
-                                                    this.handleChartSelect
-                                                }
-                                            >
-                                                <ToggleButton value={'day'}>
-                                                    24 Hours
-                                                </ToggleButton>
-                                                <ToggleButton
-                                                    value={'week'}
-                                                    disabled
-                                                >
-                                                    7 Days
-                                                </ToggleButton>
-                                                <ToggleButton
-                                                    value={'month'}
-                                                    disabled
-                                                >
-                                                    30 Days
-                                                </ToggleButton>
-                                                <ToggleButton
-                                                    value={'all'}
-                                                    disabled
-                                                >
-                                                    All Time
-                                                </ToggleButton>
-                                            </ToggleButtonGroup>
-                                            <h6>Active Users</h6>
-                                            <UsageChart />
-                                            {/* <p>{this.state.timelineMode}</p> */}
-                                        </Card.Body>
-                                    </Card>
+                                <Col lg={8}>
+                                    <div
+                                        style={{
+                                            fontWeight: 'bold',
+                                            fontSize: 24,
+                                            marginBottom: 30,
+                                        }}
+                                    >
+                                        Active Users
+                                    </div>
+                                    <div
+                                        style={{
+                                            position: 'relative',
+                                            right: 30,
+                                        }}
+                                    >
+                                        <UsageChart />
+                                    </div>
+                                    <div
+                                        style={{
+                                            marginTop: 25,
+                                            marginBottom: 25,
+                                        }}
+                                    >
+                                        <ToggleButtonGroup
+                                            type="radio"
+                                            name="select"
+                                            defaultValue={'day'}
+                                            onChange={this.handleChartSelect}
+                                        >
+                                            <ToggleButton value={'day'}>
+                                                24 Hours
+                                            </ToggleButton>
+                                            <ToggleButton value={'week'}>
+                                                7 Days
+                                            </ToggleButton>
+                                            <ToggleButton value={'month'}>
+                                                30 Days
+                                            </ToggleButton>
+                                            <ToggleButton value={'all'}>
+                                                All Time
+                                            </ToggleButton>
+                                        </ToggleButtonGroup>
+                                    </div>
                                 </Col>
-                                <Col xl="auto">
+                                <Col lg={4}>
+                                    <div
+                                        style={{
+                                            fontWeight: 'bold',
+                                            fontSize: 24,
+                                            marginBottom: 30,
+                                        }}
+                                    >
+                                        Summary
+                                    </div>
                                     {summaryCard}
-                                    <Card className="mt-4">
-                                        <Card.Body>
-                                            <h6>Current virtual machines</h6>
-                                            <div
-                                                id="sunburstDiv"
-                                                className="mt-3"
-                                            />
-                                        </Card.Body>
-                                    </Card>
+
+                                    <div
+                                        style={{
+                                            fontWeight: 'bold',
+                                            fontSize: 24,
+                                            marginBottom: 30,
+                                        }}
+                                    >
+                                        Virtual Machines
+                                    </div>
+                                    <div id="sunburstDiv" className="mt-3" />
                                 </Col>
                             </Row>
                         </div>
