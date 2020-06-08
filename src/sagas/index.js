@@ -4,6 +4,7 @@ import * as FormAction from '../actions/index.js'
 import { apiPost, apiGet } from '../utils/Api.js'
 import history from '../history'
 import { config } from '../constants.js'
+import { Form } from 'react-bootstrap'
 
 function* updateDB(action) {
     if (!action.updated) {
@@ -305,6 +306,30 @@ function* fetchDiskTable(action) {
     }
 }
 
+function* fetchLatestReport() {
+    const { json } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER + '/report/latest',
+        ''
+    )
+
+    if (json) {
+        yield put(FormAction.latestReportFetched(json))
+    }
+}
+
+function* fetchUserReport() {
+    const { json } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER + '/report/userReport',
+        ''
+    )
+
+    if (json) {
+        yield put(FormAction.userReportFetched(json))
+    }
+}
+
 export default function* rootSaga() {
     yield all([
         takeEvery(FormAction.UPDATE_DB, updateDB),
@@ -321,5 +346,7 @@ export default function* rootSaga() {
         takeEvery(FormAction.SET_DEV, setDev),
         takeEvery(FormAction.FETCH_DISK_TABLE, fetchDiskTable),
         takeEvery(FormAction.CHANGE_BRANCH, changeBranch),
+        takeEvery(FormAction.FETCH_LATEST_REPORT, fetchLatestReport),
+        takeEvery(FormAction.FETCH_USER_REPORT, fetchUserReport),
     ])
 }

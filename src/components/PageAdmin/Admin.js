@@ -10,6 +10,7 @@ import {
     fetchUserTable,
     deleteUser,
     logout,
+    changePage
 } from '../../actions/index.js'
 import LeftMenu from './components/LeftMenu.js'
 import VMTable from './components/VMTable.js'
@@ -37,6 +38,7 @@ class Admin extends Component {
     componentDidMount() {
         this.updateWindowDimensions()
         window.addEventListener('resize', this.updateWindowDimensions)
+        this.props.dispatch(changePage('dashboard'))
         var today = new Date()
         this.setState({
             day: today.getDate(),
@@ -128,7 +130,7 @@ class Admin extends Component {
                     <div style={{ display: 'flex', width: '100%' }}>
                         <div
                             style={{
-                                width: '20%',
+                                width: '15%',
                                 minHeight: '100vh',
                                 maxWidth: 300,
                                 background: 'white',
@@ -140,7 +142,7 @@ class Admin extends Component {
                         </div>
                         <div
                             style={{
-                                width: '80%',
+                                width: '85%',
                                 padding: 50,
                                 paddingRight: 75,
                             }}

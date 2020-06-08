@@ -18,6 +18,9 @@ const DEFAULT = {
     logs_not_found: false,
     disk_info: [],
     disks_fetched: false,
+    latestReport: null,
+    userReport: null,
+    page: 'dashboard'
 }
 
 export default function (state = DEFAULT, action) {
@@ -133,6 +136,21 @@ export default function (state = DEFAULT, action) {
                           (log) => log.connection_id !== action.connection_id
                       )
                     : [],
+            }
+        case AccountAction.LATEST_REPORT_FETCHED:
+            return {
+                ...state,
+                latestReport: action.report,
+            }
+        case AccountAction.USER_REPORT_FETCHED:
+            return {
+                ...state,
+                userReport: action.report,
+            }
+        case AccountAction.CHANGE_PAGE:
+            return {
+                ...state,
+                page: action.page
             }
         case AccountAction.LOGOUT:
             return DEFAULT

@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch, faTimes } from '@fortawesome/free-solid-svg-icons'
-import { deleteUser } from '../../../actions/index.js'
+import { deleteUser, fetchUserTable } from '../../../actions/index.js'
 
 import Style from '../../../styles/components/pageAdmin.module.css'
 
@@ -19,6 +19,7 @@ class UserTable extends Component {
     componentDidMount() {
         this.updateWindowDimensions()
         window.addEventListener('resize', this.updateWindowDimensions)
+        this.props.dispatch(fetchUserTable())
     }
 
     componentWillUnmount() {

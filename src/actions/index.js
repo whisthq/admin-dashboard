@@ -30,6 +30,11 @@ export const DELETE_LOGS = 'DELETE_LOGS'
 export const DELETE_LOG_SUCCESS = 'DELETE_LOG_SUCCESS'
 export const SET_DEV = 'SET_DEV'
 export const CHANGE_BRANCH = 'CHANGE_BRANCH'
+export const FETCH_LATEST_REPORT = 'FETCH_LATEST_REPORT'
+export const LATEST_REPORT_FETCHED = 'LATEST_REPORT_FETCHED'
+export const FETCH_USER_REPORT = 'FETCH_USER_REPORT'
+export const USER_REPORT_FETCHED = 'USER_REPORT_FETCHED'
+export const CHANGE_PAGE = 'CHANGE_PAGE'
 
 export function fetchVMs(id) {
     return {
@@ -249,5 +254,38 @@ export function changeBranch(disk_name, branch) {
         type: CHANGE_BRANCH,
         disk_name,
         branch,
+    }
+}
+
+export function fetchLatestReport() {
+    return {
+        type: FETCH_LATEST_REPORT,
+    }
+}
+
+export function latestReportFetched(report) {
+    return {
+        type: LATEST_REPORT_FETCHED,
+        report,
+    }
+}
+
+export function fetchUserReport() {
+    return {
+        type: FETCH_USER_REPORT,
+    }
+}
+
+export function userReportFetched(report) {
+    return {
+        type: USER_REPORT_FETCHED,
+        report,
+    }
+}
+
+export function changePage(page) {
+    return {
+        type: CHANGE_PAGE,
+        page
     }
 }
