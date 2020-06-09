@@ -1,0 +1,8 @@
+.usageChart {
+    height: 300px;
+}
+
+.chartTooltipDiv {
+    display: flex;
+    flex-direction: row;
+}
