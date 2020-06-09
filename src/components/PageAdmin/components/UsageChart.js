@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { fetchUserReport } from '../../../actions/index.js'
+import { fetchRegionReport } from '../../../actions/index.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import { connect } from 'react-redux'
@@ -13,8 +13,6 @@ import {
     YAxis,
     Tooltip,
 } from 'recharts'
-
-import Style from '../../../styles/components/analytics.module.css'
 
 // https://devhints.io/moment
 // https://github.com/recharts/recharts/issues/956#issuecomment-339279600
@@ -32,17 +30,17 @@ class UsageChart extends Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(fetchUserReport(this.state.timescale))
+        this.props.dispatch(fetchRegionReport(this.state.timescale))
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.userReport !== this.props.userReport) {
+        if (prevProps.regionReport !== this.props.regionReport) {
             let total = [],
                 eastus = [],
                 northcentralus = [],
                 southcentralus = []
 
-            this.props.userReport.forEach((element) => {
+            this.props.regionReport.forEach((element) => {
                 total.push({
                     x: element.timestamp,
                     'Number of users': element.users_online,
@@ -71,7 +69,7 @@ class UsageChart extends Component {
 
     handleChartSelect = (val) => {
         this.setState({ timescale: val })
-        this.props.dispatch(fetchUserReport(val))
+        this.props.dispatch(fetchRegionReport(val))
         console.log(val)
     }
 
@@ -102,7 +100,7 @@ class UsageChart extends Component {
 
         return (
             <ResponsiveContainer height={100} width="100%">
-                <LineChart data={dataList}>
+                <LineChart data={dataList} syncId="usageChart">
                     <Line
                         type="monotone"
                         dataKey="Number of users"
@@ -206,7 +204,7 @@ class UsageChart extends Component {
 
 function mapStateToProps(state) {
     return {
-        userReport: state.AccountReducer.userReport,
+        regionReport: state.AccountReducer.regionReport,
     }
 }
 

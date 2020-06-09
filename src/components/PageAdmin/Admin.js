@@ -42,48 +42,47 @@ class Admin extends Component {
                         <Col sm={2}>
                             <LeftMenu />
                         </Col>
-                        <Col
-                            sm={10}
-                            style={{
-                                width: '80%',
-                                padding: 50,
-                                paddingRight: 75,
-                            }}
-                        >
-                            <div className="d-flex justify-content-between">
-                                <p>{this.state.date}</p>
-                                <Button
-                                    onClick={() =>
-                                        this.props.dispatch(logout())
-                                    }
-                                    style={{
-                                        border: 'none',
-                                        padding: '10px 30px',
-                                        fontWeight: 'bold',
-                                        color: '#1ba8e0',
-                                        background: 'rgba(94, 195, 235, 0.2)',
-                                        borderRadius: 3,
-                                    }}
-                                >
-                                    Logout
-                                </Button>
+                        <Col sm={10}>
+                            <div className="p-5">
+                                <div className="d-flex justify-content-between">
+                                    <p>{this.state.date}</p>
+                                    <Button
+                                        onClick={() =>
+                                            this.props.dispatch(logout())
+                                        }
+                                        style={{
+                                            border: 'none',
+                                            padding: '10px 30px',
+                                            fontWeight: 'bold',
+                                            color: '#1ba8e0',
+                                            background:
+                                                'rgba(94, 195, 235, 0.2)',
+                                            borderRadius: 3,
+                                        }}
+                                    >
+                                        Logout
+                                    </Button>
+                                </div>
+                                <Switch>
+                                    <Route
+                                        exact
+                                        path="/admin"
+                                        component={Dashboard}
+                                    />
+                                    <Route
+                                        path="/admin/dashboard"
+                                        component={Dashboard}
+                                    />
+                                    <Route
+                                        path="/admin/logs"
+                                        component={Logs}
+                                    />
+                                    <Route
+                                        path="/admin/analytics"
+                                        component={Analytics}
+                                    />
+                                </Switch>
                             </div>
-                            <Switch>
-                                <Route
-                                    exact
-                                    path="/admin"
-                                    component={Dashboard}
-                                />
-                                <Route
-                                    path="/admin/dashboard"
-                                    component={Dashboard}
-                                />
-                                <Route path="/admin/logs" component={Logs} />
-                                <Route
-                                    path="/admin/analytics"
-                                    component={Analytics}
-                                />
-                            </Switch>
                         </Col>
                     </Row>
                 ) : (

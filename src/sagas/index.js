@@ -318,12 +318,27 @@ function* fetchLatestReport() {
     }
 }
 
+function* fetchRegionReport(action) {
+    const { json } = yield call(
+        apiPost,
+        config.url.PRIMARY_SERVER + '/report/regionReport',
+        {
+            timescale: action.timescale,
+        }
+    )
+
+    if (json) {
+        yield put(FormAction.regionReportFetched(json))
+    }
+}
+
 function* fetchUserReport(action) {
     const { json } = yield call(
         apiPost,
         config.url.PRIMARY_SERVER + '/report/userReport',
         {
             timescale: action.timescale,
+            user: action.username,
         }
     )
 
@@ -349,6 +364,7 @@ export default function* rootSaga() {
         takeEvery(FormAction.FETCH_DISK_TABLE, fetchDiskTable),
         takeEvery(FormAction.CHANGE_BRANCH, changeBranch),
         takeEvery(FormAction.FETCH_LATEST_REPORT, fetchLatestReport),
+        takeEvery(FormAction.FETCH_REGION_REPORT, fetchRegionReport),
         takeEvery(FormAction.FETCH_USER_REPORT, fetchUserReport),
     ])
 }

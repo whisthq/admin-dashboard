@@ -18,9 +18,6 @@ class Logs extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            width: 0,
-            height: 0,
-            modalShow: false,
             showPopup: false,
             loaded: false,
             logsFetched: false,
@@ -28,22 +25,11 @@ class Logs extends Component {
             processing: false,
             last_index: 10,
         }
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
 
     componentDidMount() {
-        this.updateWindowDimensions()
-        window.addEventListener('resize', this.updateWindowDimensions)
         this.props.dispatch(fetchUserActivity(false))
         this.props.dispatch(logsFound(false))
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions)
-    }
-
-    updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight })
     }
 
     componentDidUpdate(prevProps) {
@@ -104,11 +90,6 @@ class Logs extends Component {
     }
 
     render() {
-        let modalClose = () => this.setState({ modalShow: false })
-        if (this.state.width > 700 && this.state.modalShow) {
-            modalClose()
-        }
-
         var header = []
         if (this.props.logs.length > 0) {
             Object.keys(this.props.logs[0]).forEach(function (key) {

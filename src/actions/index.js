@@ -34,6 +34,8 @@ export const FETCH_LATEST_REPORT = 'FETCH_LATEST_REPORT'
 export const LATEST_REPORT_FETCHED = 'LATEST_REPORT_FETCHED'
 export const FETCH_USER_REPORT = 'FETCH_USER_REPORT'
 export const USER_REPORT_FETCHED = 'USER_REPORT_FETCHED'
+export const FETCH_REGION_REPORT = 'FETCH_REGION_REPORT'
+export const REGION_REPORT_FETCHED = 'REGION_REPORT_FETCHED'
 
 export function fetchVMs(id) {
     return {
@@ -269,9 +271,17 @@ export function latestReportFetched(report) {
     }
 }
 
-export function fetchUserReport(timescale) {
+export function fetchUserReport(timescale, username) {
     return {
         type: FETCH_USER_REPORT,
+        timescale,
+        username,
+    }
+}
+
+export function fetchRegionReport(timescale) {
+    return {
+        type: FETCH_REGION_REPORT,
         timescale,
     }
 }
@@ -279,6 +289,13 @@ export function fetchUserReport(timescale) {
 export function userReportFetched(report) {
     return {
         type: USER_REPORT_FETCHED,
+        report,
+    }
+}
+
+export function regionReportFetched(report) {
+    return {
+        type: REGION_REPORT_FETCHED,
         report,
     }
 }

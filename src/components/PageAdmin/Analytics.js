@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
 import '../../static/App.css'
 
-import GeneralStats from './components/GeneralStats.js'
+import GeneralStats from './components/GeneralStats'
+import UserStats from './components/UserStats'
 
 class Analytics extends Component {
     render() {
@@ -13,14 +15,32 @@ class Analytics extends Component {
                         marginTop: 5,
                         fontSize: 45,
                         fontWeight: 'bold',
-                        marginBottom: 60,
+                        marginBottom: 10,
                         width: 275,
                         color: '#111111',
                     }}
                 >
                     ANALYTICS
                 </div>
-                <GeneralStats />
+                <Tabs>
+                    <TabList
+                        style={{
+                            textAlign: 'left',
+                            border: 'none',
+                            fontSize: 16,
+                            marginBottom: 20,
+                        }}
+                    >
+                        <Tab>General</Tab>
+                        <Tab>Users</Tab>
+                    </TabList>
+                    <TabPanel>
+                        <GeneralStats />
+                    </TabPanel>
+                    <TabPanel>
+                        <UserStats />
+                    </TabPanel>
+                </Tabs>
             </div>
         )
     }

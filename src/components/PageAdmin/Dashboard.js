@@ -18,28 +18,14 @@ class Dashboard extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            width: 0,
-            height: 0,
-            modalShow: false,
             showPopup: false,
             loaded: false,
             userTableFetched: false,
         }
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
 
     componentDidMount() {
-        this.updateWindowDimensions()
-        window.addEventListener('resize', this.updateWindowDimensions)
         this.props.dispatch(fetchUserActivity(false))
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions)
-    }
-
-    updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight })
     }
 
     componentDidUpdate(prevProps) {
@@ -58,10 +44,6 @@ class Dashboard extends Component {
     }
 
     render() {
-        let modalClose = () => this.setState({ modalShow: false })
-        if (this.state.width > 700 && this.state.modalShow) {
-            modalClose()
-        }
         return (
             <div>
                 <div

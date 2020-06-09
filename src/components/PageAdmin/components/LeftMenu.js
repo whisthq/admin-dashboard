@@ -10,29 +10,10 @@ withRouter((props) => <LeftMenu {...props} />)
 class LeftMenu extends Component {
     constructor(props) {
         super(props)
-        this.state = { width: 0, height: 0, page: 'dashboard' }
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
-    }
-
-    componentDidMount() {
-        this.updateWindowDimensions()
-        window.addEventListener('resize', this.updateWindowDimensions)
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions)
-    }
-
-    updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight })
+        this.state = { page: 'dashboard' }
     }
 
     render() {
-        let modalClose = () => this.setState({ modalShow: false })
-        if (this.state.width > 700 && this.state.modalShow) {
-            modalClose()
-        }
-
         return (
             <div className="pl-5 pt-5">
                 <img src={Logo} alt="" style={{ width: 40, height: 40 }} />
