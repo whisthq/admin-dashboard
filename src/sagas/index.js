@@ -318,11 +318,13 @@ function* fetchLatestReport() {
     }
 }
 
-function* fetchUserReport() {
+function* fetchUserReport(action) {
     const { json } = yield call(
-        apiGet,
+        apiPost,
         config.url.PRIMARY_SERVER + '/report/userReport',
-        ''
+        {
+            timescale: action.timescale,
+        }
     )
 
     if (json) {

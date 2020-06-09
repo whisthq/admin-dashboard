@@ -269,9 +269,10 @@ export function latestReportFetched(report) {
     }
 }
 
-export function fetchUserReport() {
+export function fetchUserReport(timescale) {
     return {
         type: FETCH_USER_REPORT,
+        timescale,
     }
 }
 
