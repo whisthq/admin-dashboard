@@ -9,7 +9,7 @@ import LeftMenu from './components/LeftMenu.js'
 import Dashboard from './Dashboard'
 import Logs from './Logs'
 import Analytics from './Analytics'
-import { Button } from 'react-bootstrap'
+import { Button, Row, Col } from 'react-bootstrap'
 
 import '../../static/App.css'
 import 'react-tabs/style/react-tabs.css'
@@ -38,68 +38,54 @@ class Admin extends Component {
         return (
             <div>
                 {this.props.authenticated ? (
-                    <div style={{ backgroundColor: '#FFFFFF' }}>
-                        <div style={{ display: 'flex', width: '100%' }}>
-                            <div
-                                style={{
-                                    width: '20%',
-                                    minHeight: '100vh',
-                                    maxWidth: 300,
-                                    background: 'white',
-                                    paddingTop: 50,
-                                    paddingLeft: 75,
-                                }}
-                            >
-                                <LeftMenu />
+                    <Row style={{ backgroundColor: '#FFFFFF' }}>
+                        <Col sm={2}>
+                            <LeftMenu />
+                        </Col>
+                        <Col
+                            sm={10}
+                            style={{
+                                width: '80%',
+                                padding: 50,
+                                paddingRight: 75,
+                            }}
+                        >
+                            <div className="d-flex justify-content-between">
+                                <p>{this.state.date}</p>
+                                <Button
+                                    onClick={() =>
+                                        this.props.dispatch(logout())
+                                    }
+                                    style={{
+                                        border: 'none',
+                                        padding: '10px 30px',
+                                        fontWeight: 'bold',
+                                        color: '#1ba8e0',
+                                        background: 'rgba(94, 195, 235, 0.2)',
+                                        borderRadius: 3,
+                                    }}
+                                >
+                                    Logout
+                                </Button>
                             </div>
-                            <div
-                                style={{
-                                    width: '80%',
-                                    padding: 50,
-                                    paddingRight: 75,
-                                }}
-                            >
-                                <div className="d-flex justify-content-between">
-                                    <p>{this.state.date}</p>
-                                    <Button
-                                        onClick={() =>
-                                            this.props.dispatch(logout())
-                                        }
-                                        style={{
-                                            border: 'none',
-                                            padding: '10px 30px',
-                                            fontWeight: 'bold',
-                                            color: '#1ba8e0',
-                                            background:
-                                                'rgba(94, 195, 235, 0.2)',
-                                            borderRadius: 3,
-                                        }}
-                                    >
-                                        Logout
-                                    </Button>
-                                </div>
-                                <Switch>
-                                    <Route
-                                        exact
-                                        path="/admin"
-                                        component={Dashboard}
-                                    />
-                                    <Route
-                                        path="/admin/dashboard"
-                                        component={Dashboard}
-                                    />
-                                    <Route
-                                        path="/admin/logs"
-                                        component={Logs}
-                                    />
-                                    <Route
-                                        path="/admin/analytics"
-                                        component={Analytics}
-                                    />
-                                </Switch>
-                            </div>
-                        </div>
-                    </div>
+                            <Switch>
+                                <Route
+                                    exact
+                                    path="/admin"
+                                    component={Dashboard}
+                                />
+                                <Route
+                                    path="/admin/dashboard"
+                                    component={Dashboard}
+                                />
+                                <Route path="/admin/logs" component={Logs} />
+                                <Route
+                                    path="/admin/analytics"
+                                    component={Analytics}
+                                />
+                            </Switch>
+                        </Col>
+                    </Row>
                 ) : (
                     <Redirect to="/" />
                 )}

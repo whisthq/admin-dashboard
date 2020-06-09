@@ -5,10 +5,6 @@ import '../../static/App.css'
 import GeneralStats from './components/GeneralStats.js'
 
 class Analytics extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         return (
             <div style={{ backgroundColor: '#FFFFFF' }}>

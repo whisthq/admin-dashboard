@@ -34,7 +34,7 @@ class LeftMenu extends Component {
         }
 
         return (
-            <div>
+            <div className="pl-5 pt-5">
                 <img src={Logo} alt="" style={{ width: 40, height: 40 }} />
                 <div style={{ marginTop: 25, fontSize: 18 }}>
                     <div style={{ marginBottom: 15 }}>
