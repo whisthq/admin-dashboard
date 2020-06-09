@@ -26,8 +26,6 @@ class CustomerTable extends Component {
     componentDidMount() {
         this.updateWindowDimensions()
         window.addEventListener('resize', this.updateWindowDimensions)
-
-        // refresh the customer table every 60 seconds
         this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000)
     }
 
