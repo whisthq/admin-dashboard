@@ -13,28 +13,17 @@ class DiskTable extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            width: 0,
-            height: 0,
-            modalShow: false,
             sortBy: 'username',
         }
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
 
     componentDidMount() {
-        this.updateWindowDimensions()
         this.props.dispatch(fetchDiskTable())
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions)
-
         // stop auto-refreshing
         clearInterval(this.intervalID)
-    }
-
-    updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight })
     }
 
     changeBranch = (disk_name, branch) => {
@@ -102,10 +91,6 @@ class DiskTable extends Component {
     }
 
     render() {
-        let modalClose = () => this.setState({ modalShow: false })
-        if (this.state.width > 700 && this.state.modalShow) {
-            modalClose()
-        }
         var header = []
         if (this.props.disk_info.length > 0) {
             Object.keys(this.props.disk_info[0]).forEach(function (key) {

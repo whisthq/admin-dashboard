@@ -23,19 +23,14 @@ class VMTable extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            width: 0,
-            height: 0,
-            modalShow: false,
             sortBy: 'vm_name',
         }
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
 
     // intervalID var to keep track of auto-refreshing across functions
     intervalID
 
     componentDidMount() {
-        this.updateWindowDimensions()
         this.props.dispatch(updateDB(false))
 
         // refresh the VM table every 60 seconds
@@ -43,18 +38,12 @@ class VMTable extends Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions)
-
         // stop auto-refreshing
         clearInterval(this.intervalID)
     }
 
     getUpdatedDatabase() {
         this.props.dispatch(updateDB(false))
-    }
-
-    updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight })
     }
 
     startVM = (vm_name) => {
@@ -130,10 +119,6 @@ class VMTable extends Component {
     }
 
     render() {
-        let modalClose = () => this.setState({ modalShow: false })
-        if (this.state.width > 700 && this.state.modalShow) {
-            modalClose()
-        }
         var header = []
         if (this.props.vm_info.length > 0) {
             Object.keys(this.props.vm_info[0]).forEach(function (key) {

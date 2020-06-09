@@ -20,20 +20,6 @@ class LoginPage extends Component {
             loggingIn: false,
             failed_login_attempt: false,
         }
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
-    }
-
-    componentDidMount() {
-        this.updateWindowDimensions()
-        window.addEventListener('resize', this.updateWindowDimensions)
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions)
-    }
-
-    updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight })
     }
 
     changeEmailLogin = (evt) => {
@@ -80,10 +66,6 @@ class LoginPage extends Component {
     }
 
     render() {
-        let modalClose = () => this.setState({ modalShow: false })
-        if (this.state.width > 700 && this.state.modalShow) {
-            modalClose()
-        }
         return (
             <div style={{ height: '100vh' }}>
                 {this.props.authenticated ? (

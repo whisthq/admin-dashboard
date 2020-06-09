@@ -9,11 +9,9 @@ import ReduxPromise from 'redux-promise'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import Admin from './components/PageAdmin/Admin'
-import Analytics from './components/PageAdmin/Analytics'
-import Logs from './components/PageAdmin/Logs'
 
 import rootSaga from './sagas'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { Router } from 'react-router'
 import { Helmet } from 'react-helmet'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -49,10 +47,10 @@ ReactDOM.render(
                 <Helmet>
                     <title>Fractal</title>
                 </Helmet>
-                <Route exact path="/" component={LoginPage} />
-                <Route exact path="/admin" component={Admin} />
-                <Route exact path="/analytics" component={Analytics} />
-                <Route exact path="/logs" component={Logs} />
+                <Switch>
+                    <Route exact path="/" component={LoginPage} />
+                    <Route path="/admin" component={Admin} />
+                </Switch>
             </PersistGate>
         </Provider>
     </Router>,
