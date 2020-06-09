@@ -18,7 +18,6 @@ class Logs extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            showPopup: false,
             loaded: false,
             logsFetched: false,
             username: '',

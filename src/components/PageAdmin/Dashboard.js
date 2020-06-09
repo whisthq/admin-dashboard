@@ -18,7 +18,6 @@ class Dashboard extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            showPopup: false,
             loaded: false,
             userTableFetched: false,
         }
@@ -90,7 +89,7 @@ class Dashboard extends Component {
                                 <UserTable />
                             </TabPanel>
                             <TabPanel style={{ paddingTop: 20 }}>
-                                <CustomerTable />
+                                <CustomerTable openModal={() => null} />
                             </TabPanel>
                         </Tabs>
                     </div>

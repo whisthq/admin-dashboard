@@ -60,6 +60,8 @@ class CustomerTable extends Component {
 
         header.reverse()
 
+        console.log(this.props.customers)
+
         return (
             <div>
                 {this.props.customers.length > 0 ? (
