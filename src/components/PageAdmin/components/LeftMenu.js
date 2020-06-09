@@ -41,7 +41,7 @@ class LeftMenu extends Component {
                         <Link
                             onClick={() => this.setState({ page: 'dashboard' })}
                             style={{ textDecoration: 'none', color: '#111111' }}
-                            to="/"
+                            to="/admin/dashboard"
                         >
                             Dashboard
                         </Link>
@@ -50,7 +50,7 @@ class LeftMenu extends Component {
                         <Link
                             onClick={() => this.setState({ page: 'logs' })}
                             style={{ textDecoration: 'none', color: '#111111' }}
-                            to="/analytics"
+                            to="/admin/analytics"
                         >
                             Analytics
                         </Link>
@@ -59,7 +59,7 @@ class LeftMenu extends Component {
                         <Link
                             onClick={() => this.setState({ page: 'logs' })}
                             style={{ textDecoration: 'none', color: '#111111' }}
-                            to="/logs"
+                            to="/admin/logs"
                         >
                             User Logs
                         </Link>
