@@ -12,28 +12,19 @@ class CustomerTable extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            width: 0,
-            height: 0,
-            modalShow: false,
             customers_fetched: false,
         }
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
 
     // intervalID var to keep track of auto-refreshing across functions
     intervalID
 
     componentDidMount() {
-        this.updateWindowDimensions()
-        window.addEventListener('resize', this.updateWindowDimensions)
-
         // refresh the customer table every 60 seconds
         this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000)
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions)
-
         // stop auto-refreshing
         clearInterval(this.intervalID)
     }
@@ -59,15 +50,7 @@ class CustomerTable extends Component {
         this.props.dispatch(fetchCustomers())
     }
 
-    updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight })
-    }
-
     render() {
-        let modalClose = () => this.setState({ modalShow: false })
-        if (this.state.width > 700 && this.state.modalShow) {
-            modalClose()
-        }
         var header = []
         if (this.props.customers.length > 0) {
             Object.keys(this.props.customers[0]).forEach(function (key) {
@@ -76,6 +59,8 @@ class CustomerTable extends Component {
         }
 
         header.reverse()
+
+        // console.log(this.props.customers)
 
         return (
             <div>
@@ -92,7 +77,17 @@ class CustomerTable extends Component {
                                 })}
                             </tr>
                             {this.props.customers.map((value, index) => (
-                                <tr className={Style.tableRow} key={index}>
+                                <tr
+                                    className={Style.tableRow}
+                                    key={index}
+                                    onClick={() => {
+                                        this.props.openModal(
+                                            this.props.customers[index][
+                                                'username'
+                                            ]
+                                        )
+                                    }}
+                                >
                                     {header.map((value1, index1) => (
                                         <td
                                             className={Style.tableCell}
@@ -137,7 +132,6 @@ class CustomerTable extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state)
     return {
         customers: state.AccountReducer.customers
             ? state.AccountReducer.customers.reverse()

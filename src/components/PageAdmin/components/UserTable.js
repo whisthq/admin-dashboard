@@ -10,34 +10,11 @@ import Style from '../../../styles/components/pageAdmin.module.css'
 import '../../../static/App.css'
 
 class UserTable extends Component {
-    constructor(props) {
-        super(props)
-        this.state = { width: 0, height: 0, modalShow: false }
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
-    }
-
-    componentDidMount() {
-        this.updateWindowDimensions()
-        window.addEventListener('resize', this.updateWindowDimensions)
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions)
-    }
-
-    updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight })
-    }
-
     deleteUser = (user) => {
         this.props.dispatch(deleteUser(user))
     }
 
     render() {
-        let modalClose = () => this.setState({ modalShow: false })
-        if (this.state.width > 700 && this.state.modalShow) {
-            modalClose()
-        }
         var header = []
         if (this.props.userTable.length > 0) {
             Object.keys(this.props.userTable[0]).forEach(function (key) {
