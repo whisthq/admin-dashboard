@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Popup from 'reactjs-popup'
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
 import { fetchUserReport } from '../../../actions/index.js'
 import { connect } from 'react-redux'
@@ -10,8 +9,7 @@ import {
     ResponsiveContainer,
     XAxis,
     YAxis,
-    Tooltip,
-    Label,
+    Tooltip
 } from 'recharts'
 
 import CustomerList from '../containers/CustomerList'

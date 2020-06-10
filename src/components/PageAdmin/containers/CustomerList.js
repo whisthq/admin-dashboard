@@ -22,6 +22,7 @@ class CustomerList extends Component {
     componentDidMount() {
         // refresh the customer table every 60 seconds
         this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000)
+        this.props.dispatch(fetchCustomers())
     }
 
     componentWillUnmount() {

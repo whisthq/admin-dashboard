@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import { Route, Switch, Redirect } from 'react-router-dom'
 
-import { fetchUserActivity, logout, changePage } from '../../actions/index.js'
+import { fetchUserActivity, logout } from '../../actions/index.js'
 
 import LeftMenu from './components/LeftMenu.js'
 import Dashboard from './Dashboard'

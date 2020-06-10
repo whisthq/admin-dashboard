@@ -11,10 +11,6 @@ import UserStats from './components/UserStats'
 import VMPieChart from './containers/VMPieChart'
 
 class Analytics extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     componentDidMount() {
         this.props.dispatch(changePage("analytics"))
     }

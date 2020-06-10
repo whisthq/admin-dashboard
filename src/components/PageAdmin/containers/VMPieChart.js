@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Row, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import {
     PieChart,
@@ -12,10 +11,6 @@ import '../../../static/App.css'
 
 
 class VMPieChart extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         const data = [
             { name: 'Deallocated', value: this.props.deallocated},
