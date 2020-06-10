@@ -5,8 +5,8 @@ import { fetchUserReport } from '../../../actions/index.js'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import {
-    AreaChart,
-    Area,
+    BarChart,
+    Bar,
     ResponsiveContainer,
     XAxis,
     YAxis,
@@ -29,7 +29,6 @@ class UserStats extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.userReport !== this.props.userReport) {
             let activity = []
-            console.log(this.props.userReport)
             if (this.props.userReport.length) {
                 this.props.userReport.forEach((element) => {
                     activity.push({
@@ -107,64 +106,65 @@ class UserStats extends Component {
                         </div>
                     </div>
                     {this.state.activity ? (
-                        <ResponsiveContainer height={150} width="100%">
-                            <AreaChart data={this.state.activity}>
-                                <Area
-                                    type="step"
-                                    dataKey="Minutes online"
-                                    dot={false}
-                                    strokeWidth={2}
-                                    stroke="#8884d8"
-                                    fill="#8884d8"
-                                />
-                                <XAxis
-                                    dataKey="x"
-                                    axisLine={false}
-                                    domain={
-                                        this.state.timescale === 'week'
-                                            ? [
-                                                  moment()
-                                                      .subtract('days', 7)
-                                                      .unix(),
-                                                  Date.now() / 1000,
-                                              ]
-                                            : [
-                                                  moment()
-                                                      .subtract('months', 1)
-                                                      .unix(),
-                                                  Date.now() / 1000,
-                                              ]
-                                    }
-                                    tick={{
-                                        fontSize: 12,
-                                        transform: 'translate(0, 10)',
-                                    }}
-                                    tickFormatter={(unixTime) =>
-                                        moment(unixTime * 1000).format(format)
-                                    }
-                                    type="number"
-                                    scale="time"
-                                />
-                                <YAxis
-                                    dataKey="Minutes online"
-                                    axisLine={false}
-                                    tickLine={false}
-                                    allowDecimals={false}
-                                    tick={{
-                                        fontSize: 12,
-                                    }}
-                                />
-                                <Tooltip
-                                    contentStyle={{
-                                        border: 'none',
-                                        fontSize: 14,
-                                    }}
-                                    labelFormatter={(unixTime) =>
-                                        moment(unixTime * 1000).format(format)
-                                    }
-                                />
-                            </AreaChart>
-                        </ResponsiveContainer>
+                        this.state.activity.length ? (
+                            <ResponsiveContainer height={150} width="100%">
+                                <BarChart data={this.state.activity}>
+                                    <XAxis
+                                        dataKey="x"
+                                        domain={
+                                            this.state.timescale === 'week'
+                                                ? [
+                                                      moment()
+                                                          .subtract('days', 7)
+                                                          .unix(),
+                                                      Date.now() / 1000,
+                                                  ]
+                                                : [
+                                                      moment()
+                                                          .subtract('months', 1)
+                                                          .unix(),
+                                                      Date.now() / 1000,
+                                                  ]
+                                        }
+                                        tick={{
+                                            fontSize: 12,
+                                            transform: 'translate(0, 10)',
+                                        }}
+                                        tickFormatter={(unixTime) =>
+                                            moment(unixTime * 1000).format(
+                                                format
+                                            )
+                                        }
+                                        type="number"
+                                        scale="time"
+                                    />
+                                    <YAxis
+                                        dataKey="Minutes online"
+                                        allowDecimals={false}
+                                        tick={{
+                                            fontSize: 12,
+                                        }}
+                                    />
+                                    <Tooltip
+                                        contentStyle={{
+                                            border: 'none',
+                                            fontSize: 14,
+                                        }}
+                                        labelFormatter={(unixTime) =>
+                                            moment(unixTime * 1000).format(
+                                                format
+                                            )
+                                        }
+                                    />
+                                    <Bar
+                                        dataKey="Minutes online"
+                                        fill="#8884d8"
+                                    />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        ) : (
+                            <p>No usage recorded for this period.</p>
+                        )
                     ) : (
                         <p>NOT loaded</p>
                     )}
