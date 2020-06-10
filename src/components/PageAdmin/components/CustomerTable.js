@@ -60,7 +60,7 @@ class CustomerTable extends Component {
 
         header.reverse()
 
-        console.log(this.props.customers)
+        // console.log(this.props.customers)
 
         return (
             <div>
@@ -77,7 +77,17 @@ class CustomerTable extends Component {
                                 })}
                             </tr>
                             {this.props.customers.map((value, index) => (
-                                <tr className={Style.tableRow} key={index}>
+                                <tr
+                                    className={Style.tableRow}
+                                    key={index}
+                                    onClick={() => {
+                                        this.props.openModal(
+                                            this.props.customers[index][
+                                                'username'
+                                            ]
+                                        )
+                                    }}
+                                >
                                     {header.map((value1, index1) => (
                                         <td
                                             className={Style.tableCell}
@@ -122,7 +132,6 @@ class CustomerTable extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state)
     return {
         customers: state.AccountReducer.customers
             ? state.AccountReducer.customers.reverse()

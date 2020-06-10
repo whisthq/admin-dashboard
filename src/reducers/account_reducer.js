@@ -19,7 +19,7 @@ const DEFAULT = {
     disk_info: [],
     disks_fetched: false,
     latestReport: null,
-    userRerpot: null,
+    userReport: null,
     regionReport: null,
 }
 

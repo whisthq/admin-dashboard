@@ -70,7 +70,6 @@ class UsageChart extends Component {
     handleChartSelect = (val) => {
         this.setState({ timescale: val })
         this.props.dispatch(fetchRegionReport(val))
-        console.log(val)
     }
 
     chartElement = (userType) => {
