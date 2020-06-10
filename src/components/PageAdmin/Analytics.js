@@ -69,21 +69,56 @@ class Analytics extends Component {
                         </div>
                         <VMPieChart
                             location = "Eastus"
-                            deallocated = {this.props.latestReport.eastus_deallocated}
-                            unavailable = {this.props.latestReport.eastus_unavailable}
-                            available = {this.props.latestReport.eastus_available}
+                            deallocated = {
+                                this.props.latestReport ? 
+                                this.props.latestReport.eastus_deallocated :
+                                0
+                            }
+                            unavailable = {
+                                this.props.latestReport ? 
+                                this.props.latestReport.eastus_unavailable :
+                                0
+                            }
+                            available = {
+                                this.props.latestReport ? 
+                                this.props.latestReport.eastus_available :
+                                0
+                            }
                         />
                         <VMPieChart
                             location = "Northcentralus"
-                            deallocated = {this.props.latestReport.northcentralus_deallocated}
-                            unavailable = {this.props.latestReport.northcentralus_unavailable}
-                            available = {this.props.latestReport.northcentralus_available}
+                            deallocated = {
+                                this.props.latestReport ? 
+                                this.props.latestReport.northcentralus_deallocated :
+                                0
+                            }
+                            unavailable = {
+                                this.props.latestReport ? 
+                                this.props.latestReport.northcentralus_unavailable :
+                                0
+                            }
+                            available = {
+                                this.props.latestReport ? 
+                                this.props.latestReport.northcentralus_available :
+                                0
+                            }
                         />
                         <VMPieChart
-                            location = "Southcentralus"
-                            deallocated = {this.props.latestReport.southcentralus_deallocated}
-                            unavailable = {this.props.latestReport.southcentralus_unavailable}
-                            available = {this.props.latestReport.southcentralus_available}
+                            deallocated = {
+                                this.props.latestReport ? 
+                                this.props.latestReport.southcentralus_deallocated :
+                                0
+                            }
+                            unavailable = {
+                                this.props.latestReport ? 
+                                this.props.latestReport.southcentralus_unavailable :
+                                0
+                            }
+                            available = {
+                                this.props.latestReport ? 
+                                this.props.latestReport.southcentralus_available :
+                                0
+                            }
                         />
                     </Col>
                 </Row>
