@@ -76,7 +76,10 @@ class CustomerTable extends Component {
         header.reverse()
 
         return (
-            <div>
+            <div style = {{
+                maxHeight: 650,
+                overflowY: "scroll"
+            }}>
                 {this.props.customers.length > 0 ? (
                     <div className={Style.tableContainer}>
                         <table className={Style.table}>
