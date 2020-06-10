@@ -10,10 +10,6 @@ import Style from '../../../styles/components/pageAdmin.module.css'
 import '../../../static/App.css'
 
 class UserTable extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     deleteUser = (user) => {
         this.props.dispatch(deleteUser(user))
     }

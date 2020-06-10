@@ -338,7 +338,7 @@ function* fetchUserReport(action) {
         config.url.PRIMARY_SERVER + '/report/userReport',
         {
             timescale: action.timescale,
-            user: action.username,
+            username: action.username,
         }
     )
 
