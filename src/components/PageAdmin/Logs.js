@@ -12,6 +12,7 @@ import {
     fetchLogs,
     logsFound,
     deleteLogs,
+    changePage
 } from '../../actions/index.js'
 
 class Logs extends Component {

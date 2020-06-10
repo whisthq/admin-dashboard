@@ -36,6 +36,7 @@ export const FETCH_USER_REPORT = 'FETCH_USER_REPORT'
 export const USER_REPORT_FETCHED = 'USER_REPORT_FETCHED'
 export const FETCH_REGION_REPORT = 'FETCH_REGION_REPORT'
 export const REGION_REPORT_FETCHED = 'REGION_REPORT_FETCHED'
+export const CHANGE_PAGE = 'CHANGE_PAGE'
 
 export function fetchVMs(id) {
     return {
@@ -297,5 +298,11 @@ export function regionReportFetched(report) {
     return {
         type: REGION_REPORT_FETCHED,
         report,
+    }
+}
+export function changePage(page) {
+    return {
+        type: CHANGE_PAGE,
+        page
     }
 }
