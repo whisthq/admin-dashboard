@@ -3,10 +3,24 @@ import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import { fetchCustomers } from '../../../actions/index.js'
+import {
+    Paper,
+    Table,
+    TableBody,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableContainer,
+} from '@material-ui/core'
+import { styled } from '@material-ui/core/styles'
 
 import Style from '../../../styles/components/pageAdmin.module.css'
 
 import '../../../static/App.css'
+
+const CustomTableContainer = styled(TableContainer)({
+    maxHeight: 440,
+})
 
 class CustomerTable extends Component {
     constructor(props) {
@@ -60,57 +74,104 @@ class CustomerTable extends Component {
 
         header.reverse()
 
-        // console.log(this.props.customers)
-
         return (
             <div>
                 {this.props.customers.length > 0 ? (
-                    <div className={Style.tableContainer}>
-                        <table className={Style.table}>
-                            <tr className={Style.tableHead}>
-                                {header.map((value, index) => {
-                                    return (
-                                        <th style={{ padding: 20 }} key={index}>
-                                            {value}
-                                        </th>
-                                    )
-                                })}
-                            </tr>
-                            {this.props.customers.map((value, index) => (
-                                <tr
-                                    className={Style.tableRow}
-                                    key={index}
-                                    onClick={() => {
-                                        this.props.openModal(
-                                            this.props.customers[index][
-                                                'username'
-                                            ]
+                    // <div className={Style.tableContainer}>
+                    //     <table className={Style.table}>
+                    //         <tr className={Style.tableHead}>
+                    //             {header.map((value, index) => {
+                    //                 return (
+                    //                     <th style={{ padding: 20 }} key={index}>
+                    //                         {value}
+                    //                     </th>
+                    //                 )
+                    //             })}
+                    //         </tr>
+                    //         {this.props.customers.map((value, index) => (
+                    //             <tr
+                    //                 className={Style.tableRow}
+                    //                 key={index}
+                    //                 onClick={() => {
+                    //                     this.props.openModal(
+                    //                         this.props.customers[index][
+                    //                             'username'
+                    //                         ]
+                    //                     )
+                    //                 }}
+                    //             >
+                    //                 {header.map((value1, index1) => (
+                    //                     <td
+                    //                         className={Style.tableCell}
+                    //                         key={index1}
+                    //                     >
+                    //                         {value[value1] == null ? (
+                    //                             <div></div>
+                    //                         ) : (
+                    //                             <div
+                    //                                 style={{
+                    //                                     maxWidth: 150,
+                    //                                     overflowX: 'scroll',
+                    //                                 }}
+                    //                             >
+                    //                                 {value[value1].toString()}
+                    //                             </div>
+                    //                         )}
+                    //                     </td>
+                    //                 ))}
+                    //             </tr>
+                    //         ))}
+                    //     </table>
+                    // </div>
+                    <Paper>
+                        <CustomTableContainer>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        {header.map((value, index) => (
+                                            <TableCell key={index}>
+                                                {value}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {this.props.customers.map(
+                                        (value, index) => (
+                                            <TableRow
+                                                hover
+                                                key={index}
+                                                onClick={() => {
+                                                    this.props.openModal(
+                                                        this.props.customers[
+                                                            index
+                                                        ]['username']
+                                                    )
+                                                }}
+                                            >
+                                                {header.map(
+                                                    (value1, index1) => {
+                                                        return (
+                                                            <TableCell
+                                                                key={index1}
+                                                            >
+                                                                {value[
+                                                                    value1
+                                                                ] !== null &&
+                                                                    value[
+                                                                        value1
+                                                                    ]}
+                                                            </TableCell>
+                                                        )
+                                                    }
+                                                )}
+                                            </TableRow>
                                         )
-                                    }}
-                                >
-                                    {header.map((value1, index1) => (
-                                        <td
-                                            className={Style.tableCell}
-                                            key={index1}
-                                        >
-                                            {value[value1] == null ? (
-                                                <div></div>
-                                            ) : (
-                                                <div
-                                                    style={{
-                                                        maxWidth: 150,
-                                                        overflowX: 'scroll',
-                                                    }}
-                                                >
-                                                    {value[value1].toString()}
-                                                </div>
-                                            )}
-                                        </td>
-                                    ))}
-                                </tr>
-                            ))}
-                        </table>
-                    </div>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </CustomTableContainer>
+                    </Paper>
                 ) : (
                     <div className={Style.spinnerContainer}>
                         <div style={{ width: '100%', textAlign: 'center' }}>
