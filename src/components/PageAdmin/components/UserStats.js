@@ -11,6 +11,7 @@ import {
     XAxis,
     YAxis,
     Tooltip,
+    Label,
 } from 'recharts'
 
 import CustomerTable from './CustomerTable.js'
@@ -33,7 +34,7 @@ class UserStats extends Component {
                 this.props.userReport.forEach((element) => {
                     activity.push({
                         x: element.timestamp,
-                        'Minutes online': element.minutes,
+                        'Time online': element.minutes,
                     })
                 })
             }
@@ -139,12 +140,20 @@ class UserStats extends Component {
                                         scale="time"
                                     />
                                     <YAxis
-                                        dataKey="Minutes online"
+                                        dataKey="Time online"
                                         allowDecimals={false}
                                         tick={{
                                             fontSize: 12,
                                         }}
-                                    />
+                                        axisLine={false}
+                                    >
+                                        <Label
+                                            value="Minutes online"
+                                            angle="-90"
+                                            position="insideBottomLeft"
+                                            style={{ fontSize: 12 }}
+                                        />
+                                    </YAxis>
                                     <Tooltip
                                         contentStyle={{
                                             border: 'none',
@@ -157,8 +166,14 @@ class UserStats extends Component {
                                         }
                                     />
                                     <Bar
-                                        dataKey="Minutes online"
+                                        dataKey="Time online"
                                         fill="#8884d8"
+                                        formatter={(value, name, entry) =>
+                                            Math.round(value / 60).toString() +
+                                            'h ' +
+                                            (value % 60).toString() +
+                                            'm'
+                                        }
                                     />
                                 </BarChart>
                             </ResponsiveContainer>
