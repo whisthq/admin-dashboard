@@ -43,97 +43,6 @@ class GeneralStats extends Component {
         this.setState({ width: window.innerWidth, height: window.innerHeight })
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.latestReport !== this.props.latestReport) {
-            let sunburstData = {
-                name: 'All Regions',
-                color: '#eceff1',
-                children: [
-                    {
-                        name: 'East US',
-                        color: '#81d4fa',
-                        children: [
-                            {
-                                name: 'Running Available',
-                                color: '#4ba3c7',
-                                size: this.props.latestReport.eastus_available,
-                            },
-                            {
-                                name: 'Running Unavailable',
-                                color: '#b6ffff',
-                                size: this.props.latestReport
-                                    .eastus_unavailable,
-                            },
-                            {
-                                name: 'Deallocated',
-                                color: 'grey',
-                                size: this.props.latestReport
-                                    .eastus_deallocated,
-                            },
-                        ],
-                    },
-                    {
-                        name: 'Northcentral US',
-                        color: '#ef5350',
-                        children: [
-                            {
-                                name: 'Running Available',
-                                color: '#b61827',
-                                size: this.props.latestReport
-                                    .northcentralus_available,
-                            },
-                            {
-                                name: 'Running Unavailable',
-                                color: '#ff867c',
-                                size: this.props.latestReport
-                                    .northcentralus_unavailable,
-                            },
-                            {
-                                name: 'Deallocated',
-                                color: 'grey',
-                                size: this.props.latestReport
-                                    .northcentralus_deallocated,
-                            },
-                        ],
-                    },
-                    {
-                        name: 'Southcentral US',
-                        color: '#66bb6a',
-                        children: [
-                            {
-                                name: 'Running Available',
-                                color: '#338a3e',
-                                size: this.props.latestReport
-                                    .southcentralus_available,
-                            },
-                            {
-                                name: 'Running Unavailable',
-                                color: '#98ee99',
-                                size: this.props.latestReport
-                                    .southcentralus_unavailable,
-                            },
-                            {
-                                name: 'Deallocated',
-                                color: 'grey',
-                                size: this.props.latestReport
-                                    .southcentralus_deallocated,
-                            },
-                        ],
-                    },
-                ],
-            }
-            this.sunburstChart
-                .data(sunburstData)
-                .width(this.state.height / 2)
-                .height(this.state.height / 2)
-                .size('size')
-                .color('color')
-                .tooltipContent((d, node) => `VMs: <i>${node.value}</i>`)(
-                document.getElementById('sunburstDiv')
-            )
-        }
-    }
-
     render() {
         let summaryCard = (
             <div>
@@ -183,31 +92,8 @@ class GeneralStats extends Component {
 
         return (
             <Row>
-                <Col lg={8}>
+                <Col lg={12}>
                     <UsageChart />
-                </Col>
-                <Col lg={4}>
-                    <div
-                        style={{
-                            fontWeight: 'bold',
-                            fontSize: 24,
-                            marginBottom: 30,
-                        }}
-                    >
-                        Summary
-                    </div>
-                    {summaryCard}
-
-                    <div
-                        style={{
-                            fontWeight: 'bold',
-                            fontSize: 24,
-                            marginBottom: 30,
-                        }}
-                    >
-                        Virtual Machines
-                    </div>
-                    <div id="sunburstDiv" className="mt-3" />
                 </Col>
             </Row>
         )

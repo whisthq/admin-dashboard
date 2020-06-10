@@ -14,7 +14,7 @@ import {
     Label,
 } from 'recharts'
 
-import CustomerTable from './CustomerTable.js'
+import CustomerList from '../containers/CustomerList'
 
 class UserStats extends Component {
     constructor(props) {
@@ -47,11 +47,13 @@ class UserStats extends Component {
         this.setState({ modalOpen: true, username: username })
         this.props.dispatch(fetchUserReport(this.state.timescale, username))
     }
+
     closeModal = () => {
         this.setState({ modalOpen: false, timescale: 'week' })
     }
 
     handleChartSelect = (val) => {
+        console.log(val)
         this.setState({ timescale: val })
         this.props.dispatch(fetchUserReport(val, this.state.username))
     }
@@ -61,129 +63,129 @@ class UserStats extends Component {
 
         return (
             <div>
-                <p>Click on a customer to view their usage history.</p>
-                <CustomerTable openModal={this.openModal} />
-                <Popup
-                    open={this.state.modalOpen}
-                    closeOnDocumentClick
-                    onClose={this.closeModal}
-                    modal
-                    contentStyle={{
-                        width: 600,
-                        borderRadius: 5,
-                        backgroundColor: 'white',
-                        border: 'none',
-                        padding: 30,
-                    }}
-                >
-                    <div className=" d-flex justify-content-between">
-                        <p
-                            style={{
-                                fontSize: 18,
-                            }}
+                {this.state.activity && this.state.activity.length > 0 
+                ? 
+                <div style = {{
+                    position: "relative",
+                    right: 40
+                }}>
+                    <div style = {{textAlign: "right"}}>
+                        <ToggleButtonGroup
+                            type="radio"
+                            name="select"
+                            defaultValue={'week'}
                         >
-                            Usage stats for {this.state.username}
-                        </p>
-                        <div>
-                            <ToggleButtonGroup
-                                type="radio"
-                                name="select"
-                                defaultValue={'week'}
-                                onChange={this.handleChartSelect}
+                            {/* <ToggleButton value={'day'}>
+                                24 Hours
+                            </ToggleButton> */}
+                            <ToggleButton 
+                                value={'week'}
+                                onClick = {() => this.handleChartSelect('week')}
                             >
-                                {/* <ToggleButton value={'day'}>
-                                    24 Hours
-                                </ToggleButton> */}
-                                <ToggleButton value={'week'}>
-                                    7 Days
-                                </ToggleButton>
-                                <ToggleButton value={'month'}>
-                                    30 Days
-                                </ToggleButton>
-                                {/* <ToggleButton value={'all'}>
-                                    All Time
-                                </ToggleButton> */}
-                            </ToggleButtonGroup>
-                        </div>
+                                7 Days
+                            </ToggleButton>
+                            <ToggleButton 
+                                value={'month'}
+                                onClick = {() => this.handleChartSelect('month')}
+                            >
+                                30 Days
+                            </ToggleButton>
+                            {/* <ToggleButton value={'all'}>
+                                All Time
+                            </ToggleButton> */}
+                        </ToggleButtonGroup>
                     </div>
-                    {this.state.activity ? (
-                        this.state.activity.length ? (
-                            <ResponsiveContainer height={150} width="100%">
-                                <BarChart data={this.state.activity}>
-                                    <XAxis
-                                        dataKey="x"
-                                        domain={
-                                            this.state.timescale === 'week'
-                                                ? [
-                                                      moment()
-                                                          .subtract('days', 7)
-                                                          .unix(),
-                                                      Date.now() / 1000,
-                                                  ]
-                                                : [
-                                                      moment()
-                                                          .subtract('months', 1)
-                                                          .unix(),
-                                                      Date.now() / 1000,
-                                                  ]
-                                        }
-                                        tick={{
-                                            fontSize: 12,
-                                            transform: 'translate(0, 10)',
-                                        }}
-                                        tickFormatter={(unixTime) =>
-                                            moment(unixTime * 1000).format(
-                                                format
-                                            )
-                                        }
-                                        type="number"
-                                        scale="time"
-                                    />
-                                    <YAxis
-                                        dataKey="Time online"
-                                        allowDecimals={false}
-                                        tick={{
-                                            fontSize: 12,
-                                        }}
-                                        axisLine={false}
-                                    >
-                                        <Label
-                                            value="Minutes online"
-                                            angle="-90"
-                                            position="insideBottomLeft"
-                                            style={{ fontSize: 12 }}
-                                        />
-                                    </YAxis>
-                                    <Tooltip
-                                        contentStyle={{
-                                            border: 'none',
-                                            fontSize: 14,
-                                        }}
-                                        labelFormatter={(unixTime) =>
-                                            moment(unixTime * 1000).format(
-                                                format
-                                            )
-                                        }
-                                    />
-                                    <Bar
-                                        dataKey="Time online"
-                                        fill="#8884d8"
-                                        formatter={(value, name, entry) =>
-                                            Math.round(value / 60).toString() +
-                                            'h ' +
-                                            (value % 60).toString() +
-                                            'm'
-                                        }
-                                    />
-                                </BarChart>
-                            </ResponsiveContainer>
-                        ) : (
-                            <p>No usage recorded for this period.</p>
-                        )
-                    ) : (
-                        <p>NOT loaded</p>
-                    )}
-                </Popup>
+                    <ResponsiveContainer height={300} width="100%">
+                        <BarChart data={this.state.activity}>
+                            <XAxis
+                                dataKey="x"
+                                domain={
+                                    this.state.timescale === 'week'
+                                        ? [
+                                                moment()
+                                                    .subtract('days', 8)
+                                                    .unix(),
+                                                Date.now() / 1000,
+                                            ]
+                                        : [
+                                                moment()
+                                                    .subtract('months', 1)
+                                                    .unix(),
+                                                Date.now() / 1000,
+                                            ]
+                                }
+                                tick={{
+                                    fontSize: 12,
+                                    transform: 'translate(0, 10)',
+                                }}
+                                tickFormatter={(unixTime) =>
+                                    moment(unixTime * 1000).format(
+                                        format
+                                    )
+                                }
+                                type="number"
+                                scale="time"
+                                dx = {20}
+                            />
+                            <YAxis
+                                dataKey="Time online"
+                                allowDecimals={false}
+                                tick={{
+                                    fontSize: 12,
+                                }}
+                                axisLine={false}
+                            />
+                            <Tooltip
+                                contentStyle={{
+                                    border: 'none',
+                                    fontSize: 14,
+                                }}
+                                labelFormatter={(unixTime) =>
+                                    moment(unixTime * 1000).format(
+                                        format
+                                    )
+                                }
+                            />
+                            <Bar
+                                dataKey="Time online"
+                                barSize = {10}
+                                fill="#8884d8"
+                                formatter={(value, name, entry) =>
+                                    Math.round(value / 60).toString() +
+                                    'h ' +
+                                    (value % 60).toString() +
+                                    'm'
+                                }
+                            />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+                :
+                <div style = {{
+                    width: "100%",
+                    height: 300,
+                    textAlign: 'center',
+                    paddingTop: 140,
+                    background: "#f5f7fa",
+                    fontWeight: "bold",
+                    borderRadius: 4
+                }}>
+                    {
+                        !this.state.username || this.state.username === ""
+                        ?
+                        <div>
+                            Click on a user to view their data
+                        </div>
+                        :
+                        <div>
+                            No data available for {this.state.username}
+                        </div> 
+                    }
+                </div>
+                }
+                <div style = {{marginTop: 50}}>
+                    <CustomerList openModal={this.openModal} />
+                </div>
             </div>
         )
     }

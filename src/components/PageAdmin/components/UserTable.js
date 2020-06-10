@@ -23,7 +23,10 @@ class UserTable extends Component {
         }
         header.reverse()
         return (
-            <div>
+            <div style = {{
+                maxHeight: 650,
+                overflowY: "scroll"
+            }}>
                 {this.props.usersUpdated ? (
                     <div className={Style.tableContainer}>
                         <table className={Style.table}>

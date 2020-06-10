@@ -30,6 +30,7 @@ class Logs extends Component {
     componentDidMount() {
         this.props.dispatch(fetchUserActivity(false))
         this.props.dispatch(logsFound(false))
+        this.props.dispatch(changePage("logs"))
     }
 
     componentDidUpdate(prevProps) {

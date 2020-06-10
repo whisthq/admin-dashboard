@@ -152,6 +152,7 @@ export default function (state = DEFAULT, action) {
             return {
                 ...state,
                 regionReport: action.report,
+            }
         case AccountAction.CHANGE_PAGE:
             return {
                 ...state,

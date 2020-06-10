@@ -14,6 +14,8 @@ import {
     Tooltip,
 } from 'recharts'
 
+import '../../../static/App.css'
+
 // https://devhints.io/moment
 // https://github.com/recharts/recharts/issues/956#issuecomment-339279600
 
@@ -98,7 +100,7 @@ class UsageChart extends Component {
         }
 
         return (
-            <ResponsiveContainer height={100} width="100%">
+            <ResponsiveContainer height={150} width="100%">
                 <LineChart data={dataList} syncId="usageChart">
                     <Line
                         type="monotone"
@@ -153,8 +155,7 @@ class UsageChart extends Component {
                         <div
                             style={{
                                 fontWeight: 'bold',
-                                fontSize: 24,
-                                marginBottom: 30,
+                                fontSize: 24
                             }}
                         >
                             Active Users
@@ -181,14 +182,36 @@ class UsageChart extends Component {
                             </ToggleButtonGroup>
                         </div>
                     </div>
-                    <p>Total</p>
-                    {this.chartElement('total')}
-                    <p>Eastus</p>
-                    {this.chartElement('eastus')}
-                    <p>Northcentralus</p>
-                    {this.chartElement('northcentralus')}
-                    <p>Southcentralus</p>
-                    {this.chartElement('southcentralus')}
+                    <p className = "chart-header">
+                        Total
+                    </p>
+                    <div style = {{
+                        position: "relative",
+                        right: 40
+                    }}>
+                        {this.chartElement('total')}
+                    </div>
+                    <p className = "chart-header">Eastus</p>
+                    <div style = {{
+                        position: "relative",
+                        right: 40
+                    }}>
+                        {this.chartElement('eastus')}
+                    </div>
+                    <p className = "chart-header">Northcentralus</p>
+                    <div style = {{
+                        position: "relative",
+                        right: 40
+                    }}>
+                        {this.chartElement('northcentralus')}
+                    </div>
+                    <p className = "chart-header">Southcentralus</p>
+                    <div style = {{
+                        position: "relative",
+                        right: 40
+                    }}>
+                        {this.chartElement('southcentralus')}
+                    </div>
                 </div>
             )
         } else {

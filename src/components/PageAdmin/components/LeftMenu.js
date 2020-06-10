@@ -22,8 +22,11 @@ class LeftMenu extends Component {
                 <div style={{ marginTop: 40, fontSize: 18 }}>
                     <div style={{ marginBottom: 15 }}>
                         <Link
-                            onClick={() => this.setState({ page: 'dashboard' })}
-                            style={{ textDecoration: 'none', color: '#111111' }}
+                            style={{ 
+                                textDecoration: 'none', 
+                                color: '#111111',
+                                fontWeight: this.props.page === "dashboard" ? "bold" : "normal" 
+                            }}
                             to="/admin/dashboard"
                         >
                             Dashboard
@@ -31,8 +34,11 @@ class LeftMenu extends Component {
                     </div>
                     <div style={{ marginBottom: 15 }}>
                         <Link
-                            onClick={() => this.setState({ page: 'logs' })}
-                            style={{ textDecoration: 'none', color: '#111111' }}
+                            style={{ 
+                                textDecoration: 'none', 
+                                color: '#111111',
+                                fontWeight: this.props.page === "analytics" ? "bold" : "normal" 
+                            }}
                             to="/admin/analytics"
                         >
                             Analytics
@@ -40,8 +46,11 @@ class LeftMenu extends Component {
                     </div>
                     <div style={{ marginBottom: 15 }}>
                         <Link
-                            onClick={() => this.setState({ page: 'logs' })}
-                            style={{ textDecoration: 'none', color: '#111111' }}
+                            style={{ 
+                                textDecoration: 'none', 
+                                color: '#111111',
+                                fontWeight: this.props.page === "logs" ? "bold" : "normal" 
+                            }}
                             to="/admin/logs"
                         >
                             User Logs
