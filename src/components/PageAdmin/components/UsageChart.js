@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { fetchUserReport } from '../../../actions/index.js'
+import { fetchRegionReport } from '../../../actions/index.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import { connect } from 'react-redux'
@@ -14,9 +14,10 @@ import {
     Tooltip,
 } from 'recharts'
 
-import Style from '../../../styles/components/analytics.module.css'
+import '../../../static/App.css'
 
 // https://devhints.io/moment
+// https://github.com/recharts/recharts/issues/956#issuecomment-339279600
 
 class UsageChart extends Component {
     constructor(props) {
@@ -26,48 +27,36 @@ class UsageChart extends Component {
             eastus: null,
             northcentralus: null,
             southcentralus: null,
-            timelineMode: 'day',
+            timescale: 'day',
         }
     }
 
     componentDidMount() {
-        this.props.dispatch(fetchUserReport())
+        this.props.dispatch(fetchRegionReport(this.state.timescale))
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.userReport !== this.props.userReport) {
+        if (prevProps.regionReport !== this.props.regionReport) {
             let total = [],
                 eastus = [],
                 northcentralus = [],
                 southcentralus = []
-            let component = this
-            this.props.userReport.forEach((element) => {
+
+            this.props.regionReport.forEach((element) => {
                 total.push({
-                    x: component.getRequiredDateFormat(
-                        new Date(element.timestamp * 1000),
-                        'h A'
-                    ),
+                    x: element.timestamp,
                     'Number of users': element.users_online,
                 })
                 eastus.push({
-                    x: component.getRequiredDateFormat(
-                        new Date(element.timestamp * 1000),
-                        'h A'
-                    ),
+                    x: element.timestamp,
                     'Number of users': element.eastus_unavailable,
                 })
                 northcentralus.push({
-                    x: component.getRequiredDateFormat(
-                        new Date(element.timestamp * 1000),
-                        'h A'
-                    ),
+                    x: element.timestamp,
                     'Number of users': element.northcentralus_unavailable,
                 })
                 southcentralus.push({
-                    x: component.getRequiredDateFormat(
-                        new Date(element.timestamp * 1000),
-                        'h A'
-                    ),
+                    x: element.timestamp,
                     'Number of users': element.southcentralus_unavailable,
                 })
             })
@@ -80,12 +69,9 @@ class UsageChart extends Component {
         }
     }
 
-    getRequiredDateFormat = (timeStamp, format = 'MM-DD-YYYY') => {
-        return moment(timeStamp).format(format) + ' UTC'
-    }
-
     handleChartSelect = (val) => {
-        this.setState({ timelineMode: val })
+        this.setState({ timescale: val })
+        this.props.dispatch(fetchRegionReport(val))
     }
 
     chartElement = (userType) => {
@@ -106,44 +92,58 @@ class UsageChart extends Component {
             default:
                 dataList = this.state.total
         }
+        let format = 'MMM Do'
+        if (this.state.timescale === 'day') {
+            format = 'h A'
+        } else {
+            format = 'MMM Do'
+        }
+
         return (
-            <div className={Style.usageChart}>
-                <ResponsiveContainer height="100%" width="100%">
-                    <LineChart data={dataList}>
-                        <Line
-                            type="monotone"
-                            dataKey="Number of users"
-                            dot={false}
-                            strokeWidth={2}
-                            stroke="#8884d8"
-                        />
-                        <XAxis
-                            dataKey="x"
-                            axisLine={false}
-                            tickLine={false}
-                            tick={{
-                                fontSize: 12,
-                                transform: 'translate(0, 10)',
-                            }}
-                        />
-                        <YAxis
-                            dataKey="Number of users"
-                            axisLine={false}
-                            tickLine={false}
-                            allowDecimals={false}
-                            tick={{
-                                fontSize: 12,
-                            }}
-                        />
-                        <Tooltip
-                            contentStyle={{
-                                border: 'none',
-                                fontSize: 14,
-                            }}
-                        />
-                    </LineChart>
-                </ResponsiveContainer>
-            </div>
+            <ResponsiveContainer height={150} width="100%">
+                <LineChart data={dataList} syncId="usageChart">
+                    <Line
+                        type="monotone"
+                        dataKey="Number of users"
+                        dot={false}
+                        strokeWidth={2}
+                        stroke="#8884d8"
+                    />
+                    <XAxis
+                        dataKey="x"
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{
+                            fontSize: 12,
+                            transform: 'translate(0, 10)',
+                        }}
+                        domain={['auto', 'auto']}
+                        tickFormatter={(unixTime) =>
+                            moment(unixTime * 1000).format(format)
+                        }
+                        type="number"
+                        scale="time"
+                    />
+                    <YAxis
+                        dataKey="Number of users"
+                        axisLine={false}
+                        tickLine={false}
+                        allowDecimals={false}
+                        tick={{
+                            fontSize: 12,
+                        }}
+                    />
+                    <Tooltip
+                        contentStyle={{
+                            border: 'none',
+                            fontSize: 14,
+                        }}
+                        labelFormatter={(unixTime) =>
+                            moment(unixTime * 1000).format(format)
+                        }
+                    />
+                </LineChart>
+            </ResponsiveContainer>
         )
     }
 
@@ -155,8 +155,7 @@ class UsageChart extends Component {
                         <div
                             style={{
                                 fontWeight: 'bold',
-                                fontSize: 24,
-                                marginBottom: 30,
+                                fontSize: 24
                             }}
                         >
                             Active Users
@@ -177,20 +176,42 @@ class UsageChart extends Component {
                                 <ToggleButton value={'month'}>
                                     30 Days
                                 </ToggleButton>
-                                <ToggleButton value={'all'}>
+                                {/* <ToggleButton value={'all'}>
                                     All Time
-                                </ToggleButton>
+                                </ToggleButton> */}
                             </ToggleButtonGroup>
                         </div>
                     </div>
-                    <p>Total</p>
-                    {this.chartElement('total')}
-                    <p>Eastus</p>
-                    {this.chartElement('eastus')}
-                    <p>Northcentralus</p>
-                    {this.chartElement('northcentralus')}
-                    <p>Southcentralus</p>
-                    {this.chartElement('southcentralus')}
+                    <p className = "chart-header">
+                        Total
+                    </p>
+                    <div style = {{
+                        position: "relative",
+                        right: 40
+                    }}>
+                        {this.chartElement('total')}
+                    </div>
+                    <p className = "chart-header">Eastus</p>
+                    <div style = {{
+                        position: "relative",
+                        right: 40
+                    }}>
+                        {this.chartElement('eastus')}
+                    </div>
+                    <p className = "chart-header">Northcentralus</p>
+                    <div style = {{
+                        position: "relative",
+                        right: 40
+                    }}>
+                        {this.chartElement('northcentralus')}
+                    </div>
+                    <p className = "chart-header">Southcentralus</p>
+                    <div style = {{
+                        position: "relative",
+                        right: 40
+                    }}>
+                        {this.chartElement('southcentralus')}
+                    </div>
                 </div>
             )
         } else {
@@ -205,7 +226,7 @@ class UsageChart extends Component {
 
 function mapStateToProps(state) {
     return {
-        userReport: state.AccountReducer.userReport,
+        regionReport: state.AccountReducer.regionReport,
     }
 }
 

@@ -20,6 +20,7 @@ const DEFAULT = {
     disks_fetched: false,
     latestReport: null,
     userReport: null,
+    regionReport: null,
     page: 'dashboard'
 }
 
@@ -146,6 +147,11 @@ export default function (state = DEFAULT, action) {
             return {
                 ...state,
                 userReport: action.report,
+            }
+        case AccountAction.REGION_REPORT_FETCHED:
+            return {
+                ...state,
+                regionReport: action.report,
             }
         case AccountAction.CHANGE_PAGE:
             return {

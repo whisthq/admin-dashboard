@@ -1,176 +1,51 @@
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { connect } from 'react-redux'
-import 'react-tabs/style/react-tabs.css'
+import moment from 'moment'
+import { Route, Switch, Redirect } from 'react-router-dom'
+
+import { fetchUserActivity, logout } from '../../actions/index.js'
+
+import LeftMenu from './components/LeftMenu.js'
+import Dashboard from './Dashboard'
+import Logs from './Logs'
+import Analytics from './Analytics'
+import { Button, Row, Col } from 'react-bootstrap'
 
 import '../../static/App.css'
-import {
-    fetchUserActivity,
-    fetchUserTable,
-    deleteUser,
-    logout,
-    changePage
-} from '../../actions/index.js'
-import LeftMenu from './components/LeftMenu.js'
-import VMTable from './components/VMTable.js'
-import UserTable from './components/UserTable.js'
-import CustomerTable from './components/CustomerTable.js'
-import DiskTable from './components/DiskTable.js'
+import 'react-tabs/style/react-tabs.css'
 
 class Admin extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            width: 0,
-            height: 0,
-            modalShow: false,
-            showPopup: false,
-            loaded: false,
-            day: 0,
-            month: 0,
-            year: 0,
-            userTableFetched: false,
+            date: 0,
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
 
     componentDidMount() {
-        this.updateWindowDimensions()
-        window.addEventListener('resize', this.updateWindowDimensions)
-        this.props.dispatch(changePage('dashboard'))
-        var today = new Date()
         this.setState({
-            day: today.getDate(),
-            month: this.monthConvert(today.getMonth()),
-            year: today.getFullYear(),
+            date: moment(Date.now()).format('MMMM Do, YYYY'),
         })
         this.props.dispatch(fetchUserActivity(false))
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions)
     }
 
     updateWindowDimensions() {
         this.setState({ width: window.innerWidth, height: window.innerHeight })
     }
 
-    monthConvert = (month) => {
-        var months = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December',
-        ]
-        var selectedMonthName = months[month]
-        return selectedMonthName
-    }
-
-    componentDidUpdate(prevProps) {
-        if (
-            this.props.access_token &&
-            this.props.userTable.length === 0 &&
-            !this.state.userTableFetched
-        ) {
-            this.props.dispatch(fetchUserTable())
-            this.setState({ userTableFetched: true })
-        }
-    }
-
-    deleteUser = (user) => {
-        this.props.dispatch(deleteUser(user))
-    }
-
-    formatTime = (log) => {
-        var logArr = log.split(',')
-        var time = logArr[1]
-        time = time.substring(0, time.length - 3)
-        var timeArr = time.split(':')
-        var hour = parseInt(timeArr[0]) - 12
-        logArr[0] = logArr[0].substring(0, logArr[0].length - 5)
-        logArr[0] = logArr[0].replace('-', '/')
-        if (hour < 0) {
-            return (
-                Math.abs(hour).toString() +
-                ':' +
-                timeArr[1] +
-                ' AM (' +
-                logArr[0] +
-                ')'
-            )
-        } else {
-            return (
-                Math.abs(hour).toString() +
-                ':' +
-                timeArr[1] +
-                ' PM (' +
-                logArr[0] +
-                ')'
-            )
-        }
-    }
-
     render() {
-        let modalClose = () => this.setState({ modalShow: false })
-        if (this.state.width > 700 && this.state.modalShow) {
-            modalClose()
-        }
         return (
             <div>
-                <div style={{ backgroundColor: '#FFFFFF' }}>
-                    <div style={{ display: 'flex', width: '100%' }}>
-                        <div
-                            style={{
-                                width: '15%',
-                                minHeight: '100vh',
-                                maxWidth: 300,
-                                background: 'white',
-                                paddingTop: 50,
-                                paddingLeft: 75,
-                            }}
-                        >
+                {this.props.authenticated ? (
+                    <Row style={{ backgroundColor: '#FFFFFF' }}>
+                        <Col sm={2}>
                             <LeftMenu />
-                        </div>
-                        <div
-                            style={{
-                                width: '85%',
-                                padding: 50,
-                                paddingRight: 75,
-                            }}
-                        >
-                            <div>
-                                {this.state.month} {this.state.day},{' '}
-                                {this.state.year}
-                            </div>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    width: '100%',
-                                    justifyContent: 'space-between',
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        marginTop: 5,
-                                        fontSize: 45,
-                                        fontWeight: 'bold',
-                                        marginBottom: 60,
-                                        width: 275,
-                                        color: '#111111',
-                                    }}
-                                >
-                                    DASHBOARD
-                                </div>
-                                <div style={{ float: 'right' }}>
+                        </Col>
+                        <Col sm={10}>
+                            <div className="p-5">
+                                <div className="d-flex justify-content-between">
+                                    <p>{this.state.date}</p>
                                     <Button
                                         onClick={() =>
                                             this.props.dispatch(logout())
@@ -188,47 +63,31 @@ class Admin extends Component {
                                         Logout
                                     </Button>
                                 </div>
+                                <Switch>
+                                    <Route
+                                        exact
+                                        path="/admin"
+                                        component={Dashboard}
+                                    />
+                                    <Route
+                                        path="/admin/dashboard"
+                                        component={Dashboard}
+                                    />
+                                    <Route
+                                        path="/admin/logs"
+                                        component={Logs}
+                                    />
+                                    <Route
+                                        path="/admin/analytics"
+                                        component={Analytics}
+                                    />
+                                </Switch>
                             </div>
-                            <div style={{ display: 'flex', marginTop: 5 }}>
-                                <div
-                                    style={{
-                                        display: 'block',
-                                        width: '100%',
-                                        position: 'relative',
-                                        bottom: 36,
-                                    }}
-                                >
-                                    <Tabs>
-                                        <TabList
-                                            style={{
-                                                textAlign: 'left',
-                                                border: 'none',
-                                                fontSize: 16,
-                                            }}
-                                        >
-                                            <Tab>Cloud PCs</Tab>
-                                            <Tab>Disks</Tab>
-                                            <Tab>Users</Tab>
-                                            <Tab>Customers</Tab>
-                                        </TabList>
-                                        <TabPanel style={{ paddingTop: 20 }}>
-                                            <VMTable />
-                                        </TabPanel>
-                                        <TabPanel style={{ paddingTop: 20 }}>
-                                            <DiskTable />
-                                        </TabPanel>
-                                        <TabPanel style={{ paddingTop: 20 }}>
-                                            <UserTable />
-                                        </TabPanel>
-                                        <TabPanel style={{ paddingTop: 20 }}>
-                                            <CustomerTable />
-                                        </TabPanel>
-                                    </Tabs>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        </Col>
+                    </Row>
+                ) : (
+                    <Redirect to="/" />
+                )}
             </div>
         )
     }
@@ -237,20 +96,6 @@ class Admin extends Component {
 function mapStateToProps(state) {
     return {
         authenticated: state.AccountReducer.authenticated,
-        vm_info: state.AccountReducer.vm_info
-            ? state.AccountReducer.vm_info
-            : [],
-        vmsUpdated: state.AccountReducer.vmsUpdated,
-        activityFetched: state.AccountReducer.activityFetched,
-        userActivity: state.AccountReducer.userActivity
-            ? state.AccountReducer.userActivity
-            : [],
-        userTable: state.AccountReducer.userTable
-            ? state.AccountReducer.userTable
-            : [],
-        usersUpdated: state.AccountReducer.usersUpdated,
-        access_token: state.AccountReducer.access_token,
-        login_attempts: state.AccountReducer.login_attempts,
     }
 }
 

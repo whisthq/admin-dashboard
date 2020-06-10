@@ -12,41 +12,22 @@ withRouter((props) => <LeftMenu {...props} />)
 class LeftMenu extends Component {
     constructor(props) {
         super(props)
-        this.state = { width: 0, height: 0 }
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
-    }
-
-    componentDidMount() {
-        this.updateWindowDimensions()
-        window.addEventListener('resize', this.updateWindowDimensions)
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions)
-    }
-
-    updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight })
+        this.state = { page: 'dashboard' }
     }
 
     render() {
-        let modalClose = () => this.setState({ modalShow: false })
-        if (this.state.width > 700 && this.state.modalShow) {
-            modalClose()
-        }
-
         return (
-            <div>
+            <div className="pl-5 pt-5">
                 <img src={Logo} alt="" style={{ width: 40, height: 40 }} />
                 <div style={{ marginTop: 40, fontSize: 18 }}>
                     <div style={{ marginBottom: 15 }}>
                         <Link
                             style={{ 
                                 textDecoration: 'none', 
-                                color: '#111111', 
-                                fontWeight: this.props.page === 'dashboard' ? 'bold' : 'normal'
+                                color: '#111111',
+                                fontWeight: this.props.page === "dashboard" ? "bold" : "normal" 
                             }}
-                            to="/"
+                            to="/admin/dashboard"
                         >
                             Dashboard
                         </Link>
@@ -55,10 +36,10 @@ class LeftMenu extends Component {
                         <Link
                             style={{ 
                                 textDecoration: 'none', 
-                                color: '#111111', 
-                                fontWeight: this.props.page === 'analytics' ? 'bold' : 'normal'
+                                color: '#111111',
+                                fontWeight: this.props.page === "analytics" ? "bold" : "normal" 
                             }}
-                            to="/analytics"
+                            to="/admin/analytics"
                         >
                             Analytics
                         </Link>
@@ -67,10 +48,10 @@ class LeftMenu extends Component {
                         <Link
                             style={{ 
                                 textDecoration: 'none', 
-                                color: '#111111', 
-                                fontWeight: this.props.page === 'logs' ? 'bold' : 'normal'
+                                color: '#111111',
+                                fontWeight: this.props.page === "logs" ? "bold" : "normal" 
                             }}
-                            to="/logs"
+                            to="/admin/logs"
                         >
                             User Logs
                         </Link>

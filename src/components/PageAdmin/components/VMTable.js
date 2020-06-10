@@ -23,19 +23,14 @@ class VMTable extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            width: 0,
-            height: 0,
-            modalShow: false,
             sortBy: 'vm_name',
         }
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
 
     // intervalID var to keep track of auto-refreshing across functions
     intervalID
 
     componentDidMount() {
-        this.updateWindowDimensions()
         this.props.dispatch(updateDB(false))
 
         // refresh the VM table every 60 seconds
@@ -43,18 +38,12 @@ class VMTable extends Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions)
-
         // stop auto-refreshing
         clearInterval(this.intervalID)
     }
 
     getUpdatedDatabase() {
         this.props.dispatch(updateDB(false))
-    }
-
-    updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight })
     }
 
     startVM = (vm_name) => {
@@ -130,10 +119,6 @@ class VMTable extends Component {
     }
 
     render() {
-        let modalClose = () => this.setState({ modalShow: false })
-        if (this.state.width > 700 && this.state.modalShow) {
-            modalClose()
-        }
         var header = []
         if (this.props.vm_info.length > 0) {
             Object.keys(this.props.vm_info[0]).forEach(function (key) {
@@ -220,91 +205,10 @@ class VMTable extends Component {
                             display: 'block',
                         }}
                     >
-                        <div
-                            style={{
-                                background: 'none',
-                                display: 'flex',
-                                marginBottom: 20,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    height: 18,
-                                    width: 18,
-                                    position: 'relative',
-                                    top: 4,
-                                    borderRadius: 2,
-                                    backgroundColor: 'rgba(171, 235, 235, 0.6)',
-                                }}
-                            ></div>
-                            <div style={{ marginLeft: 10, marginRight: 10 }}>
-                                {' '}
-                                Dev Mode{' '}
-                            </div>
-                            <div
-                                style={{
-                                    height: 18,
-                                    width: 18,
-                                    position: 'relative',
-                                    top: 4,
-                                    borderRadius: 2,
-                                    backgroundColor: 'rgba(242, 181, 179, 0.2)',
-                                }}
-                            ></div>
-                            <div style={{ marginLeft: 10, marginRight: 10 }}>
-                                {' '}
-                                Locked{' '}
-                            </div>
-                            <div
-                                style={{
-                                    height: 18,
-                                    width: 18,
-                                    position: 'relative',
-                                    top: 4,
-                                    borderRadius: 2,
-                                    backgroundColor: 'rgba(193, 245, 174, 0.2)',
-                                }}
-                            ></div>
-                            <div style={{ marginLeft: 10, marginRight: 10 }}>
-                                {' '}
-                                Unlocked{' '}
-                            </div>
-                            <FontAwesomeIcon
-                                icon={faPlay}
-                                style={{
-                                    fontSize: 14,
-                                    position: 'relative',
-                                    top: 5,
-                                    marginLeft: 10,
-                                    borderRadius: 2,
-                                    color: '#961418',
-                                }}
-                            />
-                            <div style={{ marginLeft: 10, marginRight: 10 }}>
-                                {' '}
-                                Powered off (click to start){' '}
-                            </div>
-                            <FontAwesomeIcon
-                                icon={faPause}
-                                style={{
-                                    fontSize: 14,
-                                    position: 'relative',
-                                    top: 5,
-                                    marginLeft: 10,
-                                    borderRadius: 2,
-                                    color: '#1ac447',
-                                }}
-                            />
-                            <div style={{ marginLeft: 10, marginRight: 10 }}>
-                                {' '}
-                                Powered on (click to deallocate){' '}
-                            </div>
-                        </div>
                         <table
                             style={{
                                 backgroundColor: '#FFFFFF',
-                                width: '100%',
-                                boxShadow: '0px 4px 30px rgba(0, 0, 0, 0.20)',
+                                width: '100%'
                             }}
                         >
                             <tr
@@ -445,7 +349,7 @@ class VMTable extends Component {
                                         })}
                                     </tr>
                                 ))}
-                        </table>
+                        </table>                       
                     </div>
                 ) : (
                     <div className={Style.spinnerContainer}>
