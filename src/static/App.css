@@ -98,3 +98,10 @@ a {
     outline: none !important;
     box-shadow: none !important;
 }
+
+.ant-table-column-has-sorters {
+    color: white !important;
+    background-color: #1e1f36 !important;
+    font-size: 13px !important;
+    text-align: left !important;
+}

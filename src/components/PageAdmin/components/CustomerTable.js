@@ -3,24 +3,11 @@ import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import { fetchCustomers } from '../../../actions/index.js'
-import {
-    Paper,
-    Table,
-    TableBody,
-    TableHead,
-    TableRow,
-    TableCell,
-    TableContainer,
-} from '@material-ui/core'
-import { styled } from '@material-ui/core/styles'
-
+import { Table } from 'antd'
+import 'antd/dist/antd.css'
 import Style from '../../../styles/components/pageAdmin.module.css'
 
 import '../../../static/App.css'
-
-const CustomTableContainer = styled(TableContainer)({
-    maxHeight: 440,
-})
 
 class CustomerTable extends Component {
     constructor(props) {
@@ -65,14 +52,40 @@ class CustomerTable extends Component {
     }
 
     render() {
-        var header = []
-        if (this.props.customers.length > 0) {
+        let columns = []
+        let data = []
+        if (this.props.customers && this.props.customers.length) {
             Object.keys(this.props.customers[0]).forEach(function (key) {
-                header.push(key)
+                var fixWidth = key == 'username' ? 200 : false
+                columns.push({
+                    title: key,
+                    dataIndex: key,
+                    sorter: (a, b) => {
+                        if (a[key] === null) {
+                            return 1
+                        }
+                        if (b[key] === null) {
+                            return -1
+                        }
+
+                        var a_temp = a[key].toString().toLowerCase()
+                        var b_temp = b[key].toString().toLowerCase()
+                        if (a_temp > b_temp) {
+                            return 1
+                        } else if (a_temp < b_temp) {
+                            return -1
+                        }
+
+                        return 0
+                    },
+                    width: fixWidth,
+                })
+            })
+            this.props.customers.forEach(function (customer) {
+                data.push(customer)
             })
         }
-
-        header.reverse()
+        columns.reverse()
 
         return (
             <div>
@@ -123,55 +136,21 @@ class CustomerTable extends Component {
                     //         ))}
                     //     </table>
                     // </div>
-                    <Paper>
-                        <CustomTableContainer>
-                            <Table stickyHeader aria-label="sticky table">
-                                <TableHead>
-                                    <TableRow>
-                                        {header.map((value, index) => (
-                                            <TableCell key={index}>
-                                                {value}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {this.props.customers.map(
-                                        (value, index) => (
-                                            <TableRow
-                                                hover
-                                                key={index}
-                                                onClick={() => {
-                                                    this.props.openModal(
-                                                        this.props.customers[
-                                                            index
-                                                        ]['username']
-                                                    )
-                                                }}
-                                            >
-                                                {header.map(
-                                                    (value1, index1) => {
-                                                        return (
-                                                            <TableCell
-                                                                key={index1}
-                                                            >
-                                                                {value[
-                                                                    value1
-                                                                ] !== null &&
-                                                                    value[
-                                                                        value1
-                                                                    ]}
-                                                            </TableCell>
-                                                        )
-                                                    }
-                                                )}
-                                            </TableRow>
-                                        )
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </CustomTableContainer>
-                    </Paper>
+                    <Table
+                        columns={columns}
+                        dataSource={data}
+                        scroll={{ y: 400 }}
+                        pagination={{ pageSize: 20 }}
+                        onRow={(record, rowIndex) => {
+                            return {
+                                onClick: (event) => {
+                                    console.log(record)
+                                    this.props.openModal(record['username'])
+                                },
+                            }
+                        }}
+                        size="middle"
+                    />
                 ) : (
                     <div className={Style.spinnerContainer}>
                         <div style={{ width: '100%', textAlign: 'center' }}>
