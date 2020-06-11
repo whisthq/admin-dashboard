@@ -8,11 +8,14 @@ import {
     fetchUserActivity,
     fetchUserTable,
     deleteUser,
+    changePage
 } from '../../actions/index.js'
+
 import VMTable from './components/VMTable.js'
 import UserTable from './components/UserTable.js'
 import CustomerTable from './components/CustomerTable.js'
 import DiskTable from './components/DiskTable.js'
+import VMTableHeader from './containers/VMTableHeader'
 
 class Dashboard extends Component {
     constructor(props) {
@@ -25,6 +28,7 @@ class Dashboard extends Component {
 
     componentDidMount() {
         this.props.dispatch(fetchUserActivity(false))
+        this.props.dispatch(changePage("dashboard"))
     }
 
     componentDidUpdate(prevProps) {
@@ -80,13 +84,26 @@ class Dashboard extends Component {
                                 <Tab>Customers</Tab>
                             </TabList>
                             <TabPanel style={{ paddingTop: 20 }}>
-                                <VMTable />
+                                <VMTableHeader/>
+                                <div style = {{
+                                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.10)'
+                                }}>
+                                    <VMTable />
+                                </div>
                             </TabPanel>
                             <TabPanel style={{ paddingTop: 20 }}>
-                                <DiskTable />
+                                <div style = {{
+                                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.10)'
+                                }}>
+                                    <DiskTable />
+                                </div>
                             </TabPanel>
                             <TabPanel style={{ paddingTop: 20 }}>
-                                <UserTable />
+                                <div style = {{
+                                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.10)'
+                                }}>
+                                    <UserTable />
+                                </div>
                             </TabPanel>
                             <TabPanel style={{ paddingTop: 20 }}>
                                 <CustomerTable openModal={() => null} />

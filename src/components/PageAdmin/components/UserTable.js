@@ -123,7 +123,10 @@ class UserTable extends Component {
         columns.reverse()
 
         return (
-            <div>
+            <div style = {{
+                maxHeight: 650,
+                overflowY: "scroll"
+            }}>
                 {this.props.usersUpdated ? (
                     <Table
                         columns={columns}

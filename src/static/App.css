@@ -106,3 +106,27 @@ a {
     text-align: left !important;
     height: 60px;
 }
+.dropdown .dropdown-toggle {
+    background: none !important;
+    color: #111111 !important;
+    border: none !important;
+    outline: none !important;
+    padding: 0px !important;
+    font-size: 18px;
+}
+
+.dropdown .dropdown-toggle:focus,
+.dropdown .dropdown-toggle:active {
+    outline: none !important;
+}
+
+.chart-header {
+    margin-top: 30px;
+    color: #8884d8;
+    font-weight: bold;
+    background: rgba(136, 132, 216, 0.1);
+    border-radius: 2px;
+    display: inline-block;
+    padding: 6px 15px;
+    font-size: 14px;
+}

@@ -21,6 +21,7 @@ const DEFAULT = {
     latestReport: null,
     userReport: null,
     regionReport: null,
+    page: 'dashboard'
 }
 
 export default function (state = DEFAULT, action) {
@@ -151,6 +152,11 @@ export default function (state = DEFAULT, action) {
             return {
                 ...state,
                 regionReport: action.report,
+            }
+        case AccountAction.CHANGE_PAGE:
+            return {
+                ...state,
+                page: action.page
             }
         case AccountAction.LOGOUT:
             return DEFAULT

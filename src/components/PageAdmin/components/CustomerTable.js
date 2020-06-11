@@ -14,19 +14,26 @@ class CustomerTable extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            width: 0,
+            height: 0,
+            modalShow: false,
             customers_fetched: false,
         }
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
 
     // intervalID var to keep track of auto-refreshing across functions
     intervalID
 
     componentDidMount() {
-        // refresh the customer table every 60 seconds
+        this.updateWindowDimensions()
+        window.addEventListener('resize', this.updateWindowDimensions)
         this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000)
     }
 
     componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions)
+
         // stop auto-refreshing
         clearInterval(this.intervalID)
     }
@@ -50,6 +57,10 @@ class CustomerTable extends Component {
 
     getUpdatedDatabase() {
         this.props.dispatch(fetchCustomers())
+    }
+
+    updateWindowDimensions() {
+        this.setState({ width: window.innerWidth, height: window.innerHeight })
     }
 
     render() {
@@ -101,7 +112,12 @@ class CustomerTable extends Component {
         columns.reverse()
 
         return (
-            <div>
+            <div
+                style={{
+                    maxHeight: 650,
+                    overflowY: 'scroll',
+                }}
+            >
                 {this.props.customers.length > 0 ? (
                     <Table
                         columns={columns}
@@ -139,6 +155,7 @@ class CustomerTable extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log(state)
     return {
         customers: state.AccountReducer.customers
             ? state.AccountReducer.customers.reverse()

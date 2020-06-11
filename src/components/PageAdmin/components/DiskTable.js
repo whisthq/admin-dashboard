@@ -12,10 +12,6 @@ import 'antd/dist/antd.css'
 import '../../../static/App.css'
 
 class DiskTable extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     componentDidMount() {
         this.props.dispatch(fetchDiskTable())
     }
