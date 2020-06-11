@@ -56,7 +56,7 @@ class CustomerTable extends Component {
         let data = []
         if (this.props.customers && this.props.customers.length) {
             Object.keys(this.props.customers[0]).forEach(function (key) {
-                var fixWidth = key == 'username' ? 200 : false
+                var fixWidth = key === 'username' ? 200 : false
                 columns.push({
                     title: key,
                     dataIndex: key,
@@ -90,57 +90,10 @@ class CustomerTable extends Component {
         return (
             <div>
                 {this.props.customers.length > 0 ? (
-                    // <div className={Style.tableContainer}>
-                    //     <table className={Style.table}>
-                    //         <tr className={Style.tableHead}>
-                    //             {header.map((value, index) => {
-                    //                 return (
-                    //                     <th style={{ padding: 20 }} key={index}>
-                    //                         {value}
-                    //                     </th>
-                    //                 )
-                    //             })}
-                    //         </tr>
-                    //         {this.props.customers.map((value, index) => (
-                    //             <tr
-                    //                 className={Style.tableRow}
-                    //                 key={index}
-                    //                 onClick={() => {
-                    //                     this.props.openModal(
-                    //                         this.props.customers[index][
-                    //                             'username'
-                    //                         ]
-                    //                     )
-                    //                 }}
-                    //             >
-                    //                 {header.map((value1, index1) => (
-                    //                     <td
-                    //                         className={Style.tableCell}
-                    //                         key={index1}
-                    //                     >
-                    //                         {value[value1] == null ? (
-                    //                             <div></div>
-                    //                         ) : (
-                    //                             <div
-                    //                                 style={{
-                    //                                     maxWidth: 150,
-                    //                                     overflowX: 'scroll',
-                    //                                 }}
-                    //                             >
-                    //                                 {value[value1].toString()}
-                    //                             </div>
-                    //                         )}
-                    //                     </td>
-                    //                 ))}
-                    //             </tr>
-                    //         ))}
-                    //     </table>
-                    // </div>
                     <Table
                         columns={columns}
                         dataSource={data}
                         scroll={{ y: 400 }}
-                        pagination={{ pageSize: 20 }}
                         onRow={(record, rowIndex) => {
                             return {
                                 onClick: (event) => {
@@ -150,6 +103,7 @@ class CustomerTable extends Component {
                             }
                         }}
                         size="middle"
+                        rowClassName={Style.tableRow}
                     />
                 ) : (
                     <div className={Style.spinnerContainer}>
