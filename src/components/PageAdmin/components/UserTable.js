@@ -128,7 +128,7 @@ class UserTable extends Component {
                     <Table
                         columns={columns}
                         dataSource={data}
-                        scroll={{ y: 400, x: 1300 }}
+                        scroll={{ y: 400, x: 1500 }}
                         size="middle"
                         rowClassName={Style.tableRow}
                     />
