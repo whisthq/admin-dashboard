@@ -14,9 +14,6 @@ import '../../../static/App.css'
 class DiskTable extends Component {
     constructor(props) {
         super(props)
-        // this.state = {
-        //     sortBy: 'username',
-        // }
     }
 
     componentDidMount() {
