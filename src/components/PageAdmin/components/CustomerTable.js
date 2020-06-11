@@ -112,44 +112,22 @@ class CustomerTable extends Component {
         columns.reverse()
 
         return (
-            <div
-                style={{
-                    maxHeight: 650,
-                    overflowY: 'scroll',
+            <Table
+                columns={columns}
+                dataSource={data}
+                scroll={{ x: 1000, y: 400 }}
+                onRow={(record, rowIndex) => {
+                    return {
+                        onClick: (event) => {
+                            console.log(record)
+                            this.props.openModal(record['username'])
+                        },
+                    }
                 }}
-            >
-                {this.props.customers.length > 0 ? (
-                    <Table
-                        columns={columns}
-                        dataSource={data}
-                        scroll={{ x: 1000, y: 400 }}
-                        onRow={(record, rowIndex) => {
-                            return {
-                                onClick: (event) => {
-                                    console.log(record)
-                                    this.props.openModal(record['username'])
-                                },
-                            }
-                        }}
-                        size="middle"
-                        rowClassName={Style.tableRow}
-                    />
-                ) : (
-                    <div className={Style.spinnerContainer}>
-                        <div style={{ width: '100%', textAlign: 'center' }}>
-                            <FontAwesomeIcon
-                                icon={faCircleNotch}
-                                spin
-                                style={{
-                                    color: '#1e1f36',
-                                    margin: 'auto',
-                                    marginTop: 220,
-                                }}
-                            />
-                        </div>
-                    </div>
-                )}
-            </div>
+                size="middle"
+                rowClassName={Style.tableRow}
+                loading={this.props.customers.length === 0}
+            />
         )
     }
 }

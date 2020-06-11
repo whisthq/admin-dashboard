@@ -226,53 +226,32 @@ class VMTable extends Component {
         }
 
         return (
-            <div>
-                {this.props.vmsUpdated ? (
-                    <div>
-                        <Table
-                            columns={columns}
-                            dataSource={data}
-                            scroll={{ y: 400, x: 2000 }}
-                            size="middle"
-                            rowClassName={(record, index) =>
-                                [
-                                    record['dev']
-                                        ? Style.blueBg
-                                        : record['lock'] ||
-                                          Number(record['temporary_lock']) >
-                                              Math.round(
-                                                  new Date().getTime() / 1000
-                                              )
-                                        ? Style.redBg
-                                        : Style.greenBg,
-                                    Style.tableRow,
-                                ].join(' ')
-                            }
-                            onRow={(record, rowIndex) => {
-                                return {
-                                    onClick: (event) => {
-                                        console.log(record)
-                                    },
-                                }
-                            }}
-                        />
-                    </div>
-                ) : (
-                    <div className={Style.spinnerContainer}>
-                        <div style={{ width: '100%', textAlign: 'center' }}>
-                            <FontAwesomeIcon
-                                icon={faCircleNotch}
-                                spin
-                                style={{
-                                    color: '#1e1f36',
-                                    margin: 'auto',
-                                    marginTop: 220,
-                                }}
-                            />
-                        </div>
-                    </div>
-                )}
-            </div>
+            <Table
+                columns={columns}
+                dataSource={data}
+                scroll={{ y: 400, x: 2000 }}
+                size="middle"
+                rowClassName={(record, index) =>
+                    [
+                        record['dev']
+                            ? Style.blueBg
+                            : record['lock'] ||
+                              Number(record['temporary_lock']) >
+                                  Math.round(new Date().getTime() / 1000)
+                            ? Style.redBg
+                            : Style.greenBg,
+                        Style.tableRow,
+                    ].join(' ')
+                }
+                onRow={(record, rowIndex) => {
+                    return {
+                        onClick: (event) => {
+                            console.log(record)
+                        },
+                    }
+                }}
+                loading={!this.props.vmsUpdated}
+            />
         )
     }
 }

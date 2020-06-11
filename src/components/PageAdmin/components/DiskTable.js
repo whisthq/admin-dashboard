@@ -153,31 +153,14 @@ class DiskTable extends Component {
         }
 
         return (
-            <div>
-                {this.props.disks_fetched ? (
-                    <Table
-                        columns={columns}
-                        dataSource={data}
-                        scroll={{ y: 400, x: 2300 }}
-                        size="middle"
-                        rowClassName={Style.tableRow}
-                    />
-                ) : (
-                    <div className={Style.spinnerContainer}>
-                        <div style={{ width: '100%', textAlign: 'center' }}>
-                            <FontAwesomeIcon
-                                icon={faCircleNotch}
-                                spin
-                                style={{
-                                    color: '#1e1f36',
-                                    margin: 'auto',
-                                    marginTop: 220,
-                                }}
-                            />
-                        </div>
-                    </div>
-                )}
-            </div>
+            <Table
+                columns={columns}
+                dataSource={data}
+                scroll={{ y: 400, x: 2300 }}
+                size="middle"
+                rowClassName={Style.tableRow}
+                loading={!this.props.disks_fetched}
+            />
         )
     }
 }
