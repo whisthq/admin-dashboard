@@ -99,6 +99,13 @@ a {
     box-shadow: none !important;
 }
 
+.ant-table-column-has-sorters {
+    color: white !important;
+    background-color: #1e1f36 !important;
+    font-size: 13px !important;
+    text-align: left !important;
+    height: 60px;
+}
 .dropdown .dropdown-toggle {
     background: none !important;
     color: #111111 !important;
