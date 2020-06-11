@@ -151,7 +151,6 @@ class DiskTable extends Component {
                     render: customRender,
                 })
             })
-            console.log(columns)
             this.props.disk_info.forEach(function (disk) {
                 data.push(disk)
             })

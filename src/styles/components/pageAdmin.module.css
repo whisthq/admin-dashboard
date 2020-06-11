@@ -32,6 +32,18 @@
     font-size: 12px;
 }
 
+.blueBg {
+    background-color: rgba(171, 235, 235, 0.3) !important;
+}
+
+.redBg {
+    background-color: rgba(242, 181, 179, 0.2) !important;
+}
+
+.greenBg {
+    background-color: rgba(193, 245, 174, 0.2) !important;
+}
+
 .tableCell {
     padding-left: 20px;
     padding-top: 10px;

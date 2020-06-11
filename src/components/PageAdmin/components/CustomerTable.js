@@ -6,6 +6,7 @@ import { fetchCustomers } from '../../../actions/index.js'
 import { Table } from 'antd'
 import 'antd/dist/antd.css'
 import Style from '../../../styles/components/pageAdmin.module.css'
+import moment from 'moment'
 
 import '../../../static/App.css'
 
@@ -56,7 +57,18 @@ class CustomerTable extends Component {
         let data = []
         if (this.props.customers && this.props.customers.length) {
             Object.keys(this.props.customers[0]).forEach(function (key) {
-                var fixWidth = key === 'username' ? 200 : false
+                let fixWidth = false
+                if (key === 'username') {
+                    fixWidth = 200
+                } else if (key === 'trial_end' || key === 'created') {
+                    fixWidth = 150
+                }
+                let customRender = false
+                if (key === 'trial_end' || key === 'created') {
+                    customRender = (text) => (
+                        <p>{moment(text * 1000).format('lll')}</p>
+                    )
+                }
                 columns.push({
                     title: key,
                     dataIndex: key,
@@ -79,6 +91,7 @@ class CustomerTable extends Component {
                         return 0
                     },
                     width: fixWidth,
+                    render: customRender,
                 })
             })
             this.props.customers.forEach(function (customer) {
@@ -93,7 +106,7 @@ class CustomerTable extends Component {
                     <Table
                         columns={columns}
                         dataSource={data}
-                        scroll={{ y: 400 }}
+                        scroll={{ x: 1000, y: 400 }}
                         onRow={(record, rowIndex) => {
                             return {
                                 onClick: (event) => {
