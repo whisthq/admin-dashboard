@@ -6,10 +6,6 @@ import 'antd/dist/antd.css'
 import { fetchTotalSignups, fetchTotalMinutes } from '../../../actions/index.js'
 
 class SummaryStats extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     componentDidMount() {
         this.props.dispatch(fetchTotalSignups())
         this.props.dispatch(fetchTotalMinutes())

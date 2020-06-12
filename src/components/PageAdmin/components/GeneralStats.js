@@ -9,10 +9,6 @@ import { fetchLatestReport } from '../../../actions/index.js'
 import UsageChart from './UsageChart.js'
 
 class GeneralStats extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     componentDidMount() {
         this.props.dispatch(fetchLatestReport())
     }
