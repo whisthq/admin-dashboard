@@ -347,6 +347,30 @@ function* fetchUserReport(action) {
     }
 }
 
+function* fetchTotalMinutes() {
+    const { json } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER + '/report/totalUsage',
+        ''
+    )
+
+    if (json) {
+        yield put(FormAction.totalMinutesFetched(json))
+    }
+}
+
+function* fetchTotalSignups() {
+    const { json } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER + '/report/signups',
+        ''
+    )
+
+    if (json) {
+        yield put(FormAction.totalSignupsFetched(json))
+    }
+}
+
 export default function* rootSaga() {
     yield all([
         takeEvery(FormAction.UPDATE_DB, updateDB),
@@ -366,5 +390,7 @@ export default function* rootSaga() {
         takeEvery(FormAction.FETCH_LATEST_REPORT, fetchLatestReport),
         takeEvery(FormAction.FETCH_REGION_REPORT, fetchRegionReport),
         takeEvery(FormAction.FETCH_USER_REPORT, fetchUserReport),
+        takeEvery(FormAction.FETCH_TOTAL_MINUTES, fetchTotalMinutes),
+        takeEvery(FormAction.FETCH_TOTAL_SIGNUPS, fetchTotalSignups),
     ])
 }
