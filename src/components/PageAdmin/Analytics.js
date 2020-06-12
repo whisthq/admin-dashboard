@@ -8,11 +8,12 @@ import '../../static/App.css'
 
 import GeneralStats from './components/GeneralStats'
 import UserStats from './components/UserStats'
+import SummaryStats from './components/SummaryStats'
 import VMPieChart from './containers/VMPieChart'
 
 class Analytics extends Component {
     componentDidMount() {
-        this.props.dispatch(changePage("analytics"))
+        this.props.dispatch(changePage('analytics'))
     }
 
     render() {
@@ -31,7 +32,7 @@ class Analytics extends Component {
                     ANALYTICS
                 </div>
                 <Row>
-                    <Col lg = {8}>
+                    <Col lg={8}>
                         <Tabs>
                             <TabList
                                 style={{
@@ -43,12 +44,16 @@ class Analytics extends Component {
                             >
                                 <Tab>General</Tab>
                                 <Tab>Users</Tab>
+                                <Tab>Stats</Tab>
                             </TabList>
                             <TabPanel>
                                 <GeneralStats />
                             </TabPanel>
                             <TabPanel>
                                 <UserStats />
+                            </TabPanel>
+                            <TabPanel>
+                                <SummaryStats />
                             </TabPanel>
                         </Tabs>
                     </Col>
@@ -58,62 +63,68 @@ class Analytics extends Component {
                                 fontWeight: 'bold',
                                 fontSize: 24,
                                 marginBottom: 30,
-                                marginTop: 60
+                                marginTop: 60,
                             }}
                         >
                             Cloud PCs
                         </div>
                         <VMPieChart
-                            location = "Eastus"
-                            deallocated = {
-                                this.props.latestReport ? 
-                                this.props.latestReport.eastus_deallocated :
-                                0
+                            location="Eastus"
+                            deallocated={
+                                this.props.latestReport
+                                    ? this.props.latestReport.eastus_deallocated
+                                    : 0
                             }
-                            unavailable = {
-                                this.props.latestReport ? 
-                                this.props.latestReport.eastus_unavailable :
-                                0
+                            unavailable={
+                                this.props.latestReport
+                                    ? this.props.latestReport.eastus_unavailable
+                                    : 0
                             }
-                            available = {
-                                this.props.latestReport ? 
-                                this.props.latestReport.eastus_available :
-                                0
-                            }
-                        />
-                        <VMPieChart
-                            location = "Northcentralus"
-                            deallocated = {
-                                this.props.latestReport ? 
-                                this.props.latestReport.northcentralus_deallocated :
-                                0
-                            }
-                            unavailable = {
-                                this.props.latestReport ? 
-                                this.props.latestReport.northcentralus_unavailable :
-                                0
-                            }
-                            available = {
-                                this.props.latestReport ? 
-                                this.props.latestReport.northcentralus_available :
-                                0
+                            available={
+                                this.props.latestReport
+                                    ? this.props.latestReport.eastus_available
+                                    : 0
                             }
                         />
                         <VMPieChart
-                            deallocated = {
-                                this.props.latestReport ? 
-                                this.props.latestReport.southcentralus_deallocated :
-                                0
+                            location="Northcentralus"
+                            deallocated={
+                                this.props.latestReport
+                                    ? this.props.latestReport
+                                          .northcentralus_deallocated
+                                    : 0
                             }
-                            unavailable = {
-                                this.props.latestReport ? 
-                                this.props.latestReport.southcentralus_unavailable :
-                                0
+                            unavailable={
+                                this.props.latestReport
+                                    ? this.props.latestReport
+                                          .northcentralus_unavailable
+                                    : 0
                             }
-                            available = {
-                                this.props.latestReport ? 
-                                this.props.latestReport.southcentralus_available :
-                                0
+                            available={
+                                this.props.latestReport
+                                    ? this.props.latestReport
+                                          .northcentralus_available
+                                    : 0
+                            }
+                        />
+                        <VMPieChart
+                            deallocated={
+                                this.props.latestReport
+                                    ? this.props.latestReport
+                                          .southcentralus_deallocated
+                                    : 0
+                            }
+                            unavailable={
+                                this.props.latestReport
+                                    ? this.props.latestReport
+                                          .southcentralus_unavailable
+                                    : 0
+                            }
+                            available={
+                                this.props.latestReport
+                                    ? this.props.latestReport
+                                          .southcentralus_available
+                                    : 0
                             }
                         />
                     </Col>
@@ -129,4 +140,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(Analytics);
+export default connect(mapStateToProps)(Analytics)
