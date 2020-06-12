@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-    faPlay,
-    faPause,
-} from '@fortawesome/free-solid-svg-icons'
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
 
 class VMTableHeader extends Component {
     render() {
@@ -39,10 +36,7 @@ class VMTableHeader extends Component {
                         backgroundColor: 'rgba(242, 181, 179, 0.2)',
                     }}
                 ></div>
-                <div style={{ marginLeft: 10, marginRight: 10 }}>
-                    {' '}
-                    Locked{' '}
-                </div>
+                <div style={{ marginLeft: 10, marginRight: 10 }}> Locked </div>
                 <div
                     style={{
                         height: 18,
@@ -92,4 +86,4 @@ class VMTableHeader extends Component {
     }
 }
 
-export default VMTableHeader;
+export default VMTableHeader

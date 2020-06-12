@@ -8,7 +8,7 @@ import {
     fetchUserActivity,
     fetchUserTable,
     deleteUser,
-    changePage
+    changePage,
 } from '../../actions/index.js'
 
 import VMTable from './components/VMTable.js'
@@ -28,7 +28,7 @@ class Dashboard extends Component {
 
     componentDidMount() {
         this.props.dispatch(fetchUserActivity(false))
-        this.props.dispatch(changePage("dashboard"))
+        this.props.dispatch(changePage('dashboard'))
     }
 
     componentDidUpdate(prevProps) {
@@ -84,24 +84,33 @@ class Dashboard extends Component {
                                 <Tab>Customers</Tab>
                             </TabList>
                             <TabPanel style={{ paddingTop: 20 }}>
-                                <VMTableHeader/>
-                                <div style = {{
-                                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.10)'
-                                }}>
+                                <VMTableHeader />
+                                <div
+                                    style={{
+                                        boxShadow:
+                                            '0px 4px 20px rgba(0, 0, 0, 0.10)',
+                                    }}
+                                >
                                     <VMTable />
                                 </div>
                             </TabPanel>
                             <TabPanel style={{ paddingTop: 20 }}>
-                                <div style = {{
-                                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.10)'
-                                }}>
+                                <div
+                                    style={{
+                                        boxShadow:
+                                            '0px 4px 20px rgba(0, 0, 0, 0.10)',
+                                    }}
+                                >
                                     <DiskTable />
                                 </div>
                             </TabPanel>
                             <TabPanel style={{ paddingTop: 20 }}>
-                                <div style = {{
-                                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.10)'
-                                }}>
+                                <div
+                                    style={{
+                                        boxShadow:
+                                            '0px 4px 20px rgba(0, 0, 0, 0.10)',
+                                    }}
+                                >
                                     <UserTable />
                                 </div>
                             </TabPanel>
