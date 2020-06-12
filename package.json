@@ -8,6 +8,7 @@
         "@fortawesome/react-fontawesome": "^0.1.9",
         "@nivo/line": "^0.62.0",
         "@popperjs/core": "^2.4.0",
+        "antd": "^4.3.3",
         "axios": "^0.19.2",
         "babel-plugin-root-import": "^6.5.0",
         "bootstrap": "^4.5.0",

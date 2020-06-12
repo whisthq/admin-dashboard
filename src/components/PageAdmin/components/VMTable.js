@@ -15,18 +15,14 @@ import {
     setDev,
 } from '../../../actions/index.js'
 
+import moment from 'moment'
+import { Table } from 'antd'
+import 'antd/dist/antd.css'
 import Style from '../../../styles/components/pageAdmin.module.css'
 
 import '../../../static/App.css'
 
 class VMTable extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            sortBy: 'vm_name',
-        }
-    }
-
     // intervalID var to keep track of auto-refreshing across functions
     intervalID
 
@@ -54,78 +50,113 @@ class VMTable extends Component {
         this.props.dispatch(deallocateVM(vm_name))
     }
 
-    toggleDev = (mode: any, vm_name) => {
+    toggleDev = (mode, vm_name) => {
         this.props.dispatch(setDev(vm_name, !mode))
     }
 
-    sortArray = (prop) => {
-        return function (a, b) {
-            if (a[prop] === null) {
-                return 1
-            }
-            if (b[prop] === null) {
-                return -1
-            }
-
-            var a_temp = a[prop].toString().toLowerCase()
-            var b_temp = b[prop].toString().toLowerCase()
-            if (a_temp > b_temp) {
-                return 1
-            } else if (a_temp < b_temp) {
-                return -1
-            }
-
-            return 0
-        }
-    }
-
-    unixToDate = (unix) => {
-        if (unix && unix > 0) {
-            // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-            var date = new Date(unix * 1000)
-            // Hours part from the timestamp
-            var hours = date.getHours()
-            // Minutes part from the timestamp
-            var minutes = '0' + date.getMinutes()
-            // Seconds part from the timestamp
-            var seconds = '0' + date.getSeconds()
-
-            // Will display time in 10:30:23 format
-            var formattedTime =
-                hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2)
-
-            const milliseconds = unix * 1000
-            const dateObject = new Date(milliseconds)
-            const humanDateFormat = dateObject
-                .toLocaleString('en-US')
-                .split(',')[0]
-            var dateArr = humanDateFormat.split('/')
-            const month = dateArr[0].toString()
-            var finalDate =
-                month +
-                '/' +
-                dateArr[1].toString() +
-                '/' +
-                dateArr[2].toString()
-            return finalDate + ', ' + formattedTime
-        } else {
-            return "Never Winlogon'ed"
-        }
-    }
-
-    setSortBy = (type) => {
-        this.setState({ sortBy: type })
-        console.log('set sort by ' + type)
-    }
-
     render() {
-        var header = []
-        if (this.props.vm_info.length > 0) {
+        let columns = []
+        let data = []
+        let component = this
+        if (this.props.vm_info && this.props.vm_info.length) {
             Object.keys(this.props.vm_info[0]).forEach(function (key) {
-                header.push(key)
+                let fixWidth = false
+                if (key === 'username') {
+                    fixWidth = 200
+                } else if (key === 'disk_name') {
+                    fixWidth = 400
+                } else if (
+                    key === 'temporary_lock' ||
+                    key === 'last_updated' ||
+                    key === 'state'
+                ) {
+                    fixWidth = 150
+                }
+                let customRender = false
+                if (key === 'temporary_lock') {
+                    customRender = (unix) => (
+                        <span> {moment(unix * 1000).format('lll')}</span>
+                    )
+                } else if (key === 'lock') {
+                    customRender = (val) => <span>{val.toString()}</span>
+                }
+                if (key !== 'dev') {
+                    columns.push({
+                        title: key,
+                        dataIndex: key,
+                        sorter: (a, b) => {
+                            if (a[key] === null) {
+                                return 1
+                            }
+                            if (b[key] === null) {
+                                return -1
+                            }
+
+                            var a_temp = a[key].toString().toLowerCase()
+                            var b_temp = b[key].toString().toLowerCase()
+                            if (a_temp > b_temp) {
+                                return 1
+                            } else if (a_temp < b_temp) {
+                                return -1
+                            }
+
+                            return 0
+                        },
+                        width: fixWidth,
+                        render: customRender,
+                    })
+                }
+            })
+            columns.push({
+                title: 'dev',
+                dataIndex: 'dev',
+                render: (text, record, index) => (
+                    <ToggleButton
+                        value={record['dev']}
+                        onToggle={(mode) => {
+                            component.toggleDev(mode, record['vm_name'])
+                        }}
+                        colors={{
+                            active: {
+                                base: '#5EC4EB',
+                            },
+                            inactive: {
+                                base: '#161936',
+                            },
+                        }}
+                    />
+                ),
+                sorter: (a, b) => {
+                    if (a['dev'] === null) {
+                        return 1
+                    }
+                    if (b['dev'] === null) {
+                        return -1
+                    }
+                    if (a['dev'] && !b['dev']) {
+                        return 1
+                    } else if (!a['dev'] && b['dev']) {
+                        return -1
+                    }
+                    return 0
+                },
+            })
+            columns.push({
+                title: '',
+                dataIndex: 'vmBtn',
+                render: (text, record, index) =>
+                    vmButton(
+                        record['state'],
+                        record['vm_name'],
+                        record['lock']
+                    ),
+                width: 70,
+            })
+            this.props.vm_info.forEach(function (vm) {
+                data.push(vm)
             })
         }
-        header.reverse()
+        columns.reverse()
 
         const vmButton = (state, vm_name, lock) => {
             const intermediate_states = [
@@ -195,178 +226,32 @@ class VMTable extends Component {
         }
 
         return (
-            <div>
-                {this.props.vmsUpdated ? (
-                    <div
-                        style={{
-                            maxHeight: 600,
-                            overflowY: 'scroll',
-                            width: '100%',
-                            display: 'block',
-                        }}
-                    >
-                        <table
-                            style={{
-                                backgroundColor: '#FFFFFF',
-                                width: '100%'
-                            }}
-                        >
-                            <tr
-                                style={{
-                                    color: 'white',
-                                    backgroundColor: '#1e1f36',
-                                    fontSize: 13,
-                                    textAlign: 'left',
-                                    key: 'vm-header',
-                                }}
-                            >
-                                <th></th>
-                                <th>dev</th>
-                                {header.map((value, index) => {
-                                    if (value !== 'dev') {
-                                        return (
-                                            <th
-                                                style={{ padding: 20 }}
-                                                name={value}
-                                                onClick={() =>
-                                                    this.setSortBy(value)
-                                                }
-                                                className={
-                                                    this.state.sortBy === value
-                                                        ? Style.tableHeadFocus
-                                                        : Style.tableHead
-                                                }
-                                            >
-                                                {value}
-                                            </th>
-                                        )
-                                    }
-                                    return <th style={{ width: 0 }}></th>
-                                })}
-                            </tr>
-                            {this.props.vm_info
-                                .sort(this.sortArray(this.state.sortBy))
-                                .map((value, index) => (
-                                    <tr
-                                        style={{
-                                            borderTop: 'solid 0.5px #EBEBEB',
-                                            color: '#333333',
-                                            fontSize: 12,
-                                            key: 'vm-body',
-                                            backgroundColor: value['dev']
-                                                ? 'rgba(171, 235, 235, 0.3)'
-                                                : value['lock'] ||
-                                                  Number(
-                                                      value['temporary_lock']
-                                                  ) >
-                                                      Math.round(
-                                                          new Date().getTime() /
-                                                              1000
-                                                      )
-                                                ? 'rgba(242, 181, 179, 0.2)'
-                                                : 'rgba(193, 245, 174, 0.2)',
-                                        }}
-                                        key={index}
-                                    >
-                                        <td>
-                                            {vmButton(
-                                                value['state'],
-                                                value['vm_name'],
-                                                value['lock']
-                                            )}
-                                        </td>
-                                        <td style={{ paddingRight: 15 }}>
-                                            <ToggleButton
-                                                value={value['dev']}
-                                                onToggle={(mode) =>
-                                                    this.toggleDev(
-                                                        mode,
-                                                        value['vm_name']
-                                                    )
-                                                }
-                                                colors={{
-                                                    active: {
-                                                        base: '#5EC4EB',
-                                                    },
-                                                    inactive: {
-                                                        base: '#161936',
-                                                    },
-                                                }}
-                                            />
-                                        </td>
-                                        {header.map((value1, index1) => {
-                                            if (value1 !== 'dev') {
-                                                if (
-                                                    value1 ===
-                                                        'ready_to_connect' ||
-                                                    value1 === 'temporary_lock'
-                                                ) {
-                                                    return (
-                                                        <td
-                                                            style={{
-                                                                paddingLeft: 20,
-                                                                paddingTop: 10,
-                                                                paddingBottom: 10,
-                                                            }}
-                                                        >
-                                                            {value[value1] ==
-                                                            null ? (
-                                                                <div></div>
-                                                            ) : (
-                                                                <div>
-                                                                    {this.unixToDate(
-                                                                        value[
-                                                                            value1
-                                                                        ]
-                                                                    ).toString()}
-                                                                </div>
-                                                            )}
-                                                        </td>
-                                                    )
-                                                }
-                                                return (
-                                                    <td
-                                                        className={
-                                                            Style.tableCell
-                                                        }
-                                                    >
-                                                        {value[value1] ==
-                                                        null ? (
-                                                            <div />
-                                                        ) : (
-                                                            <div>
-                                                                {value[
-                                                                    value1
-                                                                ].toString()}
-                                                            </div>
-                                                        )}
-                                                    </td>
-                                                )
-                                            }
-                                            return (
-                                                <th style={{ width: 0 }}></th>
-                                            )
-                                        })}
-                                    </tr>
-                                ))}
-                        </table>                       
-                    </div>
-                ) : (
-                    <div className={Style.spinnerContainer}>
-                        <div style={{ width: '100%', textAlign: 'center' }}>
-                            <FontAwesomeIcon
-                                icon={faCircleNotch}
-                                spin
-                                style={{
-                                    color: '#1e1f36',
-                                    margin: 'auto',
-                                    marginTop: 220,
-                                }}
-                            />
-                        </div>
-                    </div>
-                )}
-            </div>
+            <Table
+                columns={columns}
+                dataSource={data}
+                scroll={{ y: 400, x: 2000 }}
+                size="middle"
+                rowClassName={(record, index) =>
+                    [
+                        record['dev']
+                            ? Style.blueBg
+                            : record['lock'] ||
+                              Number(record['temporary_lock']) >
+                                  Math.round(new Date().getTime() / 1000)
+                            ? Style.redBg
+                            : Style.greenBg,
+                        Style.tableRow,
+                    ].join(' ')
+                }
+                onRow={(record, rowIndex) => {
+                    return {
+                        onClick: (event) => {
+                            console.log(record)
+                        },
+                    }
+                }}
+                loading={!this.props.vmsUpdated}
+            />
         )
     }
 }

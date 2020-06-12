@@ -152,14 +152,14 @@ class UsageChart extends Component {
             return (
                 <div>
                     <div className=" d-flex justify-content-between">
-                        <div
+                        <p
                             style={{
                                 fontWeight: 'bold',
-                                fontSize: 24
+                                fontSize: 24,
                             }}
                         >
                             Active Users
-                        </div>
+                        </p>
                         <div>
                             <ToggleButtonGroup
                                 type="radio"
@@ -182,34 +182,40 @@ class UsageChart extends Component {
                             </ToggleButtonGroup>
                         </div>
                     </div>
-                    <p className = "chart-header">
-                        Total
-                    </p>
-                    <div style = {{
-                        position: "relative",
-                        right: 40
-                    }}>
+                    <p className="chart-header">Total</p>
+                    <div
+                        style={{
+                            position: 'relative',
+                            right: 40,
+                        }}
+                    >
                         {this.chartElement('total')}
                     </div>
-                    <p className = "chart-header">Eastus</p>
-                    <div style = {{
-                        position: "relative",
-                        right: 40
-                    }}>
+                    <p className="chart-header">Eastus</p>
+                    <div
+                        style={{
+                            position: 'relative',
+                            right: 40,
+                        }}
+                    >
                         {this.chartElement('eastus')}
                     </div>
-                    <p className = "chart-header">Northcentralus</p>
-                    <div style = {{
-                        position: "relative",
-                        right: 40
-                    }}>
+                    <p className="chart-header">Northcentralus</p>
+                    <div
+                        style={{
+                            position: 'relative',
+                            right: 40,
+                        }}
+                    >
                         {this.chartElement('northcentralus')}
                     </div>
-                    <p className = "chart-header">Southcentralus</p>
-                    <div style = {{
-                        position: "relative",
-                        right: 40
-                    }}>
+                    <p className="chart-header">Southcentralus</p>
+                    <div
+                        style={{
+                            position: 'relative',
+                            right: 40,
+                        }}
+                    >
                         {this.chartElement('southcentralus')}
                     </div>
                 </div>

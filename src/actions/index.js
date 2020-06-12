@@ -37,6 +37,10 @@ export const USER_REPORT_FETCHED = 'USER_REPORT_FETCHED'
 export const FETCH_REGION_REPORT = 'FETCH_REGION_REPORT'
 export const REGION_REPORT_FETCHED = 'REGION_REPORT_FETCHED'
 export const CHANGE_PAGE = 'CHANGE_PAGE'
+export const FETCH_TOTAL_SIGNUPS = 'FETCH_TOTAL_SIGNUPS'
+export const TOTAL_SIGNUPS_FETCHED = 'TOTAL_SIGNUPS_FETCHED'
+export const FETCH_TOTAL_MINUTES = 'FETCH_TOTAL_MINUTES'
+export const TOTAL_MINUTES_FETCHED = 'TOTAL_MINUTES_FETCHED'
 
 export function fetchVMs(id) {
     return {
@@ -303,6 +307,32 @@ export function regionReportFetched(report) {
 export function changePage(page) {
     return {
         type: CHANGE_PAGE,
-        page
+        page,
+    }
+}
+
+export function fetchTotalSignups() {
+    return {
+        type: FETCH_TOTAL_SIGNUPS,
+    }
+}
+
+export function totalSignupsFetched(data) {
+    return {
+        type: TOTAL_SIGNUPS_FETCHED,
+        data,
+    }
+}
+
+export function fetchTotalMinutes() {
+    return {
+        type: FETCH_TOTAL_MINUTES,
+    }
+}
+
+export function totalMinutesFetched(data) {
+    return {
+        type: TOTAL_MINUTES_FETCHED,
+        data,
     }
 }

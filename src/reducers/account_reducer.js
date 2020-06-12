@@ -21,7 +21,9 @@ const DEFAULT = {
     latestReport: null,
     userReport: null,
     regionReport: null,
-    page: 'dashboard'
+    page: 'dashboard',
+    totalSignups: null,
+    totalMinutes: null,
 }
 
 export default function (state = DEFAULT, action) {
@@ -153,10 +155,20 @@ export default function (state = DEFAULT, action) {
                 ...state,
                 regionReport: action.report,
             }
+        case AccountAction.TOTAL_SIGNUPS_FETCHED:
+            return {
+                ...state,
+                totalSignups: action.data,
+            }
+        case AccountAction.TOTAL_MINUTES_FETCHED:
+            return {
+                ...state,
+                totalMinutes: action.data,
+            }
         case AccountAction.CHANGE_PAGE:
             return {
                 ...state,
-                page: action.page
+                page: action.page,
             }
         case AccountAction.LOGOUT:
             return DEFAULT
