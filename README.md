@@ -24,7 +24,7 @@ The admin dashboard is developed using the `npm` package manager. You can start 
 
 If you need to update dependencies, you can run `npm upgrade`, followed by `npm prune` to remove unnecessary dependencies.
 
-Basic continuous integration is set up for this project. For every push or PR, basic NodeJS tests will be compiled and run within GitHub Actions. This will also auto-format the code via Prettier, see below. You should make sure that every push to master passes the build in GitHub Actions.
+Basic continuous integration is set up for this project. For every push or PR, basic NodeJS tests will be compiled and run within GitHub Actions. This will also auto-format the code via Prettier, see below. You should make sure that every push to master passes the build in GitHub Actions, and that you pre-formatted the code via Prettier as well. 
 
 ## Styling
 
