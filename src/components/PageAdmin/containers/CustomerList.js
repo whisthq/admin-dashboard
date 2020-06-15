@@ -52,49 +52,50 @@ class CustomerList extends Component {
     }
 
     render() {
-        let component = this;
+        let component = this
 
         return (
-            <div style = {{
-                maxHeight: 300,
-                overflowY: "scroll"
-            }}>
+            <div
+                style={{
+                    maxHeight: 300,
+                    overflowY: 'scroll',
+                }}
+            >
                 {this.props.customers.length > 0 ? (
-                    <div style = {{
-                        display: "flex",
-                        flexWrap: "wrap"
-                    }}>
-                        {this.props.customers.map(function(value, index) {
-                            if(value && value["username"] !== "") {
-                                return(
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                        }}
+                    >
+                        {this.props.customers.map(function (value, index) {
+                            if (value && value['username'] !== '') {
+                                return (
                                     <div
-                                    key={index}
-                                    className = "pointerOnHover"
-                                    onClick={() => {
-                                        component.props.openModal(
-                                            value[
-                                                'username'
-                                            ]
-                                        )
-                                    }}
-                                    style = {{
-                                        padding: "5px 10px",
-                                        marginRight: 10,
-                                        marginBottom: 10,
-                                        fontSize: 13,
-                                        color: "#8884d8",
-                                        background: "rgba(136, 132, 216, 0.1)"
-                                    }}
+                                        key={index}
+                                        className="pointerOnHover"
+                                        onClick={() => {
+                                            component.props.openModal(
+                                                value['username']
+                                            )
+                                        }}
+                                        style={{
+                                            padding: '5px 10px',
+                                            marginRight: 10,
+                                            marginBottom: 10,
+                                            fontSize: 13,
+                                            color: '#8884d8',
+                                            background:
+                                                'rgba(136, 132, 216, 0.1)',
+                                        }}
                                     >
-                                        {value["username"]}
-                                    </div>  
+                                        {value['username']}
+                                    </div>
                                 )
                             } else {
-                                return(
-                                    <div></div>
-                                )
+                                return <div></div>
                             }
-                    })}
+                        })}
                     </div>
                 ) : (
                     <div className={Style.spinnerContainer}>
