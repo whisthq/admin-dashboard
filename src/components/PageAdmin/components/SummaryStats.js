@@ -29,53 +29,60 @@ class SummaryStats extends Component {
                             size="small"
                             loading={this.props.totalMinutes == null}
                         >
-                            <div>
-                                <p>
-                                    Past day:{' '}
-                                    <strong>
-                                        {Math.round(
-                                            this.props.totalMinutes['day'] / 60
-                                        ).toString() +
-                                            'h ' +
-                                            (
-                                                this.props.totalMinutes['day'] %
-                                                60
+                            {this.props.totalMinutes !== null && (
+                                <div>
+                                    <p>
+                                        Past day:{' '}
+                                        <strong>
+                                            {Math.round(
+                                                this.props.totalMinutes['day'] /
+                                                    60
                                             ).toString() +
-                                            'm'}
-                                    </strong>
-                                </p>
-                                <p>
-                                    Past week:{' '}
-                                    <strong>
-                                        {Math.round(
-                                            this.props.totalMinutes['week'] / 60
-                                        ).toString() +
-                                            'h ' +
-                                            (
+                                                'h ' +
+                                                (
+                                                    this.props.totalMinutes[
+                                                        'day'
+                                                    ] % 60
+                                                ).toString() +
+                                                'm'}
+                                        </strong>
+                                    </p>
+                                    <p>
+                                        Past week:{' '}
+                                        <strong>
+                                            {Math.round(
                                                 this.props.totalMinutes[
                                                     'week'
-                                                ] % 60
+                                                ] / 60
                                             ).toString() +
-                                            'm'}
-                                    </strong>
-                                </p>
-                                <p>
-                                    Past month:{' '}
-                                    <strong>
-                                        {Math.round(
-                                            this.props.totalMinutes['month'] /
-                                                60
-                                        ).toString() +
-                                            'h ' +
-                                            (
+                                                'h ' +
+                                                (
+                                                    this.props.totalMinutes[
+                                                        'week'
+                                                    ] % 60
+                                                ).toString() +
+                                                'm'}
+                                        </strong>
+                                    </p>
+                                    <p>
+                                        Past month:{' '}
+                                        <strong>
+                                            {Math.round(
                                                 this.props.totalMinutes[
                                                     'month'
-                                                ] % 60
+                                                ] / 60
                                             ).toString() +
-                                            'm'}
-                                    </strong>
-                                </p>
-                            </div>
+                                                'h ' +
+                                                (
+                                                    this.props.totalMinutes[
+                                                        'month'
+                                                    ] % 60
+                                                ).toString() +
+                                                'm'}
+                                        </strong>
+                                    </p>
+                                </div>
+                            )}
                         </Card>
                     </Col>
                     <Col span={8}>
@@ -84,24 +91,28 @@ class SummaryStats extends Component {
                             size="small"
                             loading={this.props.totalSignups == null}
                         >
-                            <p>
-                                Past day:{' '}
-                                <strong>
-                                    {this.props.totalSignups['day']}
-                                </strong>
-                            </p>
-                            <p>
-                                Past week:{' '}
-                                <strong>
-                                    {this.props.totalSignups['week']}
-                                </strong>
-                            </p>
-                            <p>
-                                Past month:{' '}
-                                <strong>
-                                    {this.props.totalSignups['month']}
-                                </strong>
-                            </p>
+                            {this.props.totalSignups !== null && (
+                                <div>
+                                    <p>
+                                        Past day:{' '}
+                                        <strong>
+                                            {this.props.totalSignups['day']}
+                                        </strong>
+                                    </p>
+                                    <p>
+                                        Past week:{' '}
+                                        <strong>
+                                            {this.props.totalSignups['week']}
+                                        </strong>
+                                    </p>
+                                    <p>
+                                        Past month:{' '}
+                                        <strong>
+                                            {this.props.totalSignups['month']}
+                                        </strong>
+                                    </p>
+                                </div>
+                            )}
                         </Card>
                     </Col>
                 </Row>
