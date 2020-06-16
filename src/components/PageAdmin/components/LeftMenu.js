@@ -75,7 +75,7 @@ class LeftMenu extends Component {
                                 <a
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    href="https://papertrailapp.com/dashboard"
+                                    href="https://app.timber.io/fractal/logs/console"
                                 >
                                     Webserver Logs
                                 </a>
@@ -96,6 +96,24 @@ class LeftMenu extends Component {
                                     href="https://lightsail.aws.amazon.com/ls/webapp/home/instances?#"
                                 >
                                     AWS Lightsail
+                                </a>
+                            </Dropdown.Item>
+                            <Dropdown.Item style={{ marginBottom: 5 }}>
+                                <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href="https://dashboard.heroku.com/teams/fractalcomputers/apps"
+                                >
+                                    Heroku
+                                </a>
+                            </Dropdown.Item>
+                            <Dropdown.Item style={{ marginBottom: 5 }}>
+                                <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href="https://fractalcomputers.postman.co/workspaces/6ded464f-396a-4792-a5c9-5ac7c689d269/apis"
+                                >
+                                    Postman
                                 </a>
                             </Dropdown.Item>
                             <Dropdown.Item style={{ marginBottom: 5 }}>
