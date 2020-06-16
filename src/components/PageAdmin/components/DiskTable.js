@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import ToggleButton from 'react-toggle-button'
 
 import { fetchDiskTable, changeBranch } from '../../../actions/index.js'
 
@@ -8,6 +9,8 @@ import { Table } from 'antd'
 import 'antd/dist/antd.css'
 
 import '../../../static/App.css'
+
+import { setStun } from '../../../actions/index.js'
 
 class DiskTable extends Component {
     componentDidMount() {
@@ -21,6 +24,14 @@ class DiskTable extends Component {
 
     changeBranch = (disk_name, branch) => {
         this.props.dispatch(changeBranch(disk_name, branch))
+    }
+
+    toggleStun = (mode, disk_name) => {
+        if (mode == null) {
+            this.props.dispatch(setStun(disk_name, true))
+        } else {
+            this.props.dispatch(setStun(disk_name, !mode))
+        }
     }
 
     render() {
@@ -94,8 +105,24 @@ class DiskTable extends Component {
 
         let columns = []
         let data = []
+        let headers = [
+            'branch',
+            'using_stun',
+            'disk_name',
+            'state',
+            'username',
+            'location',
+            'os',
+            'version',
+            'disk_size',
+            'vm_name',
+            'vm_size',
+            'has_accepted_update',
+            'first_time',
+        ]
+        let component = this
         if (this.props.disk_info && this.props.disk_info.length) {
-            Object.keys(this.props.disk_info[0]).forEach(function (key) {
+            headers.forEach(function (key) {
                 let fixWidth = false
                 if (key === 'username') {
                     fixWidth = 250
@@ -112,14 +139,28 @@ class DiskTable extends Component {
                 } else if (key === 'branch') {
                     fixWidth = 200
                 }
-                let customRender =
-                    key === 'branch'
-                        ? (text, record, index) =>
-                              branchToggle(
-                                  record['disk_name'],
-                                  record['branch']
-                              )
-                        : false
+                let customRender = false
+                if (key === 'branch') {
+                    customRender = (text, record, index) =>
+                        branchToggle(record['disk_name'], record['branch'])
+                } else if (key === 'using_stun') {
+                    customRender = (text, record, index) => (
+                        <ToggleButton
+                            value={record['using_stun']}
+                            onToggle={(mode) => {
+                                component.toggleStun(mode, record['disk_name'])
+                            }}
+                            colors={{
+                                active: {
+                                    base: '#5EC4EB',
+                                },
+                                inactive: {
+                                    base: '#161936',
+                                },
+                            }}
+                        />
+                    )
+                }
                 columns.push({
                     title: key,
                     dataIndex: key,

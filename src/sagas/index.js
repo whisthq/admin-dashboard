@@ -4,7 +4,6 @@ import * as FormAction from '../actions/index.js'
 import { apiPost, apiGet } from '../utils/Api.js'
 import history from '../history'
 import { config } from '../constants.js'
-import { Form } from 'react-bootstrap'
 
 function* updateDB(action) {
     if (!action.updated) {
@@ -273,6 +272,24 @@ function* setDev(action) {
     }
 }
 
+function* setStun(action) {
+    const state = yield select()
+
+    const { json } = yield call(
+        apiPost,
+        config.url.PRIMARY_SERVER + '/disk/usingStun',
+        {
+            disk_name: action.disk_name,
+            using_stun: action.useStun,
+        },
+        state.AccountReducer.access_token
+    )
+
+    if (json) {
+        yield put(FormAction.fetchDiskTable(false))
+    }
+}
+
 function* changeBranch(action) {
     const state = yield select()
 
@@ -385,6 +402,7 @@ export default function* rootSaga() {
         takeEvery(FormAction.FETCH_LOGS, fetchLogs),
         takeEvery(FormAction.DELETE_LOGS, deleteLogs),
         takeEvery(FormAction.SET_DEV, setDev),
+        takeEvery(FormAction.SET_STUN, setStun),
         takeEvery(FormAction.FETCH_DISK_TABLE, fetchDiskTable),
         takeEvery(FormAction.CHANGE_BRANCH, changeBranch),
         takeEvery(FormAction.FETCH_LATEST_REPORT, fetchLatestReport),
