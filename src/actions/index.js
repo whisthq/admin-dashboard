@@ -29,6 +29,7 @@ export const LOGS_FOUND = 'LOGS_FOUND'
 export const DELETE_LOGS = 'DELETE_LOGS'
 export const DELETE_LOG_SUCCESS = 'DELETE_LOG_SUCCESS'
 export const SET_DEV = 'SET_DEV'
+export const SET_STUN = 'SET_STUN'
 export const CHANGE_BRANCH = 'CHANGE_BRANCH'
 export const FETCH_LATEST_REPORT = 'FETCH_LATEST_REPORT'
 export const LATEST_REPORT_FETCHED = 'LATEST_REPORT_FETCHED'
@@ -252,6 +253,14 @@ export function setDev(vm_name, dev) {
         type: SET_DEV,
         vm_name,
         dev,
+    }
+}
+
+export function setStun(disk_name, useStun) {
+    return {
+        type: SET_STUN,
+        disk_name,
+        useStun,
     }
 }
 
