@@ -108,6 +108,7 @@ class Analytics extends Component {
                             }
                         />
                         <VMPieChart
+                            location="Southcentralus"
                             deallocated={
                                 this.props.latestReport
                                     ? this.props.latestReport
