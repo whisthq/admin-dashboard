@@ -1,0 +1,30 @@
+# This workflow will do a clean install of node dependencies, build the source code on Node 10 and 12, and format via Prettier
+
+name: Node.js CI
+
+on:
+    push:
+        branches: [master, staging]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [10.x, 12.x]
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js 12
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 12
+            - run: npm install --global prettier
+            - name: lint
+              run: npm run format
+            - name: Commit files
+              run: |
+                  git config --local user.email "linter@fractalcomputers.com"
+                  git config --local user.name "fractal linter"
+                  git diff-index --quiet HEAD || git commit -m "Linted with prettier" -a
