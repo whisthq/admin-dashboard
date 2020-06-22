@@ -1,6 +1,6 @@
-# This workflow will do a clean install of node dependencies, build the source code on Node 10 and 12, and format via Prettier
+# This workflow will format via Prettier
 
-name: Node.js CI
+name: lint
 
 on: push
 
