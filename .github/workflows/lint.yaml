@@ -7,11 +7,6 @@ on: push
 jobs:
     build:
         runs-on: ubuntu-latest
-
-        strategy:
-            matrix:
-                node-version: [10.x, 12.x]
-
         steps:
             - uses: actions/checkout@v2
             - name: Use Node.js 12
@@ -20,7 +15,7 @@ jobs:
                   node-version: 12
             - run: npm install --global prettier
             - name: lint
-              run: npm run format
+              run: npm run format --write
             - name: Commit files
               run: |
                   git config --local user.email "linter@fractalcomputers.com"
