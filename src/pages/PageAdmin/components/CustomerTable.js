@@ -31,6 +31,7 @@ class CustomerTable extends Component {
         this.updateWindowDimensions()
         window.addEventListener('resize', this.updateWindowDimensions)
         this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000)
+        this.setState({ data: [], modifyData: true })
     }
 
     componentWillUnmount() {

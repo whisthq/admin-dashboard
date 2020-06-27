@@ -26,6 +26,7 @@ class UserTable extends Component {
 
     componentDidMount() {
         this.props.dispatch(fetchUserTable())
+        this.setState({ data: [], modifyData: true })
     }
 
     deleteUser = (user) => {

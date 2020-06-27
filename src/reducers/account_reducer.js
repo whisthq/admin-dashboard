@@ -24,6 +24,7 @@ const DEFAULT = {
     page: 'dashboard',
     totalSignups: null,
     totalMinutes: null,
+    log_analysis: {},
 }
 
 export default function (state = DEFAULT, action) {
@@ -169,6 +170,22 @@ export default function (state = DEFAULT, action) {
             return {
                 ...state,
                 page: action.page,
+            }
+        case AccountAction.STORE_LOG_ANALYSIS:
+            const payload_id = action.payload_id
+            const sender = action.sender
+            const mirror_sender = sender === 'client' ? 'server' : 'client'
+            return {
+                ...state,
+                log_analysis: state.log_analysis
+                    ? {
+                          ...state.log_analysis,
+                          [payload_id]: {
+                              ...state.log_analysis[payload_id],
+                              [sender]: action.payload,
+                          },
+                      }
+                    : {},
             }
         case AccountAction.LOGOUT:
             return DEFAULT

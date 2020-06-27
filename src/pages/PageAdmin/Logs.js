@@ -13,7 +13,11 @@ import {
     logsFound,
     deleteLogs,
     changePage,
+    analyzeLogs,
 } from '../../actions/index.js'
+
+import MiniGraph from 'pages/PageAdmin/containers/MiniGraph'
+import { FaThinkPeaks } from 'react-icons/fa'
 
 class Logs extends Component {
     constructor(props) {
@@ -28,12 +32,16 @@ class Logs extends Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(fetchUserActivity(false))
-        this.props.dispatch(logsFound(false))
-        this.props.dispatch(changePage('logs'))
+        this.setState({ processing: false }, function () {
+            this.props.dispatch(fetchUserActivity(false))
+            this.props.dispatch(logsFound(false))
+            this.props.dispatch(changePage('logs'))
+            this.searchAllUsers()
+        })
     }
 
     componentDidUpdate(prevProps) {
+        let component = this
         if (
             this.props.access_token &&
             this.props.logs.length === 0 &&
@@ -47,6 +55,21 @@ class Logs extends Component {
             this.state.processing
         ) {
             this.setState({ processing: false })
+            var last_index = Math.min(
+                this.props.logs.length,
+                this.state.last_index
+            )
+            var rendered_logs = this.props.logs.slice(0, last_index)
+            rendered_logs.forEach(function (element) {
+                component.props.dispatch(
+                    analyzeLogs(
+                        element.connection_id,
+                        element.username,
+                        element.server_logs,
+                        element.client_logs
+                    )
+                )
+            })
         }
     }
 
@@ -89,7 +112,38 @@ class Logs extends Component {
         return result
     }
 
+    loadMoreLogs = () => {
+        let component = this
+
+        var last_true_index = Math.min(
+            component.props.logs.length,
+            component.state.last_index + 20
+        )
+        console.log('fetching logs from')
+        console.log(last_true_index)
+        var rendered_logs = component.props.logs.slice(
+            last_true_index - 20,
+            last_true_index
+        )
+        console.log(rendered_logs)
+        rendered_logs.forEach(function (element) {
+            component.props.dispatch(
+                analyzeLogs(
+                    element.connection_id,
+                    element.username,
+                    element.server_logs,
+                    element.client_logs
+                )
+            )
+        })
+
+        this.setState({
+            last_index: this.state.last_index + 20,
+        })
+    }
+
     render() {
+        let format = 'MMM Do'
         var header = []
         if (this.props.logs.length > 0) {
             Object.keys(this.props.logs[0]).forEach(function (key) {
@@ -223,7 +277,7 @@ class Logs extends Component {
                                 borderRadius: 3,
                             }}
                         >
-                            No logs found! Search for a valid user.
+                            No logs found! Try again.
                         </div>
                     ) : (
                         <div
@@ -233,7 +287,7 @@ class Logs extends Component {
                                 marginTop: 25,
                             }}
                         >
-                            <table style={{ width: 900 }}>
+                            <div style={{ width: '100%' }}>
                                 {this.props.logs
                                     .slice(
                                         0,
@@ -244,139 +298,251 @@ class Logs extends Component {
                                     )
                                     .map((value, index) => {
                                         return (
-                                            <tr
+                                            <div
                                                 style={{
-                                                    fontSize: 12,
-                                                    height: 50,
-                                                    padding: 10,
-                                                    paddingBottom: 20,
-                                                    key: 'logs',
+                                                    background: 'white',
+                                                    borderRadius: 5,
+                                                    padding: 20,
+                                                    marginBottom: 20,
+                                                    maxWidth:
+                                                        'calc(100% - 200px)',
                                                 }}
                                             >
-                                                <td
+                                                <div
                                                     style={{
-                                                        width: 50,
+                                                        fontSize: 12,
+                                                        height: 50,
+                                                        padding: 10,
+                                                        paddingBottom: 20,
+                                                        key: 'logs',
+                                                        width: '100%',
+                                                        display: 'flex',
                                                     }}
                                                 >
-                                                    <a
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        href={
-                                                            value['server_logs']
-                                                        }
+                                                    <div
                                                         style={{
-                                                            background:
-                                                                '#4b3ba8',
-                                                            padding:
-                                                                '10px 12px',
-                                                            borderRadius: 5,
-                                                            fontWeight: 'bold',
+                                                            width: 45,
                                                         }}
                                                     >
-                                                        <span
+                                                        <a
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            href={
+                                                                value[
+                                                                    'server_logs'
+                                                                ]
+                                                            }
                                                             style={{
-                                                                color: 'white',
+                                                                background:
+                                                                    '#4b3ba8',
+                                                                padding:
+                                                                    '10px 12px',
+                                                                borderRadius: 3,
                                                                 fontWeight:
                                                                     'bold',
+                                                                opacity: value[
+                                                                    'server_logs'
+                                                                ]
+                                                                    ? 1.0
+                                                                    : 0.25,
                                                             }}
                                                         >
-                                                            S
-                                                        </span>
-                                                    </a>
-                                                </td>
-                                                <td
-                                                    style={{
-                                                        width: 50,
-                                                    }}
-                                                >
-                                                    <a
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        href={
-                                                            value['client_logs']
-                                                        }
+                                                            <span
+                                                                style={{
+                                                                    color:
+                                                                        'white',
+                                                                    fontWeight:
+                                                                        'bold',
+                                                                }}
+                                                            >
+                                                                S
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                    <div
                                                         style={{
-                                                            background:
-                                                                '#2c45a8',
-                                                            padding:
-                                                                '10px 12px',
-                                                            borderRadius: 5,
-                                                            fontWeight: 'bold',
+                                                            width: 45,
+                                                            marginRight: 10,
                                                         }}
                                                     >
-                                                        <span
+                                                        <a
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            href={
+                                                                value[
+                                                                    'client_logs'
+                                                                ]
+                                                            }
                                                             style={{
-                                                                color: 'white',
+                                                                background:
+                                                                    '#2c45a8',
+                                                                padding:
+                                                                    '10px 12px',
+                                                                borderRadius: 3,
                                                                 fontWeight:
                                                                     'bold',
+                                                                opacity: value[
+                                                                    'client_logs'
+                                                                ]
+                                                                    ? 1.0
+                                                                    : 0.25,
                                                             }}
                                                         >
-                                                            C
-                                                        </span>
-                                                    </a>
-                                                </td>
-                                                <td
-                                                    style={{
-                                                        textAlign: 'center',
-                                                        maxWidth: 100,
-                                                    }}
-                                                >
-                                                    {value['last_updated']}
-                                                </td>
-                                                <td>
-                                                    Connection{' '}
-                                                    {value['connection_id']}
-                                                </td>
-                                                <td
-                                                    style={{
-                                                        maxWidth: 200,
-                                                    }}
-                                                >
-                                                    Version {value['version']}
-                                                </td>
-                                                {value['username'] ? (
-                                                    <td
+                                                            <span
+                                                                style={{
+                                                                    color:
+                                                                        'white',
+                                                                    fontWeight:
+                                                                        'bold',
+                                                                }}
+                                                            >
+                                                                C
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                    {value['username'] ? (
+                                                        <div
+                                                            style={{
+                                                                width: 200,
+                                                                overflowX:
+                                                                    'scroll',
+                                                            }}
+                                                        >
+                                                            {value['username']}
+                                                        </div>
+                                                    ) : (
+                                                        <div
+                                                            style={{
+                                                                color:
+                                                                    '#888888',
+                                                                width: 200,
+                                                                overflowX:
+                                                                    'scroll',
+                                                            }}
+                                                        >
+                                                            No username
+                                                        </div>
+                                                    )}
+                                                    <div
                                                         style={{
-                                                            width: 100,
+                                                            textAlign: 'left',
+                                                            width: 150,
                                                         }}
                                                     >
-                                                        {value['username']}
-                                                    </td>
-                                                ) : (
-                                                    <td
+                                                        {value['last_updated']}
+                                                    </div>
+                                                    <div
                                                         style={{
-                                                            color: '#888888',
+                                                            width: 150,
                                                         }}
                                                     >
-                                                        No username
-                                                    </td>
-                                                )}
-                                                <Button
-                                                    onClick={() =>
-                                                        this.deleteLogs(
+                                                        Conn.{' '}
+                                                        {value['connection_id']}
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            width: 200,
+                                                        }}
+                                                    >
+                                                        V. {value['version']}
+                                                    </div>
+                                                    <Button
+                                                        onClick={() =>
+                                                            this.deleteLogs(
+                                                                value[
+                                                                    'connection_id'
+                                                                ]
+                                                            )
+                                                        }
+                                                        style={{
+                                                            marginLeft: 40,
+                                                            color: '#111111',
+                                                            background: 'none',
+                                                            border: 'none',
+                                                            fontSize: 14,
+                                                            position:
+                                                                'relative',
+                                                            bottom: 5,
+                                                            outline: 'none',
+                                                            boxShadow: 'none',
+                                                        }}
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faTrash}
+                                                        />
+                                                    </Button>
+                                                </div>
+                                                <div
+                                                    style={{ display: 'flex' }}
+                                                >
+                                                    <MiniGraph
+                                                        title="Avg. Encode Time"
+                                                        log_analysis={
+                                                            this.props
+                                                                .log_analysis
+                                                        }
+                                                        username={
+                                                            value['username']
+                                                        }
+                                                        connection_id={
                                                             value[
                                                                 'connection_id'
                                                             ]
-                                                        )
-                                                    }
-                                                    style={{
-                                                        marginLeft: 40,
-                                                        color: '#111111',
-                                                        background: 'none',
-                                                        border: 'none',
-                                                        fontSize: 14,
-                                                        position: 'relative',
-                                                        top: 10,
-                                                    }}
-                                                >
-                                                    <FontAwesomeIcon
-                                                        icon={faTrash}
+                                                        }
+                                                        sender="server"
+                                                        metric="encode_time"
+                                                        filename={
+                                                            value['server_logs']
+                                                        }
+                                                        unit="ms"
                                                     />
-                                                </Button>
-                                            </tr>
+                                                    <MiniGraph
+                                                        title="Avg. Decode Time"
+                                                        log_analysis={
+                                                            this.props
+                                                                .log_analysis
+                                                        }
+                                                        username={
+                                                            value['username']
+                                                        }
+                                                        connection_id={
+                                                            value[
+                                                                'connection_id'
+                                                            ]
+                                                        }
+                                                        sender="client"
+                                                        metric="decode_time"
+                                                        filename={
+                                                            value['client_logs']
+                                                        }
+                                                        unit="ms"
+                                                    />
+                                                    <MiniGraph
+                                                        title="Avg. Encode Size"
+                                                        log_analysis={
+                                                            this.props
+                                                                .log_analysis
+                                                        }
+                                                        username={
+                                                            value['username']
+                                                        }
+                                                        connection_id={
+                                                            value[
+                                                                'connection_id'
+                                                            ]
+                                                        }
+                                                        sender="server"
+                                                        metric="encode_size"
+                                                        filename={
+                                                            value['server_logs']
+                                                        }
+                                                        unit="bytes"
+                                                    />
+                                                </div>
+                                            </div>
                                         )
                                     })}
-                            </table>
+                            </div>
                             {this.props.logs &&
                             Math.min(20, this.state.last_index) <
                                 this.props.logs.length ? (
@@ -386,12 +552,7 @@ class Logs extends Component {
                                         color: '#5ec3eb',
                                     }}
                                     className="pointerOnHover"
-                                    onClick={() =>
-                                        this.setState({
-                                            last_index:
-                                                this.state.last_index + 20,
-                                        })
-                                    }
+                                    onClick={this.loadMoreLogs}
                                 >
                                     Load More Logs
                                 </div>
@@ -407,7 +568,7 @@ class Logs extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state)
+    console.log(state.AccountReducer.log_analysis)
     return {
         logs: state.AccountReducer.logs ? state.AccountReducer.logs : [],
         access_token: state.AccountReducer.access_token,
@@ -417,6 +578,7 @@ function mapStateToProps(state) {
         logs_not_found: state.AccountReducer.logs_not_found
             ? state.AccountReducer.logs_not_found
             : false,
+        log_analysis: state.AccountReducer.log_analysis,
     }
 }
 

@@ -29,7 +29,7 @@ class Analytics extends Component {
                     style={{
                         fontSize: 45,
                         fontWeight: 'bold',
-                        marginBottom: 60,
+                        marginBottom: 30,
                         color: '#111111',
                     }}
                 >

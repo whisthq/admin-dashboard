@@ -191,7 +191,6 @@ function* getVMStatus(id, vm_name) {
 }
 
 function* fetchLogs(action) {
-    console.log('FETCH LOG SAGA')
     const state = yield select()
 
     const { json } = yield call(
@@ -204,10 +203,10 @@ function* fetchLogs(action) {
         state.AccountReducer.access_token
     )
 
-    console.log(json)
-
-    if (json && json.ID) {
-        yield call(getLogStatus, json.ID)
+    if (json && json.logs) {
+        yield put(FormAction.storeLogs(json.logs, false))
+    } else {
+        yield put(FormAction.storeLogs([], true))
     }
 }
 
@@ -227,30 +226,6 @@ function* deleteLogs(action) {
 
     if (json && json.ID) {
         yield put(FormAction.deleteLogSuccess(action.connection_id))
-    }
-}
-
-function* getLogStatus(id) {
-    var { json } = yield call(
-        apiGet,
-        (config.url.PRIMARY_SERVER + '/status/').concat(id),
-        ''
-    )
-
-    while (json.state === 'PENDING' || json.state === 'STARTED') {
-        json = yield call(
-            apiGet,
-            (config.url.PRIMARY_SERVER + '/status/').concat(id),
-            ''
-        )
-        json = json.json
-        yield delay(2000)
-    }
-
-    if (json && json.state === 'SUCCESS') {
-        yield put(FormAction.storeLogs(json.output, false))
-    } else {
-        yield put(FormAction.storeLogs([], true))
     }
 }
 
@@ -388,6 +363,52 @@ function* fetchTotalSignups() {
     }
 }
 
+function* analyzeLogs(action) {
+    const state = yield select()
+
+    // Analyze client logs
+    console.log('fetching saga log for')
+    console.log(action.connection_id)
+    if (action.client_filename) {
+        var { json } = yield call(
+            apiPost,
+            config.url.PRIMARY_SERVER + '/analytics/logs',
+            {
+                sender: 'client',
+                filename: action.client_filename,
+            },
+            state.AccountReducer.access_token
+        )
+
+        if (json) {
+            const payload_id = action.username.concat('_', action.connection_id)
+            yield put(FormAction.storeLogAnalysis(payload_id, json, 'client'))
+        }
+    }
+
+    // Analyze server logs
+
+    if (action.server_filename) {
+        var { json } = yield call(
+            apiPost,
+            config.url.PRIMARY_SERVER + '/analytics/logs',
+            {
+                sender: 'server',
+                filename: action.server_filename,
+            },
+            state.AccountReducer.access_token
+        )
+
+        if (json) {
+            if (!action.username) {
+                action.username = 'null'
+            }
+            const payload_id = action.username.concat('_', action.connection_id)
+            yield put(FormAction.storeLogAnalysis(payload_id, json, 'server'))
+        }
+    }
+}
+
 export default function* rootSaga() {
     yield all([
         takeEvery(FormAction.UPDATE_DB, updateDB),
@@ -410,5 +431,6 @@ export default function* rootSaga() {
         takeEvery(FormAction.FETCH_USER_REPORT, fetchUserReport),
         takeEvery(FormAction.FETCH_TOTAL_MINUTES, fetchTotalMinutes),
         takeEvery(FormAction.FETCH_TOTAL_SIGNUPS, fetchTotalSignups),
+        takeEvery(FormAction.ANALYZE_LOGS, analyzeLogs),
     ])
 }

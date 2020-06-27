@@ -42,6 +42,8 @@ export const FETCH_TOTAL_SIGNUPS = 'FETCH_TOTAL_SIGNUPS'
 export const TOTAL_SIGNUPS_FETCHED = 'TOTAL_SIGNUPS_FETCHED'
 export const FETCH_TOTAL_MINUTES = 'FETCH_TOTAL_MINUTES'
 export const TOTAL_MINUTES_FETCHED = 'TOTAL_MINUTES_FETCHED'
+export const ANALYZE_LOGS = 'ANALYZE_LOGS'
+export const STORE_LOG_ANALYSIS = 'STORE_LOG_ANALYSIS'
 
 export function fetchVMs(id) {
     return {
@@ -343,5 +345,29 @@ export function totalMinutesFetched(data) {
     return {
         type: TOTAL_MINUTES_FETCHED,
         data,
+    }
+}
+
+export function analyzeLogs(
+    connection_id,
+    username,
+    server_filename,
+    client_filename
+) {
+    return {
+        type: ANALYZE_LOGS,
+        connection_id,
+        username,
+        server_filename,
+        client_filename,
+    }
+}
+
+export function storeLogAnalysis(payload_id, payload, sender) {
+    return {
+        type: STORE_LOG_ANALYSIS,
+        payload_id,
+        payload,
+        sender,
     }
 }

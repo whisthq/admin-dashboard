@@ -26,6 +26,7 @@ class DiskTable extends Component {
 
     componentDidMount() {
         this.props.dispatch(fetchDiskTable())
+        this.setState({ data: [], modifyData: true })
     }
 
     componentWillUnmount() {
