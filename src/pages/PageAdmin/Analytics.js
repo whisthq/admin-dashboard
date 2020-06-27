@@ -18,14 +18,18 @@ class Analytics extends Component {
 
     render() {
         return (
-            <div style={{ backgroundColor: '#FFFFFF' }}>
+            <div
+                style={{
+                    position: 'relative',
+                    bottom: 10,
+                    width: '100vw',
+                }}
+            >
                 <div
                     style={{
-                        marginTop: 5,
                         fontSize: 45,
                         fontWeight: 'bold',
-                        marginBottom: 10,
-                        width: 275,
+                        marginBottom: 60,
                         color: '#111111',
                     }}
                 >

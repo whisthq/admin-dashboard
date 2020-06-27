@@ -243,11 +243,11 @@ function* getLogStatus(id) {
             (config.url.PRIMARY_SERVER + '/status/').concat(id),
             ''
         )
+        json = json.json
         yield delay(2000)
-        console.log(json)
     }
 
-    if (json && json.output) {
+    if (json && json.state === 'SUCCESS') {
         yield put(FormAction.storeLogs(json.output, false))
     } else {
         yield put(FormAction.storeLogs([], true))

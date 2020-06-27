@@ -34,7 +34,6 @@ class Logs extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log(this.props)
         if (
             this.props.access_token &&
             this.props.logs.length === 0 &&
@@ -99,14 +98,18 @@ class Logs extends Component {
         }
 
         return (
-            <div style={{ backgroundColor: '#FFFFFF' }}>
+            <div
+                style={{
+                    position: 'relative',
+                    bottom: 10,
+                    width: '100vw',
+                }}
+            >
                 <div
                     style={{
-                        marginTop: 5,
                         fontSize: 45,
                         fontWeight: 'bold',
-                        marginBottom: 60,
-                        width: 275,
+                        marginBottom: 30,
                         color: '#111111',
                     }}
                 >
@@ -120,7 +123,7 @@ class Logs extends Component {
                         onKeyPress={this.searchUserKey}
                         style={{
                             padding: '10px 15px',
-                            backgroundColor: '#EFEFEF',
+                            backgroundColor: '#e3e5e8',
                             borderRadius: 3,
                             marginRight: 10,
                             border: 'none',
@@ -169,10 +172,10 @@ class Logs extends Component {
                         <Button
                             onClick={() => this.searchAllUsers()}
                             style={{
-                                color: '#111111',
+                                color: 'white',
                                 padding: '10px 30px',
                                 fontWeight: 'bold',
-                                backgroundColor: '#c4fffe',
+                                backgroundColor: '#4636a6',
                                 borderRadius: 3,
                                 marginRight: 10,
                                 border: 'none',
@@ -182,7 +185,7 @@ class Logs extends Component {
                                 width: 180,
                             }}
                         >
-                            Search All Users
+                            Load All Logs
                         </Button>
                     ) : (
                         <Button
@@ -191,7 +194,7 @@ class Logs extends Component {
                                 width: 120,
                                 padding: '10px 30px',
                                 fontWeight: 'bold',
-                                backgroundColor: '#c4fffe',
+                                backgroundColor: '#4636a6',
                                 borderRadius: 3,
                                 marginRight: 10,
                                 border: 'none',
@@ -252,7 +255,7 @@ class Logs extends Component {
                                             >
                                                 <td
                                                     style={{
-                                                        width: 100,
+                                                        width: 50,
                                                     }}
                                                 >
                                                     <a
@@ -263,26 +266,27 @@ class Logs extends Component {
                                                         }
                                                         style={{
                                                             background:
-                                                                'rgba(94, 195, 235, 0.1)',
+                                                                '#4b3ba8',
                                                             padding:
                                                                 '10px 12px',
-                                                            borderRadius: 2,
+                                                            borderRadius: 5,
                                                             fontWeight: 'bold',
                                                         }}
                                                     >
                                                         <span
                                                             style={{
-                                                                color:
-                                                                    '#1ba8e0',
+                                                                color: 'white',
+                                                                fontWeight:
+                                                                    'bold',
                                                             }}
                                                         >
-                                                            Server Logs
+                                                            S
                                                         </span>
                                                     </a>
                                                 </td>
                                                 <td
                                                     style={{
-                                                        width: 100,
+                                                        width: 50,
                                                     }}
                                                 >
                                                     <a
@@ -293,20 +297,21 @@ class Logs extends Component {
                                                         }
                                                         style={{
                                                             background:
-                                                                'rgba(2, 207, 57, 0.1)',
+                                                                '#2c45a8',
                                                             padding:
                                                                 '10px 12px',
-                                                            borderRadius: 2,
+                                                            borderRadius: 5,
                                                             fontWeight: 'bold',
                                                         }}
                                                     >
                                                         <span
                                                             style={{
-                                                                color:
-                                                                    '#02cf39',
+                                                                color: 'white',
+                                                                fontWeight:
+                                                                    'bold',
                                                             }}
                                                         >
-                                                            Client Logs
+                                                            C
                                                         </span>
                                                     </a>
                                                 </td>
@@ -402,6 +407,7 @@ class Logs extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log(state)
     return {
         logs: state.AccountReducer.logs ? state.AccountReducer.logs : [],
         access_token: state.AccountReducer.access_token,

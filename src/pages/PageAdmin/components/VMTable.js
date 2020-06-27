@@ -23,6 +23,17 @@ import Style from '../../../styles/components/pageAdmin.module.css'
 import '../../../static/App.css'
 
 class VMTable extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            data: [],
+            filteredData: [],
+            filterKeyword: '',
+            modifyData: true,
+        }
+    }
+
     // intervalID var to keep track of auto-refreshing across functions
     intervalID
 
@@ -52,6 +63,32 @@ class VMTable extends Component {
 
     toggleDev = (mode, vm_name) => {
         this.props.dispatch(setDev(vm_name, !mode))
+    }
+
+    keywordFilter = (e) => {
+        let component = this
+        let filterKeyword = e.target.value
+        this.setState({ modifyData: false }, function () {
+            let filteredData = component.state.data.filter(function (element) {
+                return (
+                    (element.username &&
+                        element.username.includes(filterKeyword)) ||
+                    (element.vm_name &&
+                        element.vm_name.includes(filterKeyword)) ||
+                    (element.disk_name &&
+                        element.disk_name.includes(filterKeyword)) ||
+                    (element.location &&
+                        element.location.includes(filterKeyword)) ||
+                    (element.ip && element.ip.includes(filterKeyword))
+                )
+            })
+            console.log(filteredData)
+
+            component.setState({
+                filterKeyword: filterKeyword,
+                filteredData: filteredData,
+            })
+        })
     }
 
     render() {
@@ -152,9 +189,13 @@ class VMTable extends Component {
                     ),
                 width: 70,
             })
-            this.props.vm_info.forEach(function (vm) {
-                data.push(vm)
-            })
+            let component = this
+            if (this.state.modifyData) {
+                this.props.vm_info.forEach(function (vm) {
+                    component.state.data.push(vm)
+                })
+                this.setState({ modifyData: false })
+            }
         }
         columns.reverse()
 
@@ -226,32 +267,47 @@ class VMTable extends Component {
         }
 
         return (
-            <Table
-                columns={columns}
-                dataSource={data}
-                scroll={{ y: 400, x: 2000 }}
-                size="middle"
-                rowClassName={(record, index) =>
-                    [
-                        record['dev']
-                            ? Style.blueBg
-                            : record['lock'] ||
-                              Number(record['temporary_lock']) >
-                                  Math.round(new Date().getTime() / 1000)
-                            ? Style.redBg
-                            : Style.greenBg,
-                        Style.tableRow,
-                    ].join(' ')
-                }
-                onRow={(record, rowIndex) => {
-                    return {
-                        onClick: (event) => {
-                            console.log(record)
-                        },
+            <div className={Style.tableWrapper}>
+                <input
+                    type="text"
+                    placeholder="Filter by keyword"
+                    style={{
+                        width: '100%',
+                        border: 'none',
+                        padding: '10px 20px',
+                        background: '#ebecf0',
+                    }}
+                    onChange={this.keywordFilter}
+                />
+                <Table
+                    columns={columns}
+                    dataSource={
+                        this.state.filterKeyword
+                            ? [...new Set(this.state.filteredData)]
+                            : [...new Set(this.state.data)]
                     }
-                }}
-                loading={!this.props.vmsUpdated}
-            />
+                    scroll={{ y: 450, x: 2000 }}
+                    size="middle"
+                    rowClassName={(record, index) =>
+                        [
+                            record['dev']
+                                ? Style.blueBg
+                                : record['lock'] ||
+                                  Number(record['temporary_lock']) >
+                                      Math.round(new Date().getTime() / 1000)
+                                ? Style.redBg
+                                : Style.greenBg,
+                            Style.tableRow,
+                        ].join(' ')
+                    }
+                    onRow={(record, rowIndex) => {
+                        return {
+                            onClick: (event) => {},
+                        }
+                    }}
+                    loading={!this.props.vmsUpdated}
+                />
+            </div>
         )
     }
 }

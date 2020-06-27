@@ -36,16 +36,22 @@ class Admin extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{ backgroundColor: '#f3f2f5', minHeight: '100vh' }}>
                 {this.props.authenticated ? (
-                    <Row style={{ backgroundColor: '#FFFFFF' }}>
-                        <Col sm={2}>
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ width: 75, margin: 0 }}>
                             <LeftMenu />
-                        </Col>
-                        <Col sm={10}>
+                        </div>
+                        <div
+                            style={{
+                                width: 'calc(100%-75px)',
+                                margin: 0,
+                                overflowX: 'hidden',
+                            }}
+                        >
                             <div className="p-5">
                                 <div className="d-flex justify-content-between">
-                                    <p>{this.state.date}</p>
+                                    <div>{this.state.date}</div>
                                     <Button
                                         onClick={() =>
                                             this.props.dispatch(logout())
@@ -83,8 +89,8 @@ class Admin extends Component {
                                     />
                                 </Switch>
                             </div>
-                        </Col>
-                    </Row>
+                        </div>
+                    </div>
                 ) : (
                     <Redirect to="/" />
                 )}

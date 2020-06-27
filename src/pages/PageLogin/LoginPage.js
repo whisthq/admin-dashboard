@@ -88,7 +88,7 @@ class LoginPage extends Component {
                                     textAlign: 'center',
                                     fontSize: 14,
                                     color: '#f9000b',
-                                    background: '#fdf0f1',
+                                    background: 'white',
                                     width: '100%',
                                     padding: 10,
                                     borderRadius: 5,
@@ -112,7 +112,7 @@ class LoginPage extends Component {
                                 style={{
                                     borderRadius: 5,
                                     maxWidth: 600,
-                                    backgroundColor: '#F4F4F4',
+                                    backgroundColor: '#e3e5e8',
                                     border: 'none',
                                     padding: '30px 20px',
                                 }}
@@ -131,7 +131,7 @@ class LoginPage extends Component {
                                 style={{
                                     borderRadius: 5,
                                     maxWidth: 600,
-                                    backgroundColor: '#F4F4F4',
+                                    backgroundColor: '#e3e5e8',
                                     border: 'none',
                                     padding: '30px 20px',
                                 }}
@@ -146,9 +146,7 @@ class LoginPage extends Component {
                                     color: 'white',
                                     width: '100%',
                                     border: 'none',
-                                    background: 'black',
-                                    boxShadow:
-                                        '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                                    background: '#111111',
                                     padding: '15px',
                                 }}
                             >
@@ -163,9 +161,7 @@ class LoginPage extends Component {
                                     color: 'white',
                                     width: '100%',
                                     border: 'none',
-                                    background: 'black',
-                                    boxShadow:
-                                        '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                                    background: '#111111',
                                     padding: '15px',
                                     textAlign: 'center',
                                 }}

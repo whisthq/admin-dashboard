@@ -15,7 +15,6 @@ import VMTable from './components/VMTable.js'
 import UserTable from './components/UserTable.js'
 import CustomerTable from './components/CustomerTable.js'
 import DiskTable from './components/DiskTable.js'
-import VMTableHeader from './containers/VMTableHeader'
 
 class Dashboard extends Component {
     constructor(props) {
@@ -48,10 +47,14 @@ class Dashboard extends Component {
 
     render() {
         return (
-            <div>
+            <div
+                style={{
+                    position: 'relative',
+                    bottom: 10,
+                }}
+            >
                 <div
                     style={{
-                        marginTop: 5,
                         fontSize: 45,
                         fontWeight: 'bold',
                         marginBottom: 60,
@@ -61,7 +64,12 @@ class Dashboard extends Component {
                 >
                     DASHBOARD
                 </div>
-                <div style={{ display: 'flex', marginTop: 5 }}>
+                <div
+                    style={{
+                        display: 'flex',
+                        marginTop: 5,
+                    }}
+                >
                     <div
                         style={{
                             display: 'block',
@@ -84,33 +92,17 @@ class Dashboard extends Component {
                                 <Tab>Customers</Tab>
                             </TabList>
                             <TabPanel style={{ paddingTop: 20 }}>
-                                <VMTableHeader />
-                                <div
-                                    style={{
-                                        boxShadow:
-                                            '0px 4px 20px rgba(0, 0, 0, 0.10)',
-                                    }}
-                                >
+                                <div>
                                     <VMTable />
                                 </div>
                             </TabPanel>
                             <TabPanel style={{ paddingTop: 20 }}>
-                                <div
-                                    style={{
-                                        boxShadow:
-                                            '0px 4px 20px rgba(0, 0, 0, 0.10)',
-                                    }}
-                                >
+                                <div>
                                     <DiskTable />
                                 </div>
                             </TabPanel>
                             <TabPanel style={{ paddingTop: 20 }}>
-                                <div
-                                    style={{
-                                        boxShadow:
-                                            '0px 4px 20px rgba(0, 0, 0, 0.10)',
-                                    }}
-                                >
+                                <div>
                                     <UserTable />
                                 </div>
                             </TabPanel>
