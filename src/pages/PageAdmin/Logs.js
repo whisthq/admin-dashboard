@@ -17,7 +17,7 @@ import {
 } from '../../actions/index.js'
 
 import MiniGraph from 'pages/PageAdmin/containers/MiniGraph'
-import { FaThinkPeaks } from 'react-icons/fa'
+import LogDebugPanel from 'pages/PageAdmin/containers/LogDebugPanel'
 
 class Logs extends Component {
     constructor(props) {
@@ -143,7 +143,6 @@ class Logs extends Component {
     }
 
     render() {
-        let format = 'MMM Do'
         var header = []
         if (this.props.logs.length > 0) {
             Object.keys(this.props.logs[0]).forEach(function (key) {
@@ -321,7 +320,7 @@ class Logs extends Component {
                                                 >
                                                     <div
                                                         style={{
-                                                            width: 45,
+                                                            width: 70,
                                                         }}
                                                     >
                                                         <a
@@ -355,13 +354,13 @@ class Logs extends Component {
                                                                         'bold',
                                                                 }}
                                                             >
-                                                                S
+                                                                Server
                                                             </span>
                                                         </a>
                                                     </div>
                                                     <div
                                                         style={{
-                                                            width: 45,
+                                                            width: 70,
                                                             marginRight: 10,
                                                         }}
                                                     >
@@ -396,7 +395,7 @@ class Logs extends Component {
                                                                         'bold',
                                                                 }}
                                                             >
-                                                                C
+                                                                Client
                                                             </span>
                                                         </a>
                                                     </div>
@@ -404,8 +403,16 @@ class Logs extends Component {
                                                         <div
                                                             style={{
                                                                 width: 200,
+                                                                fontWeight:
+                                                                    'bold',
+                                                                color:
+                                                                    '#4636a6',
                                                                 overflowX:
                                                                     'scroll',
+                                                                fontSize: 13,
+                                                                position:
+                                                                    'relative',
+                                                                bottom: 1,
                                                             }}
                                                         >
                                                             {value['username']}
@@ -475,69 +482,143 @@ class Logs extends Component {
                                                 <div
                                                     style={{ display: 'flex' }}
                                                 >
-                                                    <MiniGraph
-                                                        title="Avg. Encode Time"
-                                                        log_analysis={
-                                                            this.props
-                                                                .log_analysis
-                                                        }
-                                                        username={
-                                                            value['username']
-                                                        }
-                                                        connection_id={
-                                                            value[
-                                                                'connection_id'
-                                                            ]
-                                                        }
-                                                        sender="server"
-                                                        metric="encode_time"
-                                                        filename={
-                                                            value['server_logs']
-                                                        }
-                                                        unit="ms"
-                                                    />
-                                                    <MiniGraph
-                                                        title="Avg. Decode Time"
-                                                        log_analysis={
-                                                            this.props
-                                                                .log_analysis
-                                                        }
-                                                        username={
-                                                            value['username']
-                                                        }
-                                                        connection_id={
-                                                            value[
-                                                                'connection_id'
-                                                            ]
-                                                        }
-                                                        sender="client"
-                                                        metric="decode_time"
-                                                        filename={
-                                                            value['client_logs']
-                                                        }
-                                                        unit="ms"
-                                                    />
-                                                    <MiniGraph
-                                                        title="Avg. Encode Size"
-                                                        log_analysis={
-                                                            this.props
-                                                                .log_analysis
-                                                        }
-                                                        username={
-                                                            value['username']
-                                                        }
-                                                        connection_id={
-                                                            value[
-                                                                'connection_id'
-                                                            ]
-                                                        }
-                                                        sender="server"
-                                                        metric="encode_size"
-                                                        filename={
-                                                            value['server_logs']
-                                                        }
-                                                        unit="bytes"
-                                                    />
+                                                    <div>
+                                                        <LogDebugPanel
+                                                            log_analysis={
+                                                                this.props
+                                                                    .log_analysis
+                                                            }
+                                                            sender="server"
+                                                            filename={
+                                                                value[
+                                                                    'server_logs'
+                                                                ]
+                                                            }
+                                                            username={
+                                                                value[
+                                                                    'username'
+                                                                ]
+                                                            }
+                                                            connection_id={
+                                                                value[
+                                                                    'connection_id'
+                                                                ]
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <LogDebugPanel
+                                                            log_analysis={
+                                                                this.props
+                                                                    .log_analysis
+                                                            }
+                                                            sender="client"
+                                                            filename={
+                                                                value[
+                                                                    'client_logs'
+                                                                ]
+                                                            }
+                                                            username={
+                                                                value[
+                                                                    'username'
+                                                                ]
+                                                            }
+                                                            connection_id={
+                                                                value[
+                                                                    'connection_id'
+                                                                ]
+                                                            }
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    style={{ display: 'flex' }}
+                                                >
+                                                    <div
+                                                        style={{ width: '33%' }}
+                                                    >
+                                                        <MiniGraph
+                                                            title="Avg. Encode Time"
+                                                            log_analysis={
+                                                                this.props
+                                                                    .log_analysis
+                                                            }
+                                                            username={
+                                                                value[
+                                                                    'username'
+                                                                ]
+                                                            }
+                                                            connection_id={
+                                                                value[
+                                                                    'connection_id'
+                                                                ]
+                                                            }
+                                                            sender="server"
+                                                            metric="encode_time"
+                                                            filename={
+                                                                value[
+                                                                    'server_logs'
+                                                                ]
+                                                            }
+                                                            unit="ms"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        style={{ width: '33%' }}
+                                                    >
+                                                        <MiniGraph
+                                                            title="Avg. Decode Time"
+                                                            log_analysis={
+                                                                this.props
+                                                                    .log_analysis
+                                                            }
+                                                            username={
+                                                                value[
+                                                                    'username'
+                                                                ]
+                                                            }
+                                                            connection_id={
+                                                                value[
+                                                                    'connection_id'
+                                                                ]
+                                                            }
+                                                            sender="client"
+                                                            metric="decode_time"
+                                                            filename={
+                                                                value[
+                                                                    'client_logs'
+                                                                ]
+                                                            }
+                                                            unit="ms"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <MiniGraph
+                                                            title="Avg. Encode Size"
+                                                            log_analysis={
+                                                                this.props
+                                                                    .log_analysis
+                                                            }
+                                                            username={
+                                                                value[
+                                                                    'username'
+                                                                ]
+                                                            }
+                                                            connection_id={
+                                                                value[
+                                                                    'connection_id'
+                                                                ]
+                                                            }
+                                                            sender="server"
+                                                            metric="encode_size"
+                                                            filename={
+                                                                value[
+                                                                    'server_logs'
+                                                                ]
+                                                            }
+                                                            unit="bytes"
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                         )
@@ -549,7 +630,7 @@ class Logs extends Component {
                                 <div
                                     style={{
                                         marginTop: 20,
-                                        color: '#5ec3eb',
+                                        color: '#4636a6',
                                     }}
                                     className="pointerOnHover"
                                     onClick={this.loadMoreLogs}

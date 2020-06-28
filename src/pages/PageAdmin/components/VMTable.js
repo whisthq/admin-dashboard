@@ -94,8 +94,6 @@ class VMTable extends Component {
 
     render() {
         let columns = []
-        let data = []
-        let component = this
         if (this.props.vm_info && this.props.vm_info.length) {
             Object.keys(this.props.vm_info[0]).forEach(function (key) {
                 let fixWidth = false

@@ -9,7 +9,7 @@ import LeftMenu from './components/LeftMenu.js'
 import Dashboard from './Dashboard'
 import Logs from './Logs'
 import Analytics from './Analytics'
-import { Button, Row, Col } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
 import '../../static/App.css'
 import 'react-tabs/style/react-tabs.css'

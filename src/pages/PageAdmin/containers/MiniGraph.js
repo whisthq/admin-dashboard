@@ -69,7 +69,7 @@ class MiniGraph extends Component {
                                 marginTop: 10,
                             }}
                         >
-                            <ResponsiveContainer width={300} height={150}>
+                            <ResponsiveContainer width={'100%'} height={150}>
                                 <LineChart
                                     data={
                                         this.props.log_analysis[
@@ -96,6 +96,17 @@ class MiniGraph extends Component {
                                         allowDecimals={false}
                                         tick={{
                                             fontSize: 12,
+                                        }}
+                                        tickFormatter={(element) => {
+                                            if (Number(element) > 10000) {
+                                                return (
+                                                    (
+                                                        Number(element) / 1000
+                                                    ).toString() + 'K'
+                                                )
+                                            } else {
+                                                return element.toString()
+                                            }
                                         }}
                                     />
                                     <Tooltip

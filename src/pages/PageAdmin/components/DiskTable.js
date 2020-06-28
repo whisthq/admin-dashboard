@@ -135,7 +135,6 @@ class DiskTable extends Component {
         )
 
         let columns = []
-        let data = []
         let headers = [
             'branch',
             'using_stun',
@@ -151,7 +150,6 @@ class DiskTable extends Component {
             'has_accepted_update',
             'first_time',
         ]
-        let component = this
         if (this.props.disk_info && this.props.disk_info.length) {
             headers.forEach(function (key) {
                 let fixWidth = false

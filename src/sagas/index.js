@@ -365,12 +365,11 @@ function* fetchTotalSignups() {
 
 function* analyzeLogs(action) {
     const state = yield select()
-
+    var { json } = {}
     // Analyze client logs
-    console.log('fetching saga log for')
-    console.log(action.connection_id)
+
     if (action.client_filename) {
-        var { json } = yield call(
+        json = yield call(
             apiPost,
             config.url.PRIMARY_SERVER + '/analytics/logs',
             {
@@ -379,6 +378,7 @@ function* analyzeLogs(action) {
             },
             state.AccountReducer.access_token
         )
+        json = json.json
 
         if (json) {
             const payload_id = action.username.concat('_', action.connection_id)
@@ -389,7 +389,7 @@ function* analyzeLogs(action) {
     // Analyze server logs
 
     if (action.server_filename) {
-        var { json } = yield call(
+        json = yield call(
             apiPost,
             config.url.PRIMARY_SERVER + '/analytics/logs',
             {
@@ -398,6 +398,7 @@ function* analyzeLogs(action) {
             },
             state.AccountReducer.access_token
         )
+        json = json.json
 
         if (json) {
             if (!action.username) {

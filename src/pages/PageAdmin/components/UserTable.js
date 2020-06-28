@@ -117,7 +117,6 @@ class UserTable extends Component {
                 ),
             },
         ]
-        let data = []
         let mainColumns = []
         if (this.props.userTable && this.props.userTable.length) {
             Object.keys(this.props.userTable[0]).forEach(function (key) {

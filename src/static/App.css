@@ -76,6 +76,7 @@ a {
     color: #111111 !important;
     font-weight: normal !important;
     margin-right: 20px;
+    background-color: none !important;
 }
 
 .react-tabs__tab--selected {

@@ -174,7 +174,6 @@ export default function (state = DEFAULT, action) {
         case AccountAction.STORE_LOG_ANALYSIS:
             const payload_id = action.payload_id
             const sender = action.sender
-            const mirror_sender = sender === 'client' ? 'server' : 'client'
             return {
                 ...state,
                 log_analysis: state.log_analysis
