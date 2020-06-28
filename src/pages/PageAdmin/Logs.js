@@ -537,14 +537,14 @@ class Logs extends Component {
                                                     <div
                                                         style={{
                                                             textAlign: 'left',
-                                                            width: 150,
+                                                            width: 140,
                                                         }}
                                                     >
                                                         {value['last_updated']}
                                                     </div>
                                                     <div
                                                         style={{
-                                                            width: 150,
+                                                            width: 100,
                                                         }}
                                                     >
                                                         Conn.{' '}
