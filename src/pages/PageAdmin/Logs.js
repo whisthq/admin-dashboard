@@ -2,9 +2,15 @@ import React, { Component } from 'react'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleNotch, faTrash } from '@fortawesome/free-solid-svg-icons'
+import {
+    faCircleNotch,
+    faTrash,
+    faClone,
+    faStar,
+} from '@fortawesome/free-solid-svg-icons'
 import 'react-tabs/style/react-tabs.css'
 
 import '../../static/App.css'
@@ -12,11 +18,18 @@ import {
     fetchUserActivity,
     deleteUser,
     fetchLogs,
+    fetchLogsByConnection,
     logsFound,
     deleteLogs,
     changePage,
     analyzeLogs,
+    fetchBookmarkedLogs,
+    storeBookmarkedLogs,
+    bookmarkLogs,
+    clearLogs,
 } from '../../actions/index.js'
+
+import { config } from '../../constants'
 
 import MiniGraph from 'pages/PageAdmin/containers/MiniGraph'
 import LogDebugPanel from 'pages/PageAdmin/containers/LogDebugPanel'
@@ -30,15 +43,29 @@ class Logs extends Component {
             username: '',
             processing: false,
             last_index: 10,
+            bookmarked_logs: [],
+            load_bookmarked: false,
         }
     }
 
     componentDidMount() {
         this.setState({ processing: false }, function () {
+            this.props.dispatch(storeBookmarkedLogs([]))
             this.props.dispatch(fetchUserActivity(false))
             this.props.dispatch(logsFound(false))
             this.props.dispatch(changePage('logs'))
-            this.searchAllUsers()
+            this.props.dispatch(fetchBookmarkedLogs())
+
+            var connection_id = this.props.location.search
+            connection_id = connection_id.substring(1, connection_id.length)
+            if (connection_id && connection_id !== '') {
+                this.props.dispatch(
+                    fetchLogsByConnection(connection_id, true, false, true)
+                )
+                this.setState({ processing: true })
+            } else {
+                this.searchAllUsers()
+            }
         })
     }
 
@@ -51,11 +78,7 @@ class Logs extends Component {
         ) {
             this.setState({ logsFetched: true })
         }
-        if (
-            !prevProps.logs_fetched &&
-            this.props.logs_fetched &&
-            this.state.processing
-        ) {
+        if (this.props.logs_fetched && this.state.processing) {
             this.setState({ processing: false })
             var last_index = Math.min(
                 this.props.logs.length,
@@ -71,6 +94,15 @@ class Logs extends Component {
                         element.client_logs
                     )
                 )
+            })
+        }
+
+        if (
+            JSON.stringify(this.props.bookmarked_log_ids) !==
+            JSON.stringify(prevProps.bookmarked_log_ids)
+        ) {
+            this.setState({
+                bookmarked_logs: [...new Set(this.props.bookmarked_log_ids)],
             })
         }
     }
@@ -126,7 +158,7 @@ class Logs extends Component {
             last_true_index - 10,
             last_true_index
         )
-        console.log(rendered_logs)
+
         rendered_logs.forEach(function (element) {
             component.props.dispatch(
                 analyzeLogs(
@@ -143,6 +175,64 @@ class Logs extends Component {
         })
     }
 
+    copyLink = (connection_id) => {
+        navigator.clipboard.writeText(
+            config.url.WEBSITE_URL.concat('/admin/logs?').concat(connection_id)
+        )
+    }
+
+    bookmarkLogs = (connection_id) => {
+        connection_id = connection_id.toString()
+        var bookmarked_logs_copy = []
+
+        if (this.state.bookmarked_logs.includes(connection_id)) {
+            this.props.dispatch(bookmarkLogs(false, connection_id))
+
+            bookmarked_logs_copy = [...this.state.bookmarked_logs]
+
+            const index = bookmarked_logs_copy.indexOf(connection_id)
+            if (index !== -1) {
+                bookmarked_logs_copy.splice(index, 1)
+                this.setState({
+                    bookmarked_logs: [...new Set(bookmarked_logs_copy)],
+                })
+            }
+        } else {
+            this.props.dispatch(bookmarkLogs(true, connection_id))
+
+            bookmarked_logs_copy = [
+                ...this.state.bookmarked_logs,
+                connection_id,
+            ]
+
+            this.setState({
+                bookmarked_logs: [...new Set(bookmarked_logs_copy)],
+            })
+        }
+    }
+
+    loadBookmarkedLogs = () => {
+        let component = this
+        if (!this.state.load_bookmarked) {
+            this.setState({ load_bookmarked: true, processing: true })
+            this.props.dispatch(clearLogs())
+            this.state.bookmarked_logs.forEach(function (connection_id, index) {
+                if (index === component.state.bookmarked_logs.length - 1) {
+                    component.props.dispatch(
+                        fetchLogsByConnection(connection_id, true, false, true)
+                    )
+                } else {
+                    component.props.dispatch(
+                        fetchLogsByConnection(connection_id, true, false, false)
+                    )
+                }
+            })
+        } else {
+            this.setState({ load_bookmarked: false })
+            window.location.reload(false)
+        }
+    }
+
     render() {
         var header = []
         if (this.props.logs.length > 0) {
@@ -150,7 +240,6 @@ class Logs extends Component {
                 header.push(key)
             })
         }
-
         return (
             <div
                 style={{
@@ -185,81 +274,74 @@ class Logs extends Component {
                             width: 300,
                         }}
                     />
-                    {!this.state.processing ? (
-                        <Button
-                            onClick={() => this.searchUser()}
+                    <Button
+                        disabled={this.state.processing}
+                        onClick={() => this.searchUser()}
+                        style={{
+                            padding: '10px 30px',
+                            fontWeight: 'bold',
+                            backgroundColor: '#111111',
+                            borderRadius: 3,
+                            marginRight: 10,
+                            border: 'none',
+                            height: 45,
+                            position: 'relative',
+                            bottom: 2,
+                            width: 120,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        disabled={this.state.processing}
+                        onClick={() => this.searchAllUsers()}
+                        style={{
+                            color: 'white',
+                            padding: '10px 30px',
+                            fontWeight: 'bold',
+                            backgroundColor: '#4636a6',
+                            borderRadius: 3,
+                            marginRight: 10,
+                            border: 'none',
+                            height: 45,
+                            position: 'relative',
+                            bottom: 2,
+                            width: 180,
+                        }}
+                    >
+                        Load All Logs
+                    </Button>
+                    <div
+                        onClick={this.loadBookmarkedLogs}
+                        style={{
+                            display: 'inline',
+                            position: 'absolute',
+                            right: 200,
+                        }}
+                    >
+                        <div
                             style={{
-                                padding: '10px 30px',
-                                fontWeight: 'bold',
-                                backgroundColor: '#111111',
+                                padding: '8px 20px',
+                                color: '#555555',
+                                background: 'rgba(132, 132, 138, 0.1)',
                                 borderRadius: 3,
-                                marginRight: 10,
-                                border: 'none',
-                                height: 45,
-                                position: 'relative',
-                                bottom: 2,
-                                width: 120,
+                                display: 'flex',
+                                fontSize: 14,
                             }}
                         >
-                            Search
-                        </Button>
-                    ) : (
-                        <Button
-                            disabled={true}
-                            style={{
-                                width: 120,
-                                padding: '10px 30px',
-                                fontWeight: 'bold',
-                                backgroundColor: '#111111',
-                                borderRadius: 3,
-                                marginRight: 10,
-                                border: 'none',
-                                height: 45,
-                                position: 'relative',
-                                bottom: 2,
-                            }}
-                        >
-                            <FontAwesomeIcon icon={faCircleNotch} spin />
-                        </Button>
-                    )}
-                    {!this.state.processing ? (
-                        <Button
-                            onClick={() => this.searchAllUsers()}
-                            style={{
-                                color: 'white',
-                                padding: '10px 30px',
-                                fontWeight: 'bold',
-                                backgroundColor: '#4636a6',
-                                borderRadius: 3,
-                                marginRight: 10,
-                                border: 'none',
-                                height: 45,
-                                position: 'relative',
-                                bottom: 2,
-                                width: 180,
-                            }}
-                        >
-                            Load All Logs
-                        </Button>
-                    ) : (
-                        <Button
-                            disabled={true}
-                            style={{
-                                width: 120,
-                                padding: '10px 30px',
-                                fontWeight: 'bold',
-                                backgroundColor: '#4636a6',
-                                borderRadius: 3,
-                                marginRight: 10,
-                                border: 'none',
-                                height: 45,
-                                position: 'relative',
-                                bottom: 2,
-                            }}
-                        >
-                            <FontAwesomeIcon icon={faCircleNotch} spin />
-                        </Button>
-                    )}
+                            <Form.Check
+                                type="checkbox"
+                                checked={this.state.load_bookmarked}
+                            />
+                            <div
+                                style={{
+                                    marginLeft: 5,
+                                }}
+                            >
+                                Show Starred
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     {this.props.logs_fetched &&
@@ -288,6 +370,29 @@ class Logs extends Component {
                             }}
                         >
                             <div style={{ width: '100%' }}>
+                                {this.state.processing && (
+                                    <div
+                                        style={{
+                                            padding: 30,
+                                            marginBottom: 20,
+                                            maxWidth: 'calc(100% - 200px)',
+                                            position: 'relative',
+                                            height: '100%',
+                                            textAlign: 'center',
+                                        }}
+                                    >
+                                        <FontAwesomeIcon
+                                            icon={faCircleNotch}
+                                            spin
+                                            style={{
+                                                marginRight: 10,
+                                                fontSize: 24,
+                                                color: '#111111',
+                                                marginTop: 100,
+                                            }}
+                                        />
+                                    </div>
+                                )}
                                 {this.props.logs
                                     .slice(
                                         0,
@@ -338,8 +443,7 @@ class Logs extends Component {
                                                                 padding:
                                                                     '8px 12px',
                                                                 borderRadius: 3,
-                                                                fontWeight:
-                                                                    'bold',
+                                                                fontSize: 14,
                                                                 opacity: value[
                                                                     'server_logs'
                                                                 ]
@@ -379,8 +483,7 @@ class Logs extends Component {
                                                                 padding:
                                                                     '8px 12px',
                                                                 borderRadius: 3,
-                                                                fontWeight:
-                                                                    'bold',
+                                                                fontSize: 14,
                                                                 opacity: value[
                                                                     'client_logs'
                                                                 ]
@@ -455,35 +558,120 @@ class Logs extends Component {
                                                         V. {value['version']}
                                                     </div>
                                                 </div>
-                                                <Button
-                                                    onClick={() =>
-                                                        this.deleteLogs(
-                                                            value[
-                                                                'connection_id'
-                                                            ]
-                                                        )
-                                                    }
+                                                <div
                                                     style={{
-                                                        color: '#e8553f',
-                                                        background:
-                                                            'rgba(176, 37, 16, 0.1)',
-                                                        border: 'none',
-                                                        position: 'relative',
-                                                        outline: 'none',
-                                                        boxShadow: 'none',
                                                         float: 'right',
-                                                        display: 'inline',
+                                                        display: 'flex',
                                                         bottom: 50,
-                                                        borderRadius: 2,
+                                                        position: 'relative',
+                                                        width: 250,
                                                     }}
                                                 >
-                                                    <FontAwesomeIcon
+                                                    <div
+                                                        onClick={() =>
+                                                            this.bookmarkLogs(
+                                                                value[
+                                                                    'connection_id'
+                                                                ]
+                                                            )
+                                                        }
+                                                        className="pointerOnHover"
                                                         style={{
-                                                            fontSize: 13,
+                                                            marginRight: 15,
+                                                            position:
+                                                                'relative',
+                                                            background:
+                                                                this.state
+                                                                    .bookmarked_logs &&
+                                                                this.state.bookmarked_logs.includes(
+                                                                    value[
+                                                                        'connection_id'
+                                                                    ].toString()
+                                                                )
+                                                                    ? 'rgba(75, 59, 168, 0.1)'
+                                                                    : '#f2f8ff',
+                                                            padding: '7px 15px',
+                                                            borderRadius: 3,
+                                                            color: 'white',
+                                                            fontSize: 14,
                                                         }}
-                                                        icon={faTrash}
-                                                    />
-                                                </Button>
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            style={{
+                                                                fontSize: 13,
+                                                                color:
+                                                                    this.state
+                                                                        .bookmarked_logs &&
+                                                                    this.state.bookmarked_logs.includes(
+                                                                        value[
+                                                                            'connection_id'
+                                                                        ].toString()
+                                                                    )
+                                                                        ? '#4b3ba8'
+                                                                        : '#d5dae0',
+                                                            }}
+                                                            icon={faStar}
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        onClick={() =>
+                                                            this.copyLink(
+                                                                value[
+                                                                    'connection_id'
+                                                                ]
+                                                            )
+                                                        }
+                                                        className="pointerOnHover"
+                                                        style={{
+                                                            marginRight: 15,
+                                                            position:
+                                                                'relative',
+                                                            background:
+                                                                '#4b3ba8',
+                                                            padding: '7px 15px',
+                                                            borderRadius: 3,
+                                                            color: 'white',
+                                                            fontSize: 14,
+                                                        }}
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            style={{
+                                                                fontSize: 13,
+                                                                marginRight: 10,
+                                                                color: 'white',
+                                                            }}
+                                                            icon={faClone}
+                                                        />
+                                                        Copy Link
+                                                    </div>
+                                                    <Button
+                                                        onClick={() =>
+                                                            this.deleteLogs(
+                                                                value[
+                                                                    'connection_id'
+                                                                ]
+                                                            )
+                                                        }
+                                                        style={{
+                                                            color: '#e8553f',
+                                                            background:
+                                                                'rgba(176, 37, 16, 0.1)',
+                                                            border: 'none',
+                                                            position:
+                                                                'relative',
+                                                            outline: 'none',
+                                                            boxShadow: 'none',
+                                                            borderRadius: 2,
+                                                        }}
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            style={{
+                                                                fontSize: 13,
+                                                            }}
+                                                            icon={faTrash}
+                                                        />
+                                                    </Button>
+                                                </div>
                                                 <div
                                                     style={{ display: 'flex' }}
                                                 >
@@ -683,7 +871,6 @@ class Logs extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state.AccountReducer.log_analysis)
     return {
         logs: state.AccountReducer.logs ? state.AccountReducer.logs : [],
         access_token: state.AccountReducer.access_token,
@@ -694,6 +881,7 @@ function mapStateToProps(state) {
             ? state.AccountReducer.logs_not_found
             : false,
         log_analysis: state.AccountReducer.log_analysis,
+        bookmarked_log_ids: state.AccountReducer.bookmarked_log_ids,
     }
 }
 

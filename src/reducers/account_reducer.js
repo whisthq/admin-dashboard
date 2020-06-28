@@ -25,6 +25,7 @@ const DEFAULT = {
     totalSignups: null,
     totalMinutes: null,
     log_analysis: {},
+    bookmarked_log_ids: [],
 }
 
 export default function (state = DEFAULT, action) {
@@ -110,10 +111,11 @@ export default function (state = DEFAULT, action) {
                     : [],
             }
         case AccountAction.STORE_LOGS:
+            console.log(action)
             return {
                 ...state,
-                logs: action.logs,
-                logs_fetched: true,
+                logs: [...state.logs, ...action.logs],
+                logs_fetched: action.last_log,
                 logs_not_found: action.logs_not_found,
             }
         case AccountAction.FETCH_USER_ACTIVITY:
@@ -185,6 +187,21 @@ export default function (state = DEFAULT, action) {
                           },
                       }
                     : {},
+            }
+        case AccountAction.STORE_BOOKMARKED_LOGS:
+            return {
+                ...state,
+                bookmarked_log_ids: action.payload,
+            }
+        case AccountAction.CLEAR_LOGS:
+            return {
+                ...state,
+                logs: [],
+            }
+        case AccountAction.FETCH_LOGS_BY_CONNECTION:
+            return {
+                ...state,
+                logs_fetched: false,
             }
         case AccountAction.LOGOUT:
             return DEFAULT

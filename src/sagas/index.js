@@ -193,8 +193,6 @@ function* getVMStatus(id, vm_name) {
 function* fetchLogs(action) {
     const state = yield select()
 
-    console.log(action)
-
     const { json } = yield call(
         apiPost,
         config.url.PRIMARY_SERVER + '/logs/fetch',
@@ -206,9 +204,31 @@ function* fetchLogs(action) {
     )
 
     if (json && json.logs) {
-        yield put(FormAction.storeLogs(json.logs, false))
+        yield put(FormAction.storeLogs(json.logs, false, true))
     } else {
-        yield put(FormAction.storeLogs([], true))
+        yield put(FormAction.storeLogs([], true, true))
+    }
+}
+
+function* fetchLogsByConnection(action) {
+    const state = yield select()
+
+    console.log(action)
+
+    const { json } = yield call(
+        apiPost,
+        config.url.PRIMARY_SERVER + '/logs/fetch',
+        {
+            connection_id: action.connection_id,
+            fetch_all: true,
+        },
+        state.AccountReducer.access_token
+    )
+
+    if (json && json.logs) {
+        yield put(FormAction.storeLogs(json.logs, false, action.last_log))
+    } else {
+        yield put(FormAction.storeLogs([], true, true))
     }
 }
 
@@ -412,6 +432,40 @@ function* analyzeLogs(action) {
     }
 }
 
+function* fetchBookmarkedLogs(action) {
+    const { json } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER + '/logs/bookmarked',
+        ''
+    )
+
+    if (json && json.connection_ids) {
+        yield put(FormAction.storeBookmarkedLogs(json.connection_ids))
+    }
+}
+
+function* bookmarkLogs(action) {
+    if (action.bookmark) {
+        yield call(
+            apiPost,
+            config.url.PRIMARY_SERVER + '/logs/bookmark',
+            {
+                connection_id: action.connection_id,
+            },
+            ''
+        )
+    } else {
+        yield call(
+            apiPost,
+            config.url.PRIMARY_SERVER + '/logs/unbookmark',
+            {
+                connection_id: action.connection_id,
+            },
+            ''
+        )
+    }
+}
+
 export default function* rootSaga() {
     yield all([
         takeEvery(FormAction.UPDATE_DB, updateDB),
@@ -435,5 +489,8 @@ export default function* rootSaga() {
         takeEvery(FormAction.FETCH_TOTAL_MINUTES, fetchTotalMinutes),
         takeEvery(FormAction.FETCH_TOTAL_SIGNUPS, fetchTotalSignups),
         takeEvery(FormAction.ANALYZE_LOGS, analyzeLogs),
+        takeEvery(FormAction.FETCH_LOGS_BY_CONNECTION, fetchLogsByConnection),
+        takeEvery(FormAction.FETCH_BOOKMARKED_LOGS, fetchBookmarkedLogs),
+        takeEvery(FormAction.BOOKMARK_LOGS, bookmarkLogs),
     ])
 }

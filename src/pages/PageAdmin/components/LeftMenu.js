@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faHome,
     faChartArea,
-    faBookmark,
+    faList,
     faExternalLinkAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { FaLink } from 'react-icons/fa'
@@ -121,7 +121,7 @@ class LeftMenu extends Component {
                             to="/admin/logs"
                         >
                             <FontAwesomeIcon
-                                icon={faBookmark}
+                                icon={faList}
                                 style={{
                                     color:
                                         this.props.page === 'logs'
