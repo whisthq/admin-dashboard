@@ -193,6 +193,8 @@ function* getVMStatus(id, vm_name) {
 function* fetchLogs(action) {
     const state = yield select()
 
+    console.log(action)
+
     const { json } = yield call(
         apiPost,
         config.url.PRIMARY_SERVER + '/logs/fetch',

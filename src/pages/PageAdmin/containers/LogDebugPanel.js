@@ -54,7 +54,7 @@ class LogDebugPanel extends Component {
                 !this.props.log_analysis[
                     this.props.username.concat('_', this.props.connection_id)
                 ][this.props.sender].debug ||
-                !this.props.log_analysis[
+                this.props.log_analysis[
                     this.props.username.concat('_', this.props.connection_id)
                 ][this.props.sender].debug.number_of_errors === 0
             ) {
@@ -64,8 +64,8 @@ class LogDebugPanel extends Component {
                             marginLeft: 10,
                             display: 'inline-block',
                             padding: '8px 20px',
-                            color: '#f5792c',
-                            background: 'rgba(245, 121, 44, 0.1)',
+                            color: '#31de4b',
+                            background: 'rgba(49, 222, 75, 0.1)',
                             fontSize: 13,
                             borderRadius: 3,
                             marginBottom: 10,
@@ -113,7 +113,18 @@ class LogDebugPanel extends Component {
                                         )
                                     ][this.props.sender].debug.number_of_errors
                                 }{' '}
-                                {this.props.sender} errors found
+                                {this.props.sender} error(s) (
+                                {(
+                                    this.props.log_analysis[
+                                        this.props.username.concat(
+                                            '_',
+                                            this.props.connection_id
+                                        )
+                                    ][this.props.sender].debug.error_rate * 100
+                                )
+                                    .toFixed(2)
+                                    .toString()}{' '}
+                                % error rate)
                             </div>
                         }
                         modal

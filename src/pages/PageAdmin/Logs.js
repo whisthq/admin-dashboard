@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch, faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -117,12 +119,11 @@ class Logs extends Component {
 
         var last_true_index = Math.min(
             component.props.logs.length,
-            component.state.last_index + 20
+            component.state.last_index + 10
         )
-        console.log('fetching logs from')
-        console.log(last_true_index)
+
         var rendered_logs = component.props.logs.slice(
-            last_true_index - 20,
+            last_true_index - 10,
             last_true_index
         )
         console.log(rendered_logs)
@@ -138,7 +139,7 @@ class Logs extends Component {
         })
 
         this.setState({
-            last_index: this.state.last_index + 20,
+            last_index: this.state.last_index + 10,
         })
     }
 
@@ -301,7 +302,7 @@ class Logs extends Component {
                                                 style={{
                                                     background: 'white',
                                                     borderRadius: 5,
-                                                    padding: 20,
+                                                    padding: 30,
                                                     marginBottom: 20,
                                                     maxWidth:
                                                         'calc(100% - 200px)',
@@ -335,7 +336,7 @@ class Logs extends Component {
                                                                 background:
                                                                     '#4b3ba8',
                                                                 padding:
-                                                                    '10px 12px',
+                                                                    '8px 12px',
                                                                 borderRadius: 3,
                                                                 fontWeight:
                                                                     'bold',
@@ -376,7 +377,7 @@ class Logs extends Component {
                                                                 background:
                                                                     '#2c45a8',
                                                                 padding:
-                                                                    '10px 12px',
+                                                                    '8px 12px',
                                                                 borderRadius: 3,
                                                                 fontWeight:
                                                                     'bold',
@@ -453,32 +454,36 @@ class Logs extends Component {
                                                     >
                                                         V. {value['version']}
                                                     </div>
-                                                    <Button
-                                                        onClick={() =>
-                                                            this.deleteLogs(
-                                                                value[
-                                                                    'connection_id'
-                                                                ]
-                                                            )
-                                                        }
-                                                        style={{
-                                                            marginLeft: 40,
-                                                            color: '#111111',
-                                                            background: 'none',
-                                                            border: 'none',
-                                                            fontSize: 14,
-                                                            position:
-                                                                'relative',
-                                                            bottom: 5,
-                                                            outline: 'none',
-                                                            boxShadow: 'none',
-                                                        }}
-                                                    >
-                                                        <FontAwesomeIcon
-                                                            icon={faTrash}
-                                                        />
-                                                    </Button>
                                                 </div>
+                                                <Button
+                                                    onClick={() =>
+                                                        this.deleteLogs(
+                                                            value[
+                                                                'connection_id'
+                                                            ]
+                                                        )
+                                                    }
+                                                    style={{
+                                                        color: '#e8553f',
+                                                        background:
+                                                            'rgba(176, 37, 16, 0.1)',
+                                                        border: 'none',
+                                                        position: 'relative',
+                                                        outline: 'none',
+                                                        boxShadow: 'none',
+                                                        float: 'right',
+                                                        display: 'inline',
+                                                        bottom: 50,
+                                                        borderRadius: 2,
+                                                    }}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        style={{
+                                                            fontSize: 13,
+                                                        }}
+                                                        icon={faTrash}
+                                                    />
+                                                </Button>
                                                 <div
                                                     style={{ display: 'flex' }}
                                                 >
@@ -531,12 +536,12 @@ class Logs extends Component {
                                                         />
                                                     </div>
                                                 </div>
-                                                <div
-                                                    style={{ display: 'flex' }}
+                                                <Row
+                                                    style={{
+                                                        marginTop: 20,
+                                                    }}
                                                 >
-                                                    <div
-                                                        style={{ width: '33%' }}
-                                                    >
+                                                    <Col lg={6} xl={3} sm={12}>
                                                         <MiniGraph
                                                             title="Avg. Encode Time"
                                                             log_analysis={
@@ -561,38 +566,10 @@ class Logs extends Component {
                                                                 ]
                                                             }
                                                             unit="ms"
+                                                            scale={1000}
                                                         />
-                                                    </div>
-                                                    <div
-                                                        style={{ width: '33%' }}
-                                                    >
-                                                        <MiniGraph
-                                                            title="Avg. Decode Time"
-                                                            log_analysis={
-                                                                this.props
-                                                                    .log_analysis
-                                                            }
-                                                            username={
-                                                                value[
-                                                                    'username'
-                                                                ]
-                                                            }
-                                                            connection_id={
-                                                                value[
-                                                                    'connection_id'
-                                                                ]
-                                                            }
-                                                            sender="client"
-                                                            metric="decode_time"
-                                                            filename={
-                                                                value[
-                                                                    'client_logs'
-                                                                ]
-                                                            }
-                                                            unit="ms"
-                                                        />
-                                                    </div>
-                                                    <div>
+                                                    </Col>
+                                                    <Col lg={6} xl={3} sm={12}>
                                                         <MiniGraph
                                                             title="Avg. Encode Size"
                                                             log_analysis={
@@ -617,9 +594,66 @@ class Logs extends Component {
                                                                 ]
                                                             }
                                                             unit="bytes"
+                                                            scale={1}
                                                         />
-                                                    </div>
-                                                </div>
+                                                    </Col>
+                                                    <Col lg={6} xl={3} sm={12}>
+                                                        <MiniGraph
+                                                            title="Avg. Decode Time"
+                                                            log_analysis={
+                                                                this.props
+                                                                    .log_analysis
+                                                            }
+                                                            username={
+                                                                value[
+                                                                    'username'
+                                                                ]
+                                                            }
+                                                            connection_id={
+                                                                value[
+                                                                    'connection_id'
+                                                                ]
+                                                            }
+                                                            sender="client"
+                                                            metric="decode_time"
+                                                            filename={
+                                                                value[
+                                                                    'client_logs'
+                                                                ]
+                                                            }
+                                                            unit="ms"
+                                                            scale={1000}
+                                                        />
+                                                    </Col>
+                                                    <Col lg={6} xl={3} sm={12}>
+                                                        <MiniGraph
+                                                            title="Client Latency"
+                                                            log_analysis={
+                                                                this.props
+                                                                    .log_analysis
+                                                            }
+                                                            username={
+                                                                value[
+                                                                    'username'
+                                                                ]
+                                                            }
+                                                            connection_id={
+                                                                value[
+                                                                    'connection_id'
+                                                                ]
+                                                            }
+                                                            sender="client"
+                                                            metric="latency"
+                                                            filename={
+                                                                value[
+                                                                    'client_logs'
+                                                                ]
+                                                            }
+                                                            unit="ms"
+                                                            scale={1000}
+                                                        />
+                                                    </Col>
+                                                </Row>
                                             </div>
                                         )
                                     })}

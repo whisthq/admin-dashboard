@@ -107,7 +107,7 @@ class UsageChart extends Component {
                         dataKey="Number of users"
                         dot={false}
                         strokeWidth={2}
-                        stroke="#8884d8"
+                        stroke="#4636a6"
                     />
                     <XAxis
                         dataKey="x"

@@ -148,7 +148,7 @@ class UserStats extends Component {
                                 <Bar
                                     dataKey="Time online"
                                     barSize={10}
-                                    fill="#8884d8"
+                                    fill="#4636a6"
                                     formatter={(value, name, entry) =>
                                         Math.round(value / 60).toString() +
                                         'h ' +

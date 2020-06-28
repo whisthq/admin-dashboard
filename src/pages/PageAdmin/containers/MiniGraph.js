@@ -50,6 +50,10 @@ class MiniGraph extends Component {
                     </div>
                 )
             } else {
+                let mainPath = this.props.log_analysis[
+                    this.props.username.concat('_', this.props.connection_id)
+                ][this.props.sender][this.props.metric]
+
                 return (
                     <div>
                         <div
@@ -66,20 +70,40 @@ class MiniGraph extends Component {
                             style={{
                                 position: 'relative',
                                 right: 30,
-                                marginTop: 10,
                             }}
                         >
+                            <div
+                                style={{
+                                    paddingLeft: 40,
+                                    fontSize: 12,
+                                    marginBottom: 10,
+                                }}
+                            >
+                                Mean:{' '}
+                                {(
+                                    mainPath.summary_statistics.mean *
+                                    this.props.scale
+                                )
+                                    .toFixed(1)
+                                    .toString()}{' '}
+                                {this.props.unit}, Median:{' '}
+                                {(
+                                    mainPath.summary_statistics.median *
+                                    this.props.scale
+                                )
+                                    .toFixed(1)
+                                    .toString()}{' '}
+                                {this.props.unit}, Std:{' '}
+                                {(
+                                    mainPath.summary_statistics
+                                        .standard_deviation * this.props.scale
+                                )
+                                    .toFixed(1)
+                                    .toString()}{' '}
+                            </div>
                             <ResponsiveContainer width={'100%'} height={150}>
                                 <LineChart
-                                    data={
-                                        this.props.log_analysis[
-                                            this.props.username.concat(
-                                                '_',
-                                                this.props.connection_id
-                                            )
-                                        ][this.props.sender][this.props.metric]
-                                            .output
-                                    }
+                                    data={mainPath.output}
                                     syncId="usageChart"
                                 >
                                     <Line
@@ -115,15 +139,11 @@ class MiniGraph extends Component {
                                             fontSize: 14,
                                         }}
                                         labelFormatter={(element) => {
+                                            if (!mainPath.output[element]) {
+                                                return 'Time: N/A'
+                                            }
                                             return 'Time: '.concat(
-                                                this.props.log_analysis[
-                                                    this.props.username.concat(
-                                                        '_',
-                                                        this.props.connection_id
-                                                    )
-                                                ][this.props.sender][
-                                                    this.props.metric
-                                                ].output[element].time
+                                                mainPath.output[element].time
                                             )
                                         }}
                                         formatter={(value) =>
