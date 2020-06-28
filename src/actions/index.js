@@ -44,6 +44,11 @@ export const FETCH_TOTAL_MINUTES = 'FETCH_TOTAL_MINUTES'
 export const TOTAL_MINUTES_FETCHED = 'TOTAL_MINUTES_FETCHED'
 export const ANALYZE_LOGS = 'ANALYZE_LOGS'
 export const STORE_LOG_ANALYSIS = 'STORE_LOG_ANALYSIS'
+export const FETCH_LOGS_BY_CONNECTION = 'FETCH_LOGS_BY_CONNECTION'
+export const FETCH_BOOKMARKED_LOGS = 'FETCH_BOOKMARKED_LOGS'
+export const STORE_BOOKMARKED_LOGS = 'STORE_BOOKMARKED_LOGS'
+export const BOOKMARK_LOGS = 'BOOKMARK_LOGS'
+export const CLEAR_LOGS = 'CLEAR_LOGS'
 
 export function fetchVMs(id) {
     return {
@@ -221,11 +226,12 @@ export function fetchLogs(username, logs_not_found, fetch_all) {
     }
 }
 
-export function storeLogs(logs, logs_not_found) {
+export function storeLogs(logs, logs_not_found, last_log) {
     return {
         type: STORE_LOGS,
         logs,
         logs_not_found,
+        last_log,
     }
 }
 
@@ -369,5 +375,47 @@ export function storeLogAnalysis(payload_id, payload, sender) {
         payload_id,
         payload,
         sender,
+    }
+}
+
+export function fetchLogsByConnection(
+    connection_id,
+    logs_not_found,
+    fetch_all,
+    last_log
+) {
+    return {
+        type: FETCH_LOGS_BY_CONNECTION,
+        connection_id,
+        logs_not_found,
+        fetch_all,
+        last_log,
+    }
+}
+
+export function fetchBookmarkedLogs() {
+    return {
+        type: FETCH_BOOKMARKED_LOGS,
+    }
+}
+
+export function storeBookmarkedLogs(payload) {
+    return {
+        type: STORE_BOOKMARKED_LOGS,
+        payload,
+    }
+}
+
+export function bookmarkLogs(bookmark, connection_id) {
+    return {
+        type: BOOKMARK_LOGS,
+        bookmark,
+        connection_id,
+    }
+}
+
+export function clearLogs() {
+    return {
+        type: CLEAR_LOGS,
     }
 }
