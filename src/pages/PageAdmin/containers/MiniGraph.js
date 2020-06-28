@@ -125,10 +125,7 @@ class MiniGraph extends Component {
                                             if (Number(element) > 10000) {
                                                 return (
                                                     (
-                                                        Number(
-                                                            element *
-                                                                this.props.scale
-                                                        ) / 1000
+                                                        Number(element) / 1000
                                                     ).toString() + 'K'
                                                 )
                                             } else {
@@ -150,7 +147,7 @@ class MiniGraph extends Component {
                                             )
                                         }}
                                         formatter={(value) =>
-                                            (value * this.props.scale)
+                                            value
                                                 .toFixed(2)
                                                 .toString()
                                                 .concat(' ', this.props.unit)
