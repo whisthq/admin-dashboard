@@ -8,7 +8,7 @@ import { routerMiddleware } from 'connected-react-router'
 import ReduxPromise from 'redux-promise'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import Admin from './components/PageAdmin/Admin'
+import Admin from './pages/PageAdmin/Admin'
 
 import rootSaga from './sagas'
 import { Route, Switch } from 'react-router-dom'
@@ -19,7 +19,7 @@ import ReactDOM from 'react-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import history from './history'
 import './static/App.css'
-import LoginPage from './components/PageLogin/LoginPage'
+import LoginPage from './pages/PageLogin/LoginPage'
 
 const persistConfig = {
     key: 'rootKey',

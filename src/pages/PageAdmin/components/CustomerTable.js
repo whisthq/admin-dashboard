@@ -16,6 +16,10 @@ class CustomerTable extends Component {
             height: 0,
             modalShow: false,
             customers_fetched: false,
+            data: [],
+            filteredData: [],
+            filterKeyword: '',
+            modifyData: true,
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
@@ -27,6 +31,7 @@ class CustomerTable extends Component {
         this.updateWindowDimensions()
         window.addEventListener('resize', this.updateWindowDimensions)
         this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000)
+        this.setState({ data: [], modifyData: true })
     }
 
     componentWillUnmount() {
@@ -61,9 +66,22 @@ class CustomerTable extends Component {
         this.setState({ width: window.innerWidth, height: window.innerHeight })
     }
 
+    keywordFilter = (e) => {
+        let component = this
+        let filterKeyword = e.target.value
+        this.setState({ modifyData: false }, function () {
+            let filteredData = component.state.data.filter(function (element) {
+                return element.username.includes(filterKeyword)
+            })
+            component.setState({
+                filterKeyword: filterKeyword,
+                filteredData: filteredData,
+            })
+        })
+    }
+
     render() {
         let columns = []
-        let data = []
         if (this.props.customers && this.props.customers.length) {
             Object.keys(this.props.customers[0]).forEach(function (key) {
                 let fixWidth = false
@@ -103,35 +121,54 @@ class CustomerTable extends Component {
                     render: customRender,
                 })
             })
-            this.props.customers.forEach(function (customer) {
-                data.push(customer)
-            })
+            let component = this
+            if (this.state.modifyData) {
+                this.props.customers.forEach(function (customer) {
+                    component.state.data.push(customer)
+                })
+                this.setState({ modifyData: false })
+            }
         }
         columns.reverse()
 
         return (
-            <Table
-                columns={columns}
-                dataSource={data}
-                scroll={{ x: 1000, y: 400 }}
-                onRow={(record, rowIndex) => {
-                    return {
-                        onClick: (event) => {
-                            console.log(record)
-                            this.props.openModal(record['username'])
-                        },
+            <div className={Style.tableWrapper}>
+                <input
+                    type="text"
+                    placeholder="Filter by keyword"
+                    style={{
+                        width: '100%',
+                        border: 'none',
+                        padding: '10px 20px',
+                        background: '#ebecf0',
+                    }}
+                    onChange={this.keywordFilter}
+                />
+                <Table
+                    columns={columns}
+                    dataSource={
+                        this.state.filterKeyword
+                            ? [...new Set(this.state.filteredData)]
+                            : [...new Set(this.state.data)]
                     }
-                }}
-                size="middle"
-                rowClassName={Style.tableRow}
-                loading={this.props.customers.length === 0}
-            />
+                    scroll={{ x: 1000, y: 450 }}
+                    onRow={(record, rowIndex) => {
+                        return {
+                            onClick: (event) => {
+                                this.props.openModal(record['username'])
+                            },
+                        }
+                    }}
+                    size="middle"
+                    rowClassName={Style.tableRow}
+                    loading={this.props.customers.length === 0}
+                />
+            </div>
         )
     }
 }
 
 function mapStateToProps(state) {
-    console.log(state)
     return {
         customers: state.AccountReducer.customers
             ? state.AccountReducer.customers.reverse()

@@ -8,18 +8,49 @@ import { Table } from 'antd'
 import 'antd/dist/antd.css'
 
 import Style from '../../../styles/components/pageAdmin.module.css'
-
 import '../../../static/App.css'
 
+import { fetchUserTable } from 'actions/index.js'
+
 class UserTable extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            data: [],
+            filteredData: [],
+            filterKeyword: '',
+            modifyData: true,
+        }
+    }
+
+    componentDidMount() {
+        this.props.dispatch(fetchUserTable())
+        this.setState({ data: [], modifyData: true })
+    }
+
     deleteUser = (user) => {
         this.props.dispatch(deleteUser(user))
+    }
+
+    keywordFilter = (e) => {
+        let component = this
+        let filterKeyword = e.target.value
+        this.setState({ modifyData: false }, function () {
+            let filteredData = component.state.data.filter(function (element) {
+                return element.username.includes(filterKeyword)
+            })
+            component.setState({
+                filterKeyword: filterKeyword,
+                filteredData: filteredData,
+            })
+        })
     }
 
     render() {
         let columns = [
             {
-                title: 'Delete user',
+                title: '',
                 dataIndex: 'deleteBtn',
                 render: (username) => (
                     <Popup
@@ -30,6 +61,7 @@ class UserTable extends Component {
                                 style={{
                                     color: '#b01717',
                                     width: 12,
+                                    marginLeft: 20,
                                 }}
                             />
                         }
@@ -85,7 +117,7 @@ class UserTable extends Component {
                 ),
             },
         ]
-        let data = []
+        let mainColumns = []
         if (this.props.userTable && this.props.userTable.length) {
             Object.keys(this.props.userTable[0]).forEach(function (key) {
                 var fixWidth = false
@@ -93,7 +125,7 @@ class UserTable extends Component {
                     fixWidth = 250
                 }
 
-                columns.push({
+                mainColumns.push({
                     title: key,
                     dataIndex: key,
                     sorter: (a, b) => {
@@ -116,21 +148,46 @@ class UserTable extends Component {
                     ellipsis: key === 'password',
                 })
             })
-            this.props.userTable.forEach(function (user) {
-                data.push({ ...user, deleteBtn: user['username'] })
-            })
+            let component = this
+            if (this.state.modifyData) {
+                this.props.userTable.forEach(function (user) {
+                    component.state.data.push({
+                        ...user,
+                        deleteBtn: user['username'],
+                    })
+                })
+                this.setState({ modifyData: false })
+            }
         }
-        columns.reverse()
+        mainColumns.reverse()
+        columns = columns.concat(mainColumns)
 
         return (
-            <Table
-                columns={columns}
-                dataSource={data}
-                scroll={{ y: 400, x: 1500 }}
-                size="middle"
-                rowClassName={Style.tableRow}
-                loading={!this.props.usersUpdated}
-            />
+            <div className={Style.tableWrapper}>
+                <input
+                    type="text"
+                    placeholder="Filter by keyword"
+                    style={{
+                        width: '100%',
+                        border: 'none',
+                        padding: '10px 20px',
+                        background: '#ebecf0',
+                    }}
+                    onChange={this.keywordFilter}
+                />
+                <Table
+                    columns={columns}
+                    dataSource={
+                        this.state.filterKeyword
+                            ? [...new Set(this.state.filteredData)]
+                            : [...new Set(this.state.data)]
+                    }
+                    scroll={{ y: 450, x: 1500 }}
+                    size="middle"
+                    rowClassName={Style.tableRow}
+                    loading={!this.props.usersUpdated}
+                />
+            </div>
         )
     }
 }

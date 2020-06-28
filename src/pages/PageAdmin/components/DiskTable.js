@@ -13,8 +13,20 @@ import '../../../static/App.css'
 import { setStun } from '../../../actions/index.js'
 
 class DiskTable extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            data: [],
+            filteredData: [],
+            filterKeyword: '',
+            modifyData: true,
+        }
+    }
+
     componentDidMount() {
         this.props.dispatch(fetchDiskTable())
+        this.setState({ data: [], modifyData: true })
     }
 
     componentWillUnmount() {
@@ -32,6 +44,25 @@ class DiskTable extends Component {
         } else {
             this.props.dispatch(setStun(disk_name, !mode))
         }
+    }
+
+    keywordFilter = (e) => {
+        let component = this
+        let filterKeyword = e.target.value
+        this.setState({ modifyData: false }, function () {
+            let filteredData = component.state.data.filter(function (element) {
+                return (
+                    (element.username &&
+                        element.username.includes(filterKeyword)) ||
+                    (element.disk_name &&
+                        element.disk_name.includes(filterKeyword))
+                )
+            })
+            component.setState({
+                filterKeyword: filterKeyword,
+                filteredData: filteredData,
+            })
+        })
     }
 
     render() {
@@ -104,7 +135,6 @@ class DiskTable extends Component {
         )
 
         let columns = []
-        let data = []
         let headers = [
             'branch',
             'using_stun',
@@ -120,7 +150,6 @@ class DiskTable extends Component {
             'has_accepted_update',
             'first_time',
         ]
-        let component = this
         if (this.props.disk_info && this.props.disk_info.length) {
             headers.forEach(function (key) {
                 let fixWidth = false
@@ -186,20 +215,41 @@ class DiskTable extends Component {
                     render: customRender,
                 })
             })
-            this.props.disk_info.forEach(function (disk) {
-                data.push(disk)
-            })
+            let component = this
+            if (this.state.modifyData) {
+                this.props.disk_info.forEach(function (disk) {
+                    component.state.data.push(disk)
+                })
+                this.setState({ modifyData: false })
+            }
         }
 
         return (
-            <Table
-                columns={columns}
-                dataSource={data}
-                scroll={{ y: 400, x: 2300 }}
-                size="middle"
-                rowClassName={Style.tableRow}
-                loading={!this.props.disks_fetched}
-            />
+            <div className={Style.tableWrapper}>
+                <input
+                    type="text"
+                    placeholder="Filter by keyword"
+                    style={{
+                        width: '100%',
+                        border: 'none',
+                        padding: '10px 20px',
+                        background: '#ebecf0',
+                    }}
+                    onChange={this.keywordFilter}
+                />
+                <Table
+                    columns={columns}
+                    dataSource={
+                        this.state.filterKeyword
+                            ? [...new Set(this.state.filteredData)]
+                            : [...new Set(this.state.data)]
+                    }
+                    scroll={{ y: 450, x: 2300 }}
+                    size="middle"
+                    rowClassName={Style.tableRow}
+                    loading={!this.props.disks_fetched}
+                />
+            </div>
         )
     }
 }

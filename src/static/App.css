@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Maven+Pro|Kalam&display=swap');
 
+body {
+    background-color: #f3f2f5 !important;
+}
+
 div {
     font-family: 'Maven Pro' !important;
 }
@@ -72,6 +76,7 @@ a {
     color: #111111 !important;
     font-weight: normal !important;
     margin-right: 20px;
+    background-color: none !important;
 }
 
 .react-tabs__tab--selected {
@@ -80,6 +85,9 @@ a {
     border-bottom: solid 2px #111111 !important;
     color: #111111 !important;
     background-color: rgba(0, 0, 0, 0) !important;
+    font-weight: bold !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .btn-group-toggle .btn-primary {
@@ -99,9 +107,14 @@ a {
     box-shadow: none !important;
 }
 
+th.ant-table-cell {
+    background-color: white !important;
+}
+
 .ant-table-column-has-sorters {
-    color: white !important;
-    background-color: #1e1f36 !important;
+    color: #111111 !important;
+    background-color: white !important;
+    font-weight: bold !important;
     font-size: 13px !important;
     text-align: left !important;
     height: 60px;
@@ -129,4 +142,14 @@ a {
     display: inline-block;
     padding: 6px 15px;
     font-size: 14px;
+}
+
+.btn-success::after {
+    opacity: 0;
+    width: 0;
+}
+
+.btn-success {
+    outline: none !important;
+    box-shadow: none !important;
 }
