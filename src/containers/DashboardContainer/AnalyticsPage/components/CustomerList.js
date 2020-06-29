@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
-import { fetchCustomers } from '../../../actions/index.js'
-import Style from '../../../styles/components/pageAdmin.module.css'
 
-import '../../../static/App.css'
+import 'static/App.css'
+import Style from 'styles/components/pageAdmin.module.css'
+
+import { fetchCustomers } from 'actions/index.js'
 
 class CustomerList extends Component {
     constructor(props) {

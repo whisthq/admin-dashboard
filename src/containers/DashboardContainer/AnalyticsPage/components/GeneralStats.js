@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { fetchRegionReport } from '../../../actions/index.js'
+import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
-import { connect } from 'react-redux'
 import moment from 'moment'
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
 import {
@@ -14,12 +13,11 @@ import {
     Tooltip,
 } from 'recharts'
 
-import '../../../static/App.css'
+import 'static/App.css'
 
-// https://devhints.io/moment
-// https://github.com/recharts/recharts/issues/956#issuecomment-339279600
+import { fetchRegionReport, fetchLatestReport } from 'actions/index.js'
 
-class UsageChart extends Component {
+class GeneralStats extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -32,6 +30,7 @@ class UsageChart extends Component {
     }
 
     componentDidMount() {
+        this.props.dispatch(fetchLatestReport())
         this.props.dispatch(fetchRegionReport(this.state.timescale))
     }
 
@@ -232,8 +231,9 @@ class UsageChart extends Component {
 
 function mapStateToProps(state) {
     return {
+        latestReport: state.AccountReducer.latestReport,
         regionReport: state.AccountReducer.regionReport,
     }
 }
 
-export default connect(mapStateToProps)(UsageChart)
+export default connect(mapStateToProps)(GeneralStats)

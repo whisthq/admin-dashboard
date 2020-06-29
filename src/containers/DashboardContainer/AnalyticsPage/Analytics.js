@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
-import { changePage } from '../../actions/index.js'
+import { changePage } from 'actions/index'
 
-import '../../static/App.css'
+import 'static/App.css'
 
-import GeneralStats from './components/GeneralStats'
-import UserStats from './components/UserStats'
-import SummaryStats from './components/SummaryStats'
-import VMPieChart from './containers/VMPieChart'
+import GeneralStats from 'containers/DashboardContainer/AnalyticsPage/components/GeneralStats'
+import UserStats from 'containers/DashboardContainer/AnalyticsPage/components/UserStats'
+import SummaryStats from 'containers/DashboardContainer/AnalyticsPage/components/SummaryStats'
+import VMPieChart from 'containers/DashboardContainer/AnalyticsPage/components/VMPieChart'
 
 class Analytics extends Component {
     componentDidMount() {

@@ -11,7 +11,7 @@ import { loginUser } from '../../actions/index.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 
-class LoginPage extends Component {
+class Login extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -187,4 +187,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(LoginPage)
+export default connect(mapStateToProps)(Login)

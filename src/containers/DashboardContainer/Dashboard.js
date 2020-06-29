@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { Route, Switch, Redirect } from 'react-router-dom'
-
-import { fetchUserActivity, logout } from '../../actions/index.js'
-
-import LeftMenu from './components/LeftMenu.js'
-import Dashboard from './Dashboard'
-import Logs from './Logs'
-import Analytics from './Analytics'
 import { Button } from 'react-bootstrap'
+
+import { fetchUserActivity, logout } from 'actions/index'
+
+import DashboardMenu from 'containers/DashboardContainer/DashboardMenu'
+import Database from 'containers/DashboardContainer/DatabasePage/Database'
+import Logs from 'containers/DashboardContainer/LogsPage/Logs'
+import Analytics from 'containers/DashboardContainer/AnalyticsPage/Analytics'
 
 import '../../static/App.css'
 import 'react-tabs/style/react-tabs.css'
@@ -40,7 +40,7 @@ class Admin extends Component {
                 {this.props.authenticated ? (
                     <div style={{ display: 'flex' }}>
                         <div style={{ width: 75, margin: 0 }}>
-                            <LeftMenu />
+                            <DashboardMenu />
                         </div>
                         <div
                             style={{
@@ -73,11 +73,11 @@ class Admin extends Component {
                                     <Route
                                         exact
                                         path="/admin"
-                                        component={Dashboard}
+                                        component={Database}
                                     />
                                     <Route
                                         path="/admin/dashboard"
-                                        component={Dashboard}
+                                        component={Database}
                                     />
                                     <Route
                                         path="/admin/logs"

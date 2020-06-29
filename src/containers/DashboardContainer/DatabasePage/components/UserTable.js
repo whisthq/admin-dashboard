@@ -3,14 +3,13 @@ import Popup from 'reactjs-popup'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { deleteUser } from '../../../actions/index.js'
 import { Table } from 'antd'
+
+import 'static/App.css'
 import 'antd/dist/antd.css'
+import Style from 'styles/components/pageAdmin.module.css'
 
-import Style from '../../../styles/components/pageAdmin.module.css'
-import '../../../static/App.css'
-
-import { fetchUserTable } from 'actions/index.js'
+import { fetchUserTable, deleteUser } from 'actions/index.js'
 
 class UserTable extends Component {
     constructor(props) {

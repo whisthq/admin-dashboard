@@ -33,8 +33,9 @@ const development = {
     url: {
         PRIMARY_SERVER: 'http://127.0.0.1:5000',
         WEBSITE_URL: 'http://localhost:3000',
-S        PUBLIC_KEY: 'pk_test_7y07LrJWC5LzNu17sybyn9ce004CLPaOXb',
+        PUBLIC_KEY: 'pk_test_7y07LrJWC5LzNu17sybyn9ce004CLPaOXb',
     },
 }
 
-export const config = process.env.NODE_ENV === 'development' ? staging : production
+export const config =
+    process.env.NODE_ENV === 'development' ? staging : production
