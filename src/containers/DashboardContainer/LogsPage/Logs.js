@@ -691,6 +691,10 @@ class Logs extends Component {
                                                                 value[
                                                                     'username'
                                                                 ]
+                                                                    ? value[
+                                                                          'username'
+                                                                      ]
+                                                                    : ''
                                                             }
                                                             connection_id={
                                                                 value[
@@ -715,6 +719,10 @@ class Logs extends Component {
                                                                 value[
                                                                     'username'
                                                                 ]
+                                                                    ? value[
+                                                                          'username'
+                                                                      ]
+                                                                    : ''
                                                             }
                                                             connection_id={
                                                                 value[
@@ -740,6 +748,10 @@ class Logs extends Component {
                                                                 value[
                                                                     'username'
                                                                 ]
+                                                                    ? value[
+                                                                          'username'
+                                                                      ]
+                                                                    : ''
                                                             }
                                                             connection_id={
                                                                 value[
@@ -768,6 +780,10 @@ class Logs extends Component {
                                                                 value[
                                                                     'username'
                                                                 ]
+                                                                    ? value[
+                                                                          'username'
+                                                                      ]
+                                                                    : ''
                                                             }
                                                             connection_id={
                                                                 value[
@@ -796,6 +812,10 @@ class Logs extends Component {
                                                                 value[
                                                                     'username'
                                                                 ]
+                                                                    ? value[
+                                                                          'username'
+                                                                      ]
+                                                                    : ''
                                                             }
                                                             connection_id={
                                                                 value[
@@ -824,6 +844,10 @@ class Logs extends Component {
                                                                 value[
                                                                     'username'
                                                                 ]
+                                                                    ? value[
+                                                                          'username'
+                                                                      ]
+                                                                    : ''
                                                             }
                                                             connection_id={
                                                                 value[
