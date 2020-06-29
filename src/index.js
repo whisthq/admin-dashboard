@@ -1,25 +1,27 @@
 import React from 'react'
 import createSagaMiddleware from 'redux-saga'
 import { Provider } from 'react-redux'
-import rootReducer from './reducers'
 import { applyMiddleware, createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { routerMiddleware } from 'connected-react-router'
 import ReduxPromise from 'redux-promise'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import Admin from './pages/PageAdmin/Admin'
-
-import rootSaga from './sagas'
 import { Route, Switch } from 'react-router-dom'
 import { Router } from 'react-router'
 import { Helmet } from 'react-helmet'
 import { PersistGate } from 'redux-persist/integration/react'
 import ReactDOM from 'react-dom'
-import 'bootstrap/dist/css/bootstrap.css'
+
 import history from './history'
-import './static/App.css'
-import LoginPage from './pages/PageLogin/LoginPage'
+import rootSaga from './sagas'
+import rootReducer from './reducers'
+
+import 'static/App.css'
+import 'bootstrap/dist/css/bootstrap.css'
+
+import Login from 'containers/LoginContainer/LoginPage'
+import Dashboard from 'containers/DashboardContainer/Dashboard'
 
 const persistConfig = {
     key: 'rootKey',
@@ -45,11 +47,11 @@ ReactDOM.render(
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
                 <Helmet>
-                    <title>Fractal</title>
+                    <title>Fractal Dashboard</title>
                 </Helmet>
                 <Switch>
-                    <Route exact path="/" component={LoginPage} />
-                    <Route path="/admin" component={Admin} />
+                    <Route exact path="/" component={Login} />
+                    <Route path="/admin" component={Dashboard} />
                 </Switch>
             </PersistGate>
         </Provider>

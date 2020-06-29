@@ -2,25 +2,20 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ToggleButton from 'react-toggle-button'
+import moment from 'moment'
+import { Table } from 'antd'
+
+import 'static/App.css'
+import 'antd/dist/antd.css'
+import Style from 'styles/components/pageAdmin.module.css'
+
 import {
     faCircleNotch,
     faPlay,
     faPause,
 } from '@fortawesome/free-solid-svg-icons'
 
-import {
-    startVM,
-    deallocateVM,
-    updateDB,
-    setDev,
-} from '../../../actions/index.js'
-
-import moment from 'moment'
-import { Table } from 'antd'
-import 'antd/dist/antd.css'
-import Style from '../../../styles/components/pageAdmin.module.css'
-
-import '../../../static/App.css'
+import { startVM, deallocateVM, updateDB, setDev } from 'actions/index.js'
 
 class VMTable extends Component {
     constructor(props) {
@@ -149,7 +144,8 @@ class VMTable extends Component {
                 render: (text, record, index) => (
                     <ToggleButton
                         value={record['dev']}
-                        onToggle={(mode) => {
+                        onToggle={function (mode) {
+                            record['dev'] = !record['dev']
                             component.toggleDev(mode, record['vm_name'])
                         }}
                         colors={{

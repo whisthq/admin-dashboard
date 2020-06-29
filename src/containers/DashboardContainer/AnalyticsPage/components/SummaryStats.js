@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Card, Row, Col } from 'antd'
+
 import 'antd/dist/antd.css'
 
-import { fetchTotalSignups, fetchTotalMinutes } from '../../../actions/index.js'
+import { fetchTotalSignups, fetchTotalMinutes } from 'actions/index.js'
 
 class SummaryStats extends Component {
     componentDidMount() {

@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ToggleButton from 'react-toggle-button'
-
-import { fetchDiskTable, changeBranch } from '../../../actions/index.js'
-
-import Style from '../../../styles/components/pageAdmin.module.css'
 import { Table } from 'antd'
+
 import 'antd/dist/antd.css'
+import 'static/App.css'
+import Style from 'styles/components/pageAdmin.module.css'
 
-import '../../../static/App.css'
-
-import { setStun } from '../../../actions/index.js'
+import { fetchDiskTable, changeBranch, setStun } from 'actions/index.js'
 
 class DiskTable extends Component {
     constructor(props) {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
-import { fetchUserReport } from '../../../actions/index.js'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import {
@@ -12,7 +11,9 @@ import {
     Tooltip,
 } from 'recharts'
 
-import CustomerList from '../containers/CustomerList'
+import { fetchUserReport } from 'actions/index.js'
+
+import CustomerList from 'containers/DashboardContainer/AnalyticsPage/components/CustomerList'
 
 class UserStats extends Component {
     constructor(props) {

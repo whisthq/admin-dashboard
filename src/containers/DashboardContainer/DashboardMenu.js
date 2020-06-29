@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Dropdown } from 'react-bootstrap'
 import {
     faHome,
     faChartArea,
@@ -11,13 +12,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FaLink } from 'react-icons/fa'
 
-import Logo from '../../../assets/logo.svg'
-import '../../../static/App.css'
-import { Dropdown } from 'react-bootstrap'
+import 'static/App.css'
 
-withRouter((props) => <LeftMenu {...props} />)
+import Logo from 'assets/logo.svg'
 
-class LeftMenu extends Component {
+withRouter((props) => <DashboardMenu {...props} />)
+
+class DashboardMenu extends Component {
     constructor(props) {
         super(props)
         this.state = { page: 'dashboard' }
@@ -260,4 +261,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(LeftMenu)
+export default connect(mapStateToProps)(DashboardMenu)

@@ -13,7 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import 'react-tabs/style/react-tabs.css'
 
-import '../../static/App.css'
+import 'static/App.css'
 import {
     fetchUserActivity,
     deleteUser,
@@ -27,12 +27,12 @@ import {
     storeBookmarkedLogs,
     bookmarkLogs,
     clearLogs,
-} from '../../actions/index.js'
+} from 'actions/index.js'
 
-import { config } from '../../constants'
+import { config } from '../../../constants'
 
-import MiniGraph from 'pages/PageAdmin/containers/MiniGraph'
-import LogDebugPanel from 'pages/PageAdmin/containers/LogDebugPanel'
+import MiniGraph from 'containers/DashboardContainer/LogsPage/components/MiniGraph'
+import LogDebugPanel from 'containers/DashboardContainer/LogsPage/components/LogDebugPanel'
 
 class Logs extends Component {
     constructor(props) {
