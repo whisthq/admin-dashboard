@@ -16,7 +16,7 @@ The Fractal dashboard can be used for:
 -   Seeing the list of VMs
 -   Monitoring the status of the VMs
 -   Fetching the protocol logs of user sessions to troubleshoot and debug errors
--   Accessing other important Fractal links, including GitHub, Slack, Notion and Google Drive
+-   Accessing other important Fractal links, including AWS, GitHub, Notion, Google Drive, and much more.
 
 ## Development
 
