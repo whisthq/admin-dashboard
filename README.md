@@ -4,7 +4,7 @@
 
 This repository contains the code for the Fractal dashboard used to deliver support and monitor the Fractal cloud infrastructure and userbase.
 
-The dashboard webpage is hosted on Netlify at: https://fractal-dashboard.netlify.app/
+The dashboard webpage is hosted on Netlify [here](https://fractal-dashboard.netlify.app/).
 
 The username to access the dashboard: `fractal-admin`
 
