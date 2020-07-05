@@ -111,7 +111,6 @@ export default function (state = DEFAULT, action) {
                     : [],
             }
         case AccountAction.STORE_LOGS:
-            console.log(action)
             return {
                 ...state,
                 logs: [...state.logs, ...action.logs],
@@ -128,6 +127,7 @@ export default function (state = DEFAULT, action) {
                 ...state,
                 logs_fetched: false,
                 logs_not_found: false,
+                logs: [],
             }
         case AccountAction.LOGS_FOUND:
             return {
