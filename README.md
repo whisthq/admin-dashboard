@@ -28,14 +28,10 @@ To ensure that code formatting is standardized, and to minimize clutter in the c
 
 ### [Sublime](https://packagecontrol.io/packages/JsPrettier)
 
-Install prettier if you haven't yet.
+Install prettier if you haven't yet:
 
 ```
-# npm (local):
-npm install --save-dev prettier
-
-# npm (global):
-npm install --global prettier
+npm install prettier
 ```
 
 The easiest and recommended way to install Js​Prettier is using Package Control. From the application menu, navigate to:  
