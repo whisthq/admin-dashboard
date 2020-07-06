@@ -4,11 +4,7 @@
 
 This repository contains the code for the Fractal dashboard used to deliver support and monitor the Fractal cloud infrastructure and userbase.
 
-The dashboard webpage is hosted on Netlify [here](https://fractal-dashboard.netlify.app/).
-
-The username to access the dashboard: `fractal-admin`
-
-The password to access the dasbhoard: `!!fractal-admin-password!!123`
+The dashboard webpage is hosted on Netlify [here](https://fractal-dashboard.netlify.app/). You can find the login information in the Home workspace of the Notion.
 
 The Fractal dashboard can be used for:
 
