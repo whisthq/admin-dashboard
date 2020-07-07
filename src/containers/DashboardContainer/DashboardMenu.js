@@ -203,6 +203,22 @@ class DashboardMenu extends Component {
                                 <a
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    href="https://app.datadoghq.com/logs?cols=core_host%2Ccore_service&from_ts=1593977274176&index=&live=true&messageDisplay=inline&stream_sort=desc&to_ts=1593978174176"
+                                >
+                                    <FaLink
+                                        style={{
+                                            marginRight: 10,
+                                            color: '#d0ced9',
+                                            fontSize: 12,
+                                        }}
+                                    />
+                                    Datadog
+                                </a>
+                            </Dropdown.Item>
+                            <Dropdown.Item style={{ marginBottom: 5 }}>
+                                <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     href="https://fractalcomputers.postman.co/workspaces/6ded464f-396a-4792-a5c9-5ac7c689d269/apis"
                                 >
                                     <FaLink
