@@ -190,7 +190,7 @@ function* startVM(action) {
     const { json } = yield call(
         apiPost,
         config.new_server
-            ? config.url.PRIMARY_SERVER + 'azure_vm/start'
+            ? config.url.PRIMARY_SERVER + '/azure_vm/start'
             : config.url.PRIMARY_SERVER + '/vm/start',
         {
             vm_name: action.vm_name,
