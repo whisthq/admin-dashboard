@@ -7,6 +7,7 @@ const production = {
     stripe: {
         PUBLIC_KEY: 'pk_live_XLjiiZB93KN0EjY8hwCxvKmB00whKEIj3U',
     },
+    new_server: false,
 }
 
 const staging = {
@@ -17,6 +18,7 @@ const staging = {
     stripe: {
         PUBLIC_KEY: 'pk_test_7y07LrJWC5LzNu17sybyn9ce004CLPaOXb',
     },
+    new_server: false,
 }
 
 const staging2 = {
@@ -27,15 +29,30 @@ const staging2 = {
     stripe: {
         PUBLIC_KEY: 'pk_test_7y07LrJWC5LzNu17sybyn9ce004CLPaOXb',
     },
+    new_server: false,
+}
+
+const pr78 = {
+    url: {
+        PRIMARY_SERVER: 'https://main-webserver-pr-78.herokuapp.com',
+        WEBSITE_URL: 'http://localhost:3000',
+    },
+    stripe: {
+        PUBLIC_KEY: 'pk_test_7y07LrJWC5LzNu17sybyn9ce004CLPaOXb',
+    },
+    new_server: true,
 }
 
 const development = {
     url: {
         PRIMARY_SERVER: 'http://127.0.0.1:5000',
         WEBSITE_URL: 'http://localhost:3000',
+    },
+    stripe: {
         PUBLIC_KEY: 'pk_test_7y07LrJWC5LzNu17sybyn9ce004CLPaOXb',
     },
+    new_server: true,
 }
 
 export const config =
-    process.env.NODE_ENV === 'development' ? staging : production
+    process.env.NODE_ENV === 'development' ? development : production
