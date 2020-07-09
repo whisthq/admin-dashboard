@@ -14,7 +14,6 @@ function* updateDB(action) {
                 config.url.PRIMARY_SERVER + '/report/fetchVMs',
                 state.AccountReducer.access_token
             )
-            console.log(json)
             if (json && response.status === 200) {
                 yield put(FormAction.loadVMs(json))
             }
@@ -59,7 +58,6 @@ function* fetchUserActivity(action) {
             config.url.PRIMARY_SERVER + '/report/fetchLoginActivity',
             state.AccountReducer.access_token
         )
-        console.log(json)
         if (json && response.status === 200) {
             yield put(FormAction.userActivityFetched(json))
         }
@@ -350,19 +348,34 @@ function* setDev(action) {
 
 function* setStun(action) {
     const state = yield select()
+    if (config.new_server) {
+        const { json, response } = yield call(
+            apiPost,
+            config.url.PRIMARY_SERVER + '/azure_disk/stun',
+            {
+                disk_name: action.disk_name,
+                using_stun: action.useStun,
+            },
+            state.AccountReducer.access_token
+        )
 
-    const { json } = yield call(
-        apiPost,
-        config.url.PRIMARY_SERVER + '/disk/usingStun',
-        {
-            disk_name: action.disk_name,
-            using_stun: action.useStun,
-        },
-        state.AccountReducer.access_token
-    )
+        if (json.status === 200 && response.status === 200) {
+            yield put(FormAction.fetchDiskTable(false))
+        }
+    } else {
+        const { json } = yield call(
+            apiPost,
+            config.url.PRIMARY_SERVER + '/disk/usingStun',
+            {
+                disk_name: action.disk_name,
+                using_stun: action.useStun,
+            },
+            state.AccountReducer.access_token
+        )
 
-    if (json) {
-        yield put(FormAction.fetchDiskTable(false))
+        if (json) {
+            yield put(FormAction.fetchDiskTable(false))
+        }
     }
 }
 
@@ -392,7 +405,6 @@ function* fetchDiskTable(action) {
             config.url.PRIMARY_SERVER + '/report/fetchDisks',
             state.AccountReducer.access_token
         )
-
         if (json && response.status === 200) {
             yield put(FormAction.diskTableFetched(json))
         }
@@ -411,10 +423,11 @@ function* fetchDiskTable(action) {
 }
 
 function* fetchLatestReport() {
+    const state = yield select()
     const { json } = yield call(
         apiGet,
         config.url.PRIMARY_SERVER + '/report/latest',
-        ''
+        state.AccountReducer.access_token
     )
 
     if (json) {
@@ -423,12 +436,14 @@ function* fetchLatestReport() {
 }
 
 function* fetchRegionReport(action) {
+    const state = yield select()
     const { json } = yield call(
         apiPost,
         config.url.PRIMARY_SERVER + '/report/regionReport',
         {
             timescale: action.timescale,
-        }
+        },
+        state.AccountReducer.access_token
     )
 
     if (json) {
@@ -437,13 +452,15 @@ function* fetchRegionReport(action) {
 }
 
 function* fetchUserReport(action) {
+    const state = yield select()
     const { json } = yield call(
         apiPost,
         config.url.PRIMARY_SERVER + '/report/userReport',
         {
             timescale: action.timescale,
             username: action.username,
-        }
+        },
+        state.AccountReducer.access_token
     )
 
     if (json) {
@@ -452,10 +469,11 @@ function* fetchUserReport(action) {
 }
 
 function* fetchTotalMinutes() {
+    const state = yield select()
     const { json } = yield call(
         apiGet,
         config.url.PRIMARY_SERVER + '/report/totalUsage',
-        ''
+        state.AccountReducer.access_token
     )
 
     if (json) {
@@ -464,10 +482,11 @@ function* fetchTotalMinutes() {
 }
 
 function* fetchTotalSignups() {
+    const state = yield select()
     const { json } = yield call(
         apiGet,
         config.url.PRIMARY_SERVER + '/report/signups',
-        ''
+        state.AccountReducer.access_token
     )
 
     if (json) {
