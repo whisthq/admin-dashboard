@@ -381,19 +381,34 @@ function* setStun(action) {
 
 function* changeBranch(action) {
     const state = yield select()
+    if (config.new_server) {
+        const { json, response } = yield call(
+            apiPost,
+            config.url.PRIMARY_SERVER + '/azure_disk/version',
+            {
+                disk_name: action.disk_name,
+                branch: action.branch,
+            },
+            state.AccountReducer.access_token
+        )
 
-    const { json } = yield call(
-        apiPost,
-        config.url.PRIMARY_SERVER + '/disk/setVersion',
-        {
-            disk_name: action.disk_name,
-            branch: action.branch,
-        },
-        state.AccountReducer.access_token
-    )
+        if (json.status === 200 && response.status === 200) {
+            yield put(FormAction.fetchDiskTable(false))
+        }
+    } else {
+        const { json } = yield call(
+            apiPost,
+            config.url.PRIMARY_SERVER + '/disk/setVersion',
+            {
+                disk_name: action.disk_name,
+                branch: action.branch,
+            },
+            state.AccountReducer.access_token
+        )
 
-    if (json) {
-        yield put(FormAction.fetchDiskTable(false))
+        if (json) {
+            yield put(FormAction.fetchDiskTable(false))
+        }
     }
 }
 
