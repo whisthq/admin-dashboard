@@ -212,7 +212,7 @@ function* deallocateVM(action) {
     const { json } = yield call(
         apiPost,
         config.new_server
-            ? config.url.PRIMARY_SERVER + 'azure_vm/deallocate'
+            ? config.url.PRIMARY_SERVER + '/azure_vm/deallocate'
             : config.url.PRIMARY_SERVER + '/vm/deallocate',
         {
             vm_name: action.vm_name,
@@ -254,21 +254,36 @@ function* getVMStatus(id, vm_name) {
 
 function* fetchLogs(action) {
     const state = yield select()
-
-    const { json } = yield call(
-        apiPost,
-        config.url.PRIMARY_SERVER + '/logs/fetch',
-        {
-            username: action.username,
-            fetch_all: action.fetch_all,
-        },
-        state.AccountReducer.access_token
-    )
-
-    if (json && json.logs) {
-        yield put(FormAction.storeLogs(json.logs, false, true))
+    if (config.new_server) {
+        const { json } = yield call(
+            apiGet,
+            config.url.PRIMARY_SERVER +
+                '/logs' +
+                (action.username ? '?username=' + action.username : ''),
+            state.AccountReducer.access_token
+        )
+        if (json && json.logs) {
+            console.log(json.logs)
+            yield put(FormAction.storeLogs(json.logs, false, true))
+        } else {
+            yield put(FormAction.storeLogs([], true, true))
+        }
     } else {
-        yield put(FormAction.storeLogs([], true, true))
+        const { json } = yield call(
+            apiPost,
+            config.url.PRIMARY_SERVER + '/logs/fetch',
+            {
+                username: action.username,
+                fetch_all: action.fetch_all,
+            },
+            state.AccountReducer.access_token
+        )
+
+        if (json && json.logs) {
+            yield put(FormAction.storeLogs(json.logs, false, true))
+        } else {
+            yield put(FormAction.storeLogs([], true, true))
+        }
     }
 }
 
@@ -557,18 +572,32 @@ function* analyzeLogs(action) {
 }
 
 function* fetchBookmarkedLogs(action) {
-    const { json } = yield call(
-        apiGet,
-        config.url.PRIMARY_SERVER + '/logs/bookmarked',
-        ''
-    )
+    const state = yield select()
+    if (config.new_server) {
+        const { json } = yield call(
+            apiGet,
+            config.url.PRIMARY_SERVER + '/logs?bookmarked=true',
+            state.AccountReducer.access_token
+        )
 
-    if (json && json.connection_ids) {
-        yield put(FormAction.storeBookmarkedLogs(json.connection_ids))
+        if (json && json.connection_ids) {
+            yield put(FormAction.storeBookmarkedLogs(json.connection_ids))
+        }
+    } else {
+        const { json } = yield call(
+            apiGet,
+            config.url.PRIMARY_SERVER + '/logs/bookmarked',
+            ''
+        )
+
+        if (json && json.connection_ids) {
+            yield put(FormAction.storeBookmarkedLogs(json.connection_ids))
+        }
     }
 }
 
 function* bookmarkLogs(action) {
+    const state = yield select()
     if (action.bookmark) {
         yield call(
             apiPost,
@@ -576,7 +605,7 @@ function* bookmarkLogs(action) {
             {
                 connection_id: action.connection_id,
             },
-            ''
+            state.AccountReducer.access_token
         )
     } else {
         yield call(
@@ -585,7 +614,7 @@ function* bookmarkLogs(action) {
             {
                 connection_id: action.connection_id,
             },
-            ''
+            state.AccountReducer.access_token
         )
     }
 }

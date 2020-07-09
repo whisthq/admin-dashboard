@@ -32,17 +32,6 @@ const staging2 = {
     new_server: false,
 }
 
-const pr78 = {
-    url: {
-        PRIMARY_SERVER: 'https://main-webserver-pr-78.herokuapp.com',
-        WEBSITE_URL: 'http://localhost:3000',
-    },
-    stripe: {
-        PUBLIC_KEY: 'pk_test_7y07LrJWC5LzNu17sybyn9ce004CLPaOXb',
-    },
-    new_server: true,
-}
-
 const development = {
     url: {
         PRIMARY_SERVER: 'http://127.0.0.1:5000',
