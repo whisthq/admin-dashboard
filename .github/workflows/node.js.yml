@@ -1,10 +1,10 @@
-# This workflow will do a clean install of node dependencies, build the source code on Node 10 and 12, and format via Prettier
+# This workflow will do a clean install of node dependencies and build the source code on Node 10 and 12
 
 name: Node.js CI
 
 on:
-    push:
-        branches: [master, staging]
+    pull_request:
+        branches: [ master, staging ]
 
 jobs:
     build:
@@ -12,14 +12,18 @@ jobs:
 
         strategy:
             matrix:
-                node-version: [10.x, 12.x]
+                node-version: [ 10.x, 12.x ]
 
         steps:
             - uses: actions/checkout@v2
+              
             - name: Use Node.js ${{ matrix.node-version }}
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ matrix.node-version }}
-            - run: npm ci
-            - run: npm run build --if-present
-            - run: npm run format
+  
+            - name: Run npm ci
+              run: npm ci
+          
+            - name: Run npm build
+              run: npm run build --if-present
