@@ -1,26 +1,35 @@
 # This workflow will format via Prettier
 
-name: lint
+name: npm lint
 
-on: push
+on:
+    pull_request:
+        branches: [ master, staging ]
 
 jobs:
     lint:
         runs-on: ubuntu-latest
+        
         steps:
             - uses: actions/checkout@v2
+              
             - name: Use Node.js 12
               uses: actions/setup-node@v1
               with:
                   node-version: 12
-            - run: npm install --global prettier
-            - name: lint
+          
+            - name: Install Prettier
+              run: npm install --global prettier
+              
+            - name: Lint with Prettier
               run: npm run format --write
+              
             - name: Commit files
               run: |
                   git config --local user.email "linter@fractalcomputers.com"
                   git config --local user.name "Fractal Linter"
-                  git diff-index --quiet HEAD || git commit -m "Linted with prettier" -a
+                  git diff-index --quiet HEAD || git commit -m "Linted with Prettier" -a
+                  
             - name: Push changes
               uses: ad-m/github-push-action@master
               with:
