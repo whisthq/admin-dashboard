@@ -18,7 +18,7 @@ const staging = {
     stripe: {
         PUBLIC_KEY: 'pk_test_7y07LrJWC5LzNu17sybyn9ce004CLPaOXb',
     },
-    new_server: false,
+    new_server: true,
 }
 
 const staging2 = {
@@ -43,5 +43,4 @@ const development = {
     new_server: true,
 }
 
-export const config =
-    process.env.NODE_ENV === 'development' ? development : production
+export const config = process.env.NODE_ENV === 'development' ? staging : staging
