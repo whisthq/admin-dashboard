@@ -168,7 +168,10 @@ class DiskTable extends Component {
                 let customRender = false
                 if (key === 'branch') {
                     customRender = (text, record, index) =>
-                        branchToggle(record['disk_name'], record['branch'])
+                        branchToggle(
+                            record['disk_name'],
+                            record['settings_branch'] // TODO: change when db changed
+                        )
                 } else if (key === 'using_stun') {
                     customRender = (text, record, index) => (
                         <ToggleButton
