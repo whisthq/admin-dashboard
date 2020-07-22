@@ -179,7 +179,7 @@ function* deleteSubscription(action) {
         apiPost,
         config.url.PRIMARY_SERVER + '/stripe/cancel',
         {
-            email: action.user,
+            username: action.user,
         },
         state.AccountReducer.access_token
     )
@@ -206,8 +206,6 @@ function* startVM(action) {
         body,
         state.AccountReducer.access_token
     )
-    console.log('CUST2')
-    console.log(json)
 
     yield put(FormAction.updateDB(false))
 
@@ -246,7 +244,6 @@ function* getVMStatus(id, vm_name) {
     )
 
     while (json.state === 'PENDING' || json.state === 'STARTED') {
-        console.log(json)
         var { json } = yield call(
             apiGet,
             (config.url.PRIMARY_SERVER + '/status/').concat(id),
@@ -254,7 +251,6 @@ function* getVMStatus(id, vm_name) {
         )
         yield delay(5000)
     }
-    console.log(json)
 
     if (json && json.output) {
         yield put(FormAction.updateDB(false))

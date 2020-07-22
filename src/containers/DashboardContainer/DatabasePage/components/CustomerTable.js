@@ -13,31 +13,19 @@ class CustomerTable extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            width: 0,
-            height: 0,
-            modalShow: false,
             customers_fetched: false,
-            data: [],
-            filteredData: [],
             filterKeyword: '',
-            modifyData: true,
         }
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
 
     // intervalID var to keep track of auto-refreshing across functions
     intervalID
 
     componentDidMount() {
-        this.updateWindowDimensions()
-        window.addEventListener('resize', this.updateWindowDimensions)
         this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000)
-        this.setState({ data: [], modifyData: true })
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions)
-
         // stop auto-refreshing
         clearInterval(this.intervalID)
     }
@@ -63,26 +51,16 @@ class CustomerTable extends Component {
         this.props.dispatch(fetchCustomers())
     }
 
-    updateWindowDimensions() {
-        this.setState({ width: window.innerWidth, height: window.innerHeight })
-    }
-
     keywordFilter = (e) => {
-        let component = this
         let filterKeyword = e.target.value
-        this.setState({ modifyData: false }, function () {
-            let filteredData = component.state.data.filter(function (element) {
-                return element.username.includes(filterKeyword)
-            })
-            component.setState({
-                filterKeyword: filterKeyword,
-                filteredData: filteredData,
-            })
+        this.setState({
+            filterKeyword: filterKeyword,
         })
     }
 
     render() {
         let columns = []
+        let data = []
         if (this.props.customers && this.props.customers.length) {
             Object.keys(this.props.customers[0]).forEach(function (key) {
                 let fixWidth = false
@@ -122,15 +100,17 @@ class CustomerTable extends Component {
                     render: customRender,
                 })
             })
-            let component = this
-            if (this.state.modifyData) {
-                this.props.customers.forEach(function (customer) {
-                    component.state.data.push(customer)
+            columns.reverse()
+
+            this.props.customers.forEach(function (customer) {
+                data.push(customer)
+            })
+            if (this.state.filterKeyword) {
+                data = data.filter((element) => {
+                    return element.username.includes(this.state.filterKeyword)
                 })
-                this.setState({ modifyData: false })
             }
         }
-        columns.reverse()
 
         return (
             <div className={Style.tableWrapper}>
@@ -147,19 +127,8 @@ class CustomerTable extends Component {
                 />
                 <Table
                     columns={columns}
-                    dataSource={
-                        this.state.filterKeyword
-                            ? [...new Set(this.state.filteredData)]
-                            : [...new Set(this.state.data)]
-                    }
+                    dataSource={data}
                     scroll={{ x: 1000, y: 450 }}
-                    onRow={(record, rowIndex) => {
-                        return {
-                            onClick: (event) => {
-                                this.props.openModal(record['username'])
-                            },
-                        }
-                    }}
                     size="middle"
                     rowClassName={Style.tableRow}
                     loading={this.props.customers.length === 0}

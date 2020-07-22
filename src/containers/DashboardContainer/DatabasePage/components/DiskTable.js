@@ -14,7 +14,6 @@ class DiskTable extends Component {
         super(props)
 
         this.state = {
-            filteredData: [],
             filterKeyword: null,
         }
     }
@@ -210,7 +209,7 @@ class DiskTable extends Component {
             })
 
             if (component.state.filterKeyword) {
-                data = data.filter(function (element) {
+                data = data.filter((element) => {
                     return (
                         (element.username &&
                             element.username.includes(
