@@ -187,16 +187,27 @@ function* deleteSubscription(action) {
 
 function* startVM(action) {
     const state = yield select()
+
+    let body
+    if (config.new_server) {
+        body = {
+            vm_name: action.vm_name,
+            resource_group: config.url.VM_GROUP,
+        }
+    } else {
+        body = {
+            vm_name: action.vm_name,
+        }
+    }
+
     const { json } = yield call(
         apiPost,
-        config.new_server
-            ? config.url.PRIMARY_SERVER + '/azure_vm/start'
-            : config.url.PRIMARY_SERVER + '/vm/start',
-        {
-            vm_name: action.vm_name,
-        },
+        config.url.PRIMARY_SERVER + '/vm/start',
+        body,
         state.AccountReducer.access_token
     )
+    console.log('CUST2')
+    console.log(json)
 
     yield put(FormAction.updateDB(false))
 
@@ -211,9 +222,7 @@ function* deallocateVM(action) {
     const state = yield select()
     const { json } = yield call(
         apiPost,
-        config.new_server
-            ? config.url.PRIMARY_SERVER + '/azure_vm/deallocate'
-            : config.url.PRIMARY_SERVER + '/vm/deallocate',
+        config.url.PRIMARY_SERVER + '/vm/deallocate',
         {
             vm_name: action.vm_name,
         },
@@ -238,13 +247,14 @@ function* getVMStatus(id, vm_name) {
 
     while (json.state === 'PENDING' || json.state === 'STARTED') {
         console.log(json)
-        json = yield call(
+        var { json } = yield call(
             apiGet,
             (config.url.PRIMARY_SERVER + '/status/').concat(id),
             ''
         )
         yield delay(5000)
     }
+    console.log(json)
 
     if (json && json.output) {
         yield put(FormAction.updateDB(false))
@@ -334,7 +344,7 @@ function* setDev(action) {
     if (config.new_server) {
         const { json, response } = yield call(
             apiPost,
-            config.url.PRIMARY_SERVER + '/azure_vm/dev',
+            config.url.PRIMARY_SERVER + '/vm/dev',
             {
                 vm_name: action.vm_name,
                 dev: action.dev,
@@ -399,7 +409,7 @@ function* changeBranch(action) {
     if (config.new_server) {
         const { json, response } = yield call(
             apiPost,
-            config.url.PRIMARY_SERVER + '/azure_disk/version',
+            config.url.PRIMARY_SERVER + '/azure_disk/branch',
             {
                 disk_name: action.disk_name,
                 branch: action.branch,

@@ -45,6 +45,13 @@ class VMTable extends Component {
         clearInterval(this.intervalID)
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.vm_info !== this.props.vm_info) {
+            console.log(this.props.vm_info)
+            this.forceUpdate()
+        }
+    }
+
     getUpdatedDatabase() {
         this.props.dispatch(updateDB(false))
     }
@@ -194,7 +201,7 @@ class VMTable extends Component {
         }
         columns.reverse()
 
-        const vmButton = (state, vm_name, lock) => {
+        let vmButton = (state, vm_name, lock) => {
             const intermediate_states = [
                 'DEALLOCATING',
                 'STARTING',

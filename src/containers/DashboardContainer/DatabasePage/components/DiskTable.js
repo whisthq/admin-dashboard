@@ -14,16 +14,13 @@ class DiskTable extends Component {
         super(props)
 
         this.state = {
-            data: [],
             filteredData: [],
-            filterKeyword: '',
-            modifyData: true,
+            filterKeyword: null,
         }
     }
 
     componentDidMount() {
         this.props.dispatch(fetchDiskTable())
-        this.setState({ data: [], modifyData: true })
     }
 
     componentWillUnmount() {
@@ -44,21 +41,9 @@ class DiskTable extends Component {
     }
 
     keywordFilter = (e) => {
-        let component = this
         let filterKeyword = e.target.value
-        this.setState({ modifyData: false }, function () {
-            let filteredData = component.state.data.filter(function (element) {
-                return (
-                    (element.username &&
-                        element.username.includes(filterKeyword)) ||
-                    (element.disk_name &&
-                        element.disk_name.includes(filterKeyword))
-                )
-            })
-            component.setState({
-                filterKeyword: filterKeyword,
-                filteredData: filteredData,
-            })
+        this.setState({
+            filterKeyword: filterKeyword,
         })
     }
 
@@ -132,6 +117,7 @@ class DiskTable extends Component {
         )
 
         let columns = []
+        let data = []
         let headers = [
             'branch',
             'using_stun',
@@ -147,6 +133,8 @@ class DiskTable extends Component {
             'has_accepted_update',
             'first_time',
         ]
+        let component = this
+
         if (this.props.disk_info && this.props.disk_info.length) {
             headers.forEach(function (key) {
                 let fixWidth = false
@@ -167,11 +155,12 @@ class DiskTable extends Component {
                 }
                 let customRender = false
                 if (key === 'branch') {
-                    customRender = (text, record, index) =>
-                        branchToggle(
+                    customRender = (text, record, index) => {
+                        return branchToggle(
                             record['disk_name'],
                             record['settings_branch'] // TODO: change when db changed
                         )
+                    }
                 } else if (key === 'using_stun') {
                     customRender = (text, record, index) => (
                         <ToggleButton
@@ -215,12 +204,24 @@ class DiskTable extends Component {
                     render: customRender,
                 })
             })
-            let component = this
-            if (this.state.modifyData) {
-                this.props.disk_info.forEach(function (disk) {
-                    component.state.data.push(disk)
+
+            this.props.disk_info.forEach(function (disk) {
+                data.push(disk)
+            })
+
+            if (component.state.filterKeyword) {
+                data = data.filter(function (element) {
+                    return (
+                        (element.username &&
+                            element.username.includes(
+                                component.state.filterKeyword
+                            )) ||
+                        (element.disk_name &&
+                            element.disk_name.includes(
+                                component.state.filterKeyword
+                            ))
+                    )
                 })
-                this.setState({ modifyData: false })
             }
         }
 
@@ -239,11 +240,7 @@ class DiskTable extends Component {
                 />
                 <Table
                     columns={columns}
-                    dataSource={
-                        this.state.filterKeyword
-                            ? [...new Set(this.state.filteredData)]
-                            : [...new Set(this.state.data)]
-                    }
+                    dataSource={data}
                     scroll={{ y: 450, x: 2300 }}
                     size="middle"
                     rowClassName={Style.tableRow}
