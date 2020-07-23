@@ -22,10 +22,7 @@ class VMTable extends Component {
         super(props)
 
         this.state = {
-            data: [],
-            filteredData: [],
-            filterKeyword: '',
-            modifyData: true,
+            filterKeyword: null,
         }
     }
 
@@ -37,7 +34,6 @@ class VMTable extends Component {
 
         // refresh the VM table every 60 seconds
         this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000)
-        this.setState({ data: [], modifyData: true })
     }
 
     componentWillUnmount() {
@@ -62,34 +58,24 @@ class VMTable extends Component {
     }
 
     keywordFilter = (e) => {
-        let component = this
         let filterKeyword = e.target.value
-        this.setState({ modifyData: false }, function () {
-            let filteredData = component.state.data.filter(function (element) {
-                return (
-                    (element.username &&
-                        element.username.includes(filterKeyword)) ||
-                    (element.vm_name &&
-                        element.vm_name.includes(filterKeyword)) ||
-                    (element.disk_name &&
-                        element.disk_name.includes(filterKeyword)) ||
-                    (element.location &&
-                        element.location.includes(filterKeyword)) ||
-                    (element.ip && element.ip.includes(filterKeyword))
-                )
-            })
-            console.log(filteredData)
-
-            component.setState({
-                filterKeyword: filterKeyword,
-                filteredData: filteredData,
-            })
+        this.setState({
+            filterKeyword: filterKeyword,
         })
     }
 
     render() {
         let columns = []
+        let data = []
+        let component = this
+
         if (this.props.vm_info && this.props.vm_info.length) {
+            console.log(
+                this.props.vm_info.filter(
+                    (e) => e.vm_name === 'sparklingpaper0'
+                )
+            )
+
             Object.keys(this.props.vm_info[0]).forEach(function (key) {
                 let fixWidth = false
                 if (key === 'username') {
@@ -184,17 +170,38 @@ class VMTable extends Component {
                     ),
                 width: 70,
             })
-            let component = this
-            if (this.state.modifyData) {
-                this.props.vm_info.forEach(function (vm) {
-                    component.state.data.push(vm)
+            columns.reverse()
+
+            this.props.vm_info.forEach(function (vm) {
+                data.push(vm)
+            })
+            if (component.state.filterKeyword) {
+                data = data.filter((element) => {
+                    return (
+                        (element.username &&
+                            element.username.includes(
+                                component.state.filterKeyword
+                            )) ||
+                        (element.vm_name &&
+                            element.vm_name.includes(
+                                component.state.filterKeyword
+                            )) ||
+                        (element.disk_name &&
+                            element.disk_name.includes(
+                                component.state.filterKeyword
+                            )) ||
+                        (element.location &&
+                            element.location.includes(
+                                component.state.filterKeyword
+                            )) ||
+                        (element.ip &&
+                            element.ip.includes(component.state.filterKeyword))
+                    )
                 })
-                this.setState({ modifyData: false })
             }
         }
-        columns.reverse()
 
-        const vmButton = (state, vm_name, lock) => {
+        let vmButton = (state, vm_name, lock) => {
             const intermediate_states = [
                 'DEALLOCATING',
                 'STARTING',
@@ -276,11 +283,7 @@ class VMTable extends Component {
                 />
                 <Table
                     columns={columns}
-                    dataSource={
-                        this.state.filterKeyword
-                            ? [...new Set(this.state.filteredData)]
-                            : [...new Set(this.state.data)]
-                    }
+                    dataSource={data}
                     scroll={{ y: 450, x: 2000 }}
                     size="middle"
                     rowClassName={(record, index) =>
@@ -295,11 +298,6 @@ class VMTable extends Component {
                             Style.tableRow,
                         ].join(' ')
                     }
-                    onRow={(record, rowIndex) => {
-                        return {
-                            onClick: (event) => {},
-                        }
-                    }}
                     loading={!this.props.vmsUpdated}
                 />
             </div>
@@ -310,7 +308,7 @@ class VMTable extends Component {
 function mapStateToProps(state) {
     return {
         vm_info: state.AccountReducer.vm_info
-            ? state.AccountReducer.vm_info.reverse()
+            ? state.AccountReducer.vm_info
             : [],
         vmsUpdated: state.AccountReducer.vmsUpdated,
         vms_updating: state.AccountReducer.vms_updating

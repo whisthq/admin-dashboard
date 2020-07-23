@@ -154,7 +154,7 @@ class Login extends Component {
                             </Button>
                         ) : (
                             <Button
-                                disabled="true"
+                                disabled={true}
                                 style={{
                                     marginTop: 10,
                                     fontWeight: 'bold',

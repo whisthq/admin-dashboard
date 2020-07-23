@@ -16,16 +16,12 @@ class UserTable extends Component {
         super(props)
 
         this.state = {
-            data: [],
-            filteredData: [],
             filterKeyword: '',
-            modifyData: true,
         }
     }
 
     componentDidMount() {
         this.props.dispatch(fetchUserTable())
-        this.setState({ data: [], modifyData: true })
     }
 
     deleteUser = (user) => {
@@ -35,14 +31,9 @@ class UserTable extends Component {
     keywordFilter = (e) => {
         let component = this
         let filterKeyword = e.target.value
-        this.setState({ modifyData: false }, function () {
-            let filteredData = component.state.data.filter(function (element) {
-                return element.username.includes(filterKeyword)
-            })
-            component.setState({
-                filterKeyword: filterKeyword,
-                filteredData: filteredData,
-            })
+
+        component.setState({
+            filterKeyword: filterKeyword,
         })
     }
 
@@ -117,6 +108,7 @@ class UserTable extends Component {
             },
         ]
         let mainColumns = []
+        let data = []
         if (this.props.userTable && this.props.userTable.length) {
             Object.keys(this.props.userTable[0]).forEach(function (key) {
                 var fixWidth = false
@@ -147,15 +139,17 @@ class UserTable extends Component {
                     ellipsis: key === 'password',
                 })
             })
-            let component = this
-            if (this.state.modifyData) {
-                this.props.userTable.forEach(function (user) {
-                    component.state.data.push({
-                        ...user,
-                        deleteBtn: user['username'],
-                    })
+            this.props.userTable.forEach(function (user) {
+                data.push({
+                    ...user,
+                    deleteBtn: user['username'],
                 })
-                this.setState({ modifyData: false })
+            })
+
+            if (this.state.filterKeyword) {
+                data = data.filter((element) => {
+                    return element.username.includes(this.state.filterKeyword)
+                })
             }
         }
         mainColumns.reverse()
@@ -176,11 +170,7 @@ class UserTable extends Component {
                 />
                 <Table
                     columns={columns}
-                    dataSource={
-                        this.state.filterKeyword
-                            ? [...new Set(this.state.filteredData)]
-                            : [...new Set(this.state.data)]
-                    }
+                    dataSource={data}
                     scroll={{ y: 450, x: 1500 }}
                     size="middle"
                     rowClassName={Style.tableRow}
