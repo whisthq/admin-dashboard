@@ -244,7 +244,7 @@ function* getVMStatus(id, vm_name) {
     )
 
     while (json.state === 'PENDING' || json.state === 'STARTED') {
-        var { json } = yield call(
+        json = yield call(
             apiGet,
             (config.url.PRIMARY_SERVER + '/status/').concat(id),
             ''
