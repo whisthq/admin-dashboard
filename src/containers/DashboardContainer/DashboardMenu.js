@@ -219,6 +219,22 @@ class DashboardMenu extends Component {
                                 <a
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    href="https://sentry.io/organizations/fractalcomputers/projects/"
+                                >
+                                    <FaLink
+                                        style={{
+                                            marginRight: 10,
+                                            color: '#d0ced9',
+                                            fontSize: 12,
+                                        }}
+                                    />
+                                    Sentry
+                                </a>
+                            </Dropdown.Item>
+                            <Dropdown.Item style={{ marginBottom: 5 }}>
+                                <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     href="https://fractalcomputers.postman.co/workspaces/6ded464f-396a-4792-a5c9-5ac7c689d269/apis"
                                 >
                                     <FaLink
