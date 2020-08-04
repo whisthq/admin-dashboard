@@ -94,40 +94,40 @@ class VMTable extends Component {
                     customRender = (unix) => (
                         <span> {moment(unix * 1000).format('lll')}</span>
                     )
-                    elif(key === 'ready_to_connect') {
-                        customRender = (unix) => (
-                            <span> {moment(unix * 1000).format('lll')}</span>
-                        )
-                    } else if (key === 'lock') {
-                        customRender = (val) => <span>{val.toString()}</span>
-                    }
-                    if (key !== 'dev') {
-                        columns.push({
-                            title: key,
-                            dataIndex: key,
-                            sorter: (a, b) => {
-                                if (a[key] === null) {
-                                    return 1
-                                }
-                                if (b[key] === null) {
-                                    return -1
-                                }
+                } else if (key === 'ready_to_connect') {
+                    customRender = (unix) => (
+                        <span> {moment(unix * 1000).format('lll')}</span>
+                    )
+                } else if (key === 'lock') {
+                    customRender = (val) => <span>{val.toString()}</span>
+                }
+                if (key !== 'dev') {
+                    columns.push({
+                        title: key,
+                        dataIndex: key,
+                        sorter: (a, b) => {
+                            if (a[key] === null) {
+                                return 1
+                            }
+                            if (b[key] === null) {
+                                return -1
+                            }
 
-                                var a_temp = a[key].toString().toLowerCase()
-                                var b_temp = b[key].toString().toLowerCase()
-                                if (a_temp > b_temp) {
-                                    return 1
-                                } else if (a_temp < b_temp) {
-                                    return -1
-                                }
+                            var a_temp = a[key].toString().toLowerCase()
+                            var b_temp = b[key].toString().toLowerCase()
+                            if (a_temp > b_temp) {
+                                return 1
+                            } else if (a_temp < b_temp) {
+                                return -1
+                            }
 
-                                return 0
-                            },
-                            width: fixWidth,
-                            render: customRender,
-                        })
-                    }
-                })
+                            return 0
+                        },
+                        width: fixWidth,
+                        render: customRender,
+                    })
+                }
+            })
             columns.push({
                 title: 'dev',
                 dataIndex: 'dev',
