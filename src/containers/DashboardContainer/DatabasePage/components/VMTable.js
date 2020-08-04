@@ -94,36 +94,40 @@ class VMTable extends Component {
                     customRender = (unix) => (
                         <span> {moment(unix * 1000).format('lll')}</span>
                     )
-                } else if (key === 'lock') {
-                    customRender = (val) => <span>{val.toString()}</span>
-                }
-                if (key !== 'dev') {
-                    columns.push({
-                        title: key,
-                        dataIndex: key,
-                        sorter: (a, b) => {
-                            if (a[key] === null) {
-                                return 1
-                            }
-                            if (b[key] === null) {
-                                return -1
-                            }
+                    elif(key === 'ready_to_connect') {
+                        customRender = (unix) => (
+                            <span> {moment(unix * 1000).format('lll')}</span>
+                        )
+                    } else if (key === 'lock') {
+                        customRender = (val) => <span>{val.toString()}</span>
+                    }
+                    if (key !== 'dev') {
+                        columns.push({
+                            title: key,
+                            dataIndex: key,
+                            sorter: (a, b) => {
+                                if (a[key] === null) {
+                                    return 1
+                                }
+                                if (b[key] === null) {
+                                    return -1
+                                }
 
-                            var a_temp = a[key].toString().toLowerCase()
-                            var b_temp = b[key].toString().toLowerCase()
-                            if (a_temp > b_temp) {
-                                return 1
-                            } else if (a_temp < b_temp) {
-                                return -1
-                            }
+                                var a_temp = a[key].toString().toLowerCase()
+                                var b_temp = b[key].toString().toLowerCase()
+                                if (a_temp > b_temp) {
+                                    return 1
+                                } else if (a_temp < b_temp) {
+                                    return -1
+                                }
 
-                            return 0
-                        },
-                        width: fixWidth,
-                        render: customRender,
-                    })
-                }
-            })
+                                return 0
+                            },
+                            width: fixWidth,
+                            render: customRender,
+                        })
+                    }
+                })
             columns.push({
                 title: 'dev',
                 dataIndex: 'dev',
@@ -291,10 +295,10 @@ class VMTable extends Component {
                             record['dev']
                                 ? Style.blueBg
                                 : record['lock'] ||
-                                  Number(record['temporary_lock']) >
-                                      Math.round(new Date().getTime() / 1000)
-                                ? Style.redBg
-                                : Style.greenBg,
+                                    Number(record['temporary_lock']) >
+                                    Math.round(new Date().getTime() / 1000)
+                                    ? Style.redBg
+                                    : Style.greenBg,
                             Style.tableRow,
                         ].join(' ')
                     }
