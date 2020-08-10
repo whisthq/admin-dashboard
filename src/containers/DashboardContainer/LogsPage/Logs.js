@@ -552,7 +552,7 @@ class Logs extends Component {
                                                     </div>
                                                     <div
                                                         style={{
-                                                            width: 200,
+                                                            width: 250,
                                                         }}
                                                     >
                                                         V. {value['version']}
