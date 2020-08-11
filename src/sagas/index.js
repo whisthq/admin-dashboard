@@ -78,55 +78,46 @@ function* fetchUserTable(action) {
     const state = yield select()
 
     if (!action.updated) {
-        if (config.new_server) {
-            const { json, response } = yield call(
-                apiGet,
-                config.url.PRIMARY_SERVER + '/report/fetchUsers',
-                state.AccountReducer.access_token
-            )
-            if (json && response.status === 200) {
-                yield put(FormAction.userTableFetched(json))
-                yield put(FormAction.fetchUserTable(true))
-            }
-        } else {
-            const { json } = yield call(
-                apiPost,
-                config.url.PRIMARY_SERVER + '/account/fetchUsers',
-                {},
-                state.AccountReducer.access_token
-            )
-            if (json && json.status === 200) {
-                yield put(FormAction.userTableFetched(json.users))
-                yield put(FormAction.fetchUserTable(true))
-            }
+        const { json } = yield call(
+            apiPost,
+            config.url.GRAPHQL,
+            {
+                query: `{
+                    users {
+                        created_timestamp
+                        credits_outstanding
+                        email
+                        name
+                        release_stage
+                        stripe_customer_id
+                        user_id
+                        using_google_login
+                        password
+                        reason_for_signup
+                        referral_code
+                      }
+                }
+              `,
+            },
+            state.AccountReducer.access_token
+        )
+        if (json.data) {
+            yield put(FormAction.userTableFetched(json.data.users))
+            yield put(FormAction.fetchUserTable(true))
         }
     }
 }
 
 function* fetchCustomers(action) {
     const state = yield select()
+    const { json, response } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER + '/report/fetchCustomers',
+        state.AccountReducer.access_token
+    )
 
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER + '/report/fetchCustomers',
-            state.AccountReducer.access_token
-        )
-
-        if (json && response.status === 200) {
-            yield put(FormAction.storeCustomers(json))
-        }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/account/fetchCustomers',
-            {},
-            state.AccountReducer.access_token
-        )
-
-        if (json && json.status === 200) {
-            yield put(FormAction.storeCustomers(json.customers))
-        }
+    if (json && response.status === 200) {
+        yield put(FormAction.storeCustomers(json))
     }
 }
 

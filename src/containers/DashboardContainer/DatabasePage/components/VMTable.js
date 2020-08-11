@@ -70,11 +70,11 @@ class VMTable extends Component {
         let component = this
 
         if (this.props.vm_info && this.props.vm_info.length) {
-            console.log(
-                this.props.vm_info.filter(
-                    (e) => e.vm_name === 'sparklingpaper0'
-                )
-            )
+            // console.log(
+            //     this.props.vm_info.filter(
+            //         (e) => e.vm_name === 'sparklingpaper0'
+            //     )
+            // )
 
             Object.keys(this.props.vm_info[0]).forEach(function (key) {
                 let fixWidth = false
@@ -295,10 +295,10 @@ class VMTable extends Component {
                             record['dev']
                                 ? Style.blueBg
                                 : record['lock'] ||
-                                    Number(record['temporary_lock']) >
-                                    Math.round(new Date().getTime() / 1000)
-                                    ? Style.redBg
-                                    : Style.greenBg,
+                                  Number(record['temporary_lock']) >
+                                      Math.round(new Date().getTime() / 1000)
+                                ? Style.redBg
+                                : Style.greenBg,
                             Style.tableRow,
                         ].join(' ')
                     }

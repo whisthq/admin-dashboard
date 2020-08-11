@@ -109,11 +109,29 @@ class UserTable extends Component {
         ]
         let mainColumns = []
         let data = []
+        let keys = [
+            'email',
+            'name',
+            'user_id',
+            'stripe_customer_id',
+            'credits_outstanding',
+            'created_timestamp',
+            'release_stage',
+            'using_google_login',
+            'password',
+            'reason_for_signup',
+            'referral_code',
+        ]
         if (this.props.userTable && this.props.userTable.length) {
-            Object.keys(this.props.userTable[0]).forEach(function (key) {
+            keys.forEach(function (key) {
                 var fixWidth = false
-                if (key === 'username') {
+                if (key === 'email') {
                     fixWidth = 250
+                } else if (
+                    key === 'reason_for_signup' ||
+                    key === 'stripe_customer_id'
+                ) {
+                    fixWidth = 150
                 }
 
                 mainColumns.push({
@@ -142,17 +160,16 @@ class UserTable extends Component {
             this.props.userTable.forEach(function (user) {
                 data.push({
                     ...user,
-                    deleteBtn: user['username'],
+                    deleteBtn: user['email'],
                 })
             })
 
             if (this.state.filterKeyword) {
                 data = data.filter((element) => {
-                    return element.username.includes(this.state.filterKeyword)
+                    return element.email.includes(this.state.filterKeyword)
                 })
             }
         }
-        mainColumns.reverse()
         columns = columns.concat(mainColumns)
 
         return (
@@ -171,7 +188,7 @@ class UserTable extends Component {
                 <Table
                     columns={columns}
                     dataSource={data}
-                    scroll={{ y: 450, x: 1500 }}
+                    scroll={{ y: 450, x: 1800 }}
                     size="middle"
                     rowClassName={Style.tableRow}
                     loading={!this.props.usersUpdated}
