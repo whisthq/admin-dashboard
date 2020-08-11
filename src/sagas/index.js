@@ -224,16 +224,32 @@ function* getVMStatus(id, vm_name) {
 
 function* fetchLogs(action) {
     const state = yield select()
+    let condition = action.username
+        ? `(where: {user_id: {_eq: "${action.username}"}})`
+        : ''
     const { json } = yield call(
-        apiGet,
-        config.url.PRIMARY_SERVER +
-            '/logs' +
-            (action.username ? '?username=' + action.username : ''),
+        apiPost,
+        config.url.GRAPHQL,
+        {
+            query: `{
+                logs_protocol_logs${condition} {
+                    bookmarked
+                    client_logs
+                    connection_id
+                    server_logs
+                    timestamp
+                    user_id
+                    version
+                  }
+            }
+          `,
+        },
         state.AccountReducer.access_token
     )
-    if (json && json.logs) {
-        console.log(json.logs)
-        yield put(FormAction.storeLogs(json.logs, false, true))
+    if (json && json.data && json.data.logs_protocol_logs) {
+        yield put(
+            FormAction.storeLogs(json.data.logs_protocol_logs, false, true)
+        )
     } else {
         yield put(FormAction.storeLogs([], true, true))
     }
