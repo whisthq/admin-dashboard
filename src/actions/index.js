@@ -10,8 +10,6 @@ export const FETCH_USER_ACTIVITY = 'FETCH_USER_ACTIVITY'
 export const USER_ACTIVITY_FETCHED = 'USER_ACTIVITY_FETCHED'
 export const FETCH_USER_TABLE = 'FETCH_USER_TABLE'
 export const USER_TABLE_FETCHED = 'USER_TABLE_FETCHED'
-export const FETCH_CUSTOMER_TABLE = 'FETCH_CUSTOMER_TABLE'
-export const CUSTOMER_TABLE_FETCHED = 'CUSTOMER_TABLE_FETCHED'
 export const DELETE_USER = 'DELETE_USER'
 export const DELETE_SUBSCRIPTION = 'DELETE_SUBSCRIPTION'
 export const STORE_JWT = 'STORE_JWT'
@@ -139,20 +137,6 @@ export function deleteUser(user) {
     return {
         type: DELETE_USER,
         user,
-    }
-}
-
-export function fetchCustomerTable(updated) {
-    return {
-        type: FETCH_CUSTOMER_TABLE,
-        updated,
-    }
-}
-
-export function customerTableFetched(payload) {
-    return {
-        type: CUSTOMER_TABLE_FETCHED,
-        payload,
     }
 }
 

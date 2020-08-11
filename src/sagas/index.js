@@ -50,7 +50,7 @@ function* loginUser(action) {
     }
 }
 
-function* fetchUserActivity(action) {
+function* fetchUserActivity() {
     const state = yield select()
     if (config.new_server) {
         const { json, response } = yield call(
@@ -134,33 +134,6 @@ function* deleteUser(action) {
     if (json && json.status === 200) {
         yield put(FormAction.fetchUserTable(false))
         yield put(FormAction.deleteSubscription(action.user))
-    }
-}
-
-function* fetchCustomerTable(action) {
-    const state = yield select()
-    if (!action.updated) {
-        if (config.new_server) {
-            const { json, response } = yield call(
-                apiGet,
-                config.url.PRIMARY_SERVER + '/report/fetchCustomers',
-                state.AccountReducer.access_token
-            )
-            if (json && response.status === 200) {
-                yield put(FormAction.customerTableFetched(json))
-                yield put(FormAction.fetchCustomerTable(true))
-            }
-        } else {
-            const { json } = yield call(
-                apiPost,
-                config.url.PRIMARY_SERVER + '/account/fetchCustomers',
-                {}
-            )
-            if (json && json.status === 200) {
-                yield put(FormAction.customerTableFetched(json.customers))
-                yield put(FormAction.fetchCustomerTable(true))
-            }
-        }
     }
 }
 
@@ -251,36 +224,18 @@ function* getVMStatus(id, vm_name) {
 
 function* fetchLogs(action) {
     const state = yield select()
-    if (config.new_server) {
-        const { json } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER +
-                '/logs' +
-                (action.username ? '?username=' + action.username : ''),
-            state.AccountReducer.access_token
-        )
-        if (json && json.logs) {
-            console.log(json.logs)
-            yield put(FormAction.storeLogs(json.logs, false, true))
-        } else {
-            yield put(FormAction.storeLogs([], true, true))
-        }
+    const { json } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER +
+            '/logs' +
+            (action.username ? '?username=' + action.username : ''),
+        state.AccountReducer.access_token
+    )
+    if (json && json.logs) {
+        console.log(json.logs)
+        yield put(FormAction.storeLogs(json.logs, false, true))
     } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/logs/fetch',
-            {
-                username: action.username,
-                fetch_all: action.fetch_all,
-            },
-            state.AccountReducer.access_token
-        )
-
-        if (json && json.logs) {
-            yield put(FormAction.storeLogs(json.logs, false, true))
-        } else {
-            yield put(FormAction.storeLogs([], true, true))
-        }
+        yield put(FormAction.storeLogs([], true, true))
     }
 }
 
