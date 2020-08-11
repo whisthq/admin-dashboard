@@ -325,8 +325,6 @@ function* setDev(action) {
 }
 
 function* setStun(action) {
-    console.log('Setting stun to ')
-    console.log(action.useStun)
     const state = yield select()
     const json = yield call(
         fetchGraphQL,
@@ -378,28 +376,34 @@ function* changeBranch(action) {
     }
 }
 
-function* fetchDiskTable(action) {
-    const state = yield select()
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER + '/report/fetchDisks',
-            state.AccountReducer.access_token
-        )
-        if (json && response.status === 200) {
-            yield put(FormAction.diskTableFetched(json))
-        }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/disk/fetchAll',
-            {},
-            state.AccountReducer.access_token
-        )
+function* fetchDiskTable() {
+    console.log('fetch disk table')
 
-        if (json) {
-            yield put(FormAction.diskTableFetched(json.disks))
-        }
+    const json = yield call(
+        fetchGraphQL,
+        ` query FetchDisks {
+            hardware_os_disks {
+                allow_autoupdate
+                branch
+                disk_id
+                disk_size
+                has_dedicated_vm
+                last_pinged
+                location
+                os
+                rsa_private_key
+                ssh_password
+                user_id
+                using_stun
+                version
+              }
+            }
+      `,
+        'FetchDisks',
+        {}
+    )
+    if (json && json.data) {
+        yield put(FormAction.diskTableFetched(json.data.hardware_os_disks))
     }
 }
 

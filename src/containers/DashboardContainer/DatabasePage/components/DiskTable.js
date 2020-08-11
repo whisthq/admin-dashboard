@@ -120,32 +120,28 @@ class DiskTable extends Component {
         let headers = [
             'branch',
             'using_stun',
-            'disk_name',
-            'state',
-            'username',
+            'disk_id',
+            'allow_autoupdate',
+            'user_id',
             'location',
             'os',
             'version',
             'disk_size',
-            'vm_name',
-            'vm_size',
-            'has_accepted_update',
-            'first_time',
+            'last_pinged',
+            'has_dedicated_vm',
+            'rsa_private_key',
+            'ssh_password',
         ]
         let component = this
 
         if (this.props.disk_info && this.props.disk_info.length) {
             headers.forEach(function (key) {
                 let fixWidth = false
-                if (key === 'username') {
+                if (key === 'user_id') {
                     fixWidth = 250
-                } else if (key === 'disk_name') {
+                } else if (key === 'disk_id') {
                     fixWidth = 400
-                } else if (
-                    key === 'vm_password' ||
-                    key === 'vm_name' ||
-                    key === 'version'
-                ) {
+                } else if (key === 'version') {
                     fixWidth = 130
                 } else if (key === 'has_accepted_update') {
                     fixWidth = 180
@@ -155,17 +151,14 @@ class DiskTable extends Component {
                 let customRender = false
                 if (key === 'branch') {
                     customRender = (text, record, index) => {
-                        return branchToggle(
-                            record['disk_name'],
-                            record['settings_branch'] // TODO: change when db changed
-                        )
+                        return branchToggle(record['disk_id'], record['branch'])
                     }
                 } else if (key === 'using_stun') {
                     customRender = (text, record, index) => (
                         <ToggleButton
                             value={record['using_stun']}
                             onToggle={(mode) => {
-                                component.toggleStun(mode, record['disk_name'])
+                                component.toggleStun(mode, record['disk_id'])
                             }}
                             colors={{
                                 active: {
@@ -176,6 +169,13 @@ class DiskTable extends Component {
                                 },
                             }}
                         />
+                    )
+                } else if (
+                    key === 'allow_autoupdate' ||
+                    key === 'has_dedicated_vm'
+                ) {
+                    customRender = (text) => (
+                        <span>{text ? 'true' : 'false'}</span>
                     )
                 }
                 columns.push({
@@ -211,12 +211,12 @@ class DiskTable extends Component {
             if (component.state.filterKeyword) {
                 data = data.filter((element) => {
                     return (
-                        (element.username &&
-                            element.username.includes(
+                        (element.user_id &&
+                            element.user_id.includes(
                                 component.state.filterKeyword
                             )) ||
-                        (element.disk_name &&
-                            element.disk_name.includes(
+                        (element.disk_id &&
+                            element.disk_id.includes(
                                 component.state.filterKeyword
                             ))
                     )
