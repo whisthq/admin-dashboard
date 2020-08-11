@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { put, takeEvery, all, call, select, delay } from 'redux-saga/effects'
 import * as FormAction from '../actions/index.js'
-import { apiPost, apiGet } from '../utils/Api.js'
+import { apiPost, apiGet, fetchGraphQL } from '../utils/Api.js'
 import history from '../history'
 import { config } from '../constants.js'
 
@@ -78,29 +78,28 @@ function* fetchUserTable(action) {
     const state = yield select()
 
     if (!action.updated) {
-        const { json } = yield call(
-            apiPost,
-            config.url.GRAPHQL,
-            {
-                query: `{
-                    users {
-                        created_timestamp
-                        credits_outstanding
-                        email
-                        name
-                        release_stage
-                        stripe_customer_id
-                        user_id
-                        using_google_login
-                        password
-                        reason_for_signup
-                        referral_code
-                      }
-                }
+        const json = yield call(
+            fetchGraphQL,
+            ` query FetchUsers {
+                users {
+                    created_timestamp
+                    credits_outstanding
+                    email
+                    name
+                    release_stage
+                    stripe_customer_id
+                    user_id
+                    using_google_login
+                    password
+                    reason_for_signup
+                    referral_code
+                  }
+            }
               `,
-            },
-            state.AccountReducer.access_token
+            'FetchUsers',
+            {}
         )
+
         if (json.data) {
             yield put(FormAction.userTableFetched(json.data.users))
             yield put(FormAction.fetchUserTable(true))
@@ -227,11 +226,10 @@ function* fetchLogs(action) {
     let condition = action.username
         ? `(where: {user_id: {_eq: "${action.username}"}})`
         : ''
-    const { json } = yield call(
-        apiPost,
-        config.url.GRAPHQL,
-        {
-            query: `{
+
+    const json = yield call(
+        fetchGraphQL,
+        ` query FetchLogs {
                 logs_protocol_logs${condition} {
                     bookmarked
                     client_logs
@@ -243,9 +241,10 @@ function* fetchLogs(action) {
                   }
             }
           `,
-        },
-        state.AccountReducer.access_token
+        'FetchLogs',
+        {}
     )
+
     if (json && json.data && json.data.logs_protocol_logs) {
         yield put(
             FormAction.storeLogs(json.data.logs_protocol_logs, false, true)
@@ -258,20 +257,32 @@ function* fetchLogs(action) {
 function* fetchLogsByConnection(action) {
     const state = yield select()
 
-    console.log(action)
-
-    const { json } = yield call(
-        apiPost,
-        config.url.PRIMARY_SERVER + '/logs/fetch',
-        {
-            connection_id: action.connection_id,
-            fetch_all: true,
-        },
-        state.AccountReducer.access_token
+    const json = yield call(
+        fetchGraphQL,
+        ` query FetchLogsByConnection {
+            logs_protocol_logs(where: {connection_id: {_eq: "${action.connection_id}"}}) {
+                bookmarked
+                client_logs
+                connection_id
+                server_logs
+                timestamp
+                user_id
+                version
+              }
+        }
+      `,
+        'FetchLogsByConnection',
+        {}
     )
 
-    if (json && json.logs) {
-        yield put(FormAction.storeLogs(json.logs, false, action.last_log))
+    if (json && json.logs && json.data.logs_protocol_logs) {
+        yield put(
+            FormAction.storeLogs(
+                json.data.logs_protocol_logs,
+                false,
+                action.last_log
+            )
+        )
     } else {
         yield put(FormAction.storeLogs([], true, true))
     }
@@ -299,66 +310,38 @@ function* deleteLogs(action) {
 function* setDev(action) {
     const state = yield select()
 
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/vm/dev',
-            {
-                vm_name: action.vm_name,
-                dev: action.dev,
-            },
-            state.AccountReducer.access_token
-        )
-        if (json && response.status === 200) {
-            yield put(FormAction.updateDB(false))
-        }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/vm/setDev',
-            {
-                vm_name: action.vm_name,
-                dev: action.dev,
-            },
-            state.AccountReducer.access_token
-        )
-
-        if (json) {
-            yield put(FormAction.updateDB(false))
-        }
+    const { json, response } = yield call(
+        apiPost,
+        config.url.PRIMARY_SERVER + '/vm/dev',
+        {
+            vm_name: action.vm_name,
+            dev: action.dev,
+        },
+        state.AccountReducer.access_token
+    )
+    if (json && response.status === 200) {
+        yield put(FormAction.updateDB(false))
     }
 }
 
 function* setStun(action) {
+    console.log('Setting stun to ')
+    console.log(action.useStun)
     const state = yield select()
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/azure_disk/stun',
-            {
-                disk_name: action.disk_name,
-                using_stun: action.useStun,
-            },
-            state.AccountReducer.access_token
-        )
-
-        if (json.status === 200 && response.status === 200) {
-            yield put(FormAction.fetchDiskTable(false))
+    const json = yield call(
+        fetchGraphQL,
+        `mutation SetStun {
+            update_hardware_os_disks(where: {disk_id: {_eq: "${action.disk_name}"}}, _set: {using_stun: ${action.useStun}}) {
+                affected_rows
+              }
         }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/disk/usingStun',
-            {
-                disk_name: action.disk_name,
-                using_stun: action.useStun,
-            },
-            state.AccountReducer.access_token
-        )
+      `,
+        'SetStun',
+        {}
+    )
 
-        if (json) {
-            yield put(FormAction.fetchDiskTable(false))
-        }
+    if (json.data && json.data.update_hardware_os_disks.affected_rows > 0) {
+        yield put(FormAction.fetchDiskTable(false))
     }
 }
 
