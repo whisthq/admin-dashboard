@@ -28,6 +28,7 @@ export const DELETE_LOGS = 'DELETE_LOGS'
 export const DELETE_LOG_SUCCESS = 'DELETE_LOG_SUCCESS'
 export const SET_DEV = 'SET_DEV'
 export const SET_STUN = 'SET_STUN'
+export const SET_AUTOUPDATE = 'SET_AUTOUPDATE'
 export const CHANGE_BRANCH = 'CHANGE_BRANCH'
 export const FETCH_LATEST_REPORT = 'FETCH_LATEST_REPORT'
 export const LATEST_REPORT_FETCHED = 'LATEST_REPORT_FETCHED'
@@ -253,6 +254,14 @@ export function setStun(disk_name, useStun) {
         type: SET_STUN,
         disk_name,
         useStun,
+    }
+}
+
+export function setAutoupdate(disk_name, autoUpdate) {
+    return {
+        type: SET_AUTOUPDATE,
+        disk_name,
+        autoUpdate,
     }
 }
 

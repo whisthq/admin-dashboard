@@ -7,7 +7,12 @@ import 'antd/dist/antd.css'
 import 'static/App.css'
 import Style from 'styles/components/pageAdmin.module.css'
 
-import { fetchDiskTable, changeBranch, setStun } from 'actions/index.js'
+import {
+    fetchDiskTable,
+    changeBranch,
+    setStun,
+    setAutoupdate,
+} from 'actions/index.js'
 
 class DiskTable extends Component {
     constructor(props) {
@@ -36,6 +41,14 @@ class DiskTable extends Component {
             this.props.dispatch(setStun(disk_name, true))
         } else {
             this.props.dispatch(setStun(disk_name, !mode))
+        }
+    }
+
+    toggleAutoupdate = (mode, disk_name) => {
+        if (mode == null) {
+            this.props.dispatch(setAutoupdate(disk_name, true))
+        } else {
+            this.props.dispatch(setAutoupdate(disk_name, !mode))
         }
     }
 
@@ -120,8 +133,8 @@ class DiskTable extends Component {
         let headers = [
             'branch',
             'using_stun',
-            'disk_id',
             'allow_autoupdate',
+            'disk_id',
             'user_id',
             'location',
             'os',
@@ -137,12 +150,12 @@ class DiskTable extends Component {
         if (this.props.disk_info && this.props.disk_info.length) {
             headers.forEach(function (key) {
                 let fixWidth = false
-                if (key === 'user_id') {
-                    fixWidth = 250
-                } else if (key === 'disk_id') {
+                if (key === 'disk_id') {
                     fixWidth = 400
                 } else if (key === 'version') {
-                    fixWidth = 130
+                    fixWidth = 300
+                } else if (key === 'using_stun' || key === 'user_id') {
+                    fixWidth = 100
                 } else if (key === 'has_accepted_update') {
                     fixWidth = 180
                 } else if (key === 'branch') {
@@ -170,10 +183,27 @@ class DiskTable extends Component {
                             }}
                         />
                     )
-                } else if (
-                    key === 'allow_autoupdate' ||
-                    key === 'has_dedicated_vm'
-                ) {
+                } else if (key === 'allow_autoupdate') {
+                    customRender = (text, record, index) => (
+                        <ToggleButton
+                            value={record['allow_autoupdate']}
+                            onToggle={(mode) => {
+                                component.toggleAutoupdate(
+                                    mode,
+                                    record['disk_id']
+                                )
+                            }}
+                            colors={{
+                                active: {
+                                    base: '#5EC4EB',
+                                },
+                                inactive: {
+                                    base: '#161936',
+                                },
+                            }}
+                        />
+                    )
+                } else if (key === 'has_dedicated_vm') {
                     customRender = (text) => (
                         <span>{text ? 'true' : 'false'}</span>
                     )
@@ -211,14 +241,14 @@ class DiskTable extends Component {
             if (component.state.filterKeyword) {
                 data = data.filter((element) => {
                     return (
-                        (element.user_id &&
-                            element.user_id.includes(
-                                component.state.filterKeyword
-                            )) ||
-                        (element.disk_id &&
-                            element.disk_id.includes(
-                                component.state.filterKeyword
-                            ))
+                        // Commenting out until we figure a clean way to fetch user email
+                        // (element.user_id &&
+                        //     element.user_id.includes(
+                        //         component.state.filterKeyword
+                        //     )) ||
+
+                        element.disk_id &&
+                        element.disk_id.includes(component.state.filterKeyword)
                     )
                 })
             }

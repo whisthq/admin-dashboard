@@ -343,42 +343,44 @@ function* setStun(action) {
     }
 }
 
-function* changeBranch(action) {
+function* setAutoupdate(action) {
     const state = yield select()
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/azure_disk/branch',
-            {
-                disk_name: action.disk_name,
-                branch: action.branch,
-            },
-            state.AccountReducer.access_token
-        )
-
-        if (json.status === 200 && response.status === 200) {
-            yield put(FormAction.fetchDiskTable(false))
+    const json = yield call(
+        fetchGraphQL,
+        `mutation SetAutoupdate {
+            update_hardware_os_disks(where: {disk_id: {_eq: "${action.disk_name}"}}, _set: {allow_autoupdate: ${action.autoUpdate}}) {
+                affected_rows
+              }
         }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/disk/setVersion',
-            {
-                disk_name: action.disk_name,
-                branch: action.branch,
-            },
-            state.AccountReducer.access_token
-        )
+      `,
+        'SetAutoupdate',
+        {}
+    )
 
-        if (json) {
-            yield put(FormAction.fetchDiskTable(false))
+    if (json.data && json.data.update_hardware_os_disks.affected_rows > 0) {
+        yield put(FormAction.fetchDiskTable(false))
+    }
+}
+
+function* changeBranch(action) {
+    const json = yield call(
+        fetchGraphQL,
+        `mutation SetBranch {
+            update_hardware_os_disks(where: {disk_id: {_eq: "${action.disk_name}"}}, _set: {branch: "${action.branch}"}) {
+                affected_rows
+              }
         }
+      `,
+        'SetBranch',
+        {}
+    )
+
+    if (json && json.data.update_hardware_os_disks.affected_rows > 0) {
+        yield put(FormAction.fetchDiskTable(false))
     }
 }
 
 function* fetchDiskTable() {
-    console.log('fetch disk table')
-
     const json = yield call(
         fetchGraphQL,
         ` query FetchDisks {
@@ -589,6 +591,7 @@ export default function* rootSaga() {
         takeEvery(FormAction.DELETE_LOGS, deleteLogs),
         takeEvery(FormAction.SET_DEV, setDev),
         takeEvery(FormAction.SET_STUN, setStun),
+        takeEvery(FormAction.SET_AUTOUPDATE, setAutoupdate),
         takeEvery(FormAction.FETCH_DISK_TABLE, fetchDiskTable),
         takeEvery(FormAction.CHANGE_BRANCH, changeBranch),
         takeEvery(FormAction.FETCH_LATEST_REPORT, fetchLatestReport),
