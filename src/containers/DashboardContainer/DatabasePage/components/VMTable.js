@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import ToggleButton from 'react-toggle-button'
 import moment from 'moment'
 import { Table } from 'antd'
 
@@ -15,7 +14,7 @@ import {
     faPause,
 } from '@fortawesome/free-solid-svg-icons'
 
-import { startVM, deallocateVM, fetchVMs, setDev } from 'actions/index.js'
+import { startVM, deallocateVM, fetchVMs } from 'actions/index.js'
 
 class VMTable extends Component {
     constructor(props) {
@@ -51,10 +50,6 @@ class VMTable extends Component {
 
     deallocateVM = (vm_name) => {
         this.props.dispatch(deallocateVM(vm_name))
-    }
-
-    toggleDev = (mode, vm_name) => {
-        this.props.dispatch(setDev(vm_name, !mode))
     }
 
     keywordFilter = (e) => {

@@ -309,23 +309,6 @@ function* deleteLogs(action) {
     }
 }
 
-function* setDev(action) {
-    const state = yield select()
-
-    const { json, response } = yield call(
-        apiPost,
-        config.url.PRIMARY_SERVER + '/vm/dev',
-        {
-            vm_name: action.vm_name,
-            dev: action.dev,
-        },
-        state.AccountReducer.access_token
-    )
-    if (json && response.status === 200) {
-        yield put(FormAction.fetchVMs(false))
-    }
-}
-
 function* setStun(action) {
     const state = yield select()
     const json = yield call(
@@ -530,52 +513,42 @@ function* analyzeLogs(action) {
     }
 }
 
-function* fetchBookmarkedLogs(action) {
-    const state = yield select()
-    if (config.new_server) {
-        const { json } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER + '/logs?bookmarked=true',
-            state.AccountReducer.access_token
-        )
+function* fetchBookmarkedLogs() {
+    const json = yield call(
+        fetchGraphQL,
+        ` query FetchBookmarkedLogs {
+            logs_protocol_logs(where: {bookmarked: {_eq: true}}) {
+                connection_id
+              }
+            }
+      `,
+        'FetchBookmarkedLogs',
+        {}
+    )
 
-        if (json && json.connection_ids) {
-            yield put(FormAction.storeBookmarkedLogs(json.connection_ids))
-        }
-    } else {
-        const { json } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER + '/logs/bookmarked',
-            ''
+    if (json && json.data) {
+        let connection_ids = json.data.logs_protocol_logs.map(
+            (log) => log.connection_id
         )
-
-        if (json && json.connection_ids) {
-            yield put(FormAction.storeBookmarkedLogs(json.connection_ids))
-        }
+        yield put(FormAction.storeBookmarkedLogs(connection_ids))
     }
 }
 
 function* bookmarkLogs(action) {
     const state = yield select()
-    if (action.bookmark) {
-        yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/logs/bookmark',
-            {
-                connection_id: action.connection_id,
-            },
-            state.AccountReducer.access_token
-        )
-    } else {
-        yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/logs/unbookmark',
-            {
-                connection_id: action.connection_id,
-            },
-            state.AccountReducer.access_token
-        )
-    }
+    yield call(
+        fetchGraphQL,
+        ` mutation BokmarkLogs {
+            update_logs_protocol_logs(where: {connection_id: {_eq: "${
+                action.connection_id
+            }"}}, _set: {bookmarked: ${action.bookmark.toString()}}) {
+              affected_rows
+            }
+          }
+      `,
+        'BokmarkLogs',
+        {}
+    )
 }
 
 export default function* rootSaga() {
@@ -591,7 +564,6 @@ export default function* rootSaga() {
         takeEvery(FormAction.DEALLOCATE_VM, deallocateVM),
         takeEvery(FormAction.FETCH_LOGS, fetchLogs),
         takeEvery(FormAction.DELETE_LOGS, deleteLogs),
-        takeEvery(FormAction.SET_DEV, setDev),
         takeEvery(FormAction.SET_STUN, setStun),
         takeEvery(FormAction.SET_AUTOUPDATE, setAutoupdate),
         takeEvery(FormAction.FETCH_DISK_TABLE, fetchDiskTable),

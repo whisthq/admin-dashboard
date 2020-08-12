@@ -25,7 +25,6 @@ export const STORE_LOGS = 'STORE_LOGS'
 export const LOGS_FOUND = 'LOGS_FOUND'
 export const DELETE_LOGS = 'DELETE_LOGS'
 export const DELETE_LOG_SUCCESS = 'DELETE_LOG_SUCCESS'
-export const SET_DEV = 'SET_DEV'
 export const SET_STUN = 'SET_STUN'
 export const SET_AUTOUPDATE = 'SET_AUTOUPDATE'
 export const CHANGE_BRANCH = 'CHANGE_BRANCH'
@@ -230,14 +229,6 @@ export function deleteLogSuccess(connection_id) {
     return {
         type: DELETE_LOG_SUCCESS,
         connection_id,
-    }
-}
-
-export function setDev(vm_name, dev) {
-    return {
-        type: SET_DEV,
-        vm_name,
-        dev,
     }
 }
 

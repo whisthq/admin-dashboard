@@ -213,6 +213,7 @@ class Logs extends Component {
 
     loadBookmarkedLogs = () => {
         let component = this
+        console.log(this.state.bookmarked_logs)
         if (!this.state.load_bookmarked) {
             this.setState({ load_bookmarked: true, processing: true })
             this.props.dispatch(clearLogs())
