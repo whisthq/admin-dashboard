@@ -5,27 +5,29 @@ import { apiPost, apiGet, fetchGraphQL } from '../utils/Api.js'
 import history from '../history'
 import { config } from '../constants.js'
 
-function* updateDB(action) {
+function* fetchVms(action) {
     const state = yield select()
     if (!action.updated) {
-        if (config.new_server) {
-            const { json, response } = yield call(
-                apiGet,
-                config.url.PRIMARY_SERVER + '/report/fetchVMs',
-                state.AccountReducer.access_token
-            )
-            if (json && response.status === 200) {
-                yield put(FormAction.loadVMs(json))
+        const json = yield call(
+            fetchGraphQL,
+            ` query FetchVMs {
+                hardware_user_vms {
+                    ip
+                    location
+                    lock
+                    os
+                    state
+                    temporary_lock
+                    user_id
+                    vm_id
+                  }
             }
-        } else {
-            const { json, response } = yield call(
-                apiPost,
-                config.url.PRIMARY_SERVER + '/vm/fetchall',
-                {}
-            )
-            if (json && json.payload) {
-                yield put(FormAction.loadVMs(json.payload))
-            }
+              `,
+            'FetchVMs',
+            {}
+        )
+        if (json && json.data) {
+            yield put(FormAction.loadVMs(json.data.hardware_user_vms))
         }
     }
 }
@@ -170,7 +172,7 @@ function* startVM(action) {
         state.AccountReducer.access_token
     )
 
-    yield put(FormAction.updateDB(false))
+    yield put(FormAction.fetchVMs(false))
 
     if (json) {
         if (json.ID) {
@@ -190,7 +192,7 @@ function* deallocateVM(action) {
         state.AccountReducer.access_token
     )
 
-    yield put(FormAction.updateDB(false))
+    yield put(FormAction.fetchVMs(false))
 
     if (json) {
         if (json.ID) {
@@ -216,7 +218,7 @@ function* getVMStatus(id, vm_name) {
     }
 
     if (json && json.output) {
-        yield put(FormAction.updateDB(false))
+        yield put(FormAction.fetchVMs(false))
         yield put(FormAction.doneUpdating(vm_name))
     }
 }
@@ -320,7 +322,7 @@ function* setDev(action) {
         state.AccountReducer.access_token
     )
     if (json && response.status === 200) {
-        yield put(FormAction.updateDB(false))
+        yield put(FormAction.fetchVMs(false))
     }
 }
 
@@ -578,7 +580,7 @@ function* bookmarkLogs(action) {
 
 export default function* rootSaga() {
     yield all([
-        takeEvery(FormAction.UPDATE_DB, updateDB),
+        takeEvery(FormAction.FETCH_VMS, fetchVms),
         takeEvery(FormAction.LOGIN_USER, loginUser),
         takeEvery(FormAction.FETCH_USER_ACTIVITY, fetchUserActivity),
         takeEvery(FormAction.FETCH_USER_TABLE, fetchUserTable),

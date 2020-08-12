@@ -1,5 +1,4 @@
 export const FETCH_VMS = 'FETCH_VMS'
-export const UPDATE_DB = 'UPDATE_DB'
 export const LOAD_VMS = 'LOAD_VMS'
 export const FETCH_DISK_TABLE = 'FETCH_DISK_TABLE'
 export const DISK_TABLE_FETCHED = 'DISK_TABLE_FETCHED'
@@ -49,16 +48,9 @@ export const STORE_BOOKMARKED_LOGS = 'STORE_BOOKMARKED_LOGS'
 export const BOOKMARK_LOGS = 'BOOKMARK_LOGS'
 export const CLEAR_LOGS = 'CLEAR_LOGS'
 
-export function fetchVMs(id) {
+export function fetchVMs(updated) {
     return {
         type: FETCH_VMS,
-        id,
-    }
-}
-
-export function updateDB(updated) {
-    return {
-        type: UPDATE_DB,
         updated,
     }
 }
