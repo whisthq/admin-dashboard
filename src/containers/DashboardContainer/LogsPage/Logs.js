@@ -89,7 +89,7 @@ class Logs extends Component {
                 component.props.dispatch(
                     analyzeLogs(
                         element.connection_id,
-                        element.username,
+                        element.user_id,
                         element.server_logs,
                         element.client_logs
                     )
@@ -163,7 +163,7 @@ class Logs extends Component {
             component.props.dispatch(
                 analyzeLogs(
                     element.connection_id,
-                    element.username,
+                    element.user_id,
                     element.server_logs,
                     element.client_logs
                 )
@@ -213,6 +213,7 @@ class Logs extends Component {
 
     loadBookmarkedLogs = () => {
         let component = this
+        console.log(this.state.bookmarked_logs)
         if (!this.state.load_bookmarked) {
             this.setState({ load_bookmarked: true, processing: true })
             this.props.dispatch(clearLogs())
@@ -503,7 +504,7 @@ class Logs extends Component {
                                                             </span>
                                                         </a>
                                                     </div>
-                                                    {value['username'] ? (
+                                                    {value['user_id'] ? (
                                                         <div
                                                             style={{
                                                                 width: 200,
@@ -519,7 +520,7 @@ class Logs extends Component {
                                                                 bottom: 1,
                                                             }}
                                                         >
-                                                            {value['username']}
+                                                            {value['user_id']}
                                                         </div>
                                                     ) : (
                                                         <div
@@ -688,11 +689,9 @@ class Logs extends Component {
                                                                 ]
                                                             }
                                                             username={
-                                                                value[
-                                                                    'username'
-                                                                ]
+                                                                value['user_id']
                                                                     ? value[
-                                                                          'username'
+                                                                          'user_id'
                                                                       ]
                                                                     : ''
                                                             }
@@ -716,11 +715,9 @@ class Logs extends Component {
                                                                 ]
                                                             }
                                                             username={
-                                                                value[
-                                                                    'username'
-                                                                ]
+                                                                value['user_id']
                                                                     ? value[
-                                                                          'username'
+                                                                          'user_id'
                                                                       ]
                                                                     : ''
                                                             }
@@ -745,11 +742,9 @@ class Logs extends Component {
                                                                     .log_analysis
                                                             }
                                                             username={
-                                                                value[
-                                                                    'username'
-                                                                ]
+                                                                value['user_id']
                                                                     ? value[
-                                                                          'username'
+                                                                          'user_id'
                                                                       ]
                                                                     : ''
                                                             }
@@ -777,11 +772,9 @@ class Logs extends Component {
                                                                     .log_analysis
                                                             }
                                                             username={
-                                                                value[
-                                                                    'username'
-                                                                ]
+                                                                value['user_id']
                                                                     ? value[
-                                                                          'username'
+                                                                          'user_id'
                                                                       ]
                                                                     : ''
                                                             }
@@ -809,11 +802,9 @@ class Logs extends Component {
                                                                     .log_analysis
                                                             }
                                                             username={
-                                                                value[
-                                                                    'username'
-                                                                ]
+                                                                value['user_id']
                                                                     ? value[
-                                                                          'username'
+                                                                          'user_id'
                                                                       ]
                                                                     : ''
                                                             }
@@ -841,11 +832,9 @@ class Logs extends Component {
                                                                     .log_analysis
                                                             }
                                                             username={
-                                                                value[
-                                                                    'username'
-                                                                ]
+                                                                value['user_id']
                                                                     ? value[
-                                                                          'username'
+                                                                          'user_id'
                                                                       ]
                                                                     : ''
                                                             }

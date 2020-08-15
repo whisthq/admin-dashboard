@@ -7,7 +7,12 @@ import 'antd/dist/antd.css'
 import 'static/App.css'
 import Style from 'styles/components/pageAdmin.module.css'
 
-import { fetchDiskTable, changeBranch, setStun } from 'actions/index.js'
+import {
+    fetchDiskTable,
+    changeBranch,
+    setStun,
+    setAutoupdate,
+} from 'actions/index.js'
 
 class DiskTable extends Component {
     constructor(props) {
@@ -36,6 +41,14 @@ class DiskTable extends Component {
             this.props.dispatch(setStun(disk_name, true))
         } else {
             this.props.dispatch(setStun(disk_name, !mode))
+        }
+    }
+
+    toggleAutoupdate = (mode, disk_name) => {
+        if (mode == null) {
+            this.props.dispatch(setAutoupdate(disk_name, true))
+        } else {
+            this.props.dispatch(setAutoupdate(disk_name, !mode))
         }
     }
 
@@ -120,33 +133,29 @@ class DiskTable extends Component {
         let headers = [
             'branch',
             'using_stun',
-            'disk_name',
-            'state',
-            'username',
+            'allow_autoupdate',
+            'disk_id',
+            'user_id',
             'location',
             'os',
             'version',
             'disk_size',
-            'vm_name',
-            'vm_size',
-            'has_accepted_update',
-            'first_time',
+            'last_pinged',
+            'has_dedicated_vm',
+            'rsa_private_key',
+            'ssh_password',
         ]
         let component = this
 
         if (this.props.disk_info && this.props.disk_info.length) {
             headers.forEach(function (key) {
                 let fixWidth = false
-                if (key === 'username') {
-                    fixWidth = 250
-                } else if (key === 'disk_name') {
+                if (key === 'disk_id') {
                     fixWidth = 400
-                } else if (
-                    key === 'vm_password' ||
-                    key === 'vm_name' ||
-                    key === 'version'
-                ) {
-                    fixWidth = 130
+                } else if (key === 'version') {
+                    fixWidth = 300
+                } else if (key === 'using_stun' || key === 'user_id') {
+                    fixWidth = 100
                 } else if (key === 'has_accepted_update') {
                     fixWidth = 180
                 } else if (key === 'branch') {
@@ -155,17 +164,14 @@ class DiskTable extends Component {
                 let customRender = false
                 if (key === 'branch') {
                     customRender = (text, record, index) => {
-                        return branchToggle(
-                            record['disk_name'],
-                            record['settings_branch'] // TODO: change when db changed
-                        )
+                        return branchToggle(record['disk_id'], record['branch'])
                     }
                 } else if (key === 'using_stun') {
                     customRender = (text, record, index) => (
                         <ToggleButton
                             value={record['using_stun']}
                             onToggle={(mode) => {
-                                component.toggleStun(mode, record['disk_name'])
+                                component.toggleStun(mode, record['disk_id'])
                             }}
                             colors={{
                                 active: {
@@ -176,6 +182,30 @@ class DiskTable extends Component {
                                 },
                             }}
                         />
+                    )
+                } else if (key === 'allow_autoupdate') {
+                    customRender = (text, record, index) => (
+                        <ToggleButton
+                            value={record['allow_autoupdate']}
+                            onToggle={(mode) => {
+                                component.toggleAutoupdate(
+                                    mode,
+                                    record['disk_id']
+                                )
+                            }}
+                            colors={{
+                                active: {
+                                    base: '#5EC4EB',
+                                },
+                                inactive: {
+                                    base: '#161936',
+                                },
+                            }}
+                        />
+                    )
+                } else if (key === 'has_dedicated_vm') {
+                    customRender = (text) => (
+                        <span>{text ? 'true' : 'false'}</span>
                     )
                 }
                 columns.push({
@@ -211,14 +241,14 @@ class DiskTable extends Component {
             if (component.state.filterKeyword) {
                 data = data.filter((element) => {
                     return (
-                        (element.username &&
-                            element.username.includes(
-                                component.state.filterKeyword
-                            )) ||
-                        (element.disk_name &&
-                            element.disk_name.includes(
-                                component.state.filterKeyword
-                            ))
+                        // Commenting out until we figure a clean way to fetch user email
+                        // (element.user_id &&
+                        //     element.user_id.includes(
+                        //         component.state.filterKeyword
+                        //     )) ||
+
+                        element.disk_id &&
+                        element.disk_id.includes(component.state.filterKeyword)
                     )
                 })
             }

@@ -1,3 +1,5 @@
+import { config } from '../constants.js'
+
 export function apiPost(endpoint, body, token) {
     // var base_url = 'https://cube-vm-server.herokuapp.com/form/store'
     // var full_url = `${base_url}${endpoint}`
@@ -28,5 +30,21 @@ export function apiGet(endpoint, token) {
         },
     }).then((response) => {
         return response.json().then((json) => ({ json, response }))
+    })
+}
+
+export function fetchGraphQL(operationsDoc, operationName, variables) {
+    return fetch(config.url.GRAPHQL, {
+        method: 'POST',
+        headers: {
+            'x-hasura-admin-secret': config.graphQL.SECRET,
+        },
+        body: JSON.stringify({
+            query: operationsDoc,
+            variables: variables,
+            operationName: operationName,
+        }),
+    }).then((response) => {
+        return response.json()
     })
 }

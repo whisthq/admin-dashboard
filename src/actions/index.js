@@ -1,5 +1,4 @@
 export const FETCH_VMS = 'FETCH_VMS'
-export const UPDATE_DB = 'UPDATE_DB'
 export const LOAD_VMS = 'LOAD_VMS'
 export const FETCH_DISK_TABLE = 'FETCH_DISK_TABLE'
 export const DISK_TABLE_FETCHED = 'DISK_TABLE_FETCHED'
@@ -10,8 +9,6 @@ export const FETCH_USER_ACTIVITY = 'FETCH_USER_ACTIVITY'
 export const USER_ACTIVITY_FETCHED = 'USER_ACTIVITY_FETCHED'
 export const FETCH_USER_TABLE = 'FETCH_USER_TABLE'
 export const USER_TABLE_FETCHED = 'USER_TABLE_FETCHED'
-export const FETCH_CUSTOMER_TABLE = 'FETCH_CUSTOMER_TABLE'
-export const CUSTOMER_TABLE_FETCHED = 'CUSTOMER_TABLE_FETCHED'
 export const DELETE_USER = 'DELETE_USER'
 export const DELETE_SUBSCRIPTION = 'DELETE_SUBSCRIPTION'
 export const STORE_JWT = 'STORE_JWT'
@@ -28,8 +25,8 @@ export const STORE_LOGS = 'STORE_LOGS'
 export const LOGS_FOUND = 'LOGS_FOUND'
 export const DELETE_LOGS = 'DELETE_LOGS'
 export const DELETE_LOG_SUCCESS = 'DELETE_LOG_SUCCESS'
-export const SET_DEV = 'SET_DEV'
 export const SET_STUN = 'SET_STUN'
+export const SET_AUTOUPDATE = 'SET_AUTOUPDATE'
 export const CHANGE_BRANCH = 'CHANGE_BRANCH'
 export const FETCH_LATEST_REPORT = 'FETCH_LATEST_REPORT'
 export const LATEST_REPORT_FETCHED = 'LATEST_REPORT_FETCHED'
@@ -50,16 +47,9 @@ export const STORE_BOOKMARKED_LOGS = 'STORE_BOOKMARKED_LOGS'
 export const BOOKMARK_LOGS = 'BOOKMARK_LOGS'
 export const CLEAR_LOGS = 'CLEAR_LOGS'
 
-export function fetchVMs(id) {
+export function fetchVMs(updated) {
     return {
         type: FETCH_VMS,
-        id,
-    }
-}
-
-export function updateDB(updated) {
-    return {
-        type: UPDATE_DB,
         updated,
     }
 }
@@ -139,20 +129,6 @@ export function deleteUser(user) {
     return {
         type: DELETE_USER,
         user,
-    }
-}
-
-export function fetchCustomerTable(updated) {
-    return {
-        type: FETCH_CUSTOMER_TABLE,
-        updated,
-    }
-}
-
-export function customerTableFetched(payload) {
-    return {
-        type: CUSTOMER_TABLE_FETCHED,
-        payload,
     }
 }
 
@@ -256,19 +232,19 @@ export function deleteLogSuccess(connection_id) {
     }
 }
 
-export function setDev(vm_name, dev) {
-    return {
-        type: SET_DEV,
-        vm_name,
-        dev,
-    }
-}
-
 export function setStun(disk_name, useStun) {
     return {
         type: SET_STUN,
         disk_name,
         useStun,
+    }
+}
+
+export function setAutoupdate(disk_name, autoUpdate) {
+    return {
+        type: SET_AUTOUPDATE,
+        disk_name,
+        autoUpdate,
     }
 }
 

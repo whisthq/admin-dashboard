@@ -52,7 +52,7 @@ export default function (state = DEFAULT, action) {
                 disk_info: action.payload,
                 disks_fetched: true,
             }
-        case AccountAction.UPDATE_DB:
+        case AccountAction.FETCH_VMS:
             return {
                 ...state,
                 vmsUpdated: action.updated,

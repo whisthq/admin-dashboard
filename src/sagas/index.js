@@ -1,31 +1,33 @@
 /* eslint-disable no-unused-vars */
 import { put, takeEvery, all, call, select, delay } from 'redux-saga/effects'
 import * as FormAction from '../actions/index.js'
-import { apiPost, apiGet } from '../utils/Api.js'
+import { apiPost, apiGet, fetchGraphQL } from '../utils/Api.js'
 import history from '../history'
 import { config } from '../constants.js'
 
-function* updateDB(action) {
+function* fetchVms(action) {
     const state = yield select()
     if (!action.updated) {
-        if (config.new_server) {
-            const { json, response } = yield call(
-                apiGet,
-                config.url.PRIMARY_SERVER + '/report/fetchVMs',
-                state.AccountReducer.access_token
-            )
-            if (json && response.status === 200) {
-                yield put(FormAction.loadVMs(json))
+        const json = yield call(
+            fetchGraphQL,
+            ` query FetchVMs {
+                hardware_user_vms {
+                    ip
+                    location
+                    lock
+                    os
+                    state
+                    temporary_lock
+                    user_id
+                    vm_id
+                  }
             }
-        } else {
-            const { json, response } = yield call(
-                apiPost,
-                config.url.PRIMARY_SERVER + '/vm/fetchall',
-                {}
-            )
-            if (json && json.payload) {
-                yield put(FormAction.loadVMs(json.payload))
-            }
+              `,
+            'FetchVMs',
+            {}
+        )
+        if (json && json.data) {
+            yield put(FormAction.loadVMs(json.data.hardware_user_vms))
         }
     }
 }
@@ -50,7 +52,7 @@ function* loginUser(action) {
     }
 }
 
-function* fetchUserActivity(action) {
+function* fetchUserActivity() {
     const state = yield select()
     if (config.new_server) {
         const { json, response } = yield call(
@@ -78,55 +80,45 @@ function* fetchUserTable(action) {
     const state = yield select()
 
     if (!action.updated) {
-        if (config.new_server) {
-            const { json, response } = yield call(
-                apiGet,
-                config.url.PRIMARY_SERVER + '/report/fetchUsers',
-                state.AccountReducer.access_token
-            )
-            if (json && response.status === 200) {
-                yield put(FormAction.userTableFetched(json))
-                yield put(FormAction.fetchUserTable(true))
+        const json = yield call(
+            fetchGraphQL,
+            ` query FetchUsers {
+                users {
+                    created_timestamp
+                    credits_outstanding
+                    email
+                    name
+                    release_stage
+                    stripe_customer_id
+                    user_id
+                    using_google_login
+                    password
+                    reason_for_signup
+                    referral_code
+                  }
             }
-        } else {
-            const { json } = yield call(
-                apiPost,
-                config.url.PRIMARY_SERVER + '/account/fetchUsers',
-                {},
-                state.AccountReducer.access_token
-            )
-            if (json && json.status === 200) {
-                yield put(FormAction.userTableFetched(json.users))
-                yield put(FormAction.fetchUserTable(true))
-            }
+              `,
+            'FetchUsers',
+            {}
+        )
+
+        if (json.data) {
+            yield put(FormAction.userTableFetched(json.data.users))
+            yield put(FormAction.fetchUserTable(true))
         }
     }
 }
 
 function* fetchCustomers(action) {
     const state = yield select()
+    const { json, response } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER + '/report/fetchCustomers',
+        state.AccountReducer.access_token
+    )
 
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER + '/report/fetchCustomers',
-            state.AccountReducer.access_token
-        )
-
-        if (json && response.status === 200) {
-            yield put(FormAction.storeCustomers(json))
-        }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/account/fetchCustomers',
-            {},
-            state.AccountReducer.access_token
-        )
-
-        if (json && json.status === 200) {
-            yield put(FormAction.storeCustomers(json.customers))
-        }
+    if (json && response.status === 200) {
+        yield put(FormAction.storeCustomers(json))
     }
 }
 
@@ -143,33 +135,6 @@ function* deleteUser(action) {
     if (json && json.status === 200) {
         yield put(FormAction.fetchUserTable(false))
         yield put(FormAction.deleteSubscription(action.user))
-    }
-}
-
-function* fetchCustomerTable(action) {
-    const state = yield select()
-    if (!action.updated) {
-        if (config.new_server) {
-            const { json, response } = yield call(
-                apiGet,
-                config.url.PRIMARY_SERVER + '/report/fetchCustomers',
-                state.AccountReducer.access_token
-            )
-            if (json && response.status === 200) {
-                yield put(FormAction.customerTableFetched(json))
-                yield put(FormAction.fetchCustomerTable(true))
-            }
-        } else {
-            const { json } = yield call(
-                apiPost,
-                config.url.PRIMARY_SERVER + '/account/fetchCustomers',
-                {}
-            )
-            if (json && json.status === 200) {
-                yield put(FormAction.customerTableFetched(json.customers))
-                yield put(FormAction.fetchCustomerTable(true))
-            }
-        }
     }
 }
 
@@ -207,7 +172,7 @@ function* startVM(action) {
         state.AccountReducer.access_token
     )
 
-    yield put(FormAction.updateDB(false))
+    yield put(FormAction.fetchVMs(false))
 
     if (json) {
         if (json.ID) {
@@ -227,7 +192,7 @@ function* deallocateVM(action) {
         state.AccountReducer.access_token
     )
 
-    yield put(FormAction.updateDB(false))
+    yield put(FormAction.fetchVMs(false))
 
     if (json) {
         if (json.ID) {
@@ -253,63 +218,73 @@ function* getVMStatus(id, vm_name) {
     }
 
     if (json && json.output) {
-        yield put(FormAction.updateDB(false))
+        yield put(FormAction.fetchVMs(false))
         yield put(FormAction.doneUpdating(vm_name))
     }
 }
 
 function* fetchLogs(action) {
     const state = yield select()
-    if (config.new_server) {
-        const { json } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER +
-                '/logs' +
-                (action.username ? '?username=' + action.username : ''),
-            state.AccountReducer.access_token
-        )
-        if (json && json.logs) {
-            console.log(json.logs)
-            yield put(FormAction.storeLogs(json.logs, false, true))
-        } else {
-            yield put(FormAction.storeLogs([], true, true))
-        }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/logs/fetch',
-            {
-                username: action.username,
-                fetch_all: action.fetch_all,
-            },
-            state.AccountReducer.access_token
-        )
+    let condition = action.username
+        ? `(where: {user_id: {_eq: "${action.username}"}})`
+        : ''
 
-        if (json && json.logs) {
-            yield put(FormAction.storeLogs(json.logs, false, true))
-        } else {
-            yield put(FormAction.storeLogs([], true, true))
-        }
+    const json = yield call(
+        fetchGraphQL,
+        ` query FetchLogs {
+                logs_protocol_logs${condition} {
+                    bookmarked
+                    client_logs
+                    connection_id
+                    server_logs
+                    timestamp
+                    user_id
+                    version
+                  }
+            }
+          `,
+        'FetchLogs',
+        {}
+    )
+
+    if (json && json.data && json.data.logs_protocol_logs) {
+        yield put(
+            FormAction.storeLogs(json.data.logs_protocol_logs, false, true)
+        )
+    } else {
+        yield put(FormAction.storeLogs([], true, true))
     }
 }
 
 function* fetchLogsByConnection(action) {
     const state = yield select()
 
-    console.log(action)
-
-    const { json } = yield call(
-        apiPost,
-        config.url.PRIMARY_SERVER + '/logs/fetch',
-        {
-            connection_id: action.connection_id,
-            fetch_all: true,
-        },
-        state.AccountReducer.access_token
+    const json = yield call(
+        fetchGraphQL,
+        ` query FetchLogsByConnection {
+            logs_protocol_logs(where: {connection_id: {_eq: "${action.connection_id}"}}) {
+                bookmarked
+                client_logs
+                connection_id
+                server_logs
+                timestamp
+                user_id
+                version
+              }
+        }
+      `,
+        'FetchLogsByConnection',
+        {}
     )
 
-    if (json && json.logs) {
-        yield put(FormAction.storeLogs(json.logs, false, action.last_log))
+    if (json && json.logs && json.data.logs_protocol_logs) {
+        yield put(
+            FormAction.storeLogs(
+                json.data.logs_protocol_logs,
+                false,
+                action.last_log
+            )
+        )
     } else {
         yield put(FormAction.storeLogs([], true, true))
     }
@@ -334,127 +309,88 @@ function* deleteLogs(action) {
     }
 }
 
-function* setDev(action) {
+function* setStun(action) {
     const state = yield select()
-
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/vm/dev',
-            {
-                vm_name: action.vm_name,
-                dev: action.dev,
-            },
-            state.AccountReducer.access_token
-        )
-        if (json && response.status === 200) {
-            yield put(FormAction.updateDB(false))
+    const json = yield call(
+        fetchGraphQL,
+        `mutation SetStun {
+            update_hardware_os_disks(where: {disk_id: {_eq: "${action.disk_name}"}}, _set: {using_stun: ${action.useStun}}) {
+                affected_rows
+              }
         }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/vm/setDev',
-            {
-                vm_name: action.vm_name,
-                dev: action.dev,
-            },
-            state.AccountReducer.access_token
-        )
+      `,
+        'SetStun',
+        {}
+    )
 
-        if (json) {
-            yield put(FormAction.updateDB(false))
-        }
+    if (json.data && json.data.update_hardware_os_disks.affected_rows > 0) {
+        yield put(FormAction.fetchDiskTable(false))
     }
 }
 
-function* setStun(action) {
+function* setAutoupdate(action) {
     const state = yield select()
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/azure_disk/stun',
-            {
-                disk_name: action.disk_name,
-                using_stun: action.useStun,
-            },
-            state.AccountReducer.access_token
-        )
-
-        if (json.status === 200 && response.status === 200) {
-            yield put(FormAction.fetchDiskTable(false))
+    const json = yield call(
+        fetchGraphQL,
+        `mutation SetAutoupdate {
+            update_hardware_os_disks(where: {disk_id: {_eq: "${action.disk_name}"}}, _set: {allow_autoupdate: ${action.autoUpdate}}) {
+                affected_rows
+              }
         }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/disk/usingStun',
-            {
-                disk_name: action.disk_name,
-                using_stun: action.useStun,
-            },
-            state.AccountReducer.access_token
-        )
+      `,
+        'SetAutoupdate',
+        {}
+    )
 
-        if (json) {
-            yield put(FormAction.fetchDiskTable(false))
-        }
+    if (json.data && json.data.update_hardware_os_disks.affected_rows > 0) {
+        yield put(FormAction.fetchDiskTable(false))
     }
 }
 
 function* changeBranch(action) {
-    const state = yield select()
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/azure_disk/branch',
-            {
-                disk_name: action.disk_name,
-                branch: action.branch,
-            },
-            state.AccountReducer.access_token
-        )
-
-        if (json.status === 200 && response.status === 200) {
-            yield put(FormAction.fetchDiskTable(false))
+    const json = yield call(
+        fetchGraphQL,
+        `mutation SetBranch {
+            update_hardware_os_disks(where: {disk_id: {_eq: "${action.disk_name}"}}, _set: {branch: "${action.branch}"}) {
+                affected_rows
+              }
         }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/disk/setVersion',
-            {
-                disk_name: action.disk_name,
-                branch: action.branch,
-            },
-            state.AccountReducer.access_token
-        )
+      `,
+        'SetBranch',
+        {}
+    )
 
-        if (json) {
-            yield put(FormAction.fetchDiskTable(false))
-        }
+    if (json && json.data.update_hardware_os_disks.affected_rows > 0) {
+        yield put(FormAction.fetchDiskTable(false))
     }
 }
 
-function* fetchDiskTable(action) {
-    const state = yield select()
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER + '/report/fetchDisks',
-            state.AccountReducer.access_token
-        )
-        if (json && response.status === 200) {
-            yield put(FormAction.diskTableFetched(json))
-        }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/disk/fetchAll',
-            {},
-            state.AccountReducer.access_token
-        )
-
-        if (json) {
-            yield put(FormAction.diskTableFetched(json.disks))
-        }
+function* fetchDiskTable() {
+    const json = yield call(
+        fetchGraphQL,
+        ` query FetchDisks {
+            hardware_os_disks {
+                allow_autoupdate
+                branch
+                disk_id
+                disk_size
+                has_dedicated_vm
+                last_pinged
+                location
+                os
+                rsa_private_key
+                ssh_password
+                user_id
+                using_stun
+                version
+              }
+            }
+      `,
+        'FetchDisks',
+        {}
+    )
+    if (json && json.data) {
+        yield put(FormAction.diskTableFetched(json.data.hardware_os_disks))
     }
 }
 
@@ -577,57 +513,47 @@ function* analyzeLogs(action) {
     }
 }
 
-function* fetchBookmarkedLogs(action) {
-    const state = yield select()
-    if (config.new_server) {
-        const { json } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER + '/logs?bookmarked=true',
-            state.AccountReducer.access_token
-        )
+function* fetchBookmarkedLogs() {
+    const json = yield call(
+        fetchGraphQL,
+        ` query FetchBookmarkedLogs {
+            logs_protocol_logs(where: {bookmarked: {_eq: true}}) {
+                connection_id
+              }
+            }
+      `,
+        'FetchBookmarkedLogs',
+        {}
+    )
 
-        if (json && json.connection_ids) {
-            yield put(FormAction.storeBookmarkedLogs(json.connection_ids))
-        }
-    } else {
-        const { json } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER + '/logs/bookmarked',
-            ''
+    if (json && json.data) {
+        let connection_ids = json.data.logs_protocol_logs.map(
+            (log) => log.connection_id
         )
-
-        if (json && json.connection_ids) {
-            yield put(FormAction.storeBookmarkedLogs(json.connection_ids))
-        }
+        yield put(FormAction.storeBookmarkedLogs(connection_ids))
     }
 }
 
 function* bookmarkLogs(action) {
     const state = yield select()
-    if (action.bookmark) {
-        yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/logs/bookmark',
-            {
-                connection_id: action.connection_id,
-            },
-            state.AccountReducer.access_token
-        )
-    } else {
-        yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/logs/unbookmark',
-            {
-                connection_id: action.connection_id,
-            },
-            state.AccountReducer.access_token
-        )
-    }
+    yield call(
+        fetchGraphQL,
+        ` mutation BokmarkLogs {
+            update_logs_protocol_logs(where: {connection_id: {_eq: "${
+                action.connection_id
+            }"}}, _set: {bookmarked: ${action.bookmark.toString()}}) {
+              affected_rows
+            }
+          }
+      `,
+        'BokmarkLogs',
+        {}
+    )
 }
 
 export default function* rootSaga() {
     yield all([
-        takeEvery(FormAction.UPDATE_DB, updateDB),
+        takeEvery(FormAction.FETCH_VMS, fetchVms),
         takeEvery(FormAction.LOGIN_USER, loginUser),
         takeEvery(FormAction.FETCH_USER_ACTIVITY, fetchUserActivity),
         takeEvery(FormAction.FETCH_USER_TABLE, fetchUserTable),
@@ -638,8 +564,8 @@ export default function* rootSaga() {
         takeEvery(FormAction.DEALLOCATE_VM, deallocateVM),
         takeEvery(FormAction.FETCH_LOGS, fetchLogs),
         takeEvery(FormAction.DELETE_LOGS, deleteLogs),
-        takeEvery(FormAction.SET_DEV, setDev),
         takeEvery(FormAction.SET_STUN, setStun),
+        takeEvery(FormAction.SET_AUTOUPDATE, setAutoupdate),
         takeEvery(FormAction.FETCH_DISK_TABLE, fetchDiskTable),
         takeEvery(FormAction.CHANGE_BRANCH, changeBranch),
         takeEvery(FormAction.FETCH_LATEST_REPORT, fetchLatestReport),
