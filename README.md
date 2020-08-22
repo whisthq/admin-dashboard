@@ -15,7 +15,7 @@ The Fractal dashboard can be used for:
 
 ## Development
 
-The admin dashboard is developed using the `npm` package manager. You can start developing by running `npm install`, and can launch into a localhost via `npm start`. If you need to update dependencies, you can run `npm upgrade`, followed by `npm prune` to remove unnecessary dependencies.
+The admin dashboard is developed using the `yarn` package manager. You can start developing by running `yarn`, and can launch into a localhost via `yarn start`. If you need to update dependencies, you can run `yarn upgrade`, followed by `yarn autoclean --init && yarn autoclean --force` to remove unnecessary files.
 
 The `master` branch autopublishes to `fractal-dashboard.netlify.app` via Netlify, which is our internal production URL, and should only be merged in via pull requests when code has been thoroughly tested.
 
@@ -25,7 +25,7 @@ Basic continuous integration is set up for this project. For every push or PR, b
 
 To ensure that code formatting is standardized, and to minimize clutter in the commits, you should set up styling with [Prettier](https://prettier.io/) before making any PRs. You may find a variety of tutorial online for your personal setup. This README covers how to set it up on VSCode. 
 
-You can always run Prettier directly from a terminal by typing `npm run format`.
+You can always run Prettier directly from a terminal by typing `yarn format`.
 
 ### [VSCode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 

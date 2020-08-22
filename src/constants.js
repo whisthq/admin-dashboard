@@ -47,4 +47,4 @@ const development = {
     new_server: true,
 }
 
-export const config = process.env.NODE_ENV === 'development' ? local : staging
+export const config = process.env.NODE_ENV === 'development' ? staging : staging
