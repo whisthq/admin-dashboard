@@ -12,9 +12,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FaLink } from 'react-icons/fa'
 
-import 'static/App.css'
+import '../../static/App.css'
 
-import Logo from 'assets/logo.svg'
+import Logo from '../../assets/logo.svg'
 
 withRouter((props) => <DashboardMenu {...props} />)
 

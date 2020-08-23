@@ -8,7 +8,12 @@
         "@fortawesome/react-fontawesome": "^0.1.11",
         "@nivo/line": "^0.62.0",
         "@popperjs/core": "^2.4.4",
+        "@types/react-dom": "^16.9.8",
+        "@types/react-helmet": "^6.1.0",
+        "@types/react-router-dom": "^5.1.5",
+        "@types/redux-promise": "^0.5.29",
         "antd": "^4.5.1",
+        "awesome-typescript-loader": "^5.2.1",
         "axios": "^0.19.2",
         "babel-plugin-root-import": "^6.5.0",
         "bootstrap": "^4.5.0",
@@ -63,7 +68,9 @@
         "request": "^2.88.2",
         "schema-utils": "^2.7.0",
         "seamless-immutable": "^7.1.4",
+        "source-map-loader": "^1.0.2",
         "sunburst-chart": "^1.11.2",
+        "ts-loader": "^8.0.2",
         "typesafe-actions": "4.4.2",
         "typescript": "^3.9.7",
         "vivus": "^0.4.5",
@@ -98,6 +105,7 @@
         "@types/redux-mock-store": "1.0.1",
         "babel-plugin-module-resolver": "^3.2.0",
         "file-loader": "^4.3.0",
-        "react-edit-inline": "^1.0.8"
+        "react-edit-inline": "^1.0.8",
+        "webpack-cli": "^3.3.12"
     }
 }

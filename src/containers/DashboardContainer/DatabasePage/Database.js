@@ -3,19 +3,19 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { connect } from 'react-redux'
 
 import 'react-tabs/style/react-tabs.css'
-import 'static/App.css'
+import '../../../static/App.css'
 
 import {
     fetchUserActivity,
     fetchUserTable,
     deleteUser,
     changePage,
-} from 'actions/index'
+} from '../../../actions/index'
 
-import VMTable from 'containers/DashboardContainer/DatabasePage/components/VMTable'
-import UserTable from 'containers/DashboardContainer/DatabasePage/components/UserTable'
-import CustomerTable from 'containers/DashboardContainer/DatabasePage/components/CustomerTable'
-import DiskTable from 'containers/DashboardContainer/DatabasePage/components/DiskTable'
+import VMTable from '../DatabasePage/components/VMTable'
+import UserTable from '../DatabasePage/components/UserTable'
+import CustomerTable from '../DatabasePage/components/CustomerTable'
+import DiskTable from '../DatabasePage/components/DiskTable'
 
 class Dashboard extends Component {
     constructor(props) {

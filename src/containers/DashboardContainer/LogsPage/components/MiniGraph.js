@@ -5,7 +5,7 @@ import { LineChart, Line, ResponsiveContainer, YAxis, Tooltip } from 'recharts'
 
 import 'react-tabs/style/react-tabs.css'
 
-import 'static/App.css'
+import '../../../../static/App.css'
 
 class MiniGraph extends Component {
     render() {

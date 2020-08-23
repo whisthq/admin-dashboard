@@ -9,7 +9,7 @@ import Popup from 'reactjs-popup'
 
 import 'react-tabs/style/react-tabs.css'
 
-import 'static/App.css'
+import '../../../../static/App.css'
 
 class LogDebugPanel extends Component {
     render() {

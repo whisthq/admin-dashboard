@@ -13,9 +13,9 @@ import {
     Tooltip,
 } from 'recharts'
 
-import 'static/App.css'
+import '../../../../static/App.css'
 
-import { fetchRegionReport, fetchLatestReport } from 'actions/index.js'
+import { fetchRegionReport, fetchLatestReport } from '../../../../actions/index.js'
 
 class GeneralStats extends Component {
     constructor(props) {

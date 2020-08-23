@@ -5,11 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { Table } from 'antd'
 
-import 'static/App.css'
+import '../../../../static/App.css'
 import 'antd/dist/antd.css'
-import Style from 'styles/components/pageAdmin.module.css'
+import Style from '../../../../styles/components/pageAdmin.module.css'
 
-import { fetchUserTable, deleteUser } from 'actions/index.js'
+import { fetchUserTable, deleteUser } from '../../../../actions/index.js'
 
 class UserTable extends Component {
     constructor(props) {

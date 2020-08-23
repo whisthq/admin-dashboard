@@ -4,15 +4,15 @@ import ToggleButton from 'react-toggle-button'
 import { Table } from 'antd'
 
 import 'antd/dist/antd.css'
-import 'static/App.css'
-import Style from 'styles/components/pageAdmin.module.css'
+import '../../../../static/App.css'
+import Style from '../../../../styles/components/pageAdmin.module.css'
 
 import {
     fetchDiskTable,
     changeBranch,
     setStun,
     setAutoupdate,
-} from 'actions/index.js'
+} from '../../../../actions/index.js'
 
 class DiskTable extends Component {
     constructor(props) {

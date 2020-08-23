@@ -11,9 +11,9 @@ import {
     Tooltip,
 } from 'recharts'
 
-import { fetchUserReport } from 'actions/index.js'
+import { fetchUserReport } from '../../../../actions/index.js'
 
-import CustomerList from 'containers/DashboardContainer/AnalyticsPage/components/CustomerList'
+import CustomerList from '../components/CustomerList'
 
 class UserStats extends Component {
     constructor(props) {

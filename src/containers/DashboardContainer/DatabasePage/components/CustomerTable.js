@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { Table } from 'antd'
 import moment from 'moment'
 
-import 'static/App.css'
+import '../../../../static/App.css'
 import 'antd/dist/antd.css'
-import Style from 'styles/components/pageAdmin.module.css'
+import Style from '../../../../styles/components/pageAdmin.module.css'
 
-import { fetchCustomers } from 'actions/index.js'
+import { fetchCustomers } from '../../../../actions/index.js'
 
 class CustomerTable extends Component {
     constructor(props) {

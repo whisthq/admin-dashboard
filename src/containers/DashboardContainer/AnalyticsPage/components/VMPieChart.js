@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { PieChart, Pie, ResponsiveContainer, Cell } from 'recharts'
 
-import 'static/App.css'
+import '../../../../static/App.css'
 
 class VMPieChart extends Component {
     render() {
