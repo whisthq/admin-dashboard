@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { put, takeEvery, all, call, select, delay } from 'redux-saga/effects'
-import * as FormAction from '../actions/index.js'
-import { apiPost, apiGet, fetchGraphQL } from '../utils/Api.js'
+import * as FormAction from '../actions/index'
+import { apiPost, apiGet, fetchGraphQL } from '../utils/Api'
 import history from '../history'
-import { config } from '../constants.js'
+import { config } from '../constants'
 
-function* fetchVms(action) {
-    const state = yield select()
+function* fetchVms(action: ReturnType<typeof FormAction.fetchVMs>) {
+    yield select()
     if (!action.updated) {
         const json = yield call(
             fetchGraphQL,
@@ -32,7 +32,7 @@ function* fetchVms(action) {
     }
 }
 
-function* loginUser(action) {
+function* loginUser(action: ReturnType<typeof FormAction.loginUser>) {
     const { json, response } = yield call(
         apiPost,
         config.url.PRIMARY_SERVER + '/admin/login',
@@ -76,9 +76,8 @@ function* fetchUserActivity() {
     }
 }
 
-function* fetchUserTable(action) {
-    const state = yield select()
-
+function* fetchUserTable(action: ReturnType<typeof FormAction.fetchUserTable>) {
+    yield select()
     if (!action.updated) {
         const json = yield call(
             fetchGraphQL,
@@ -109,7 +108,7 @@ function* fetchUserTable(action) {
     }
 }
 
-function* fetchCustomers(action) {
+function* fetchCustomers() {
     const state = yield select()
     const { json, response } = yield call(
         apiGet,
@@ -122,7 +121,7 @@ function* fetchCustomers(action) {
     }
 }
 
-function* deleteUser(action) {
+function* deleteUser(action: ReturnType<typeof FormAction.deleteUser>) {
     const state = yield select()
     const { json } = yield call(
         apiPost,
@@ -138,7 +137,7 @@ function* deleteUser(action) {
     }
 }
 
-function* deleteSubscription(action) {
+function* deleteSubscription(action: ReturnType<typeof FormAction.deleteSubscription>) {
     const state = yield select()
     yield call(
         apiPost,
@@ -150,14 +149,14 @@ function* deleteSubscription(action) {
     )
 }
 
-function* startVM(action) {
+function* startVM(action: ReturnType<typeof FormAction.startVM>) {
     const state = yield select()
 
     let body
     if (config.new_server) {
         body = {
             vm_name: action.vm_name,
-            resource_group: config.url.VM_GROUP,
+            // resource_group: config.url.VM_GROUP,
         }
     } else {
         body = {
@@ -181,7 +180,7 @@ function* startVM(action) {
     }
 }
 
-function* deallocateVM(action) {
+function* deallocateVM(action: ReturnType<typeof FormAction.deallocateVM>) {
     const state = yield select()
     const { json } = yield call(
         apiPost,
@@ -201,7 +200,7 @@ function* deallocateVM(action) {
     }
 }
 
-function* getVMStatus(id, vm_name) {
+function* getVMStatus(id: string, vm_name: any) {
     var { json } = yield call(
         apiGet,
         (config.url.PRIMARY_SERVER + '/status/').concat(id),
@@ -223,8 +222,8 @@ function* getVMStatus(id, vm_name) {
     }
 }
 
-function* fetchLogs(action) {
-    const state = yield select()
+function* fetchLogs(action: ReturnType<typeof FormAction.fetchLogs>) {
+    yield select()
     let condition = action.username
         ? `(where: {user_id: {_eq: "${action.username}"}})`
         : ''
@@ -256,9 +255,8 @@ function* fetchLogs(action) {
     }
 }
 
-function* fetchLogsByConnection(action) {
-    const state = yield select()
-
+function* fetchLogsByConnection(action: ReturnType<typeof FormAction.fetchLogsByConnection>) {
+    yield select()
     const json = yield call(
         fetchGraphQL,
         ` query FetchLogsByConnection {
@@ -290,7 +288,7 @@ function* fetchLogsByConnection(action) {
     }
 }
 
-function* deleteLogs(action) {
+function* deleteLogs(action: ReturnType<typeof FormAction.deleteLogs>) {
     const state = yield select()
 
     const { json } = yield call(
@@ -309,8 +307,8 @@ function* deleteLogs(action) {
     }
 }
 
-function* setStun(action) {
-    const state = yield select()
+function* setStun(action: ReturnType<typeof FormAction.setStun>) {
+    yield select()
     const json = yield call(
         fetchGraphQL,
         `mutation SetStun {
@@ -328,8 +326,8 @@ function* setStun(action) {
     }
 }
 
-function* setAutoupdate(action) {
-    const state = yield select()
+function* setAutoupdate(action: ReturnType<typeof FormAction.setAutoupdate>) {
+    yield select()
     const json = yield call(
         fetchGraphQL,
         `mutation SetAutoupdate {
@@ -347,7 +345,7 @@ function* setAutoupdate(action) {
     }
 }
 
-function* changeBranch(action) {
+function* changeBranch(action: ReturnType<typeof FormAction.changeBranch>) {
     const json = yield call(
         fetchGraphQL,
         `mutation SetBranch {
@@ -407,7 +405,7 @@ function* fetchLatestReport() {
     }
 }
 
-function* fetchRegionReport(action) {
+function* fetchRegionReport(action: ReturnType<typeof FormAction.fetchRegionReport>) {
     const state = yield select()
     const { json } = yield call(
         apiPost,
@@ -423,7 +421,7 @@ function* fetchRegionReport(action) {
     }
 }
 
-function* fetchUserReport(action) {
+function* fetchUserReport(action: ReturnType<typeof FormAction.fetchUserReport>) {
     const state = yield select()
     const { json } = yield call(
         apiPost,
@@ -466,13 +464,11 @@ function* fetchTotalSignups() {
     }
 }
 
-function* analyzeLogs(action) {
+function* analyzeLogs(action: ReturnType<typeof FormAction.analyzeLogs>) {
     const state = yield select()
-    var { json } = {}
     // Analyze client logs
-
     if (action.client_filename) {
-        json = yield call(
+        var { json } = yield call(
             apiPost,
             config.url.PRIMARY_SERVER + '/analytics/logs',
             {
@@ -490,7 +486,6 @@ function* analyzeLogs(action) {
     }
 
     // Analyze server logs
-
     if (action.server_filename) {
         json = yield call(
             apiPost,
@@ -528,17 +523,17 @@ function* fetchBookmarkedLogs() {
 
     if (json && json.data) {
         let connection_ids = json.data.logs_protocol_logs.map(
-            (log) => log.connection_id
+            (log: { connection_id: any }) => log.connection_id
         )
         yield put(FormAction.storeBookmarkedLogs(connection_ids))
     }
 }
 
-function* bookmarkLogs(action) {
-    const state = yield select()
+function* bookmarkLogs(action: ReturnType<typeof FormAction.bookmarkLogs>) {
+    yield select()
     yield call(
         fetchGraphQL,
-        ` mutation BokmarkLogs {
+        ` mutation BookmarkLogs {
             update_logs_protocol_logs(where: {connection_id: {_eq: "${
                 action.connection_id
             }"}}, _set: {bookmarked: ${action.bookmark.toString()}}) {
@@ -546,7 +541,7 @@ function* bookmarkLogs(action) {
             }
           }
       `,
-        'BokmarkLogs',
+        'BookmarkLogs',
         {}
     )
 }

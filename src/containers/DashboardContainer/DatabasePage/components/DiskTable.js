@@ -12,7 +12,7 @@ import {
     changeBranch,
     setStun,
     setAutoupdate,
-} from '../../../../actions/index.js'
+} from '../../../../actions/index'
 
 class DiskTable extends Component {
     constructor(props) {

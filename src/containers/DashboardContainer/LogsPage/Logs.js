@@ -27,7 +27,7 @@ import {
     storeBookmarkedLogs,
     bookmarkLogs,
     clearLogs,
-} from '../../../actions/index.js'
+} from '../../../actions/index'
 
 import { config } from '../../../constants'
 

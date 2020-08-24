@@ -9,7 +9,7 @@ import '../../../../static/App.css'
 import 'antd/dist/antd.css'
 import Style from '../../../../styles/components/pageAdmin.module.css'
 
-import { fetchUserTable, deleteUser } from '../../../../actions/index.js'
+import { fetchUserTable, deleteUser } from '../../../../actions/index'
 
 class UserTable extends Component {
     constructor(props) {

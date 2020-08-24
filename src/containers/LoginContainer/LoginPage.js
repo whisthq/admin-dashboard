@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom'
 
 import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux'
-import { loginUser } from '../../actions/index.js'
+import { loginUser } from '../../actions/index'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'

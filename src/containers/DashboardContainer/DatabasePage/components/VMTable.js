@@ -14,7 +14,7 @@ import {
     faPause,
 } from '@fortawesome/free-solid-svg-icons'
 
-import { startVM, deallocateVM, fetchVMs } from '../../../../actions/index.js'
+import { startVM, deallocateVM, fetchVMs } from '../../../../actions/index'
 
 class VMTable extends Component {
     constructor(props) {

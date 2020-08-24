@@ -15,7 +15,7 @@ import {
 
 import '../../../../static/App.css'
 
-import { fetchRegionReport, fetchLatestReport } from '../../../../actions/index.js'
+import { fetchRegionReport, fetchLatestReport } from '../../../../actions/index'
 
 class GeneralStats extends Component {
     constructor(props) {

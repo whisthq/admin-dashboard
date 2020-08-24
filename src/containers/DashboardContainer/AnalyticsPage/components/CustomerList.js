@@ -6,7 +6,7 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import '../../../../static/App.css'
 import Style from '../../../../styles/components/pageAdmin.module.css'
 
-import { fetchCustomers } from '../../../../actions/index.js'
+import { fetchCustomers } from '../../../../actions/index'
 
 class CustomerList extends Component {
     constructor(props) {

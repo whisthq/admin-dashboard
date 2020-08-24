@@ -11,7 +11,7 @@ import {
     Tooltip,
 } from 'recharts'
 
-import { fetchUserReport } from '../../../../actions/index.js'
+import { fetchUserReport } from '../../../../actions/index'
 
 import CustomerList from '../components/CustomerList'
 

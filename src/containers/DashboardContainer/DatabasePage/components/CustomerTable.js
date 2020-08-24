@@ -7,7 +7,7 @@ import '../../../../static/App.css'
 import 'antd/dist/antd.css'
 import Style from '../../../../styles/components/pageAdmin.module.css'
 
-import { fetchCustomers } from '../../../../actions/index.js'
+import { fetchCustomers } from '../../../../actions/index'
 
 class CustomerTable extends Component {
     constructor(props) {
