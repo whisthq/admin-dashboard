@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'antd'
 import moment from 'moment'
@@ -9,8 +9,8 @@ import Style from '../../../../styles/components/pageAdmin.module.css'
 
 import { fetchCustomers } from '../../../../actions/index'
 
-class CustomerTable extends Component {
-    constructor(props) {
+class CustomerTable extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
         this.state = {
             customers_fetched: false,
@@ -19,7 +19,7 @@ class CustomerTable extends Component {
     }
 
     // intervalID var to keep track of auto-refreshing across functions
-    intervalID
+    intervalID: any | undefined
 
     componentDidMount() {
         this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000)
@@ -30,7 +30,7 @@ class CustomerTable extends Component {
         clearInterval(this.intervalID)
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate() {
         if (
             this.props.access_token &&
             this.props.customers.length === 0 &&
@@ -51,7 +51,7 @@ class CustomerTable extends Component {
         this.props.dispatch(fetchCustomers())
     }
 
-    keywordFilter = (e) => {
+    keywordFilter = (e: any) => {
         let filterKeyword = e.target.value
         this.setState({
             filterKeyword: filterKeyword,
@@ -59,26 +59,26 @@ class CustomerTable extends Component {
     }
 
     render() {
-        let columns = []
-        let data = []
+        let columns: any[] = []
+        let data: any[] = [] 
         if (this.props.customers && this.props.customers.length) {
             Object.keys(this.props.customers[0]).forEach(function (key) {
-                let fixWidth = false
+                let fixWidth: any = false
                 if (key === 'username') {
                     fixWidth = 200
                 } else if (key === 'trial_end' || key === 'created') {
                     fixWidth = 150
                 }
-                let customRender = false
+                let customRender: any = false
                 if (key === 'trial_end' || key === 'created') {
-                    customRender = (text) => (
+                    customRender = (text: any) => (
                         <p>{moment(text * 1000).format('lll')}</p>
                     )
                 }
                 columns.push({
                     title: key,
                     dataIndex: key,
-                    sorter: (a, b) => {
+                    sorter: (a: any, b: any) => {
                         if (a[key] === null) {
                             return 1
                         }
@@ -102,7 +102,7 @@ class CustomerTable extends Component {
             })
             columns.reverse()
 
-            this.props.customers.forEach(function (customer) {
+            this.props.customers.forEach(function (customer: any) {
                 data.push(customer)
             })
             if (this.state.filterKeyword) {
@@ -138,7 +138,7 @@ class CustomerTable extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         customers: state.AccountReducer.customers
             ? state.AccountReducer.customers.reverse()

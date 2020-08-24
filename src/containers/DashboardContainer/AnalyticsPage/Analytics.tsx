@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
@@ -6,12 +6,12 @@ import { changePage } from '../../../actions/index'
 
 import '../../../static/App.css'
 
-import GeneralStats from '../AnalyticsPage/components/GeneralStats'
-import UserStats from '../AnalyticsPage/components/UserStats'
-import SummaryStats from '../AnalyticsPage/components/SummaryStats'
-import VMPieChart from '../AnalyticsPage/components/VMPieChart'
+import GeneralStats from './components/GeneralStats'
+import UserStats from './components/UserStats'
+import SummaryStats from './components/SummaryStats'
+import VMPieChart from './components/VMPieChart'
 
-class Analytics extends Component {
+class Analytics extends React.Component<any, any> {
     componentDidMount() {
         this.props.dispatch(changePage('analytics'))
     }
@@ -139,7 +139,7 @@ class Analytics extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         latestReport: state.AccountReducer.latestReport,
     }

@@ -28,7 +28,7 @@ const DEFAULT = {
     bookmarked_log_ids: [],
 }
 
-export default function (state = DEFAULT, action) {
+export default function (state = DEFAULT, action: any) {
     switch (action.type) {
         case AccountAction.AUTHENTICATE_USER:
             return {
@@ -139,7 +139,7 @@ export default function (state = DEFAULT, action) {
                 ...state,
                 logs: state.logs
                     ? state.logs.filter(
-                          (log) => log.connection_id !== action.connection_id
+                          (log: any) => log.connection_id !== action.connection_id
                       )
                     : [],
             }
@@ -176,15 +176,18 @@ export default function (state = DEFAULT, action) {
         case AccountAction.STORE_LOG_ANALYSIS:
             const payload_id = action.payload_id
             const sender = action.sender
+            function hasKey<O>(obj: O, key: keyof any): key is keyof O {
+                return key in obj
+              }
             return {
                 ...state,
                 log_analysis: state.log_analysis
                     ? {
                           ...state.log_analysis,
-                          [payload_id]: {
-                              ...state.log_analysis[payload_id],
+                          [payload_id]: hasKey(state.log_analysis, payload_id) ? {
+                              ...(state.log_analysis[payload_id] as object),
                               [sender]: action.payload,
-                          },
+                          } : {[sender]: action.payload}
                       }
                     : {},
             }

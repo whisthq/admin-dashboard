@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { PieChart, Pie, ResponsiveContainer, Cell } from 'recharts'
 
 import '../../../../static/App.css'
 
-class VMPieChart extends Component {
+class VMPieChart extends React.Component<any, any> {
     render() {
         const data = [
             { name: 'Deallocated', value: this.props.deallocated },
@@ -44,7 +44,7 @@ class VMPieChart extends Component {
                             {this.props.location}
                         </text>
                         <Pie data={data} dataKey="value" innerRadius={70}>
-                            {data.map((entry, index) => (
+                            {data.map((_entry, index) => (
                                 <Cell fill={colors[index % colors.length]} />
                             ))}
                         </Pie>

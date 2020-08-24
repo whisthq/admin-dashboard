@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
@@ -17,8 +17,8 @@ import '../../../../static/App.css'
 
 import { fetchRegionReport, fetchLatestReport } from '../../../../actions/index'
 
-class GeneralStats extends Component {
-    constructor(props) {
+class GeneralStats extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
         this.state = {
             total: null,
@@ -34,14 +34,14 @@ class GeneralStats extends Component {
         this.props.dispatch(fetchRegionReport(this.state.timescale))
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: any) {
         if (prevProps.regionReport !== this.props.regionReport) {
-            let total = [],
-                eastus = [],
-                northcentralus = [],
-                southcentralus = []
+            let total: { x: any; 'Number of users': any }[] = [],
+                eastus: { x: any; 'Number of users': any }[] = [],
+                northcentralus: { x: any; 'Number of users': any }[] = [],
+                southcentralus: { x: any; 'Number of users': any }[] = []
 
-            this.props.regionReport.forEach((element) => {
+            this.props.regionReport.forEach((element: any) => {
                 total.push({
                     x: element.timestamp,
                     'Number of users': element.users_online,
@@ -68,12 +68,12 @@ class GeneralStats extends Component {
         }
     }
 
-    handleChartSelect = (val) => {
+    handleChartSelect = (val: string) => {
         this.setState({ timescale: val })
         this.props.dispatch(fetchRegionReport(val))
     }
 
-    chartElement = (userType) => {
+    chartElement = (userType: any) => {
         let dataList = null
         switch (userType) {
             case 'total':
@@ -137,7 +137,7 @@ class GeneralStats extends Component {
                             border: 'none',
                             fontSize: 14,
                         }}
-                        labelFormatter={(unixTime) =>
+                        labelFormatter={(unixTime: any) =>
                             moment(unixTime * 1000).format(format)
                         }
                     />
@@ -229,7 +229,7 @@ class GeneralStats extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: { AccountReducer: { latestReport: any; regionReport: any } }) {
     return {
         latestReport: state.AccountReducer.latestReport,
         regionReport: state.AccountReducer.regionReport,
