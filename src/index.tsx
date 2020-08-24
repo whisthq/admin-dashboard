@@ -20,8 +20,8 @@ import rootReducer from './reducers'
 import '../src/static/App.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
-import Login from '../src/containers/LoginContainer/LoginPage'
-import Dashboard from '../src/containers/DashboardContainer/Dashboard'
+import Login from './containers/LoginContainer/LoginPage'
+import Dashboard from './containers/DashboardContainer/Dashboard'
 
 const persistConfig = {
     key: 'rootKey',

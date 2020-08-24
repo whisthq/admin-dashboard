@@ -1,4 +1,4 @@
-import { config } from '../constants.js'
+import { config } from '../constants'
 
 export function apiPost(endpoint, body, token) {
     return fetch(endpoint, {
