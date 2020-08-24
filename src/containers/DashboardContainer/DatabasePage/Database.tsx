@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { connect } from 'react-redux'
 
@@ -12,13 +12,13 @@ import {
     changePage,
 } from '../../../actions/index'
 
-import VMTable from '../DatabasePage/components/VMTable'
-import UserTable from '../DatabasePage/components/UserTable'
-import CustomerTable from '../DatabasePage/components/CustomerTable'
-import DiskTable from '../DatabasePage/components/DiskTable'
+import VMTable from './components/VMTable'
+import UserTable from './components/UserTable'
+import CustomerTable from './components/CustomerTable'
+import DiskTable from './components/DiskTable'
 
-class Dashboard extends Component {
-    constructor(props) {
+class Dashboard extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
         this.state = {
             loaded: false,
@@ -27,22 +27,22 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(fetchUserActivity(false))
+        this.props.dispatch(fetchUserActivity())
         this.props.dispatch(changePage('dashboard'))
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate() {
         if (
             this.props.access_token &&
             this.props.userTable.length === 0 &&
             !this.state.userTableFetched
         ) {
-            this.props.dispatch(fetchUserTable())
+            this.props.dispatch(fetchUserTable(true))
             this.setState({ userTableFetched: true })
         }
     }
 
-    deleteUser = (user) => {
+    deleteUser = (user: any) => {
         this.props.dispatch(deleteUser(user))
     }
 
@@ -118,7 +118,7 @@ class Dashboard extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         vm_info: state.AccountReducer.vm_info
             ? state.AccountReducer.vm_info

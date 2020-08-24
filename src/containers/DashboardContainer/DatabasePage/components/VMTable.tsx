@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import moment from 'moment'
@@ -16,8 +16,8 @@ import {
 
 import { startVM, deallocateVM, fetchVMs } from '../../../../actions/index'
 
-class VMTable extends Component {
-    constructor(props) {
+class VMTable extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
 
         this.state = {
@@ -26,7 +26,7 @@ class VMTable extends Component {
     }
 
     // intervalID var to keep track of auto-refreshing across functions
-    intervalID
+    intervalID: any
 
     componentDidMount() {
         this.props.dispatch(fetchVMs(false))
@@ -44,15 +44,15 @@ class VMTable extends Component {
         this.props.dispatch(fetchVMs(false))
     }
 
-    startVM = (vm_name) => {
+    startVM = (vm_name: any) => {
         this.props.dispatch(startVM(vm_name))
     }
 
-    deallocateVM = (vm_name) => {
+    deallocateVM = (vm_name: any) => {
         this.props.dispatch(deallocateVM(vm_name))
     }
 
-    keywordFilter = (e) => {
+    keywordFilter = (e: any) => {
         let filterKeyword = e.target.value
         this.setState({
             filterKeyword: filterKeyword,
@@ -61,7 +61,7 @@ class VMTable extends Component {
 
     render() {
         let columns = []
-        let data = []
+        let data: any[] = []
         let keys = [
             'vm_id',
             'user_id',
@@ -78,13 +78,13 @@ class VMTable extends Component {
             columns.push({
                 title: '',
                 dataIndex: 'vmBtn',
-                render: (text, record, index) =>
+                render: (_text: any, record: any, _index: any) =>
                     vmButton(record['state'], record['vm_id'], record['lock']),
                 width: 70,
             })
 
             keys.forEach(function (key) {
-                let fixWidth = false
+                let fixWidth: any = false
                 if (
                     key === 'temporary_lock' ||
                     key === 'location' ||
@@ -94,18 +94,18 @@ class VMTable extends Component {
                 ) {
                     fixWidth = 150
                 }
-                let customRender = false
+                let customRender: any = false
                 if (key === 'temporary_lock') {
-                    customRender = (val) => (
+                    customRender = (val: any) => (
                         <span> {moment(val * 1000).format('lll')}</span>
                     )
                 } else if (key === 'lock') {
-                    customRender = (val) => <span>{val.toString()}</span>
+                    customRender = (val: any) => <span>{val.toString()}</span>
                 }
                 columns.push({
                     title: key,
                     dataIndex: key,
-                    sorter: (a, b) => {
+                    sorter: (a: any, b: any) => {
                         if (a[key] === null) {
                             return 1
                         }
@@ -128,7 +128,7 @@ class VMTable extends Component {
                 })
             })
 
-            this.props.vm_info.forEach(function (vm) {
+            this.props.vm_info.forEach(function (vm: any) {
                 data.push(vm)
             })
             if (component.state.filterKeyword) {
@@ -149,7 +149,7 @@ class VMTable extends Component {
             }
         }
 
-        let vmButton = (state, vm_name, lock) => {
+        let vmButton = (state: any, vm_name: any, lock: any) => {
             const intermediate_states = [
                 'DEALLOCATING',
                 'STARTING',
@@ -214,6 +214,7 @@ class VMTable extends Component {
                     </td>
                 )
             }
+            return(<td></td>)
         }
 
         return (
@@ -234,7 +235,7 @@ class VMTable extends Component {
                     dataSource={data}
                     scroll={{ y: 450, x: 1200 }}
                     size="middle"
-                    rowClassName={(record, index) =>
+                    rowClassName={(record, _index) =>
                         [
                             record['lock'] ||
                             Number(record['temporary_lock']) >
@@ -251,7 +252,7 @@ class VMTable extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         vm_info: state.AccountReducer.vm_info
             ? state.AccountReducer.vm_info
