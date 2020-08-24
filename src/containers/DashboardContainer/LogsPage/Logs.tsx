@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from "react";
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -31,11 +31,11 @@ import {
 
 import { config } from '../../../constants'
 
-import MiniGraph from '../LogsPage/components/MiniGraph'
-import LogDebugPanel from '../LogsPage/components/LogDebugPanel'
+import MiniGraph from './components/MiniGraph'
+import LogDebugPanel from './components/LogDebugPanel'
 
-class Logs extends Component {
-    constructor(props) {
+class Logs extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
         this.state = {
             loaded: false,
@@ -49,27 +49,28 @@ class Logs extends Component {
     }
 
     componentDidMount() {
+        let component = this;
         this.setState({ processing: false }, function () {
-            this.props.dispatch(storeBookmarkedLogs([]))
-            this.props.dispatch(fetchUserActivity(false))
-            this.props.dispatch(logsFound(false))
-            this.props.dispatch(changePage('logs'))
-            this.props.dispatch(fetchBookmarkedLogs())
+            component.props.dispatch(storeBookmarkedLogs([]))
+            component.props.dispatch(fetchUserActivity())
+            component.props.dispatch(logsFound(false))
+            component.props.dispatch(changePage('logs'))
+            component.props.dispatch(fetchBookmarkedLogs())
 
-            var connection_id = this.props.location.search
+            var connection_id = component.props.location.search
             connection_id = connection_id.substring(1, connection_id.length)
             if (connection_id && connection_id !== '') {
-                this.props.dispatch(
+                component.props.dispatch(
                     fetchLogsByConnection(connection_id, true, false, true)
                 )
-                this.setState({ processing: true })
+                component.setState({ processing: true })
             } else {
-                this.searchAllUsers()
+                component.searchAllUsers()
             }
         })
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: { bookmarked_log_ids: any }) {
         let component = this
         if (
             this.props.access_token &&
@@ -85,7 +86,7 @@ class Logs extends Component {
                 this.state.last_index
             )
             var rendered_logs = this.props.logs.slice(0, last_index)
-            rendered_logs.forEach(function (element) {
+            rendered_logs.forEach(function (element: any) {
                 component.props.dispatch(
                     analyzeLogs(
                         element.connection_id,
@@ -107,11 +108,11 @@ class Logs extends Component {
         }
     }
 
-    deleteUser = (user) => {
+    deleteUser = (user: any) => {
         this.props.dispatch(deleteUser(user))
     }
 
-    updateUser = (evt) => {
+    updateUser = (evt: { target: { value: any } }) => {
         this.setState({
             username: evt.target.value,
         })
@@ -122,7 +123,7 @@ class Logs extends Component {
         this.setState({ processing: true, last_index: 20 })
     }
 
-    searchUserKey = (evt) => {
+    searchUserKey = (evt: { key: string }) => {
         if (evt.key === 'Enter' && !this.state.processing) {
             this.searchUser()
         }
@@ -133,12 +134,12 @@ class Logs extends Component {
         this.setState({ processing: true })
     }
 
-    deleteLogs = (connection_id) => {
+    deleteLogs = (connection_id: any) => {
         this.props.dispatch(deleteLogs(connection_id))
     }
 
-    flatMap = (array, fn) => {
-        var result = []
+    flatMap = (array: string | any[], fn: (arg0: any) => any) => {
+        var result: any[] = []
         for (var i = 0; i < array.length; i++) {
             var mapping = fn(array[i])
             result = result.concat(mapping)
@@ -159,7 +160,7 @@ class Logs extends Component {
             last_true_index
         )
 
-        rendered_logs.forEach(function (element) {
+        rendered_logs.forEach(function (element: { connection_id: any; user_id: any; server_logs: any; client_logs: any }) {
             component.props.dispatch(
                 analyzeLogs(
                     element.connection_id,
@@ -175,13 +176,13 @@ class Logs extends Component {
         })
     }
 
-    copyLink = (connection_id) => {
+    copyLink = (connection_id: string) => {
         navigator.clipboard.writeText(
             config.url.WEBSITE_URL.concat('/admin/logs?').concat(connection_id)
         )
     }
 
-    bookmarkLogs = (connection_id) => {
+    bookmarkLogs = (connection_id: { toString: () => any }) => {
         connection_id = connection_id.toString()
         var bookmarked_logs_copy = []
 
@@ -217,7 +218,7 @@ class Logs extends Component {
         if (!this.state.load_bookmarked) {
             this.setState({ load_bookmarked: true, processing: true })
             this.props.dispatch(clearLogs())
-            this.state.bookmarked_logs.forEach(function (connection_id, index) {
+            this.state.bookmarked_logs.forEach(function (connection_id: any, index: number) {
                 if (index === component.state.bookmarked_logs.length - 1) {
                     component.props.dispatch(
                         fetchLogsByConnection(connection_id, true, false, true)
@@ -236,6 +237,7 @@ class Logs extends Component {
 
     render() {
         var header = []
+        let component = this
         if (this.props.logs.length > 0) {
             Object.keys(this.props.logs[0]).forEach(function (key) {
                 header.push(key)
@@ -402,7 +404,7 @@ class Logs extends Component {
                                             this.state.last_index
                                         )
                                     )
-                                    .map((value, index) => {
+                                    .map(function(value: any) {
                                         return (
                                             <div
                                                 style={{
@@ -420,7 +422,6 @@ class Logs extends Component {
                                                         height: 50,
                                                         padding: 10,
                                                         paddingBottom: 20,
-                                                        key: 'logs',
                                                         width: '100%',
                                                         display: 'flex',
                                                     }}
@@ -570,7 +571,7 @@ class Logs extends Component {
                                                 >
                                                     <div
                                                         onClick={() =>
-                                                            this.bookmarkLogs(
+                                                            component.bookmarkLogs(
                                                                 value[
                                                                     'connection_id'
                                                                 ]
@@ -582,9 +583,9 @@ class Logs extends Component {
                                                             position:
                                                                 'relative',
                                                             background:
-                                                                this.state
+                                                                component.state
                                                                     .bookmarked_logs &&
-                                                                this.state.bookmarked_logs.includes(
+                                                                component.state.bookmarked_logs.includes(
                                                                     value[
                                                                         'connection_id'
                                                                     ].toString()
@@ -601,9 +602,9 @@ class Logs extends Component {
                                                             style={{
                                                                 fontSize: 13,
                                                                 color:
-                                                                    this.state
+                                                                    component.state
                                                                         .bookmarked_logs &&
-                                                                    this.state.bookmarked_logs.includes(
+                                                                    component.state.bookmarked_logs.includes(
                                                                         value[
                                                                             'connection_id'
                                                                         ].toString()
@@ -616,7 +617,7 @@ class Logs extends Component {
                                                     </div>
                                                     <div
                                                         onClick={() =>
-                                                            this.copyLink(
+                                                            component.copyLink(
                                                                 value[
                                                                     'connection_id'
                                                                 ]
@@ -647,7 +648,7 @@ class Logs extends Component {
                                                     </div>
                                                     <Button
                                                         onClick={() =>
-                                                            this.deleteLogs(
+                                                            component.deleteLogs(
                                                                 value[
                                                                     'connection_id'
                                                                 ]
@@ -679,7 +680,7 @@ class Logs extends Component {
                                                     <div>
                                                         <LogDebugPanel
                                                             log_analysis={
-                                                                this.props
+                                                                component.props
                                                                     .log_analysis
                                                             }
                                                             sender="server"
@@ -705,7 +706,7 @@ class Logs extends Component {
                                                     <div>
                                                         <LogDebugPanel
                                                             log_analysis={
-                                                                this.props
+                                                                component.props
                                                                     .log_analysis
                                                             }
                                                             sender="client"
@@ -738,7 +739,7 @@ class Logs extends Component {
                                                         <MiniGraph
                                                             title="Avg. Encode Time"
                                                             log_analysis={
-                                                                this.props
+                                                                component.props
                                                                     .log_analysis
                                                             }
                                                             username={
@@ -768,7 +769,7 @@ class Logs extends Component {
                                                         <MiniGraph
                                                             title="Avg. Encode Size"
                                                             log_analysis={
-                                                                this.props
+                                                                component.props
                                                                     .log_analysis
                                                             }
                                                             username={
@@ -798,7 +799,7 @@ class Logs extends Component {
                                                         <MiniGraph
                                                             title="Avg. Decode Time"
                                                             log_analysis={
-                                                                this.props
+                                                                component.props
                                                                     .log_analysis
                                                             }
                                                             username={
@@ -828,7 +829,7 @@ class Logs extends Component {
                                                         <MiniGraph
                                                             title="Client Latency"
                                                             log_analysis={
-                                                                this.props
+                                                                component.props
                                                                     .log_analysis
                                                             }
                                                             username={
@@ -883,7 +884,7 @@ class Logs extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         logs: state.AccountReducer.logs ? state.AccountReducer.logs : [],
         access_token: state.AccountReducer.access_token,

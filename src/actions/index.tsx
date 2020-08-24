@@ -355,7 +355,7 @@ export function storeLogAnalysis(payload_id: any, payload: any, sender: string) 
 }
 
 export function fetchLogsByConnection(
-    connection_id: never,
+    connection_id: any,
     logs_not_found: boolean,
     fetch_all: boolean,
     last_log: boolean
