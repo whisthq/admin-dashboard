@@ -1,6 +1,6 @@
 import * as AccountAction from '../actions/index'
 
-const DEFAULT = {
+const DEFAULT: any = {
     vm_info: [],
     authenticated: false,
     vmsUpdated: false,
@@ -107,7 +107,7 @@ export default function (state = DEFAULT, action: any) {
             return {
                 ...state,
                 vms_updating: state.vms_updating
-                    ? state.vms_updating.filter((vm) => vm !== action.vm_name)
+                    ? state.vms_updating.filter((vm: any) => vm !== action.vm_name)
                     : [],
             }
         case AccountAction.STORE_LOGS:

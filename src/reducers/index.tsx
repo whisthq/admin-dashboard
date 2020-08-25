@@ -5,7 +5,7 @@ const reducers = combineReducers({
     AccountReducer: AccountReducer,
 })
 
-const rootReducer = (state, action) => {
+const rootReducer = (state: any, action: any) => {
     if (action.type === 'RESET_REDUX') {
         state = undefined
     }
