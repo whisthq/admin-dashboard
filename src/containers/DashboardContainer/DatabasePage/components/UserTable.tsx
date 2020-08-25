@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Popup from 'reactjs-popup'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,8 +11,8 @@ import Style from '../../../../styles/components/pageAdmin.module.css'
 
 import { fetchUserTable, deleteUser } from '../../../../actions/index'
 
-class UserTable extends Component {
-    constructor(props) {
+class UserTable extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
 
         this.state = {
@@ -21,14 +21,14 @@ class UserTable extends Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(fetchUserTable())
+        this.props.dispatch(fetchUserTable(true))
     }
 
-    deleteUser = (user) => {
+    deleteUser = (user: any) => {
         this.props.dispatch(deleteUser(user))
     }
 
-    keywordFilter = (e) => {
+    keywordFilter = (e: any) => {
         let component = this
         let filterKeyword = e.target.value
 
@@ -42,7 +42,8 @@ class UserTable extends Component {
             {
                 title: '',
                 dataIndex: 'deleteBtn',
-                render: (username) => (
+                render: (username: any) => (
+                    // @ts-ignore
                     <Popup
                         trigger={
                             <FontAwesomeIcon
@@ -107,8 +108,8 @@ class UserTable extends Component {
                 ),
             },
         ]
-        let mainColumns = []
-        let data = []
+        let mainColumns: any[] = []
+        let data: any[] = []
         let keys = [
             'email',
             'name',
@@ -124,7 +125,7 @@ class UserTable extends Component {
         ]
         if (this.props.userTable && this.props.userTable.length) {
             keys.forEach(function (key) {
-                var fixWidth = false
+                var fixWidth: any = false
                 if (key === 'email') {
                     fixWidth = 250
                 } else if (
@@ -137,7 +138,7 @@ class UserTable extends Component {
                 mainColumns.push({
                     title: key,
                     dataIndex: key,
-                    sorter: (a, b) => {
+                    sorter: (a: any, b: any) => {
                         if (a[key] === null) {
                             return 1
                         }
@@ -157,7 +158,7 @@ class UserTable extends Component {
                     ellipsis: key === 'password',
                 })
             })
-            this.props.userTable.forEach(function (user) {
+            this.props.userTable.forEach(function (user: any) {
                 data.push({
                     ...user,
                     deleteBtn: user['email'],
@@ -198,7 +199,7 @@ class UserTable extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         userTable: state.AccountReducer.userTable
             ? state.AccountReducer.userTable.reverse()
