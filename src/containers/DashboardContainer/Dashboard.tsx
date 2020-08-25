@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { Route, Switch, Redirect } from 'react-router-dom'
@@ -15,8 +15,8 @@ import '../../static/App.css'
 import 'react-tabs/style/react-tabs.css'
 
 
-class Admin extends Component {
-    constructor(props) {
+class Admin extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
         this.state = {
             date: 0,
@@ -28,7 +28,7 @@ class Admin extends Component {
         this.setState({
             date: moment(Date.now()).format('MMMM Do, YYYY'),
         })
-        this.props.dispatch(fetchUserActivity(false))
+        this.props.dispatch(fetchUserActivity())
     }
 
     updateWindowDimensions() {
@@ -100,7 +100,7 @@ class Admin extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         authenticated: state.AccountReducer.authenticated,
     }
