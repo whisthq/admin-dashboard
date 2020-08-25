@@ -1,7 +1,7 @@
 import { config } from '../constants'
 
-export function apiPost(endpoint, body, token) {
-    return fetch(endpoint, {
+export async function apiPost(endpoint: any, body: any, token: any) {
+    const response = await fetch(endpoint, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -9,26 +9,26 @@ export function apiPost(endpoint, body, token) {
             Authorization: 'Bearer ' + token,
         },
         body: JSON.stringify(body),
-    }).then((response) => {
-        return response.json().then((json) => ({ json, response }))
     })
+    const json = await response.json()
+    return ({ json, response })
 }
 
-export function apiGet(endpoint, token) {
-    return fetch(endpoint, {
+export async function apiGet(endpoint: any, token: any) {
+    const response = await fetch(endpoint, {
         method: 'GET',
         mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + token,
         },
-    }).then((response) => {
-        return response.json().then((json) => ({ json, response }))
     })
+    const json = await response.json()
+    return ({ json, response })
 }
 
-export function fetchGraphQL(operationsDoc, operationName, variables) {
-    return fetch(config.url.GRAPHQL, {
+export async function fetchGraphQL(operationsDoc: any, operationName: any, variables: any) {
+    const response = await fetch(config.url.GRAPHQL, {
         method: 'POST',
         headers: {
             'x-hasura-admin-secret': config.graphQL.SECRET,
@@ -38,7 +38,6 @@ export function fetchGraphQL(operationsDoc, operationName, variables) {
             variables: variables,
             operationName: operationName,
         }),
-    }).then((response) => {
-        return response.json()
     })
+    return response.json()
 }

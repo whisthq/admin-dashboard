@@ -39,7 +39,8 @@ function* loginUser(action: ReturnType<typeof FormAction.loginUser>) {
         {
             username: action.username,
             password: action.password,
-        }
+        },
+        {}
     )
 
     if (json && response.status === 200) {
