@@ -229,7 +229,9 @@ class GeneralStats extends React.Component<any, any> {
     }
 }
 
-function mapStateToProps(state: { AccountReducer: { latestReport: any; regionReport: any } }) {
+function mapStateToProps(state: {
+    AccountReducer: { latestReport: any; regionReport: any }
+}) {
     return {
         latestReport: state.AccountReducer.latestReport,
         regionReport: state.AccountReducer.regionReport,

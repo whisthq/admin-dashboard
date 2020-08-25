@@ -214,7 +214,7 @@ class VMTable extends React.Component<any, any> {
                     </td>
                 )
             }
-            return(<td></td>)
+            return <td></td>
         }
 
         return (

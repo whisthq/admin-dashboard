@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -49,7 +49,7 @@ class Logs extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        let component = this;
+        let component = this
         this.setState({ processing: false }, function () {
             component.props.dispatch(storeBookmarkedLogs([]))
             component.props.dispatch(fetchUserActivity())
@@ -160,7 +160,12 @@ class Logs extends React.Component<any, any> {
             last_true_index
         )
 
-        rendered_logs.forEach(function (element: { connection_id: any; user_id: any; server_logs: any; client_logs: any }) {
+        rendered_logs.forEach(function (element: {
+            connection_id: any
+            user_id: any
+            server_logs: any
+            client_logs: any
+        }) {
             component.props.dispatch(
                 analyzeLogs(
                     element.connection_id,
@@ -218,7 +223,10 @@ class Logs extends React.Component<any, any> {
         if (!this.state.load_bookmarked) {
             this.setState({ load_bookmarked: true, processing: true })
             this.props.dispatch(clearLogs())
-            this.state.bookmarked_logs.forEach(function (connection_id: any, index: number) {
+            this.state.bookmarked_logs.forEach(function (
+                connection_id: any,
+                index: number
+            ) {
                 if (index === component.state.bookmarked_logs.length - 1) {
                     component.props.dispatch(
                         fetchLogsByConnection(connection_id, true, false, true)
@@ -404,7 +412,7 @@ class Logs extends React.Component<any, any> {
                                             this.state.last_index
                                         )
                                     )
-                                    .map(function(value: any) {
+                                    .map(function (value: any) {
                                         return (
                                             <div
                                                 style={{
@@ -602,7 +610,8 @@ class Logs extends React.Component<any, any> {
                                                             style={{
                                                                 fontSize: 13,
                                                                 color:
-                                                                    component.state
+                                                                    component
+                                                                        .state
                                                                         .bookmarked_logs &&
                                                                     component.state.bookmarked_logs.includes(
                                                                         value[

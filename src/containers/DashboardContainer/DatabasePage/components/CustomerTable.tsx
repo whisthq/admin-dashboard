@@ -60,7 +60,7 @@ class CustomerTable extends React.Component<any, any> {
 
     render() {
         let columns: any[] = []
-        let data: any[] = [] 
+        let data: any[] = []
         if (this.props.customers && this.props.customers.length) {
             Object.keys(this.props.customers[0]).forEach(function (key) {
                 let fixWidth: any = false

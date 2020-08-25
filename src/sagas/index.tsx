@@ -138,7 +138,9 @@ function* deleteUser(action: ReturnType<typeof FormAction.deleteUser>) {
     }
 }
 
-function* deleteSubscription(action: ReturnType<typeof FormAction.deleteSubscription>) {
+function* deleteSubscription(
+    action: ReturnType<typeof FormAction.deleteSubscription>
+) {
     const state = yield select()
     yield call(
         apiPost,
@@ -256,7 +258,9 @@ function* fetchLogs(action: ReturnType<typeof FormAction.fetchLogs>) {
     }
 }
 
-function* fetchLogsByConnection(action: ReturnType<typeof FormAction.fetchLogsByConnection>) {
+function* fetchLogsByConnection(
+    action: ReturnType<typeof FormAction.fetchLogsByConnection>
+) {
     yield select()
     const json = yield call(
         fetchGraphQL,
@@ -406,7 +410,9 @@ function* fetchLatestReport() {
     }
 }
 
-function* fetchRegionReport(action: ReturnType<typeof FormAction.fetchRegionReport>) {
+function* fetchRegionReport(
+    action: ReturnType<typeof FormAction.fetchRegionReport>
+) {
     const state = yield select()
     const { json } = yield call(
         apiPost,
@@ -422,7 +428,9 @@ function* fetchRegionReport(action: ReturnType<typeof FormAction.fetchRegionRepo
     }
 }
 
-function* fetchUserReport(action: ReturnType<typeof FormAction.fetchUserReport>) {
+function* fetchUserReport(
+    action: ReturnType<typeof FormAction.fetchUserReport>
+) {
     const state = yield select()
     const { json } = yield call(
         apiPost,

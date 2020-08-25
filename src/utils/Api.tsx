@@ -11,7 +11,7 @@ export async function apiPost(endpoint: any, body: any, token: any) {
         body: JSON.stringify(body),
     })
     const json = await response.json()
-    return ({ json, response })
+    return { json, response }
 }
 
 export async function apiGet(endpoint: any, token: any) {
@@ -24,10 +24,14 @@ export async function apiGet(endpoint: any, token: any) {
         },
     })
     const json = await response.json()
-    return ({ json, response })
+    return { json, response }
 }
 
-export async function fetchGraphQL(operationsDoc: any, operationName: any, variables: any) {
+export async function fetchGraphQL(
+    operationsDoc: any,
+    operationName: any,
+    variables: any
+) {
     const response = await fetch(config.url.GRAPHQL, {
         method: 'POST',
         headers: {

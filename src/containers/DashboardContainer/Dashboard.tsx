@@ -14,7 +14,6 @@ import Analytics from './AnalyticsPage/Analytics'
 import '../../static/App.css'
 import 'react-tabs/style/react-tabs.css'
 
-
 class Admin extends React.Component<any, any> {
     constructor(props: any) {
         super(props)

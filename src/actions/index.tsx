@@ -193,7 +193,11 @@ export function doneUpdating(vm_name: any) {
     }
 }
 
-export function fetchLogs(username: string, logs_not_found: boolean, fetch_all: boolean) {
+export function fetchLogs(
+    username: string,
+    logs_not_found: boolean,
+    fetch_all: boolean
+) {
     return {
         type: FETCH_LOGS,
         username,
@@ -202,7 +206,11 @@ export function fetchLogs(username: string, logs_not_found: boolean, fetch_all: 
     }
 }
 
-export function storeLogs(logs: never[], logs_not_found: boolean, last_log: boolean) {
+export function storeLogs(
+    logs: never[],
+    logs_not_found: boolean,
+    last_log: boolean
+) {
     return {
         type: STORE_LOGS,
         logs,
@@ -345,7 +353,11 @@ export function analyzeLogs(
     }
 }
 
-export function storeLogAnalysis(payload_id: any, payload: any, sender: string) {
+export function storeLogAnalysis(
+    payload_id: any,
+    payload: any,
+    sender: string
+) {
     return {
         type: STORE_LOG_ANALYSIS,
         payload_id,

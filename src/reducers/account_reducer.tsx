@@ -139,7 +139,8 @@ export default function (state = DEFAULT, action: any) {
                 ...state,
                 logs: state.logs
                     ? state.logs.filter(
-                          (log: any) => log.connection_id !== action.connection_id
+                          (log: any) =>
+                              log.connection_id !== action.connection_id
                       )
                     : [],
             }
@@ -178,16 +179,20 @@ export default function (state = DEFAULT, action: any) {
             const sender = action.sender
             function hasKey<O>(obj: O, key: keyof any): key is keyof O {
                 return key in obj
-              }
+            }
             return {
                 ...state,
                 log_analysis: state.log_analysis
                     ? {
                           ...state.log_analysis,
-                          [payload_id]: hasKey(state.log_analysis, payload_id) ? {
-                              ...(state.log_analysis[payload_id] as object),
-                              [sender]: action.payload,
-                          } : {[sender]: action.payload}
+                          [payload_id]: hasKey(state.log_analysis, payload_id)
+                              ? {
+                                    ...(state.log_analysis[
+                                        payload_id
+                                    ] as object),
+                                    [sender]: action.payload,
+                                }
+                              : { [sender]: action.payload },
                       }
                     : {},
             }

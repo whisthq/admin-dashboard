@@ -68,7 +68,10 @@ class CustomerList extends React.Component<any, any> {
                             flexWrap: 'wrap',
                         }}
                     >
-                        {this.props.customers.map(function (value: any, index: any) {
+                        {this.props.customers.map(function (
+                            value: any,
+                            index: any
+                        ) {
                             if (value && value['username'] !== '') {
                                 return (
                                     <div

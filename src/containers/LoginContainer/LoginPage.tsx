@@ -180,7 +180,9 @@ class Login extends React.Component<any, any> {
     }
 }
 
-function mapStateToProps(state: { AccountReducer: { login_attempts: any; authenticated: any } }) {
+function mapStateToProps(state: {
+    AccountReducer: { login_attempts: any; authenticated: any }
+}) {
     return {
         login_attempts: state.AccountReducer.login_attempts,
         authenticated: state.AccountReducer.authenticated,
