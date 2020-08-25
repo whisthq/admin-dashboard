@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import ToggleButton from 'react-toggle-button'
 import { Table } from 'antd'
@@ -14,8 +14,8 @@ import {
     setAutoupdate,
 } from '../../../../actions/index'
 
-class DiskTable extends Component {
-    constructor(props) {
+class DiskTable extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
 
         this.state = {
@@ -23,8 +23,10 @@ class DiskTable extends Component {
         }
     }
 
+    intervalID: any
+
     componentDidMount() {
-        this.props.dispatch(fetchDiskTable())
+        this.props.dispatch(fetchDiskTable(true))
     }
 
     componentWillUnmount() {
@@ -32,11 +34,11 @@ class DiskTable extends Component {
         clearInterval(this.intervalID)
     }
 
-    changeBranch = (disk_name, branch) => {
+    changeBranch = (disk_name: any, branch: any) => {
         this.props.dispatch(changeBranch(disk_name, branch))
     }
 
-    toggleStun = (mode, disk_name) => {
+    toggleStun = (mode: any, disk_name: any) => {
         if (mode == null) {
             this.props.dispatch(setStun(disk_name, true))
         } else {
@@ -44,7 +46,7 @@ class DiskTable extends Component {
         }
     }
 
-    toggleAutoupdate = (mode, disk_name) => {
+    toggleAutoupdate = (mode: any, disk_name: any) => {
         if (mode == null) {
             this.props.dispatch(setAutoupdate(disk_name, true))
         } else {
@@ -52,7 +54,7 @@ class DiskTable extends Component {
         }
     }
 
-    keywordFilter = (e) => {
+    keywordFilter = (e: any) => {
         let filterKeyword = e.target.value
         this.setState({
             filterKeyword: filterKeyword,
@@ -60,7 +62,7 @@ class DiskTable extends Component {
     }
 
     render() {
-        const branchToggle = (disk_name, branch) => (
+        const branchToggle = (disk_name: any, branch: any) => (
             <div style={{ display: 'flex' }}>
                 <div
                     style={{
@@ -128,8 +130,8 @@ class DiskTable extends Component {
             </div>
         )
 
-        let columns = []
-        let data = []
+        let columns: any[] = []
+        let data: any[] = []
         let headers = [
             'branch',
             'using_stun',
@@ -149,7 +151,7 @@ class DiskTable extends Component {
 
         if (this.props.disk_info && this.props.disk_info.length) {
             headers.forEach(function (key) {
-                let fixWidth = false
+                let fixWidth: any = false
                 if (key === 'disk_id') {
                     fixWidth = 400
                 } else if (key === 'version') {
@@ -161,16 +163,16 @@ class DiskTable extends Component {
                 } else if (key === 'branch') {
                     fixWidth = 200
                 }
-                let customRender = false
+                let customRender: any = false
                 if (key === 'branch') {
-                    customRender = (text, record, index) => {
+                    customRender = (_text: any, record: any, _index: any) => {
                         return branchToggle(record['disk_id'], record['branch'])
                     }
                 } else if (key === 'using_stun') {
-                    customRender = (text, record, index) => (
+                    customRender = (_text: any, record: any, _index: any) => (
                         <ToggleButton
                             value={record['using_stun']}
-                            onToggle={(mode) => {
+                            onToggle={(mode: any) => {
                                 component.toggleStun(mode, record['disk_id'])
                             }}
                             colors={{
@@ -184,10 +186,10 @@ class DiskTable extends Component {
                         />
                     )
                 } else if (key === 'allow_autoupdate') {
-                    customRender = (text, record, index) => (
+                    customRender = (_text: any, record: any, _index: any) => (
                         <ToggleButton
                             value={record['allow_autoupdate']}
-                            onToggle={(mode) => {
+                            onToggle={(mode: any) => {
                                 component.toggleAutoupdate(
                                     mode,
                                     record['disk_id']
@@ -204,14 +206,14 @@ class DiskTable extends Component {
                         />
                     )
                 } else if (key === 'has_dedicated_vm') {
-                    customRender = (text) => (
+                    customRender = (text: any) => (
                         <span>{text ? 'true' : 'false'}</span>
                     )
                 }
                 columns.push({
                     title: key,
                     dataIndex: key,
-                    sorter: (a, b) => {
+                    sorter: (a: any, b: any) => {
                         if (a[key] === null) {
                             return 1
                         }
@@ -234,7 +236,7 @@ class DiskTable extends Component {
                 })
             })
 
-            this.props.disk_info.forEach(function (disk) {
+            this.props.disk_info.forEach(function (disk: any) {
                 data.push(disk)
             })
 
@@ -280,7 +282,7 @@ class DiskTable extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         disk_info: state.AccountReducer.disk_info
             ? state.AccountReducer.disk_info
