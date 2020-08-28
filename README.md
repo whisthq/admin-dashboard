@@ -17,7 +17,7 @@ The Fractal dashboard can be used for:
 
 The admin dashboard is developed using the `yarn` package manager. You can start developing by running `yarn`, and can launch into a localhost via `yarn start`. If you need to update dependencies, you can run `yarn upgrade`, followed by `yarn autoclean --init && yarn autoclean --force` to remove unnecessary files.
 
-The `master` branch autopublishes to `fractal-dashboard.netlify.app` via Netlify, which is our internal production URL, and should only be merged in via pull requests when code has been thoroughly tested.
+The `master` branch autopublishes to [https://fractal-dashboard.netlify.app](https://fractal-dashboard.netlify.app) via Netlify, which is our internal production URL, and should only be merged in via pull requests when code has been thoroughly tested.
 
 Basic continuous integration is set up for this project. For every push or PR, basic NodeJS tests will be compiled and run within GitHub Actions. This will also attempt to format the code via Prettier and inform you if your code is not properly formatted. You should make sure that every pull request to `master` passes the build in GitHub Actions, and that you pre-formatted the code via Prettier beforehand. 
 
