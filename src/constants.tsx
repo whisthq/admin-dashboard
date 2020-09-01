@@ -11,6 +11,7 @@ const production = {
     new_server: false,
 }
 
+// @ts-ignore
 const staging = {
     url: {
         PRIMARY_SERVER: 'https://cube-celery-staging.herokuapp.com',
