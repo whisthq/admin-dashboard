@@ -29,7 +29,7 @@ jobs:
         run: npm install --global prettier
 
       - name: Lint with Prettier
-        run: npm run format --write
+        run: npm run format
 
       - name: Commit files
         run: |
