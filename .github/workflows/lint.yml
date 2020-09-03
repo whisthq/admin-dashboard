@@ -1,6 +1,6 @@
 # This workflow will format via Prettier
 
-name: npm lint
+name: yarn lint
 
 on:
   pull_request:
