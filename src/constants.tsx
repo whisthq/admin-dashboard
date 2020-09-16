@@ -1,4 +1,5 @@
 // @ts-ignore
+// eslint-disable-next-line
 const production = {
     url: {
         PRIMARY_SERVER: 'https://cube-celery-staging.herokuapp.com',
@@ -25,6 +26,7 @@ const staging = {
 }
 
 // @ts-ignore
+// eslint-disable-next-line
 const local = {
     url: {
         PRIMARY_SERVER: 'http://127.0.0.1:7730',
@@ -38,6 +40,7 @@ const local = {
 }
 
 // @ts-ignore
+// eslint-disable-next-line
 const development = {
     url: {
         PRIMARY_SERVER: 'http://127.0.0.1:5000',
