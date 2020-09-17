@@ -1,26 +1,18 @@
 /* eslint-disable no-unused-vars */
 const production = {
     url: {
-        PRIMARY_SERVER: 'https://cube-celery-staging.herokuapp.com',
+        PRIMARY_SERVER: 'https://main-webserver.fractalcomputers.com',
         WEBSITE_URL: 'https://fractal-dashboard.netlify.app',
-    },
-    new_server: false,
-}
-
-const staging = {
-    url: {
-        PRIMARY_SERVER: 'https://cube-celery-staging.herokuapp.com',
-        WEBSITE_URL: 'http://localhost:3000',
     },
     new_server: true,
 }
 
-const staging2 = {
+const staging = {
     url: {
-        PRIMARY_SERVER: 'https://cube-celery-staging2.herokuapp.com',
+        PRIMARY_SERVER: 'https://staging-webserver.fractalcomputers.com',
         WEBSITE_URL: 'http://localhost:3000',
     },
-    new_server: false,
+    new_server: true,
 }
 
 const local = {
@@ -39,4 +31,4 @@ const development = {
     new_server: true,
 }
 
-export const config = process.env.NODE_ENV === 'development' ? local : staging
+export const config = process.env.NODE_ENV === 'development' ? production : production
