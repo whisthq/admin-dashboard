@@ -45,3 +45,7 @@ To ensure that this extension is used over other extensions you may have install
   }
 }
 ```
+
+### Testing
+
+We use Jest and Enzyme for testing. With `yarn` you should be able to install all the dependencies and `yarn test` should run the tests. If it fails you may need the Jest CLI globally installed. Unit tests are included as .spec.tsx files next to the files they test for easy development. Tests of functions are called "test" and tests of react components are called "it" (though these two are actually aliases of each other). CSS Styling properties are not rigorously tested.

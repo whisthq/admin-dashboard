@@ -1,5 +1,7 @@
 import {} from "./index"
 
-test("a description", () => {
-    // do something
+describe("/actions/index.tsx", () => {
+    test('a description', () => {
+        // do something
+    })
 })
