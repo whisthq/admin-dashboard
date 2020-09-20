@@ -1,5 +1,7 @@
 import { config } from '../constants'
 
+// TODO (adriano) consider adding unit tests that mock the fetching
+
 export async function apiPost(endpoint: any, body: any, token: any) {
     const response = await fetch(endpoint, {
         method: 'POST',

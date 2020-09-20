@@ -5,6 +5,9 @@ import { apiPost, apiGet, fetchGraphQL } from '../utils/Api'
 import history from '../history'
 import { config } from '../constants'
 
+// TODO (adriano) these sagas are untested since we are considering changing what we use here
+// so until we reach a stable version they won't be tested; however, after that, it may make sense to do so
+
 function* fetchVms(action: ReturnType<typeof FormAction.fetchVMs>) {
     yield select()
     if (!action.updated) {

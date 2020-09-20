@@ -1,5 +1,21 @@
 import * as actions from "./index"
 
+/*
+Helpful for writing tests:  https://redux.js.org/recipes/writing-tests/
+
+This is a huge file and we want these to be automated though. Not sure of a great way to do this.
+Note that for Async action creators we are going to want to test a little differently. That said, none of these
+are actually async, so the most basic tests are provided.
+
+The spec would be a bit lengthy, but check the actual file as of September 18th, 2020 to see the correct structure.
+I think it should be implicit in these tests.
+*/
+
+// TODO (adriano) make a list of the action types, expected actions, and inputs
+// and then just make a for loop (because this will be hard to maintain otherwise)
+// look at account_reducer.spec.tsx in src/reducers/ to see a way to do this
+// this should be ok as it is right now until we want to add/change things (if it is just do it in that pr)
+
 describe("/actions/index.tsx", () => {
     test('FETCH_VMS', () => {
         let updated : boolean = false
@@ -332,7 +348,7 @@ describe("/actions/index.tsx", () => {
     })
 
     test('LATEST_REPORT_FETCHED', () => {
-        let report: any = "and so I hit the bool"
+        let report: any = "report"
         let expectedAction = {
             type: actions.LATEST_REPORT_FETCHED,
             report,
