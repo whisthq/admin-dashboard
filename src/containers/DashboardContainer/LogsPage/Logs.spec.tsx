@@ -40,14 +40,8 @@ describe('<Logs />', () => {
         // since these are stateful (using Redux) we leave it till later
     })
 
-    it('displays two buttons', () => {
-        // really
-    })
-    it('displays one input searchbar', () => {
-        // really
-    })
-    it('displays a star button so that you can filter by bookmarked', () => {
-        // really
+    it('displays two buttons, one searchbar (input), and a star button', () => {
+        // TODO not easy to test since it has state information which would rely on a Redux mock
     })
 
     // this cannot be tested since it is stateful (uses Redux) yet

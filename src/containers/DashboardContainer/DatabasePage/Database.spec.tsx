@@ -1,8 +1,13 @@
 import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
-import { Database } from './Database'
+import { Dashboard } from './Database'
+import { CustomerTable } from './components/CustomerTable'
+import { DiskTable } from './components/DiskTable'
+import { UserTable } from './components/UserTable'
+import { VMTable } from './components/VMTable'
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -28,11 +33,39 @@ describe('<Database />', () => {
     // TODO it may be nice to test the helper method to delete users, but I'm not sure its used
 
     it('displays a tablist with four tabs and then four tab panels all in a <Tabs>', () => {
-        // really
+        const wrapper = shallow(
+            <Dashboard
+                // buncha dummy data
+                accessToken="token"
+                userTable={[]}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+
+        expect(wrapper.find(Tabs)).toHaveLength(1)
+        expect(wrapper.find(TabList)).toHaveLength(1)
+        expect(wrapper.find(Tab)).toHaveLength(4)
+        expect(wrapper.find(TabPanel)).toHaveLength(4)
     })
 
     it('contains each of the components: VMTable, DiskTable, UserTable, CustomerTable', () => {
-        // really
+        const wrapper = shallow(
+            <Dashboard
+                // buncha dummy data
+                accessToken="token"
+                userTable={[]}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+
+        expect(wrapper.find(CustomerTable)).toHaveLength(1)
+        expect(wrapper.find(DiskTable)).toHaveLength(1)
+        expect(wrapper.find(UserTable)).toHaveLength(1)
+        expect(wrapper.find(VMTable)).toHaveLength(1)
     })
 })
 

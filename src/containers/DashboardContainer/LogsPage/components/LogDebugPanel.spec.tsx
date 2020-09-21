@@ -1,6 +1,7 @@
 import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { LogDebugPanel } from './LogDebugPanel'
 
@@ -16,22 +17,34 @@ If the props are null it displays a loading icon and says that it is loading.
  */
 describe('<LogDebugPanel />', () => {
     it('displays an icon (always)', () => {
-        // really
+       const wrapper = shallow(
+           <LogDebugPanel
+               // buncha dummy data
+               dispatch={(items: any) => {
+                   // mock
+               }}
+               title="title"
+               filename="filename"
+               username="user"
+               sender="sender"
+               connection_id="id"
+               metric="metric"
+               logAnalysis={{
+                   user_id: {
+                       sender: {
+                           metric: {
+                               output: [1], // not enough data to plot
+                           },
+                       },
+                   },
+               }}
+           />
+       )
+
+       expect(wrapper.find(FontAwesomeIcon)).toHaveLength(1)
     })
 
-    it('displays loading + text if there is null props', () => {
-        // really
-    })
-
-    it('displays error percent when there is a file and errors', () => {
-        // really
-    })
-
-    it('displays a helpful message when there is no error', () => {
-        // really
-    })
-
-    it('no logs when there are no logs', () => {
-        // really
-    })
+    // TODO (optional) test for string matching messages
+    // since we don't want to pin down the message in case we want to change it for now, we are keeping 
+    // from implementing it it this way
 })

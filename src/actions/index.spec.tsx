@@ -2,6 +2,7 @@ import * as actions from "./index"
 
 /*
 Helpful for writing tests:  https://redux.js.org/recipes/writing-tests/
+also https://scotch.io/tutorials/testing-react-and-redux-apps-with-jest
 
 This is a huge file and we want these to be automated though. Not sure of a great way to do this.
 Note that for Async action creators we are going to want to test a little differently. That said, none of these
