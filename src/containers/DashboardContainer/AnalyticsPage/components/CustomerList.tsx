@@ -8,7 +8,7 @@ import Style from '../../../../styles/components/pageAdmin.module.css'
 
 import { fetchCustomers } from '../../../../actions/index'
 
-class CustomerList extends React.Component<any, any> {
+export class CustomerList extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
         this.state = {
@@ -19,6 +19,7 @@ class CustomerList extends React.Component<any, any> {
     // intervalID var to keep track of auto-refreshing across functions
     intervalID: any | undefined
 
+    // TODO (adriano) shouldn't we only fetch customers if we have an access token?
     componentDidMount() {
         // refresh the customer table every 60 seconds
         this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000)

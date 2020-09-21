@@ -4,7 +4,7 @@ import { PieChart, Pie, ResponsiveContainer, Cell } from 'recharts'
 
 import '../../../../static/App.css'
 
-class VMPieChart extends React.Component<any, any> {
+export class VMPieChart extends React.Component<any, any> {
     render() {
         const data = [
             { name: 'Deallocated', value: this.props.deallocated },

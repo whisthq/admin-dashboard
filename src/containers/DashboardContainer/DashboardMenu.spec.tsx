@@ -5,12 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { DashboardMenu } from './DashboardMenu'
 import { Link } from 'react-router-dom'
 import { Dropdown } from 'react-bootstrap'
-import {
-    faHome,
-    faChartArea,
-    faList,
-    faExternalLinkAlt,
-} from '@fortawesome/free-solid-svg-icons'
 
 // necessary for enzyme to work
 Enzyme.configure({ adapter: new Adapter() })
@@ -29,6 +23,7 @@ describe('<DashboardMenu />', () => {
 
         expect(wrapper.find(Dropdown.Toggle)).toHaveLength(1)
         expect(wrapper.find(Dropdown.Menu)).toHaveLength(1)
+
         // should be s3, lightsail, heroku, datadog, sentry, postman, drive, notion
         expect(wrapper.find(Dropdown.Item)).toHaveLength(8)
     }) 
