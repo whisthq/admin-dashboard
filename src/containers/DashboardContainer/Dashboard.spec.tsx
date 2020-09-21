@@ -25,22 +25,46 @@ describe('<Admin />', () => {
   })
 
   it('renders a DashboardMenu', () => {
-    const wrapper = shallow(<Admin />)
+    const wrapper = shallow(
+        <Admin
+            dispatch={(items: any) => {
+                // mock
+            }}
+        />
+    )
     expect(wrapper.find(DashboardMenu)).toHaveLength(1)
   })
   
   it('renders one <Switch /> components', () => {
-    const wrapper = shallow(<Admin />)
+    const wrapper = shallow(
+        <Admin
+            dispatch={(items: any) => {
+                // mock
+            }}
+        />
+    )
     expect(wrapper.find(Switch)).toHaveLength(1)
   }) 
 
   it('renders four <Route /> components', () => {
-      const wrapper = shallow(<Admin />)
+      const wrapper = shallow(
+          <Admin
+              dispatch={(items: any) => {
+                  // mock
+              }}
+          />
+      )
       expect(wrapper.find(Route)).toHaveLength(4)
   })
 
   it('renders the logout button', () => {
-      const wrapper = shallow(<Admin />)
+      const wrapper = shallow(
+          <Admin
+              dispatch={(items: any) => {
+                  // mock
+              }}
+          />
+      )
       expect(wrapper.find(Button)).toHaveLength(1)
   })
 })

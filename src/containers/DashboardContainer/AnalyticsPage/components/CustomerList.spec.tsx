@@ -36,7 +36,14 @@ describe('<CustomerList />', () => {
 
     it('displays a div per customer', () => {
         const customers: string[] = ['alice', 'bob']
-        const wrapper = mount(<CustomerList customers={customers} />)
+        const wrapper = mount(
+            <CustomerList
+                customers={customers}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
 
         expect(wrapper.find(FontAwesomeIcon)).toHaveLength(0)
         // has a parent div, a wrapper div, and customers
@@ -45,7 +52,14 @@ describe('<CustomerList />', () => {
 
     it('displays an empty div for a customer that has a non-empty name, and otherwise empty', () => {
         const customers: string[] = ['bob', '']
-        const wrapper = mount(<CustomerList customers={customers} />)
+        const wrapper = mount(
+            <CustomerList
+                customers={customers}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
 
         expect(wrapper.find(FontAwesomeIcon)).toHaveLength(0)
 
@@ -60,7 +74,14 @@ describe('<CustomerList />', () => {
 
     it('displays a fontAwesomeIcon (spinner) if customers length = 0', () => {
         const customers: string[] = []
-        const wrapper = mount(<CustomerList customers={customers} />)
+        const wrapper = mount(
+            <CustomerList
+                customers={customers}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
 
         expect(wrapper.find(FontAwesomeIcon)).toHaveLength(1)
     })

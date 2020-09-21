@@ -8,10 +8,12 @@ import MiniGraph from './MiniGraph'
  */
 describe('<LogDebugPanel />', () => {
     // some tests
+    test('', () => {})
 })
 
 /*
  */
 describe('<MiniGraph />', () => {
     // do some tests
+    test('', () => {})
 })

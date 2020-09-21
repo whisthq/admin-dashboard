@@ -5,6 +5,7 @@ import { Row, Col } from 'react-bootstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
 import { Analytics } from "./Analytics"
+
 import { VMPieChart } from './components/VMPieChart'
 import { UserStats } from './components/UserStats'
 import { GeneralStats } from './components/GeneralStats'
@@ -28,13 +29,25 @@ describe('<Analytics />', () => {
     })
 
     it('renders a row with two cols', () => {
-        const wrapper = shallow(<Analytics />)
+        const wrapper = shallow(
+            <Analytics
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
         expect(wrapper.find(Row)).toHaveLength(1)
-        expect(wrapper.find(Col)).toHaveLength(3)
+        expect(wrapper.find(Col)).toHaveLength(2)
     })
 
     it('renders the three tabs with general stats, user stats, summary stats', () => {
-        const wrapper = shallow(<Analytics />)
+        const wrapper = shallow(
+            <Analytics
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
         expect(wrapper.find(Tabs)).toHaveLength(1)
 
         expect(wrapper.find(TabList)).toHaveLength(1)
@@ -49,7 +62,13 @@ describe('<Analytics />', () => {
     });
 
     it('renders three vm pie charts', () => {
-        const wrapper = shallow(<Analytics />)
+        const wrapper = shallow(
+            <Analytics
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
         expect(wrapper.find(VMPieChart)).toHaveLength(3)
     })
 
@@ -57,7 +76,13 @@ describe('<Analytics />', () => {
         const labels = ['Eastus', 'Northcentralus', 'Southcentralus'];
         const remainingLabels = new Set(labels)
 
-        const wrapper = mount(<Analytics/>)
+        const wrapper = shallow(
+            <Analytics
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
         wrapper.find(VMPieChart).forEach((vmPieChart) => {
             let location = vmPieChart.prop('location')
             expect(remainingLabels.has(location)).toEqual(true)

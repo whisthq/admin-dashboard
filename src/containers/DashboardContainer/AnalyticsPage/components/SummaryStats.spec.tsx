@@ -18,14 +18,22 @@ describe('<SummaryStats />', () => {
         // TODO
     })
 
-    it('has one row and two columns', () => {
-        const wrapper = shallow(<SummaryStats />)
+    it('has one row and two columns and two cards', () => {
+        const wrapper = shallow(
+            <SummaryStats
+                totalMinutes={{
+                    day: 0,
+                }}
+                totalSignups={{
+                    day: 0,
+                }}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
         expect(wrapper.find(Row)).toHaveLength(1)
         expect(wrapper.find(Col)).toHaveLength(2)
-    })
-
-    it('has one row and two cards', () => {
-        const wrapper = shallow(<SummaryStats />)
         expect(wrapper.find(Card)).toHaveLength(2)
     })
 })
