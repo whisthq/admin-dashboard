@@ -14,7 +14,7 @@ import {
     setAutoupdate,
 } from '../../../../actions/index'
 
-class DiskTable extends React.Component<any, any> {
+export class DiskTable extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
 

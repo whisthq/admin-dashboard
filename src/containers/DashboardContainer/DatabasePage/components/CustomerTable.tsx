@@ -9,7 +9,7 @@ import Style from '../../../../styles/components/pageAdmin.module.css'
 
 import { fetchCustomers } from '../../../../actions/index'
 
-class CustomerTable extends React.Component<any, any> {
+export class CustomerTable extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
         this.state = {

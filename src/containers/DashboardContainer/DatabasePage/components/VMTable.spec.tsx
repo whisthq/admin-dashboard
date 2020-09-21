@@ -1,35 +1,49 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import { Table } from 'antd'
 
-import CustomerTable from './CustomerTable'
-import DiskTable from './DiskTable'
-import UserTable from './UserTable'
-import VMTable from './VMTable'
+import { VMTable } from './VMTable'
 
-/*
- */
-describe('<CustomerTable />', () => {
-    // do some tests
-    test('', () => {})
-})
+Enzyme.configure({ adapter: new Adapter() })
 
 /*
- */
-describe('<DiskTable />', () => {
-    // do some tests
-    test('', () => {})
-})
+The VMTable is an ant-design table with custom buttons that have our own necessary functionality. It must display
+a table and be able to fetch VM data and dispatch changes that need to be made.
 
-/*
- */
-describe('<UserTable />', () => {
-    // some tests
-    test('', () => {})
-})
-
-/*
+Next time the code is updated please make it more legible.
 */
 describe('<VMTable />', () => {
-    // do some tests
-    test('', () => {})
+    test('vm_button helper is functional', () => {
+        // TODO not possible to test until it is brought outside of the render() function
+        // right now it's declared inside which is irritating and probably not optimal for performance
+    })
+
+    test('component mounts correctly with needed fetches and page change', () => {
+        // TODO
+    })
+    test('component unmounts correctly', () => {
+        // TODO
+    })
+    test('helpers work', () => {
+        // TODO (this is optional)
+        // this is less spec and more implementation, but you may want to use this test
+        // or turn it into various tests to check whether your helper functions work
+    })
+
+    it('displays a table', () => {
+        const wrapper = shallow(
+            <VMTable
+                // buncha dummy data
+                vmsUpdated={false}
+                vms_updating={[]}
+                vms_info={[]}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+
+        expect(wrapper.find(Table)).toHaveLength(1)
+    })
 })

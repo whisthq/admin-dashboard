@@ -17,7 +17,7 @@ import UserTable from './components/UserTable'
 import CustomerTable from './components/CustomerTable'
 import DiskTable from './components/DiskTable'
 
-class Dashboard extends React.Component<any, any> {
+export class Dashboard extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
         this.state = {
