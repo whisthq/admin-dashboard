@@ -11,7 +11,7 @@ import 'react-tabs/style/react-tabs.css'
 
 import '../../../../static/App.css'
 
-class LogDebugPanel extends React.Component<any, any> {
+export class LogDebugPanel extends React.Component<any, any> {
     render() {
         if (
             !this.props.filename ||
