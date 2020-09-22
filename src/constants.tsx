@@ -2,7 +2,7 @@
 // eslint-disable-next-line
 const production = {
     url: {
-        PRIMARY_SERVER: 'https://cube-celery-staging.herokuapp.com',
+        PRIMARY_SERVER: 'https://main-webserver.fractalcomputers.com',
         WEBSITE_URL: 'https://fractal-dashboard.netlify.app',
         GRAPHQL: 'https://newdb-wrapper.herokuapp.com/v1/graphql',
     },
@@ -15,7 +15,7 @@ const production = {
 // @ts-ignore
 const staging = {
     url: {
-        PRIMARY_SERVER: 'https://cube-celery-staging.herokuapp.com',
+        PRIMARY_SERVER: 'https://staging-webserver.fractalcomputers.com',
         WEBSITE_URL: 'http://localhost:3000',
         GRAPHQL: 'https://newdb-wrapper.herokuapp.com/v1/graphql',
     },
