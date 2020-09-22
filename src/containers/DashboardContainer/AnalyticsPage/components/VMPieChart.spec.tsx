@@ -2,6 +2,7 @@ import React from 'react'
 import Enzyme, { shallow, mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { PieChart, Pie, Cell } from 'recharts'
+import toJson from 'enzyme-to-json'
 
 import { VMPieChart } from './VMPieChart'
 
@@ -15,6 +16,20 @@ unavailable, and location and then output their sum as the text above the locati
 per each of these props.
 */
 describe('<VMPieChart />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        const wrapper = shallow(
+            <VMPieChart
+                deallocated={3}
+                available={2}
+                unavailable={1}
+                location="foo"
+            />
+        )
+
+        expect(toJson(wrapper)).toMatchSnapshot()
+    })
+
     it('allows us to set props and will display correctly, displays both name and sum', () => {
         const wrapper = mount(
             <VMPieChart

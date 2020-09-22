@@ -2,6 +2,7 @@ import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { Table } from 'antd'
+import toJson from 'enzyme-to-json'
 
 import { UserTable } from './UserTable'
 
@@ -10,6 +11,22 @@ Enzyme.configure({ adapter: new Adapter() })
 /*
  */
 describe('<UserTable />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        const wrapper = shallow(
+            <UserTable
+                // buncha dummy data
+                userTable={[]}
+                usersUpdated={true}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+
+        expect(toJson(wrapper)).toMatchSnapshot()
+    })
+
     test('component mounts properly (fetches any data)', () => {
         // TODO
     })

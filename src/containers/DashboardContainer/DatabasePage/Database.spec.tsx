@@ -2,6 +2,7 @@ import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import toJson from 'enzyme-to-json'
 
 import { Dashboard } from './Database'
 import { CustomerTable } from './components/CustomerTable'
@@ -24,6 +25,22 @@ provide test bodies.
 */
 
 describe('<Database />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        const wrapper = shallow(
+            <Dashboard
+                // buncha dummy data
+                accessToken="token"
+                userTable={[]}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+
+        expect(toJson(wrapper)).toMatchSnapshot()
+    })
+
     test('ensure componentDidMount fetches necessary data and dispatchs page changes', () => {
         // TODO
     })

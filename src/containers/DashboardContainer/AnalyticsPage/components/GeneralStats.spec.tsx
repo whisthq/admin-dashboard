@@ -1,6 +1,7 @@
 import React from 'react'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
+import toJson from 'enzyme-to-json'
 
 import { GeneralStats } from './GeneralStats'
 
@@ -16,6 +17,11 @@ On mount it should fetch the latest reports and on update it should update its d
 select the chart you should be able to set a timescale, and the state dispatch should happen accordingly.
 */
 describe('<GeneralStats />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        // TODO
+    })
+
     test('componentDidMount fetches reports', () => {
         // TODO
     })

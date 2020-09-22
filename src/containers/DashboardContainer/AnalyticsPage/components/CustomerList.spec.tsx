@@ -2,6 +2,7 @@ import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import toJson from 'enzyme-to-json'
 
 import { CustomerList } from './CustomerList'
 
@@ -17,6 +18,20 @@ or for a '' customer we load an empty div)
 We also have to test that on mount we will set 
 */
 describe('<CustomerList />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        const wrapper = shallow(
+            <CustomerList
+                customers={[]}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+
+        expect(toJson(wrapper)).toMatchSnapshot()
+    })
+
     /*
     For both of these:
     we have to test with/without access token, and with/without customers being fetched | length >= 0.

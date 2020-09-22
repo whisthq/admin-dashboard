@@ -2,6 +2,7 @@ import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import toJson from 'enzyme-to-json'
 
 import { LogDebugPanel } from './LogDebugPanel'
 
@@ -16,6 +17,35 @@ for that sender (client or server) it displays an icon and helpful message.
 If the props are null it displays a loading icon and says that it is loading.
  */
 describe('<LogDebugPanel />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        const wrapper = shallow(
+            <LogDebugPanel
+                // buncha dummy data
+                dispatch={(items: any) => {
+                    // mock
+                }}
+                title="title"
+                filename="filename"
+                username="user"
+                sender="sender"
+                connection_id="id"
+                metric="metric"
+                logAnalysis={{
+                    user_id: {
+                        sender: {
+                            metric: {
+                                output: [1], // not enough data to plot
+                            },
+                        },
+                    },
+                }}
+            />
+        )
+
+        expect(toJson(wrapper)).toMatchSnapshot()
+    })
+
     it('displays an icon (always)', () => {
         const wrapper = shallow(
             <LogDebugPanel

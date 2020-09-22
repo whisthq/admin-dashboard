@@ -1,6 +1,7 @@
 import React from 'react'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
+import toJson from 'enzyme-to-json'
 
 import { UserStats } from './UserStats'
 
@@ -21,6 +22,11 @@ of the timescales. It should have one <Bar />.
 Always there should be a <CustomerList />
 */
 describe('<UserStats />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        // TODO
+    })
+
     test('openModal(username) opens the a modal and sets state correct, dispatches it correctly', () => {
         // TODO
     })
@@ -42,18 +48,18 @@ describe('<UserStats />', () => {
     })
 
     it('has a BarChart with non-empty activity.', () => {
-        // really
+        // TODO
     })
 
     it('has a Bar with non-empty activity', () => {
-        // really
+        // TODO
     })
 
     it('has two togglebuttons', () => {
-        // really
+        // TODO
     })
 
     it('has a CustomerList', () => {
-        // really
+        // TODO
     })
 })

@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SummaryStats /> renders correctly 1`] = `
+<div>
+  <p
+    style={
+      Object {
+        "fontSize": 24,
+        "fontWeight": "bold",
+      }
+    }
+  >
+    Summary
+  </p>
+  <Row
+    gutter={16}
+  >
+    <Col
+      span={8}
+    >
+      <Card
+        loading={false}
+        size="small"
+        title="Total Session length"
+      >
+        <div>
+          <p>
+            Past day:
+             
+            <strong>
+              0h 0m
+            </strong>
+          </p>
+          <p>
+            Past week:
+             
+            <strong>
+              NaNh NaNm
+            </strong>
+          </p>
+          <p>
+            Past month:
+             
+            <strong>
+              NaNh NaNm
+            </strong>
+          </p>
+        </div>
+      </Card>
+    </Col>
+    <Col
+      span={8}
+    >
+      <Card
+        loading={false}
+        size="small"
+        title="Number of signups"
+      >
+        <div>
+          <p>
+            Past day:
+             
+            <strong>
+              0
+            </strong>
+          </p>
+          <p>
+            Past week:
+             
+            <strong />
+          </p>
+          <p>
+            Past month:
+             
+            <strong />
+          </p>
+        </div>
+      </Card>
+    </Col>
+  </Row>
+</div>
+`;

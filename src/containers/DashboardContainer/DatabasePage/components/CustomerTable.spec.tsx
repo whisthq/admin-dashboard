@@ -2,6 +2,7 @@ import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { Table } from 'antd'
+import toJson from 'enzyme-to-json'
 
 import { CustomerTable } from './CustomerTable'
 
@@ -12,6 +13,21 @@ CustomerTable is an antd table (ant design) that should be able to fetch and dis
 parameters. Right now this is read only I believe.
  */
 describe('<CustomerTable />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        const wrapper = shallow(
+            <CustomerTable
+                // buncha dummy data
+                customers={[]}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+
+        expect(toJson(wrapper)).toMatchSnapshot()
+    })
+
     test('component mounts properly (sets interval, fetches any data)', () => {
         // TODO
     })

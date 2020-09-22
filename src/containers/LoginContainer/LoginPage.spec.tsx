@@ -1,7 +1,7 @@
 import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-
+import toJson from 'enzyme-to-json'
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
 
@@ -16,6 +16,21 @@ It should correctly update the state and dispatch (for middleware to call server
 when it's failed and stuff to show you if you have some number of failed login attempts.
  */
 describe('<Login />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        const wrapper = shallow(
+            <Login
+                login_attempts={0}
+                authenticated={false}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+
+        expect(toJson(wrapper)).toMatchSnapshot()
+    })
+
     test('on component update it sets state correctly', () => {
         // TODO
     })

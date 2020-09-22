@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DiskTable /> renders correctly 1`] = `
+<div
+  className="tableWrapper"
+>
+  <input
+    onChange={[Function]}
+    placeholder="Filter by keyword"
+    style={
+      Object {
+        "background": "#ebecf0",
+        "border": "none",
+        "padding": "10px 20px",
+        "width": "100%",
+      }
+    }
+    type="text"
+  />
+  <Table
+    columns={Array []}
+    dataSource={Array []}
+    loading={false}
+    rowClassName="tableRow"
+    rowKey="key"
+    scroll={
+      Object {
+        "x": 2300,
+        "y": 450,
+      }
+    }
+    size="middle"
+  />
+</div>
+`;

@@ -2,6 +2,7 @@ import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { Table } from 'antd'
+import toJson from 'enzyme-to-json'
 
 import { VMTable } from './VMTable'
 
@@ -14,6 +15,23 @@ a table and be able to fetch VM data and dispatch changes that need to be made.
 Next time the code is updated please make it more legible.
 */
 describe('<VMTable />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        const wrapper = shallow(
+            <VMTable
+                // buncha dummy data
+                vmsUpdated={false}
+                vms_updating={[]}
+                vms_info={[]}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+
+        expect(toJson(wrapper)).toMatchSnapshot()
+    })
+
     test('vm_button helper is functional', () => {
         // TODO not possible to test until it is brought outside of the render() function
         // right now it's declared inside which is irritating and probably not optimal for performance

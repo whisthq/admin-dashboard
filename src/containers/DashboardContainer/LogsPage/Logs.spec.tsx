@@ -1,6 +1,7 @@
 import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
+import toJson from 'enzyme-to-json'
 
 import Logs from './Logs'
 
@@ -24,6 +25,11 @@ There is a function called flatMap which does .map for strings. It should be tes
 */
 
 describe('<Logs />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        // TODO
+    })
+
     test('ensure a page change and data fetches were dispatched to redux on component mount', () => {
         // TODO
     })

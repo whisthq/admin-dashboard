@@ -3,6 +3,7 @@ import Enzyme, { shallow, render, mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { LineChart } from 'recharts'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import toJson from 'enzyme-to-json'
 
 import { MiniGraph } from './MiniGraph'
 
@@ -16,6 +17,27 @@ It needs at least two datapoints to plot since it is a line graph. If it can plo
 Otherwise, if there is no data it shows the icon and a loading message.
  */
 describe('<MiniGraph />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        const wrapper = shallow(
+            <MiniGraph
+                // buncha dummy data
+                filename={false} // should short-circuit on the first if statement
+                dispatch={(items: any) => {
+                    // mock
+                }}
+                title="title"
+                username="user"
+                sender="sender"
+                connection_id="id"
+                metric="metric"
+                logAnalysis={null}
+            />
+        )
+
+        expect(toJson(wrapper)).toMatchSnapshot()
+    })
+
     it('displays an icon and a message if it gets empty/null props', () => {
         const wrapper = shallow(
             <MiniGraph

@@ -2,6 +2,7 @@ import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { Table } from 'antd'
+import toJson from 'enzyme-to-json'
 
 import { DiskTable } from './DiskTable'
 
@@ -13,6 +14,22 @@ will have different colors/information based on branch and whatnot. It dispatche
 are made to disks (I think) and fetches disk data from the main webserver.
  */
 describe('<DiskTable />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        const wrapper = shallow(
+            <DiskTable
+                // buncha dummy data
+                disk_info={[]}
+                disks_fetched={true}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+
+        expect(toJson(wrapper)).toMatchSnapshot()
+    })
+
     test('component mounts properly (sets interval, fetches any data)', () => {
         // TODO
     })

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { DashboardMenu } from './DashboardMenu'
 import { Link } from 'react-router-dom'
 import { Dropdown } from 'react-bootstrap'
+import toJson from 'enzyme-to-json'
 
 // necessary for enzyme to work
 Enzyme.configure({ adapter: new Adapter() })
@@ -12,6 +13,20 @@ Enzyme.configure({ adapter: new Adapter() })
 /*
  */
 describe('<DashboardMenu />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        const wrapper = shallow(
+            <DashboardMenu
+                page="dashboard"
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+
+        expect(toJson(wrapper)).toMatchSnapshot()
+    })
+
     it('renders three <Link /> components', () => {
         const wrapper = shallow(
             <DashboardMenu

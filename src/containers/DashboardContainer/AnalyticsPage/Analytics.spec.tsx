@@ -3,6 +3,7 @@ import Enzyme, { shallow, mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { Row, Col } from 'react-bootstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import toJson from 'enzyme-to-json'
 
 import { Analytics } from './Analytics'
 
@@ -24,6 +25,19 @@ these pie charts does not matter but the correct label should correspond to its 
 */
 
 describe('<Analytics />', () => {
+    // snapshot test
+    it('renders correctly', () => {
+        const wrapper = shallow(
+            <Analytics
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+
+        expect(toJson(wrapper)).toMatchSnapshot()
+    })
+
     test('ensure page change was dispatched to redux on component mount', () => {
         // TODO
     })
