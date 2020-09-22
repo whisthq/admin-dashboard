@@ -1,21 +1,21 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 
-import { fetchUserActivity, logout } from 'actions/index'
+import { fetchUserActivity, logout } from '../../actions/index'
 
-import DashboardMenu from 'containers/DashboardContainer/DashboardMenu'
-import Database from 'containers/DashboardContainer/DatabasePage/Database'
-import Logs from 'containers/DashboardContainer/LogsPage/Logs'
-import Analytics from 'containers/DashboardContainer/AnalyticsPage/Analytics'
+import DashboardMenu from './DashboardMenu'
+import Database from './DatabasePage/Database'
+import Logs from './LogsPage/Logs'
+import Analytics from './AnalyticsPage/Analytics'
 
 import '../../static/App.css'
 import 'react-tabs/style/react-tabs.css'
 
-class Admin extends Component {
-    constructor(props) {
+class Admin extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
         this.state = {
             date: 0,
@@ -27,7 +27,7 @@ class Admin extends Component {
         this.setState({
             date: moment(Date.now()).format('MMMM Do, YYYY'),
         })
-        this.props.dispatch(fetchUserActivity(false))
+        this.props.dispatch(fetchUserActivity())
     }
 
     updateWindowDimensions() {
@@ -99,7 +99,7 @@ class Admin extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         authenticated: state.AccountReducer.authenticated,
     }

@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import { LineChart, Line, ResponsiveContainer, YAxis, Tooltip } from 'recharts'
 
 import 'react-tabs/style/react-tabs.css'
 
-import 'static/App.css'
+import '../../../../static/App.css'
 
-class MiniGraph extends Component {
+class MiniGraph extends React.Component<any, any> {
     render() {
         if (
             !this.props.filename ||
@@ -146,7 +146,7 @@ class MiniGraph extends Component {
                                                 mainPath.output[element].time
                                             )
                                         }}
-                                        formatter={(value) =>
+                                        formatter={(value: any) =>
                                             value
                                                 .toFixed(2)
                                                 .toString()

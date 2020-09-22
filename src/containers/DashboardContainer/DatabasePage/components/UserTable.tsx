@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Popup from 'reactjs-popup'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { Table } from 'antd'
 
-import 'static/App.css'
+import '../../../../static/App.css'
 import 'antd/dist/antd.css'
-import Style from 'styles/components/pageAdmin.module.css'
+import Style from '../../../../styles/components/pageAdmin.module.css'
 
-import { fetchUserTable, deleteUser } from 'actions/index.js'
+import { fetchUserTable, deleteUser } from '../../../../actions/index'
 
-class UserTable extends Component {
-    constructor(props) {
+class UserTable extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
 
         this.state = {
@@ -21,14 +21,14 @@ class UserTable extends Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(fetchUserTable())
+        this.props.dispatch(fetchUserTable(true))
     }
 
-    deleteUser = (user) => {
+    deleteUser = (user: any) => {
         this.props.dispatch(deleteUser(user))
     }
 
-    keywordFilter = (e) => {
+    keywordFilter = (e: any) => {
         let component = this
         let filterKeyword = e.target.value
 
@@ -42,7 +42,8 @@ class UserTable extends Component {
             {
                 title: '',
                 dataIndex: 'deleteBtn',
-                render: (username) => (
+                render: (username: any) => (
+                    // @ts-ignore
                     <Popup
                         trigger={
                             <FontAwesomeIcon
@@ -107,19 +108,37 @@ class UserTable extends Component {
                 ),
             },
         ]
-        let mainColumns = []
-        let data = []
+        let mainColumns: any[] = []
+        let data: any[] = []
+        let keys = [
+            'email',
+            'name',
+            'user_id',
+            'stripe_customer_id',
+            'credits_outstanding',
+            'created_timestamp',
+            'release_stage',
+            'using_google_login',
+            'password',
+            'reason_for_signup',
+            'referral_code',
+        ]
         if (this.props.userTable && this.props.userTable.length) {
-            Object.keys(this.props.userTable[0]).forEach(function (key) {
-                var fixWidth = false
-                if (key === 'username') {
+            keys.forEach(function (key) {
+                var fixWidth: any = false
+                if (key === 'email') {
                     fixWidth = 250
+                } else if (
+                    key === 'reason_for_signup' ||
+                    key === 'stripe_customer_id'
+                ) {
+                    fixWidth = 150
                 }
 
                 mainColumns.push({
                     title: key,
                     dataIndex: key,
-                    sorter: (a, b) => {
+                    sorter: (a: any, b: any) => {
                         if (a[key] === null) {
                             return 1
                         }
@@ -139,20 +158,19 @@ class UserTable extends Component {
                     ellipsis: key === 'password',
                 })
             })
-            this.props.userTable.forEach(function (user) {
+            this.props.userTable.forEach(function (user: any) {
                 data.push({
                     ...user,
-                    deleteBtn: user['username'],
+                    deleteBtn: user['email'],
                 })
             })
 
             if (this.state.filterKeyword) {
                 data = data.filter((element) => {
-                    return element.username.includes(this.state.filterKeyword)
+                    return element.email.includes(this.state.filterKeyword)
                 })
             }
         }
-        mainColumns.reverse()
         columns = columns.concat(mainColumns)
 
         return (
@@ -171,7 +189,7 @@ class UserTable extends Component {
                 <Table
                     columns={columns}
                     dataSource={data}
-                    scroll={{ y: 450, x: 1500 }}
+                    scroll={{ y: 450, x: 1800 }}
                     size="middle"
                     rowClassName={Style.tableRow}
                     loading={!this.props.usersUpdated}
@@ -181,7 +199,7 @@ class UserTable extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         userTable: state.AccountReducer.userTable
             ? state.AccountReducer.userTable.reverse()

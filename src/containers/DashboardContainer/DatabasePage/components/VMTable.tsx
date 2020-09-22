@@ -1,13 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import ToggleButton from 'react-toggle-button'
 import moment from 'moment'
 import { Table } from 'antd'
 
-import 'static/App.css'
+import '../../../../static/App.css'
 import 'antd/dist/antd.css'
-import Style from 'styles/components/pageAdmin.module.css'
+import Style from '../../../../styles/components/pageAdmin.module.css'
 
 import {
     faCircleNotch,
@@ -15,10 +14,10 @@ import {
     faPause,
 } from '@fortawesome/free-solid-svg-icons'
 
-import { startVM, deallocateVM, updateDB, setDev } from 'actions/index.js'
+import { startVM, deallocateVM, fetchVMs } from '../../../../actions/index'
 
-class VMTable extends Component {
-    constructor(props) {
+class VMTable extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
 
         this.state = {
@@ -27,10 +26,10 @@ class VMTable extends Component {
     }
 
     // intervalID var to keep track of auto-refreshing across functions
-    intervalID
+    intervalID: any
 
     componentDidMount() {
-        this.props.dispatch(updateDB(false))
+        this.props.dispatch(fetchVMs(false))
 
         // refresh the VM table every 60 seconds
         this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000)
@@ -42,22 +41,18 @@ class VMTable extends Component {
     }
 
     getUpdatedDatabase() {
-        this.props.dispatch(updateDB(false))
+        this.props.dispatch(fetchVMs(false))
     }
 
-    startVM = (vm_name) => {
+    startVM = (vm_name: any) => {
         this.props.dispatch(startVM(vm_name))
     }
 
-    deallocateVM = (vm_name) => {
+    deallocateVM = (vm_name: any) => {
         this.props.dispatch(deallocateVM(vm_name))
     }
 
-    toggleDev = (mode, vm_name) => {
-        this.props.dispatch(setDev(vm_name, !mode))
-    }
-
-    keywordFilter = (e) => {
+    keywordFilter = (e: any) => {
         let filterKeyword = e.target.value
         this.setState({
             filterKeyword: filterKeyword,
@@ -66,132 +61,81 @@ class VMTable extends Component {
 
     render() {
         let columns = []
-        let data = []
+        let data: any[] = []
+        let keys = [
+            'vm_id',
+            'user_id',
+            'state',
+            'location',
+            'lock',
+            'temporary_lock',
+            'ip',
+            'os',
+        ]
         let component = this
 
         if (this.props.vm_info && this.props.vm_info.length) {
-            console.log(
-                this.props.vm_info.filter(
-                    (e) => e.vm_name === 'sparklingpaper0'
-                )
-            )
-
-            Object.keys(this.props.vm_info[0]).forEach(function (key) {
-                let fixWidth = false
-                if (key === 'username') {
-                    fixWidth = 200
-                } else if (key === 'disk_name') {
-                    fixWidth = 400
-                } else if (
-                    key === 'temporary_lock' ||
-                    key === 'last_updated' ||
-                    key === 'state'
-                ) {
-                    fixWidth = 150
-                }
-                let customRender = false
-                if (key === 'temporary_lock') {
-                    customRender = (unix) => (
-                        <span> {moment(unix * 1000).format('lll')}</span>
-                    )
-                } else if (key === 'ready_to_connect') {
-                    customRender = (unix) => (
-                        <span> {moment(unix * 1000).format('lll')}</span>
-                    )
-                } else if (key === 'lock') {
-                    customRender = (val) => <span>{val.toString()}</span>
-                }
-                if (key !== 'dev') {
-                    columns.push({
-                        title: key,
-                        dataIndex: key,
-                        sorter: (a, b) => {
-                            if (a[key] === null) {
-                                return 1
-                            }
-                            if (b[key] === null) {
-                                return -1
-                            }
-
-                            var a_temp = a[key].toString().toLowerCase()
-                            var b_temp = b[key].toString().toLowerCase()
-                            if (a_temp > b_temp) {
-                                return 1
-                            } else if (a_temp < b_temp) {
-                                return -1
-                            }
-
-                            return 0
-                        },
-                        width: fixWidth,
-                        render: customRender,
-                    })
-                }
-            })
-            columns.push({
-                title: 'dev',
-                dataIndex: 'dev',
-                render: (text, record, index) => (
-                    <ToggleButton
-                        value={record['dev']}
-                        onToggle={function (mode) {
-                            record['dev'] = !record['dev']
-                            component.toggleDev(mode, record['vm_name'])
-                        }}
-                        colors={{
-                            active: {
-                                base: '#5EC4EB',
-                            },
-                            inactive: {
-                                base: '#161936',
-                            },
-                        }}
-                    />
-                ),
-                sorter: (a, b) => {
-                    if (a['dev'] === null) {
-                        return 1
-                    }
-                    if (b['dev'] === null) {
-                        return -1
-                    }
-                    if (a['dev'] && !b['dev']) {
-                        return 1
-                    } else if (!a['dev'] && b['dev']) {
-                        return -1
-                    }
-                    return 0
-                },
-            })
             columns.push({
                 title: '',
                 dataIndex: 'vmBtn',
-                render: (text, record, index) =>
-                    vmButton(
-                        record['state'],
-                        record['vm_name'],
-                        record['lock']
-                    ),
+                render: (_text: any, record: any, _index: any) =>
+                    vmButton(record['state'], record['vm_id'], record['lock']),
                 width: 70,
             })
-            columns.reverse()
 
-            this.props.vm_info.forEach(function (vm) {
+            keys.forEach(function (key) {
+                let fixWidth: any = false
+                if (
+                    key === 'temporary_lock' ||
+                    key === 'location' ||
+                    key === 'state' ||
+                    key === 'vm_id' ||
+                    key === 'ip'
+                ) {
+                    fixWidth = 150
+                }
+                let customRender: any = false
+                if (key === 'temporary_lock') {
+                    customRender = (val: any) => (
+                        <span> {moment(val * 1000).format('lll')}</span>
+                    )
+                } else if (key === 'lock') {
+                    customRender = (val: any) => <span>{val.toString()}</span>
+                }
+                columns.push({
+                    title: key,
+                    dataIndex: key,
+                    sorter: (a: any, b: any) => {
+                        if (a[key] === null) {
+                            return 1
+                        }
+                        if (b[key] === null) {
+                            return -1
+                        }
+
+                        var a_temp = a[key].toString().toLowerCase()
+                        var b_temp = b[key].toString().toLowerCase()
+                        if (a_temp > b_temp) {
+                            return 1
+                        } else if (a_temp < b_temp) {
+                            return -1
+                        }
+
+                        return 0
+                    },
+                    width: fixWidth,
+                    render: customRender,
+                })
+            })
+
+            this.props.vm_info.forEach(function (vm: any) {
                 data.push(vm)
             })
             if (component.state.filterKeyword) {
                 data = data.filter((element) => {
                     return (
-                        (element.username &&
-                            element.username.includes(
-                                component.state.filterKeyword
-                            )) ||
-                        (element.vm_name &&
-                            element.vm_name.includes(
-                                component.state.filterKeyword
-                            )) ||
-                        (element.disk_name &&
-                            element.disk_name.includes(
+                        (element.vm_id &&
+                            element.vm_id.includes(
                                 component.state.filterKeyword
                             )) ||
                         (element.location &&
@@ -205,7 +149,7 @@ class VMTable extends Component {
             }
         }
 
-        let vmButton = (state, vm_name, lock) => {
+        let vmButton = (state: any, vm_name: any, lock: any) => {
             const intermediate_states = [
                 'DEALLOCATING',
                 'STARTING',
@@ -270,6 +214,7 @@ class VMTable extends Component {
                     </td>
                 )
             }
+            return <td></td>
         }
 
         return (
@@ -288,17 +233,15 @@ class VMTable extends Component {
                 <Table
                     columns={columns}
                     dataSource={data}
-                    scroll={{ y: 450, x: 2000 }}
+                    scroll={{ y: 450, x: 1200 }}
                     size="middle"
-                    rowClassName={(record, index) =>
+                    rowClassName={(record, _index) =>
                         [
-                            record['dev']
-                                ? Style.blueBg
-                                : record['lock'] ||
-                                    Number(record['temporary_lock']) >
-                                    Math.round(new Date().getTime() / 1000)
-                                    ? Style.redBg
-                                    : Style.greenBg,
+                            record['lock'] ||
+                            Number(record['temporary_lock']) >
+                                Math.round(new Date().getTime() / 1000)
+                                ? Style.redBg
+                                : Style.greenBg,
                             Style.tableRow,
                         ].join(' ')
                     }
@@ -309,7 +252,7 @@ class VMTable extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         vm_info: state.AccountReducer.vm_info
             ? state.AccountReducer.vm_info

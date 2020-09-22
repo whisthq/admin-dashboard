@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import moment from 'moment'
@@ -11,12 +11,12 @@ import {
     Tooltip,
 } from 'recharts'
 
-import { fetchUserReport } from 'actions/index.js'
+import { fetchUserReport } from '../../../../actions/index'
 
-import CustomerList from 'containers/DashboardContainer/AnalyticsPage/components/CustomerList'
+import CustomerList from './CustomerList'
 
-class UserStats extends Component {
-    constructor(props) {
+class UserStats extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
         this.state = {
             modalOpen: false,
@@ -26,11 +26,11 @@ class UserStats extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: any) {
         if (prevProps.userReport !== this.props.userReport) {
-            let activity = []
+            let activity: any[] = []
             if (this.props.userReport.length) {
-                this.props.userReport.forEach((element) => {
+                this.props.userReport.forEach((element: any) => {
                     activity.push({
                         x: element.timestamp,
                         'Time online': element.minutes,
@@ -42,7 +42,7 @@ class UserStats extends Component {
         }
     }
 
-    openModal = (username) => {
+    openModal = (username: any) => {
         this.setState({ modalOpen: true, username: username })
         this.props.dispatch(fetchUserReport(this.state.timescale, username))
     }
@@ -51,7 +51,7 @@ class UserStats extends Component {
         this.setState({ modalOpen: false, timescale: 'week' })
     }
 
-    handleChartSelect = (val) => {
+    handleChartSelect = (val: any) => {
         console.log(val)
         this.setState({ timescale: val })
         this.props.dispatch(fetchUserReport(val, this.state.username))
@@ -142,7 +142,7 @@ class UserStats extends Component {
                                         border: 'none',
                                         fontSize: 14,
                                     }}
-                                    labelFormatter={(unixTime) =>
+                                    labelFormatter={(unixTime: any) =>
                                         moment(unixTime * 1000).format(format)
                                     }
                                 />
@@ -150,12 +150,6 @@ class UserStats extends Component {
                                     dataKey="Time online"
                                     barSize={10}
                                     fill="#4636a6"
-                                    formatter={(value, name, entry) =>
-                                        Math.round(value / 60).toString() +
-                                        'h ' +
-                                        (value % 60).toString() +
-                                        'm'
-                                    }
                                 />
                             </BarChart>
                         </ResponsiveContainer>
@@ -189,7 +183,7 @@ class UserStats extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         userReport: state.AccountReducer.userReport,
     }

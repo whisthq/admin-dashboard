@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import FormControl from 'react-bootstrap/FormControl'
 import InputGroup from 'react-bootstrap/InputGroup'
 import '../../static/App.css'
@@ -6,13 +6,13 @@ import { Redirect } from 'react-router-dom'
 
 import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux'
-import { loginUser } from '../../actions/index.js'
+import { loginUser } from '../../actions/index'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 
-class Login extends Component {
-    constructor(props) {
+class Login extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
         this.state = {
             emailLogin: '',
@@ -22,13 +22,13 @@ class Login extends Component {
         }
     }
 
-    changeEmailLogin = (evt) => {
+    changeEmailLogin = (evt: { target: { value: any } }) => {
         this.setState({
             emailLogin: evt.target.value,
         })
     }
 
-    loginKeyPress = (event) => {
+    loginKeyPress = (event: { key: string }) => {
         if (event.key === 'Enter') {
             this.setState({ loggingIn: true, failed_login_attempt: false })
             this.props.dispatch(
@@ -44,7 +44,7 @@ class Login extends Component {
         )
     }
 
-    changePasswordLogin = (evt) => {
+    changePasswordLogin = (evt: any) => {
         if (evt.key === 'Enter') {
             this.props.dispatch(
                 loginUser(this.state.emailLogin, this.state.passwordLogin)
@@ -56,7 +56,7 @@ class Login extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: { login_attempts: any }) {
         if (
             prevProps.login_attempts !== this.props.login_attempts &&
             !this.state.failed_login_attempt
@@ -180,7 +180,9 @@ class Login extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: {
+    AccountReducer: { login_attempts: any; authenticated: any }
+}) {
     return {
         login_attempts: state.AccountReducer.login_attempts,
         authenticated: state.AccountReducer.authenticated,

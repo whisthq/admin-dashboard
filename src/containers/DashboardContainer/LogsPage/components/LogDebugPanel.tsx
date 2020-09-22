@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faCircleNotch,
@@ -9,9 +9,9 @@ import Popup from 'reactjs-popup'
 
 import 'react-tabs/style/react-tabs.css'
 
-import 'static/App.css'
+import '../../../../static/App.css'
 
-class LogDebugPanel extends Component {
+class LogDebugPanel extends React.Component<any, any> {
     render() {
         if (
             !this.props.filename ||
@@ -158,8 +158,8 @@ class LogDebugPanel extends Component {
                                     this.props.connection_id
                                 )
                             ][this.props.sender].debug.errors.map(function (
-                                value,
-                                index
+                                value: any,
+                                _index: any
                             ) {
                                 return <div>{value}</div>
                             })}

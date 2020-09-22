@@ -1,16 +1,21 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import ToggleButton from 'react-toggle-button'
 import { Table } from 'antd'
 
 import 'antd/dist/antd.css'
-import 'static/App.css'
-import Style from 'styles/components/pageAdmin.module.css'
+import '../../../../static/App.css'
+import Style from '../../../../styles/components/pageAdmin.module.css'
 
-import { fetchDiskTable, changeBranch, setStun } from 'actions/index.js'
+import {
+    fetchDiskTable,
+    changeBranch,
+    setStun,
+    setAutoupdate,
+} from '../../../../actions/index'
 
-class DiskTable extends Component {
-    constructor(props) {
+class DiskTable extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
 
         this.state = {
@@ -18,8 +23,10 @@ class DiskTable extends Component {
         }
     }
 
+    intervalID: any
+
     componentDidMount() {
-        this.props.dispatch(fetchDiskTable())
+        this.props.dispatch(fetchDiskTable(true))
     }
 
     componentWillUnmount() {
@@ -27,11 +34,11 @@ class DiskTable extends Component {
         clearInterval(this.intervalID)
     }
 
-    changeBranch = (disk_name, branch) => {
+    changeBranch = (disk_name: any, branch: any) => {
         this.props.dispatch(changeBranch(disk_name, branch))
     }
 
-    toggleStun = (mode, disk_name) => {
+    toggleStun = (mode: any, disk_name: any) => {
         if (mode == null) {
             this.props.dispatch(setStun(disk_name, true))
         } else {
@@ -39,7 +46,15 @@ class DiskTable extends Component {
         }
     }
 
-    keywordFilter = (e) => {
+    toggleAutoupdate = (mode: any, disk_name: any) => {
+        if (mode == null) {
+            this.props.dispatch(setAutoupdate(disk_name, true))
+        } else {
+            this.props.dispatch(setAutoupdate(disk_name, !mode))
+        }
+    }
+
+    keywordFilter = (e: any) => {
         let filterKeyword = e.target.value
         this.setState({
             filterKeyword: filterKeyword,
@@ -47,7 +62,7 @@ class DiskTable extends Component {
     }
 
     render() {
-        const branchToggle = (disk_name, branch) => (
+        const branchToggle = (disk_name: any, branch: any) => (
             <div style={{ display: 'flex' }}>
                 <div
                     style={{
@@ -115,57 +130,50 @@ class DiskTable extends Component {
             </div>
         )
 
-        let columns = []
-        let data = []
+        let columns: any[] = []
+        let data: any[] = []
         let headers = [
             'branch',
             'using_stun',
-            'disk_name',
-            'state',
-            'username',
+            'allow_autoupdate',
+            'disk_id',
+            'user_id',
             'location',
             'os',
             'version',
             'disk_size',
-            'vm_name',
-            'vm_size',
-            'has_accepted_update',
-            'first_time',
+            'last_pinged',
+            'has_dedicated_vm',
+            'rsa_private_key',
+            'ssh_password',
         ]
         let component = this
 
         if (this.props.disk_info && this.props.disk_info.length) {
             headers.forEach(function (key) {
-                let fixWidth = false
-                if (key === 'username') {
-                    fixWidth = 250
-                } else if (key === 'disk_name') {
+                let fixWidth: any = false
+                if (key === 'disk_id') {
                     fixWidth = 400
-                } else if (
-                    key === 'vm_password' ||
-                    key === 'vm_name' ||
-                    key === 'version'
-                ) {
-                    fixWidth = 130
+                } else if (key === 'version') {
+                    fixWidth = 300
+                } else if (key === 'using_stun' || key === 'user_id') {
+                    fixWidth = 100
                 } else if (key === 'has_accepted_update') {
                     fixWidth = 180
                 } else if (key === 'branch') {
                     fixWidth = 200
                 }
-                let customRender = false
+                let customRender: any = false
                 if (key === 'branch') {
-                    customRender = (text, record, index) => {
-                        return branchToggle(
-                            record['disk_name'],
-                            record['settings_branch'] // TODO: change when db changed
-                        )
+                    customRender = (_text: any, record: any, _index: any) => {
+                        return branchToggle(record['disk_id'], record['branch'])
                     }
                 } else if (key === 'using_stun') {
-                    customRender = (text, record, index) => (
+                    customRender = (_text: any, record: any, _index: any) => (
                         <ToggleButton
                             value={record['using_stun']}
-                            onToggle={(mode) => {
-                                component.toggleStun(mode, record['disk_name'])
+                            onToggle={(mode: any) => {
+                                component.toggleStun(mode, record['disk_id'])
                             }}
                             colors={{
                                 active: {
@@ -177,11 +185,35 @@ class DiskTable extends Component {
                             }}
                         />
                     )
+                } else if (key === 'allow_autoupdate') {
+                    customRender = (_text: any, record: any, _index: any) => (
+                        <ToggleButton
+                            value={record['allow_autoupdate']}
+                            onToggle={(mode: any) => {
+                                component.toggleAutoupdate(
+                                    mode,
+                                    record['disk_id']
+                                )
+                            }}
+                            colors={{
+                                active: {
+                                    base: '#5EC4EB',
+                                },
+                                inactive: {
+                                    base: '#161936',
+                                },
+                            }}
+                        />
+                    )
+                } else if (key === 'has_dedicated_vm') {
+                    customRender = (text: any) => (
+                        <span>{text ? 'true' : 'false'}</span>
+                    )
                 }
                 columns.push({
                     title: key,
                     dataIndex: key,
-                    sorter: (a, b) => {
+                    sorter: (a: any, b: any) => {
                         if (a[key] === null) {
                             return 1
                         }
@@ -204,21 +236,21 @@ class DiskTable extends Component {
                 })
             })
 
-            this.props.disk_info.forEach(function (disk) {
+            this.props.disk_info.forEach(function (disk: any) {
                 data.push(disk)
             })
 
             if (component.state.filterKeyword) {
                 data = data.filter((element) => {
                     return (
-                        (element.username &&
-                            element.username.includes(
-                                component.state.filterKeyword
-                            )) ||
-                        (element.disk_name &&
-                            element.disk_name.includes(
-                                component.state.filterKeyword
-                            ))
+                        // Commenting out until we figure a clean way to fetch user email
+                        // (element.user_id &&
+                        //     element.user_id.includes(
+                        //         component.state.filterKeyword
+                        //     )) ||
+
+                        element.disk_id &&
+                        element.disk_id.includes(component.state.filterKeyword)
                     )
                 })
             }
@@ -250,7 +282,7 @@ class DiskTable extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         disk_info: state.AccountReducer.disk_info
             ? state.AccountReducer.disk_info

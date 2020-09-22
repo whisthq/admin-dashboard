@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Card, Row, Col } from 'antd'
 
 import 'antd/dist/antd.css'
 
-import { fetchTotalSignups, fetchTotalMinutes } from 'actions/index.js'
+import { fetchTotalSignups, fetchTotalMinutes } from '../../../../actions/index'
 
-class SummaryStats extends Component {
+class SummaryStats extends React.Component<any, any> {
     componentDidMount() {
         this.props.dispatch(fetchTotalSignups())
         this.props.dispatch(fetchTotalMinutes())
@@ -122,7 +122,7 @@ class SummaryStats extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         totalSignups: state.AccountReducer.totalSignups,
         totalMinutes: state.AccountReducer.totalMinutes,

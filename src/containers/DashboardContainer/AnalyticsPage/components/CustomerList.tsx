@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 
-import 'static/App.css'
-import Style from 'styles/components/pageAdmin.module.css'
+import '../../../../static/App.css'
+import Style from '../../../../styles/components/pageAdmin.module.css'
 
-import { fetchCustomers } from 'actions/index.js'
+import { fetchCustomers } from '../../../../actions/index'
 
-class CustomerList extends Component {
-    constructor(props) {
+class CustomerList extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
         this.state = {
             customers_fetched: false,
@@ -17,7 +17,7 @@ class CustomerList extends Component {
     }
 
     // intervalID var to keep track of auto-refreshing across functions
-    intervalID
+    intervalID: any | undefined
 
     componentDidMount() {
         // refresh the customer table every 60 seconds
@@ -30,7 +30,7 @@ class CustomerList extends Component {
         clearInterval(this.intervalID)
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate() {
         if (
             this.props.access_token &&
             this.props.customers.length === 0 &&
@@ -68,7 +68,10 @@ class CustomerList extends Component {
                             flexWrap: 'wrap',
                         }}
                     >
-                        {this.props.customers.map(function (value, index) {
+                        {this.props.customers.map(function (
+                            value: any,
+                            index: any
+                        ) {
                             if (value && value['username'] !== '') {
                                 return (
                                     <div
@@ -117,7 +120,7 @@ class CustomerList extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         customers: state.AccountReducer.customers
             ? state.AccountReducer.customers.reverse()

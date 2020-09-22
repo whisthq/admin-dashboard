@@ -1,6 +1,6 @@
 import * as AccountAction from '../actions/index'
 
-const DEFAULT = {
+const DEFAULT: any = {
     vm_info: [],
     authenticated: false,
     vmsUpdated: false,
@@ -28,7 +28,7 @@ const DEFAULT = {
     bookmarked_log_ids: [],
 }
 
-export default function (state = DEFAULT, action) {
+export default function (state = DEFAULT, action: any) {
     switch (action.type) {
         case AccountAction.AUTHENTICATE_USER:
             return {
@@ -52,7 +52,7 @@ export default function (state = DEFAULT, action) {
                 disk_info: action.payload,
                 disks_fetched: true,
             }
-        case AccountAction.UPDATE_DB:
+        case AccountAction.FETCH_VMS:
             return {
                 ...state,
                 vmsUpdated: action.updated,
@@ -107,7 +107,7 @@ export default function (state = DEFAULT, action) {
             return {
                 ...state,
                 vms_updating: state.vms_updating
-                    ? state.vms_updating.filter((vm) => vm !== action.vm_name)
+                    ? state.vms_updating.filter((vm: any) => vm !== action.vm_name)
                     : [],
             }
         case AccountAction.STORE_LOGS:
@@ -139,7 +139,8 @@ export default function (state = DEFAULT, action) {
                 ...state,
                 logs: state.logs
                     ? state.logs.filter(
-                          (log) => log.connection_id !== action.connection_id
+                          (log: any) =>
+                              log.connection_id !== action.connection_id
                       )
                     : [],
             }
@@ -176,15 +177,22 @@ export default function (state = DEFAULT, action) {
         case AccountAction.STORE_LOG_ANALYSIS:
             const payload_id = action.payload_id
             const sender = action.sender
+            function hasKey<O>(obj: O, key: keyof any): key is keyof O {
+                return key in obj
+            }
             return {
                 ...state,
                 log_analysis: state.log_analysis
                     ? {
                           ...state.log_analysis,
-                          [payload_id]: {
-                              ...state.log_analysis[payload_id],
-                              [sender]: action.payload,
-                          },
+                          [payload_id]: hasKey(state.log_analysis, payload_id)
+                              ? {
+                                    ...(state.log_analysis[
+                                        payload_id
+                                    ] as object),
+                                    [sender]: action.payload,
+                                }
+                              : { [sender]: action.payload },
                       }
                     : {},
             }

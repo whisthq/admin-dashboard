@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
@@ -12,14 +12,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FaLink } from 'react-icons/fa'
 
-import 'static/App.css'
+import '../../static/App.css'
 
-import Logo from 'assets/logo.svg'
+import Logo from '../../assets/logo.svg'
 
 withRouter((props) => <DashboardMenu {...props} />)
 
-class DashboardMenu extends Component {
-    constructor(props) {
+class DashboardMenu extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
         this.state = { page: 'dashboard' }
     }
@@ -287,7 +287,7 @@ class DashboardMenu extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     return {
         page: state.AccountReducer.page,
     }

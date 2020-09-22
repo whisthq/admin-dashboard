@@ -17,11 +17,11 @@ import history from './history'
 import rootSaga from './sagas'
 import rootReducer from './reducers'
 
-import 'static/App.css'
+import '../src/static/App.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
-import Login from 'containers/LoginContainer/LoginPage'
-import Dashboard from 'containers/DashboardContainer/Dashboard'
+import Login from './containers/LoginContainer/LoginPage'
+import Dashboard from './containers/DashboardContainer/Dashboard'
 
 const persistConfig = {
     key: 'rootKey',
