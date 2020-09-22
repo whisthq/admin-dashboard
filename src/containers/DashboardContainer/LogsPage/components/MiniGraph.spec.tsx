@@ -70,7 +70,7 @@ describe('<MiniGraph />', () => {
         const wrapper = shallow(
             <MiniGraph
                 // buncha dummy data
-                filename = "filename"
+                filename="filename"
                 dispatch={(items: any) => {
                     // mock
                 }}
@@ -83,7 +83,7 @@ describe('<MiniGraph />', () => {
                     user_id: {
                         sender: {
                             metric: {
-                                output : [1, 2, 3]
+                                output: [1, 2, 3],
                             },
                         },
                     },

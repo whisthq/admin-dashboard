@@ -1,4 +1,4 @@
-import * as actions from "./index"
+import * as actions from './index'
 
 /*
 Helpful for writing tests:  https://redux.js.org/recipes/writing-tests/
@@ -17,22 +17,22 @@ I think it should be implicit in these tests.
 // look at account_reducer.spec.tsx in src/reducers/ to see a way to do this
 // this should be ok as it is right now until we want to add/change things (if it is just do it in that pr)
 
-describe("/actions/index.tsx", () => {
+describe('/actions/index.tsx', () => {
     test('FETCH_VMS', () => {
-        let updated : boolean = false
+        let updated: boolean = false
         let expectedAction = {
             type: actions.FETCH_VMS,
-            updated // this syntax is shorhand for "updated": val of updated (or updated: val of updated)
+            updated, // this syntax is shorhand for "updated": val of updated (or updated: val of updated)
         }
 
         expect(actions.fetchVMs(updated)).toEqual(expectedAction)
     })
 
     test('LOAD_VMS', () => {
-        let payload: any = "el gringo"
+        let payload: any = 'el gringo'
         let expectedAction = {
             type: actions.LOAD_VMS,
-            payload
+            payload,
         }
 
         expect(actions.loadVMs(payload)).toEqual(expectedAction)
@@ -42,7 +42,7 @@ describe("/actions/index.tsx", () => {
         let updated: boolean | undefined = false
         let expectedAction = {
             type: actions.FETCH_DISK_TABLE,
-            updated
+            updated,
         }
 
         expect(actions.fetchDiskTable(updated)).toEqual(expectedAction)
@@ -50,7 +50,7 @@ describe("/actions/index.tsx", () => {
         updated = undefined
         let undef_expectedAction = {
             type: actions.FETCH_DISK_TABLE,
-            updated: updated //first updated is "updated" and second is the value of updated (undefined)
+            updated: updated, //first updated is "updated" and second is the value of updated (undefined)
         }
 
         expect(actions.fetchDiskTable(updated)).toEqual(undef_expectedAction)
@@ -60,15 +60,15 @@ describe("/actions/index.tsx", () => {
         let payload: any = [1, 1, 2, 3, 5, 8]
         let expectedAction = {
             type: actions.DISK_TABLE_FETCHED,
-            payload
+            payload,
         }
 
         expect(actions.diskTableFetched(payload)).toEqual(expectedAction)
     })
 
     test('LOGIN_USER', () => {
-        let username: string = "admin"
-        let password: string = "secure password"
+        let username: string = 'admin'
+        let password: string = 'secure password'
         let expectedAction = {
             type: actions.LOGIN_USER,
             username,
@@ -89,8 +89,8 @@ describe("/actions/index.tsx", () => {
     })
 
     test('RESET_USER', () => {
-        let vm_name = "ec2"
-        let username = "hackerdude"
+        let vm_name = 'ec2'
+        let username = 'hackerdude'
         let expectedAction = {
             type: actions.RESET_USER,
             vm_name,
@@ -110,7 +110,7 @@ describe("/actions/index.tsx", () => {
 
     test('USER_ACTIVITY_FETCHED', () => {
         let payload = {
-            "hello" : "world"
+            hello: 'world',
         }
         let expectedAction = {
             type: actions.USER_ACTIVITY_FETCHED,
@@ -124,7 +124,7 @@ describe("/actions/index.tsx", () => {
         let updated: boolean | undefined = true
         let expectedAction = {
             type: actions.FETCH_USER_TABLE,
-            updated
+            updated,
         }
 
         expect(actions.fetchUserTable(updated)).toEqual(expectedAction)
@@ -132,57 +132,59 @@ describe("/actions/index.tsx", () => {
         updated = undefined
         let undef_expectedAction = {
             type: actions.FETCH_USER_TABLE,
-            updated
+            updated,
         }
-        
+
         expect(actions.fetchUserTable(updated)).toEqual(undef_expectedAction)
     })
 
     test('USER_TABLE_FETCHED', () => {
-        let payload: any = "payload"
+        let payload: any = 'payload'
         let expectedAction = {
             type: actions.USER_TABLE_FETCHED,
-            payload
+            payload,
         }
 
         expect(actions.userTableFetched(payload)).toEqual(expectedAction)
     })
 
     test('DELETE_USER', () => {
-        let user: string = "user"
+        let user: string = 'user'
         let expectedAction = {
             type: actions.DELETE_USER,
-            user
+            user,
         }
 
         expect(actions.deleteUser(user)).toEqual(expectedAction)
     })
 
     test('DELETE_SUBSCRIPTION', () => {
-        let user: any = "user"
+        let user: any = 'user'
         let expectedAction = {
             type: actions.DELETE_SUBSCRIPTION,
-            user
+            user,
         }
 
         expect(actions.deleteSubscription(user)).toEqual(expectedAction)
     })
 
     test('STORE_JWT', () => {
-        let access_token: any = "1234"
-        let refresh_token: any = "5678"
+        let access_token: any = '1234'
+        let refresh_token: any = '5678'
         let expectedAction = {
             type: actions.STORE_JWT,
             access_token,
             refresh_token,
         }
 
-        expect(actions.storeJWT(access_token, refresh_token)).toEqual(expectedAction)
+        expect(actions.storeJWT(access_token, refresh_token)).toEqual(
+            expectedAction
+        )
     })
 
     test('LOGOUT', () => {
         let expectedAction = {
-            type: actions.LOGOUT
+            type: actions.LOGOUT,
         }
 
         expect(actions.logout()).toEqual(expectedAction)
@@ -190,7 +192,7 @@ describe("/actions/index.tsx", () => {
 
     test('INCREMENT_LOGIN_ATTEMPTS', () => {
         let expectedAction = {
-            type: actions.INCREMENT_LOGIN_ATTEMPTS
+            type: actions.INCREMENT_LOGIN_ATTEMPTS,
         }
 
         expect(actions.incrementLoginAttempts()).toEqual(expectedAction)
@@ -198,64 +200,66 @@ describe("/actions/index.tsx", () => {
 
     test('FETCH_CUSTOMERS', () => {
         let expectedAction = {
-            type: actions.FETCH_CUSTOMERS
+            type: actions.FETCH_CUSTOMERS,
         }
 
         expect(actions.fetchCustomers()).toEqual(expectedAction)
     })
 
     test('STORE_CUSTOMERS', () => {
-        let customers: any = ["me", "marley"]
+        let customers: any = ['me', 'marley']
         let expectedAction = {
             type: actions.STORE_CUSTOMERS,
-            customers
+            customers,
         }
 
         expect(actions.storeCustomers(customers)).toEqual(expectedAction)
     })
 
     test('START_VM', () => {
-        let vm_name: any = "jeff"
+        let vm_name: any = 'jeff'
         let expectedAction = {
             type: actions.START_VM,
-            vm_name
+            vm_name,
         }
 
         expect(actions.startVM(vm_name)).toEqual(expectedAction)
     })
 
     test('DEALLOCATE_VM', () => {
-        let vm_name: any = "azure"
+        let vm_name: any = 'azure'
         let expectedAction = {
             type: actions.DEALLOCATE_VM,
-            vm_name
+            vm_name,
         }
 
         expect(actions.deallocateVM(vm_name)).toEqual(expectedAction)
     })
 
     test('DONE_UPDATING', () => {
-        let vm_name: any = "droplet"
+        let vm_name: any = 'droplet'
         let expectedAction = {
             type: actions.DONE_UPDATING,
-            vm_name
+            vm_name,
         }
 
         expect(actions.doneUpdating(vm_name)).toEqual(expectedAction)
     })
 
     test('FETCH_LOGS', () => {
-        let username: string = "pog champ"
+        let username: string = 'pog champ'
         let logs_not_found: boolean = false
         let fetch_all: boolean = true
         let expectedAction = {
             type: actions.FETCH_LOGS,
             username,
             logs_not_found,
-            fetch_all
+            fetch_all,
         }
 
-        expect(actions.fetchLogs(username, logs_not_found, fetch_all)).toEqual(expectedAction)
+        expect(actions.fetchLogs(username, logs_not_found, fetch_all)).toEqual(
+            expectedAction
+        )
     })
 
     // FETCH_ALL_LOGS not used
@@ -268,10 +272,12 @@ describe("/actions/index.tsx", () => {
             type: actions.STORE_LOGS,
             logs,
             logs_not_found,
-            last_log
+            last_log,
         }
 
-        expect(actions.storeLogs(logs, logs_not_found, last_log)).toEqual(expectedAction)
+        expect(actions.storeLogs(logs, logs_not_found, last_log)).toEqual(
+            expectedAction
+        )
     })
 
     test('LOGS_FOUND', () => {
@@ -285,17 +291,17 @@ describe("/actions/index.tsx", () => {
     })
 
     test('DELETE_LOGS', () => {
-        let connection_id: any = "gamer"
+        let connection_id: any = 'gamer'
         let expectedAction = {
             type: actions.DELETE_LOGS,
-            connection_id
+            connection_id,
         }
 
         expect(actions.deleteLogs(connection_id)).toEqual(expectedAction)
     })
 
     test('DELETE_LOG_SUCCESS', () => {
-        let connection_id: any = "connection id"
+        let connection_id: any = 'connection id'
         let expectedAction = {
             type: actions.DELETE_LOG_SUCCESS,
             connection_id,
@@ -305,7 +311,7 @@ describe("/actions/index.tsx", () => {
     })
 
     test('SET_STUN', () => {
-        let disk_name: any = "my favorite disk"
+        let disk_name: any = 'my favorite disk'
         let useStun: boolean = false
         let expectedAction = {
             type: actions.SET_STUN,
@@ -317,7 +323,7 @@ describe("/actions/index.tsx", () => {
     })
 
     test('SET_AUTOUPDATE', () => {
-        let disk_name: any = "ssd"
+        let disk_name: any = 'ssd'
         let autoUpdate: boolean = false
         let expectedAction = {
             type: actions.SET_AUTOUPDATE,
@@ -325,12 +331,14 @@ describe("/actions/index.tsx", () => {
             autoUpdate,
         }
 
-        expect(actions.setAutoupdate(disk_name, autoUpdate)).toEqual(expectedAction)
+        expect(actions.setAutoupdate(disk_name, autoUpdate)).toEqual(
+            expectedAction
+        )
     })
 
     test('CHANGE_BRANCH', () => {
-        let disk_name: any = "ssd"
-        let branch: any = "production"
+        let disk_name: any = 'ssd'
+        let branch: any = 'production'
         let expectedAction = {
             type: actions.CHANGE_BRANCH,
             disk_name,
@@ -342,14 +350,14 @@ describe("/actions/index.tsx", () => {
 
     test('FETCH_LATEST_REPORT', () => {
         let expectedAction = {
-            type: actions.FETCH_LATEST_REPORT
+            type: actions.FETCH_LATEST_REPORT,
         }
 
         expect(actions.fetchLatestReport()).toEqual(expectedAction)
     })
 
     test('LATEST_REPORT_FETCHED', () => {
-        let report: any = "report"
+        let report: any = 'report'
         let expectedAction = {
             type: actions.LATEST_REPORT_FETCHED,
             report,
@@ -359,7 +367,7 @@ describe("/actions/index.tsx", () => {
     })
 
     test('FETCH_USER_REPORT', () => {
-        let timescale: string = "week"
+        let timescale: string = 'week'
         let username: null = null
         let expectedAction = {
             type: actions.FETCH_USER_REPORT,
@@ -367,11 +375,13 @@ describe("/actions/index.tsx", () => {
             username,
         }
 
-        expect(actions.fetchUserReport(timescale, username)).toEqual(expectedAction)
+        expect(actions.fetchUserReport(timescale, username)).toEqual(
+            expectedAction
+        )
     })
 
     test('USER_REPORT_FETCHED', () => {
-        let report: any = "report"
+        let report: any = 'report'
         let expectedAction = {
             type: actions.USER_REPORT_FETCHED,
             report,
@@ -381,7 +391,7 @@ describe("/actions/index.tsx", () => {
     })
 
     test('FETCH_REGION_REPORT', () => {
-        let timescale: string = "month"
+        let timescale: string = 'month'
         let expectedAction = {
             type: actions.FETCH_REGION_REPORT,
             timescale,
@@ -392,7 +402,7 @@ describe("/actions/index.tsx", () => {
 
     test('REGION_REPORT_FETCHED', () => {
         let report: any = {
-            description: "a useful report"
+            description: 'a useful report',
         }
         let expectedAction = {
             type: actions.REGION_REPORT_FETCHED,
@@ -403,17 +413,16 @@ describe("/actions/index.tsx", () => {
     })
 
     test('CHANGE_PAGE', () => {
-        let page: string = "analytics"
+        let page: string = 'analytics'
         let expectedAction = {
             type: actions.CHANGE_PAGE,
-            page
+            page,
         }
 
         expect(actions.changePage(page)).toEqual(expectedAction)
     })
 
     test('FETCH_TOTAL_SIGNUPS', () => {
-        
         // do something
         let expectedAction = {
             type: actions.FETCH_TOTAL_SIGNUPS,
@@ -423,7 +432,7 @@ describe("/actions/index.tsx", () => {
     })
 
     test('TOTAL_SIGNUPS_FETCHED', () => {
-        let data: any = "data"
+        let data: any = 'data'
         let expectedAction = {
             type: actions.TOTAL_SIGNUPS_FETCHED,
             data,
@@ -441,47 +450,56 @@ describe("/actions/index.tsx", () => {
     })
 
     test('TOTAL_MINUTES_FETCHED', () => {
-        let data: any = "twenty minutes"
+        let data: any = 'twenty minutes'
         let expectedAction = {
             type: actions.TOTAL_MINUTES_FETCHED,
-            data
+            data,
         }
 
         expect(actions.totalMinutesFetched(data)).toEqual(expectedAction)
     })
 
     test('ANALYZE_LOGS', () => {
-        let connection_id: any = "id"
-        let username: any = "hello"
-        let server_filename: any = "server"
-        let client_filename: any = "client"
+        let connection_id: any = 'id'
+        let username: any = 'hello'
+        let server_filename: any = 'server'
+        let client_filename: any = 'client'
         let expectedAction = {
-            type: actions.ANALYZE_LOGS, 
+            type: actions.ANALYZE_LOGS,
             connection_id,
             username,
             server_filename,
-            client_filename
+            client_filename,
         }
 
-        expect(actions.analyzeLogs(connection_id, username, server_filename, client_filename)).toEqual(expectedAction)
+        expect(
+            actions.analyzeLogs(
+                connection_id,
+                username,
+                server_filename,
+                client_filename
+            )
+        ).toEqual(expectedAction)
     })
 
     test('STORE_LOG_ANALYSIS', () => {
         let payload_id: any = {}
-        let payload: any = "hi"
-        let sender: string = "fractal"
+        let payload: any = 'hi'
+        let sender: string = 'fractal'
         let expectedAction = {
             type: actions.STORE_LOG_ANALYSIS,
             payload_id,
             payload,
-            sender
+            sender,
         }
 
-        expect(actions.storeLogAnalysis(payload_id, payload, sender)).toEqual(expectedAction)
+        expect(actions.storeLogAnalysis(payload_id, payload, sender)).toEqual(
+            expectedAction
+        )
     })
 
     test('FETCH_LOGS_BY_CONNECTION', () => {
-        let connection_id: any = "id"
+        let connection_id: any = 'id'
         let logs_not_found: boolean = false
         let fetch_all: boolean = false
         let last_log: boolean = true
@@ -490,10 +508,17 @@ describe("/actions/index.tsx", () => {
             connection_id,
             logs_not_found,
             fetch_all,
-            last_log
+            last_log,
         }
 
-        expect(actions.fetchLogsByConnection(connection_id, logs_not_found, fetch_all, last_log)).toEqual(expectedAction)
+        expect(
+            actions.fetchLogsByConnection(
+                connection_id,
+                logs_not_found,
+                fetch_all,
+                last_log
+            )
+        ).toEqual(expectedAction)
     })
 
     test('FETCH_BOOKMARKED_LOGS', () => {
@@ -505,7 +530,7 @@ describe("/actions/index.tsx", () => {
     })
 
     test('STORE_BOOKMARKED_LOGS', () => {
-        let payload: any = "payload"
+        let payload: any = 'payload'
         let expectedAction = {
             type: actions.STORE_BOOKMARKED_LOGS,
             payload,
@@ -516,14 +541,16 @@ describe("/actions/index.tsx", () => {
 
     test('BOOKMARK_LOGS', () => {
         let bookmark: boolean = true
-        let connection_id: any = "any"
+        let connection_id: any = 'any'
         let expectedAction = {
             type: actions.BOOKMARK_LOGS,
             bookmark,
             connection_id,
         }
 
-        expect(actions.bookmarkLogs(bookmark, connection_id)).toEqual(expectedAction)
+        expect(actions.bookmarkLogs(bookmark, connection_id)).toEqual(
+            expectedAction
+        )
     })
 
     test('CLEAR_LOGS', () => {

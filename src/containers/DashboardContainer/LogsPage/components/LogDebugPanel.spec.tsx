@@ -17,34 +17,34 @@ If the props are null it displays a loading icon and says that it is loading.
  */
 describe('<LogDebugPanel />', () => {
     it('displays an icon (always)', () => {
-       const wrapper = shallow(
-           <LogDebugPanel
-               // buncha dummy data
-               dispatch={(items: any) => {
-                   // mock
-               }}
-               title="title"
-               filename="filename"
-               username="user"
-               sender="sender"
-               connection_id="id"
-               metric="metric"
-               logAnalysis={{
-                   user_id: {
-                       sender: {
-                           metric: {
-                               output: [1], // not enough data to plot
-                           },
-                       },
-                   },
-               }}
-           />
-       )
+        const wrapper = shallow(
+            <LogDebugPanel
+                // buncha dummy data
+                dispatch={(items: any) => {
+                    // mock
+                }}
+                title="title"
+                filename="filename"
+                username="user"
+                sender="sender"
+                connection_id="id"
+                metric="metric"
+                logAnalysis={{
+                    user_id: {
+                        sender: {
+                            metric: {
+                                output: [1], // not enough data to plot
+                            },
+                        },
+                    },
+                }}
+            />
+        )
 
-       expect(wrapper.find(FontAwesomeIcon)).toHaveLength(1)
+        expect(wrapper.find(FontAwesomeIcon)).toHaveLength(1)
     })
 
     // TODO (optional) test for string matching messages
-    // since we don't want to pin down the message in case we want to change it for now, we are keeping 
+    // since we don't want to pin down the message in case we want to change it for now, we are keeping
     // from implementing it it this way
 })

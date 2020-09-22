@@ -16,12 +16,18 @@ per each of these props.
 */
 describe('<VMPieChart />', () => {
     it('allows us to set props and will display correctly, displays both name and sum', () => {
-
-        const wrapper = mount(<VMPieChart deallocated={3} available={2} unavailable={1} location="foo"/>)
+        const wrapper = mount(
+            <VMPieChart
+                deallocated={3}
+                available={2}
+                unavailable={1}
+                location="foo"
+            />
+        )
         expect(wrapper.props().deallocated).toEqual(3)
         expect(wrapper.props().available).toEqual(2)
         expect(wrapper.props().unavailable).toEqual(1)
-        expect(wrapper.props().location).toEqual("foo")
+        expect(wrapper.props().location).toEqual('foo')
 
         expect(
             wrapper.containsAllMatchingElements([
@@ -50,17 +56,16 @@ describe('<VMPieChart />', () => {
                 available={0}
                 unavailable={0}
                 location=""
-             />
+            />
         )
         const foundCells = wrapper.find(Cell) // we checked in a previous test for the length
-        
+
         foundCells.forEach((cell) => {
-            let color = cell.prop("fill")
-            color = color ? color : "" // undefined -> ""
+            let color = cell.prop('fill')
+            color = color ? color : '' // undefined -> ""
 
             expect(colorsRemaining.has(color)).toEqual(true)
             colorsRemaining.delete(color)
         })
-
     })
 })

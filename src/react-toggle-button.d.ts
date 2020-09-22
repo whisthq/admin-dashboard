@@ -1,1 +1,1 @@
-declare module 'react-toggle-button';
+declare module 'react-toggle-button'

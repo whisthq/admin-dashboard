@@ -1,10 +1,10 @@
-import React from 'react';
-import Enzyme, { shallow , mount} from 'enzyme'
+import React from 'react'
+import Enzyme, { shallow, mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { Row, Col } from 'react-bootstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
-import { Analytics } from "./Analytics"
+import { Analytics } from './Analytics'
 
 import { VMPieChart } from './components/VMPieChart'
 import { UserStats } from './components/UserStats'
@@ -59,7 +59,7 @@ describe('<Analytics />', () => {
         expect(wrapper.find(UserStats)).toHaveLength(1)
         expect(wrapper.find(SummaryStats)).toHaveLength(1)
         expect(wrapper.find(GeneralStats)).toHaveLength(1)
-    });
+    })
 
     it('renders three vm pie charts', () => {
         const wrapper = shallow(
@@ -73,7 +73,7 @@ describe('<Analytics />', () => {
     })
 
     it('renders the correct labels for the pie charts', () => {
-        const labels = ['Eastus', 'Northcentralus', 'Southcentralus'];
+        const labels = ['Eastus', 'Northcentralus', 'Southcentralus']
         const remainingLabels = new Set(labels)
 
         const wrapper = shallow(

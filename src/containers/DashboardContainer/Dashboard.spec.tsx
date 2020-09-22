@@ -14,57 +14,57 @@ The admin should render a switch to the four components it can display and a <Da
 It should also have a logout button.
  */
 describe('<Admin />', () => {
-  test('check that componentDidMount fetches user activity', () => {
-      //TODO
-  })
-  test('check that componentDidMount sets the date', () => {
-      // TODO
-  })
-  test('updateWindowdimensions() sets state based on window.*', () => {
-    // TODO
-  })
+    test('check that componentDidMount fetches user activity', () => {
+        //TODO
+    })
+    test('check that componentDidMount sets the date', () => {
+        // TODO
+    })
+    test('updateWindowdimensions() sets state based on window.*', () => {
+        // TODO
+    })
 
-  it('renders a DashboardMenu', () => {
-    const wrapper = shallow(
-        <Admin
-            dispatch={(items: any) => {
-                // mock
-            }}
-        />
-    )
-    expect(wrapper.find(DashboardMenu)).toHaveLength(1)
-  })
-  
-  it('renders one <Switch /> components', () => {
-    const wrapper = shallow(
-        <Admin
-            dispatch={(items: any) => {
-                // mock
-            }}
-        />
-    )
-    expect(wrapper.find(Switch)).toHaveLength(1)
-  }) 
+    it('renders a DashboardMenu', () => {
+        const wrapper = shallow(
+            <Admin
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+        expect(wrapper.find(DashboardMenu)).toHaveLength(1)
+    })
 
-  it('renders four <Route /> components', () => {
-      const wrapper = shallow(
-          <Admin
-              dispatch={(items: any) => {
-                  // mock
-              }}
-          />
-      )
-      expect(wrapper.find(Route)).toHaveLength(4)
-  })
+    it('renders one <Switch /> components', () => {
+        const wrapper = shallow(
+            <Admin
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+        expect(wrapper.find(Switch)).toHaveLength(1)
+    })
 
-  it('renders the logout button', () => {
-      const wrapper = shallow(
-          <Admin
-              dispatch={(items: any) => {
-                  // mock
-              }}
-          />
-      )
-      expect(wrapper.find(Button)).toHaveLength(1)
-  })
+    it('renders four <Route /> components', () => {
+        const wrapper = shallow(
+            <Admin
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+        expect(wrapper.find(Route)).toHaveLength(4)
+    })
+
+    it('renders the logout button', () => {
+        const wrapper = shallow(
+            <Admin
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+        expect(wrapper.find(Button)).toHaveLength(1)
+    })
 })
