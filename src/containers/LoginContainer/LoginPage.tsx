@@ -11,7 +11,7 @@ import { loginUser } from '../../actions/index'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 
-class Login extends React.Component<any, any> {
+export class Login extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
         this.state = {

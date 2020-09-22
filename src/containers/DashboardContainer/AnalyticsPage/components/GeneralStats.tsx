@@ -17,7 +17,7 @@ import '../../../../static/App.css'
 
 import { fetchRegionReport, fetchLatestReport } from '../../../../actions/index'
 
-class GeneralStats extends React.Component<any, any> {
+export class GeneralStats extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
         this.state = {

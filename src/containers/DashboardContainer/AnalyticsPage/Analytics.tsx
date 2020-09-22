@@ -11,7 +11,7 @@ import UserStats from './components/UserStats'
 import SummaryStats from './components/SummaryStats'
 import VMPieChart from './components/VMPieChart'
 
-class Analytics extends React.Component<any, any> {
+export class Analytics extends React.Component<any, any> {
     componentDidMount() {
         this.props.dispatch(changePage('analytics'))
     }

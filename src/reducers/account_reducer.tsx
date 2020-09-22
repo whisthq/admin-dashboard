@@ -107,7 +107,9 @@ export default function (state = DEFAULT, action: any) {
             return {
                 ...state,
                 vms_updating: state.vms_updating
-                    ? state.vms_updating.filter((vm: any) => vm !== action.vm_name)
+                    ? state.vms_updating.filter(
+                          (vm: any) => vm !== action.vm_name
+                      )
                     : [],
             }
         case AccountAction.STORE_LOGS:

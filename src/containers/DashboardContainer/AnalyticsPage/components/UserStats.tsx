@@ -15,7 +15,7 @@ import { fetchUserReport } from '../../../../actions/index'
 
 import CustomerList from './CustomerList'
 
-class UserStats extends React.Component<any, any> {
+export class UserStats extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
         this.state = {
@@ -52,7 +52,7 @@ class UserStats extends React.Component<any, any> {
     }
 
     handleChartSelect = (val: any) => {
-        console.log(val)
+        console.log(val) // TODO (adriano) this can probably be removed
         this.setState({ timescale: val })
         this.props.dispatch(fetchUserReport(val, this.state.username))
     }
