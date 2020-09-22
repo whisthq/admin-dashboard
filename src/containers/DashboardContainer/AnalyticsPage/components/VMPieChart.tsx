@@ -45,7 +45,10 @@ export class VMPieChart extends React.Component<any, any> {
                         </text>
                         <Pie data={data} dataKey="value" innerRadius={70}>
                             {data.map((_entry, index) => (
-                                <Cell fill={colors[index % colors.length]} />
+                                <Cell
+                                    key={index}
+                                    fill={colors[index % colors.length]}
+                                />
                             ))}
                         </Pie>
                     </PieChart>

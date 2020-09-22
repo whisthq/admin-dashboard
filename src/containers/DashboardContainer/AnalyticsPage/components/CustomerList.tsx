@@ -97,7 +97,7 @@ export class CustomerList extends React.Component<any, any> {
                                     </div>
                                 )
                             } else {
-                                return <div></div>
+                                return <div key={index}></div>
                             }
                         })}
                     </div>
