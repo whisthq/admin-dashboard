@@ -5,10 +5,11 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import toJson from 'enzyme-to-json'
 
 import { Dashboard } from './Database'
-import { CustomerTable } from './components/CustomerTable'
-import { DiskTable } from './components/DiskTable'
-import { UserTable } from './components/UserTable'
-import { VMTable } from './components/VMTable'
+
+import CustomerTable from './components/CustomerTable'
+import DiskTable from './components/DiskTable'
+import UserTable from './components/UserTable'
+import VMTable from './components/VMTable'
 
 Enzyme.configure({ adapter: new Adapter() })
 

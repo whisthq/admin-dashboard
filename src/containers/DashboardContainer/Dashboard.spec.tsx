@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
@@ -7,7 +7,7 @@ import toJson from 'enzyme-to-json'
 
 import { Admin } from './Dashboard'
 
-import { DashboardMenu } from './DashboardMenu'
+import DashboardMenu from './DashboardMenu'
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -42,6 +42,7 @@ describe('<Admin />', () => {
     it('renders a DashboardMenu', () => {
         const wrapper = shallow(
             <Admin
+                authenticated={true}
                 dispatch={(items: any) => {
                     // mock
                 }}
@@ -53,6 +54,7 @@ describe('<Admin />', () => {
     it('renders one <Switch /> components', () => {
         const wrapper = shallow(
             <Admin
+                authenticated={true}
                 dispatch={(items: any) => {
                     // mock
                 }}
@@ -64,6 +66,7 @@ describe('<Admin />', () => {
     it('renders four <Route /> components', () => {
         const wrapper = shallow(
             <Admin
+                authenticated={true}
                 dispatch={(items: any) => {
                     // mock
                 }}
@@ -75,11 +78,24 @@ describe('<Admin />', () => {
     it('renders the logout button', () => {
         const wrapper = shallow(
             <Admin
+                authenticated={true}
                 dispatch={(items: any) => {
                     // mock
                 }}
             />
         )
         expect(wrapper.find(Button)).toHaveLength(1)
+    })
+
+    it('renders a redirect on not authenticated', () => {
+        const wrapper = shallow(
+            <Admin
+                authenticated={false}
+                dispatch={(items: any) => {
+                    // mock
+                }}
+            />
+        )
+        expect(wrapper.find(Redirect)).toHaveLength(1)
     })
 })

@@ -1,5 +1,5 @@
 import React from 'react'
-import Enzyme, { shallow, mount } from 'enzyme'
+import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { PieChart, Pie, Cell } from 'recharts'
 import toJson from 'enzyme-to-json'
@@ -31,7 +31,7 @@ describe('<VMPieChart />', () => {
     })
 
     it('allows us to set props and will display correctly, displays both name and sum', () => {
-        const wrapper = mount(
+        const wrapper = shallow(
             <VMPieChart
                 deallocated={3}
                 available={2}
@@ -39,17 +39,21 @@ describe('<VMPieChart />', () => {
                 location="foo"
             />
         )
-        expect(wrapper.props().deallocated).toEqual(3)
-        expect(wrapper.props().available).toEqual(2)
-        expect(wrapper.props().unavailable).toEqual(1)
-        expect(wrapper.props().location).toEqual('foo')
 
-        expect(
-            wrapper.containsAllMatchingElements([
-                <text>6</text>, //sum of deallocated, available, and unavailable
-                <text>foo</text>,
-            ])
-        ).toEqual(true)
+        const expectedProps = {
+            deallocated: 3,
+            available: 2,
+            unavailable: 1,
+            location: 'foo',
+        }
+
+        expect(wrapper.instance().props).toEqual(expectedProps)
+
+        const expectedText: Set<any> = new Set([6, 'foo'])
+        wrapper.find('text').forEach((text) => {
+            let child: any = text.props().children
+            expect(expectedText.has(child)).toEqual(true)
+        })
     })
 
     it('has a pie in a pie chart with a cells per color', () => {
@@ -65,7 +69,7 @@ describe('<VMPieChart />', () => {
         const colors = ['#bf3762', '#15d157', '#e2e620']
         const colorsRemaining = new Set(colors)
 
-        const wrapper = mount(
+        const wrapper = shallow(
             <VMPieChart
                 deallocated={0}
                 available={0}

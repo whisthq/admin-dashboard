@@ -1,5 +1,5 @@
 import React from 'react'
-import Enzyme, { shallow, render, mount } from 'enzyme'
+import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { LineChart } from 'recharts'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -22,7 +22,6 @@ describe('<MiniGraph />', () => {
         const wrapper = shallow(
             <MiniGraph
                 // buncha dummy data
-                filename={false} // should short-circuit on the first if statement
                 dispatch={(items: any) => {
                     // mock
                 }}
@@ -38,28 +37,28 @@ describe('<MiniGraph />', () => {
         expect(toJson(wrapper)).toMatchSnapshot()
     })
 
-    it('displays an icon and a message if it gets empty/null props', () => {
+    it('displays an icon and a message if it gets filename, but no data props', () => {
         const wrapper = shallow(
             <MiniGraph
                 // buncha dummy data
-                filename={false} // should short-circuit on the first if statement
                 dispatch={(items: any) => {
                     // mock
                 }}
+                filename="filename"
                 title="title"
                 username="user"
                 sender="sender"
                 connection_id="id"
                 metric="metric"
-                logAnalysis={null}
             />
         )
 
         expect(wrapper.find(LineChart)).toHaveLength(0)
         expect(wrapper.find(FontAwesomeIcon)).toHaveLength(1)
+        expect(wrapper.find('div')).toHaveLength(3)
     })
 
-    it('displays a message instead of a plot if there is not enough data', () => {
+    it('displays a message instead of a plot if there is not enough data or null/empty data', () => {
         const wrapper = shallow(
             <MiniGraph
                 // buncha dummy data
@@ -84,8 +83,23 @@ describe('<MiniGraph />', () => {
             />
         )
 
-        expect(wrapper.find(LineChart)).toHaveLength(0)
-        expect(wrapper.find('div')).toHaveLength(3) // a div containing one with the title and one with a message
+        const otherWrapper = shallow(
+            <MiniGraph
+                // buncha dummy data
+                dispatch={(items: any) => {
+                    // mock
+                }}
+                title="title"
+                username="user"
+                sender="sender"
+                connection_id="id"
+                metric="metric"
+            />
+        )
+
+        expect(otherWrapper.find(LineChart)).toHaveLength(0)
+        expect(otherWrapper.find(FontAwesomeIcon)).toHaveLength(0)
+        expect(otherWrapper.find('div')).toHaveLength(3) // a div containing one with the title and one with a message
     })
 
     it('displays a plot if it gets chartable props', () => {
@@ -101,11 +115,18 @@ describe('<MiniGraph />', () => {
                 sender="sender"
                 connection_id="id"
                 metric="metric"
-                logAnalysis={{
+                log_analysis={{
                     user_id: {
                         sender: {
                             metric: {
-                                output: [1, 2, 3],
+                                output: [
+                                    { x: 0, y: 0 },
+                                    { x: 1, y: 1 },
+                                    { x: 2, y: 2 },
+                                ],
+                                summary_statistics: {
+                                    mean: 0,
+                                },
                             },
                         },
                     },

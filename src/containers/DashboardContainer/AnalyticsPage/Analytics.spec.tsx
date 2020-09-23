@@ -1,5 +1,5 @@
 import React from 'react'
-import Enzyme, { shallow, mount } from 'enzyme'
+import Enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { Row, Col } from 'react-bootstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
@@ -7,10 +7,10 @@ import toJson from 'enzyme-to-json'
 
 import { Analytics } from './Analytics'
 
-import { VMPieChart } from './components/VMPieChart'
-import { UserStats } from './components/UserStats'
-import { GeneralStats } from './components/GeneralStats'
-import { SummaryStats } from './components/SummaryStats'
+import VMPieChart from './components/VMPieChart'
+import UserStats from './components/UserStats'
+import GeneralStats from './components/GeneralStats'
+import SummaryStats from './components/SummaryStats'
 
 // necessary for enzyme to work
 Enzyme.configure({ adapter: new Adapter() })
@@ -48,6 +48,17 @@ describe('<Analytics />', () => {
                 dispatch={(items: any) => {
                     // mock
                 }}
+                latest_report={{
+                    eastus_deallocated: 0,
+                    eastus_unavailable: 0,
+                    eastus_available: 0,
+                    northcentralus_deallocated: 0,
+                    northcentralus_unavailable: 0,
+                    northcentralus_available: 0,
+                    southcentralus_deallocated: 0,
+                    southcentralus_unavailable: 0,
+                    southcentralus_available: 0,
+                }}
             />
         )
         expect(wrapper.find(Row)).toHaveLength(1)
@@ -60,8 +71,20 @@ describe('<Analytics />', () => {
                 dispatch={(items: any) => {
                     // mock
                 }}
+                latest_report={{
+                    eastus_deallocated: 0,
+                    eastus_unavailable: 0,
+                    eastus_available: 0,
+                    northcentral_deallocated: 0,
+                    northcentral_unavailable: 0,
+                    northcentral_available: 0,
+                    southcentral_deallocated: 0,
+                    southcentral_unavailable: 0,
+                    southcentral_available: 0,
+                }}
             />
         )
+
         expect(wrapper.find(Tabs)).toHaveLength(1)
 
         expect(wrapper.find(TabList)).toHaveLength(1)
@@ -81,6 +104,17 @@ describe('<Analytics />', () => {
                 dispatch={(items: any) => {
                     // mock
                 }}
+                latest_report={{
+                    eastus_deallocated: 0,
+                    eastus_unavailable: 0,
+                    eastus_available: 0,
+                    northcentral_deallocated: 0,
+                    northcentral_unavailable: 0,
+                    northcentral_available: 0,
+                    southcentral_deallocated: 0,
+                    southcentral_unavailable: 0,
+                    southcentral_available: 0,
+                }}
             />
         )
         expect(wrapper.find(VMPieChart)).toHaveLength(3)
@@ -94,6 +128,17 @@ describe('<Analytics />', () => {
             <Analytics
                 dispatch={(items: any) => {
                     // mock
+                }}
+                latest_report={{
+                    eastus_deallocated: 0,
+                    eastus_unavailable: 0,
+                    eastus_available: 0,
+                    northcentral_deallocated: 0,
+                    northcentral_unavailable: 0,
+                    northcentral_available: 0,
+                    southcentral_deallocated: 0,
+                    southcentral_unavailable: 0,
+                    southcentral_available: 0,
                 }}
             />
         )

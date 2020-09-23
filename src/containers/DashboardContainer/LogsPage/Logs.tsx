@@ -34,7 +34,7 @@ import { config } from '../../../constants'
 import MiniGraph from './components/MiniGraph'
 import LogDebugPanel from './components/LogDebugPanel'
 
-class Logs extends React.Component<any, any> {
+export class Logs extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
         this.state = {
