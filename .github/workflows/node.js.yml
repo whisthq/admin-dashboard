@@ -31,7 +31,7 @@ jobs:
         run: yarn -i
       
       - name: Install Jest Globally
-        run: yarn add --global jest # want it global so the cli will work
+        run: yarn global add jest # so the cli will work and you can just run "jest"
 
       - name: Run the tests
         run: yarn test a # a specifies all tests
