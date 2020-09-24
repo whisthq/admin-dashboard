@@ -7,7 +7,7 @@ import 'react-tabs/style/react-tabs.css'
 
 import '../../../../static/App.css'
 
-class MiniGraph extends React.Component<any, any> {
+export class MiniGraph extends React.Component<any, any> {
     render() {
         if (
             !this.props.filename ||

@@ -16,7 +16,7 @@ import {
 
 import { startVM, deallocateVM, fetchVMs } from '../../../../actions/index'
 
-class VMTable extends React.Component<any, any> {
+export class VMTable extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
 

@@ -4,7 +4,7 @@ import { PieChart, Pie, ResponsiveContainer, Cell } from 'recharts'
 
 import '../../../../static/App.css'
 
-class VMPieChart extends React.Component<any, any> {
+export class VMPieChart extends React.Component<any, any> {
     render() {
         const data = [
             { name: 'Deallocated', value: this.props.deallocated },
@@ -45,7 +45,10 @@ class VMPieChart extends React.Component<any, any> {
                         </text>
                         <Pie data={data} dataKey="value" innerRadius={70}>
                             {data.map((_entry, index) => (
-                                <Cell fill={colors[index % colors.length]} />
+                                <Cell
+                                    key={index}
+                                    fill={colors[index % colors.length]}
+                                />
                             ))}
                         </Pie>
                     </PieChart>

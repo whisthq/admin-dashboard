@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MiniGraph /> renders correctly 1`] = `
+<div
+  style={
+    Object {
+      "paddingLeft": 10,
+      "width": 300,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "fontWeight": "bold",
+        "marginBottom": 10,
+        "marginTop": 10,
+      }
+    }
+  >
+    title
+  </div>
+  <div
+    style={
+      Object {
+        "fontSize": 13,
+        "marginTop": 10,
+      }
+    }
+  >
+    Not enough data to plot
+  </div>
+</div>
+`;

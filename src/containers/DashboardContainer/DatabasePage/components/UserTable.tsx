@@ -11,7 +11,7 @@ import Style from '../../../../styles/components/pageAdmin.module.css'
 
 import { fetchUserTable, deleteUser } from '../../../../actions/index'
 
-class UserTable extends React.Component<any, any> {
+export class UserTable extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
 

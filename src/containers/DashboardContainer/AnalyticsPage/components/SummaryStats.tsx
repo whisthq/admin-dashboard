@@ -6,7 +6,7 @@ import 'antd/dist/antd.css'
 
 import { fetchTotalSignups, fetchTotalMinutes } from '../../../../actions/index'
 
-class SummaryStats extends React.Component<any, any> {
+export class SummaryStats extends React.Component<any, any> {
     componentDidMount() {
         this.props.dispatch(fetchTotalSignups())
         this.props.dispatch(fetchTotalMinutes())

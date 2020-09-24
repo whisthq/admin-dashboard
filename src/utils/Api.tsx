@@ -1,7 +1,7 @@
-import { config } from '../constants'
+// TODO (adriano) consider unit/integration testing this but will require many mocks
 
-export async function apiPost(endpoint: any, body: any, token: any) {
-    const response = await fetch(endpoint, {
+export function apiPost(endpoint: any, body: any, token: any) {
+    return fetch(endpoint, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -9,39 +9,20 @@ export async function apiPost(endpoint: any, body: any, token: any) {
             Authorization: 'Bearer ' + token,
         },
         body: JSON.stringify(body),
+    }).then((response) => {
+        return response.json().then((json) => ({ json, response }))
     })
-    const json = await response.json()
-    return { json, response }
 }
 
-export async function apiGet(endpoint: any, token: any) {
-    const response = await fetch(endpoint, {
+export function apiGet(endpoint: any, token: any) {
+    return fetch(endpoint, {
         method: 'GET',
         mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + token,
         },
+    }).then((response) => {
+        return response.json().then((json) => ({ json, response }))
     })
-    const json = await response.json()
-    return { json, response }
-}
-
-export async function fetchGraphQL(
-    operationsDoc: any,
-    operationName: any,
-    variables: any
-) {
-    const response = await fetch(config.url.GRAPHQL, {
-        method: 'POST',
-        headers: {
-            'x-hasura-admin-secret': config.graphQL.SECRET,
-        },
-        body: JSON.stringify({
-            query: operationsDoc,
-            variables: variables,
-            operationName: operationName,
-        }),
-    })
-    return response.json()
 }

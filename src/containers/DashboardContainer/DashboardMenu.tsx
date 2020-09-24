@@ -18,7 +18,7 @@ import Logo from '../../assets/logo.svg'
 
 withRouter((props) => <DashboardMenu {...props} />)
 
-class DashboardMenu extends React.Component<any, any> {
+export class DashboardMenu extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
         this.state = { page: 'dashboard' }
