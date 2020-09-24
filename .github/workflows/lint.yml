@@ -1,6 +1,6 @@
 # This workflow will format via Prettier
 
-name: npm lint
+name: yarn lint
 
 on:
   pull_request:
@@ -22,14 +22,14 @@ jobs:
         with:
           node-version: 12
           
-      - name: Run npm install
-        run: npm install
+      - name: Run yarn install
+        run: yarn -i
           
       - name: Install Prettier
-        run: npm install --global prettier
+        run: yarn global add prettier
 
       - name: Lint with Prettier
-        run: npm run format --write
+        run: yarn run format
 
       - name: Commit files
         run: |

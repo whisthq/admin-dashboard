@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Login /> renders correctly 1`] = `
+<div
+  style={
+    Object {
+      "height": "100vh",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "margin": "auto",
+        "marginTop": 150,
+        "width": 300,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "fontSize": 30,
+          "fontWeight": "bold",
+          "marginBottom": 30,
+          "textAlign": "center",
+        }
+      }
+    >
+      Fractal Admin
+    </div>
+    <div />
+    <InputGroup
+      className="mb-3"
+    >
+      <FormControl
+        aria-describedby="inputGroup-sizing-default"
+        aria-label="Default"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        placeholder="Username"
+        style={
+          Object {
+            "backgroundColor": "#e3e5e8",
+            "border": "none",
+            "borderRadius": 5,
+            "maxWidth": 600,
+            "padding": "30px 20px",
+          }
+        }
+        type="email"
+      />
+      <br />
+    </InputGroup>
+    <InputGroup
+      className="mb-3"
+      style={
+        Object {
+          "marginTop": 20,
+        }
+      }
+    >
+      <FormControl
+        aria-describedby="inputGroup-sizing-default"
+        aria-label="Default"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        placeholder="Password"
+        style={
+          Object {
+            "backgroundColor": "#e3e5e8",
+            "border": "none",
+            "borderRadius": 5,
+            "maxWidth": 600,
+            "padding": "30px 20px",
+          }
+        }
+        type="password"
+      />
+    </InputGroup>
+    <Button
+      active={false}
+      disabled={false}
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "#111111",
+          "border": "none",
+          "color": "white",
+          "fontWeight": "bold",
+          "marginTop": 10,
+          "padding": "15px",
+          "width": "100%",
+        }
+      }
+      variant="primary"
+    >
+      LOG IN
+    </Button>
+  </div>
+</div>
+`;

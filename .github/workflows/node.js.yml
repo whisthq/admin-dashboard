@@ -1,4 +1,5 @@
 # This workflow will do a clean install of node dependencies and build the source code on Node 10 and 12
+# It also runs jest tests
 
 name: Node.js CI
 
@@ -26,11 +27,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
   
-      - name: Run npm install
-        run: npm install
-  
-      - name: Run npm ci
-        run: npm ci
-          
-      - name: Run npm build
-        run: npm run build --if-present
+      - name: Run yarn -i
+        run: yarn -i
+      
+      - name: Install Jest Globally
+        run: yarn global add jest # so the cli will work and you can just run "jest"
+
+      - name: Run the tests
+        run: yarn test a # a specifies all tests

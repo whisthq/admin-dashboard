@@ -15,17 +15,25 @@ The Fractal dashboard can be used for:
 
 ## Development
 
-The admin dashboard is developed using the `npm` package manager. You can start developing by running `npm install`, and can launch into a localhost via `npm start`. If you need to update dependencies, you can run `npm upgrade`, followed by `npm prune` to remove unnecessary dependencies.
+The admin dashboard is developed using the `yarn` package manager. You can start developing by running `yarn`, and can launch into a localhost via `yarn start`. If you need to update dependencies, you can run `yarn upgrade`, followed by `yarn autoclean --init && yarn autoclean --force` to remove unnecessary files.
 
-The `master` branch autopublishes to `fractal-dashboard.netlify.app` via Netlify, which is our internal production URL, and should only be merged in via pull requests when code has been thoroughly tested.
+The `master` branch autopublishes to [https://fractal-dashboard.netlify.app](https://fractal-dashboard.netlify.app) via Netlify, which is our internal production URL, and should only be merged in via pull requests when code has been thoroughly tested.
 
 Basic continuous integration is set up for this project. For every push or PR, basic NodeJS tests will be compiled and run within GitHub Actions. This will also attempt to format the code via Prettier and inform you if your code is not properly formatted. You should make sure that every pull request to `master` passes the build in GitHub Actions, and that you pre-formatted the code via Prettier beforehand. 
 
+## Testing
+
+We use Jest and Enzyme for testing. With `yarn` you should be able to install all the dependencies and `yarn test` should run the tests. If it fails you may need the Jest CLI globally installed. Unit tests are included as `.spec.tsx` files next to the files they test for easy development. Tests of functions are called "test" and tests of React components are called "it" (though these two are actually aliases of each other). CSS Styling properties are not rigorously tested.
+
+If you wish to do integration testing consider setting up a folder called `__tests__`. You can also change the regex matcher in the `jest.config.js` file so that it can match `filename.test.tsx` additionally to `filename.spec.tsx`. This is preferable since we'd like whitebox tests (and integration tests) seperate from blackbox unit tests unless there are very few and it's obvious what is what.
+
+The snapshots tests allow us to basically track how stuff changes visually and check that everything renders properly. They are usually in a `__snapshots__` folder and per Jest docs should be committed alongside modified files. These help us track visual tests + changes.
+
 ## Styling
 
-To ensure that code formatting is standardized, and to minimize clutter in the commits, you should set up styling with [Prettier](https://prettier.io/) before making any PRs. You may find a variety of tutorial online for your personal setup. This README covers how to set it up on VSCode. 
+To ensure that code formatting is standardized, and to minimize clutter in the commits, you should set up styling with [Prettier](https://prettier.io/) before making any PRs. We have [pre-commit hooks](https://pre-commit.com/) with Prettier support installed on this project, which you can initialize by first installing pre-commit via `pip install pre-commit` and then running `pre-commit install` to instantiate the hooks for Prettier.
 
-You can always run Prettier directly from a terminal by typing `npm run format`.
+You can always run Prettier directly from a terminal by typing `yarn format`, or you can install it directly within your IDE by via the following instructions:
 
 ### [VSCode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 

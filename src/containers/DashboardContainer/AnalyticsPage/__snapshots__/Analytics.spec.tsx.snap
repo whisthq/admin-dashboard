@@ -1,0 +1,139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Analytics /> renders correctly 1`] = `
+<div
+  style={
+    Object {
+      "bottom": 10,
+      "position": "relative",
+      "width": "100vw",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "color": "#111111",
+        "fontSize": 45,
+        "fontWeight": "bold",
+        "marginBottom": 30,
+      }
+    }
+  >
+    ANALYTICS
+  </div>
+  <Row
+    noGutters={false}
+  >
+    <Col
+      lg={8}
+    >
+      <Tabs
+        defaultFocus={false}
+        defaultIndex={null}
+        forceRenderTabPanel={false}
+        selectedIndex={null}
+      >
+        <TabList
+          className="react-tabs__tab-list"
+          style={
+            Object {
+              "border": "none",
+              "fontSize": 16,
+              "marginBottom": 20,
+              "textAlign": "left",
+            }
+          }
+        >
+          <Tab
+            className="react-tabs__tab"
+            disabledClassName="react-tabs__tab--disabled"
+            focus={false}
+            id={null}
+            panelId={null}
+            selected={false}
+            selectedClassName="react-tabs__tab--selected"
+          >
+            General
+          </Tab>
+          <Tab
+            className="react-tabs__tab"
+            disabledClassName="react-tabs__tab--disabled"
+            focus={false}
+            id={null}
+            panelId={null}
+            selected={false}
+            selectedClassName="react-tabs__tab--selected"
+          >
+            Users
+          </Tab>
+          <Tab
+            className="react-tabs__tab"
+            disabledClassName="react-tabs__tab--disabled"
+            focus={false}
+            id={null}
+            panelId={null}
+            selected={false}
+            selectedClassName="react-tabs__tab--selected"
+          >
+            Stats
+          </Tab>
+        </TabList>
+        <TabPanel
+          className="react-tabs__tab-panel"
+          forceRender={false}
+          selectedClassName="react-tabs__tab-panel--selected"
+        >
+          <Connect(GeneralStats) />
+        </TabPanel>
+        <TabPanel
+          className="react-tabs__tab-panel"
+          forceRender={false}
+          selectedClassName="react-tabs__tab-panel--selected"
+        >
+          <Connect(UserStats) />
+        </TabPanel>
+        <TabPanel
+          className="react-tabs__tab-panel"
+          forceRender={false}
+          selectedClassName="react-tabs__tab-panel--selected"
+        >
+          <Connect(SummaryStats) />
+        </TabPanel>
+      </Tabs>
+    </Col>
+    <Col>
+      <div
+        style={
+          Object {
+            "fontSize": 24,
+            "fontWeight": "bold",
+            "marginBottom": 30,
+            "marginTop": 60,
+          }
+        }
+      >
+        Cloud PCs
+      </div>
+      <Connect(VMPieChart)
+        available={0}
+        deallocated={0}
+        location="Eastus"
+        unavailable={0}
+      />
+      <Connect(VMPieChart)
+        available={0}
+        deallocated={0}
+        location="Northcentralus"
+        unavailable={0}
+      />
+      <Connect(VMPieChart)
+        available={0}
+        deallocated={0}
+        location="Southcentralus"
+        unavailable={0}
+      />
+    </Col>
+  </Row>
+</div>
+`;

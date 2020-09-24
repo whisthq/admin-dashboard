@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<UserTable /> renders correctly 1`] = `
+<div
+  className="tableWrapper"
+>
+  <input
+    onChange={[Function]}
+    placeholder="Filter by keyword"
+    style={
+      Object {
+        "background": "#ebecf0",
+        "border": "none",
+        "padding": "10px 20px",
+        "width": "100%",
+      }
+    }
+    type="text"
+  />
+  <Table
+    columns={
+      Array [
+        Object {
+          "dataIndex": "deleteBtn",
+          "render": [Function],
+          "title": "",
+        },
+      ]
+    }
+    dataSource={Array []}
+    loading={false}
+    rowClassName="tableRow"
+    rowKey="key"
+    scroll={
+      Object {
+        "x": 1800,
+        "y": 450,
+      }
+    }
+    size="middle"
+  />
+</div>
+`;

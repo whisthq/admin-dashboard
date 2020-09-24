@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Database /> renders correctly 1`] = `
+<div
+  style={
+    Object {
+      "bottom": 10,
+      "position": "relative",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "color": "#111111",
+        "fontSize": 45,
+        "fontWeight": "bold",
+        "marginBottom": 60,
+        "width": 275,
+      }
+    }
+  >
+    DASHBOARD
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "marginTop": 5,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "bottom": 36,
+          "display": "block",
+          "position": "relative",
+          "width": "100%",
+        }
+      }
+    >
+      <Tabs
+        defaultFocus={false}
+        defaultIndex={null}
+        forceRenderTabPanel={false}
+        selectedIndex={null}
+      >
+        <TabList
+          className="react-tabs__tab-list"
+          style={
+            Object {
+              "border": "none",
+              "fontSize": 16,
+              "textAlign": "left",
+            }
+          }
+        >
+          <Tab
+            className="react-tabs__tab"
+            disabledClassName="react-tabs__tab--disabled"
+            focus={false}
+            id={null}
+            panelId={null}
+            selected={false}
+            selectedClassName="react-tabs__tab--selected"
+          >
+            Cloud PCs
+          </Tab>
+          <Tab
+            className="react-tabs__tab"
+            disabledClassName="react-tabs__tab--disabled"
+            focus={false}
+            id={null}
+            panelId={null}
+            selected={false}
+            selectedClassName="react-tabs__tab--selected"
+          >
+            Disks
+          </Tab>
+          <Tab
+            className="react-tabs__tab"
+            disabledClassName="react-tabs__tab--disabled"
+            focus={false}
+            id={null}
+            panelId={null}
+            selected={false}
+            selectedClassName="react-tabs__tab--selected"
+          >
+            Users
+          </Tab>
+          <Tab
+            className="react-tabs__tab"
+            disabledClassName="react-tabs__tab--disabled"
+            focus={false}
+            id={null}
+            panelId={null}
+            selected={false}
+            selectedClassName="react-tabs__tab--selected"
+          >
+            Customers
+          </Tab>
+        </TabList>
+        <TabPanel
+          className="react-tabs__tab-panel"
+          forceRender={false}
+          selectedClassName="react-tabs__tab-panel--selected"
+          style={
+            Object {
+              "paddingTop": 20,
+            }
+          }
+        >
+          <div>
+            <Connect(VMTable) />
+          </div>
+        </TabPanel>
+        <TabPanel
+          className="react-tabs__tab-panel"
+          forceRender={false}
+          selectedClassName="react-tabs__tab-panel--selected"
+          style={
+            Object {
+              "paddingTop": 20,
+            }
+          }
+        >
+          <div>
+            <Connect(DiskTable) />
+          </div>
+        </TabPanel>
+        <TabPanel
+          className="react-tabs__tab-panel"
+          forceRender={false}
+          selectedClassName="react-tabs__tab-panel--selected"
+          style={
+            Object {
+              "paddingTop": 20,
+            }
+          }
+        >
+          <div>
+            <Connect(UserTable) />
+          </div>
+        </TabPanel>
+        <TabPanel
+          className="react-tabs__tab-panel"
+          forceRender={false}
+          selectedClassName="react-tabs__tab-panel--selected"
+          style={
+            Object {
+              "paddingTop": 20,
+            }
+          }
+        >
+          <Connect(CustomerTable)
+            openModal={[Function]}
+          />
+        </TabPanel>
+      </Tabs>
+    </div>
+  </div>
+</div>
+`;
