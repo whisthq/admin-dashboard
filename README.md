@@ -21,6 +21,14 @@ The `master` branch autopublishes to [https://fractal-dashboard.netlify.app](htt
 
 Basic continuous integration is set up for this project. For every push or PR, basic NodeJS tests will be compiled and run within GitHub Actions. This will also attempt to format the code via Prettier and inform you if your code is not properly formatted. You should make sure that every pull request to `master` passes the build in GitHub Actions, and that you pre-formatted the code via Prettier beforehand. 
 
+## Testing
+
+We use Jest and Enzyme for testing. With `yarn` you should be able to install all the dependencies and `yarn test` should run the tests. If it fails you may need the Jest CLI globally installed. Unit tests are included as `.spec.tsx` files next to the files they test for easy development. Tests of functions are called "test" and tests of React components are called "it" (though these two are actually aliases of each other). CSS Styling properties are not rigorously tested.
+
+If you wish to do integration testing consider setting up a folder called `__tests__`. You can also change the regex matcher in the `jest.config.js` file so that it can match `filename.test.tsx` additionally to `filename.spec.tsx`. This is preferable since we'd like whitebox tests (and integration tests) seperate from blackbox unit tests unless there are very few and it's obvious what is what.
+
+The snapshots tests allow us to basically track how stuff changes visually and check that everything renders properly. They are usually in a `__snapshots__` folder and per Jest docs should be committed alongside modified files. These help us track visual tests + changes.
+
 ## Styling
 
 To ensure that code formatting is standardized, and to minimize clutter in the commits, you should set up styling with [Prettier](https://prettier.io/) before making any PRs. We have [pre-commit hooks](https://pre-commit.com/) with Prettier support installed on this project, which you can initialize by first installing pre-commit via `pip install pre-commit` and then running `pre-commit install` to instantiate the hooks for Prettier.
@@ -45,11 +53,3 @@ To ensure that this extension is used over other extensions you may have install
   }
 }
 ```
-
-### Testing
-
-We use Jest and Enzyme for testing. With `yarn` you should be able to install all the dependencies and `yarn test` should run the tests. If it fails you may need the Jest CLI globally installed. Unit tests are included as .spec.tsx files next to the files they test for easy development. Tests of functions are called "test" and tests of react components are called "it" (though these two are actually aliases of each other). CSS Styling properties are not rigorously tested.
-
-If you wish to integration testing consider setting up a folder called `__tests__`. You can also change the regex matcher in the `jest.config.js` file so that it can match `filename.test.tsx` additionally to `filename.spec.tsx`. This is preferable since we'd like whitebox tests (and integration tests) seperate from blackbox unit tests unless there are very few and it's obvious what is what.
-
-The snapshots tests allow us to basically track how stuff changes visually and check that everything renders properly. They are usually in a `__snapshots__` folder and per Jest docs should be committed alongside modified files. These help us track visual tests + changes.
