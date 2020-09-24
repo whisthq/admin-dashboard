@@ -1,4 +1,5 @@
 # This workflow will do a clean install of node dependencies and build the source code on Node 10 and 12
+# It also runs jest tests
 
 name: Node.js CI
 
@@ -28,3 +29,9 @@ jobs:
   
       - name: Run yarn -i
         run: yarn -i
+      
+      - name: Install Jest Globally
+        run: yarn add --global jest # want it global so the cli will work
+
+      - name: Run the tests
+        run: yarn test
