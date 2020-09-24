@@ -34,4 +34,4 @@ jobs:
         run: yarn add --global jest # want it global so the cli will work
 
       - name: Run the tests
-        run: yarn test
+        run: yarn test a # a specifies all tests
