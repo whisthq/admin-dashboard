@@ -1,6 +1,7 @@
 # Fractal Admin Dashboard
 
 ![Node.js CI](https://github.com/fractalcomputers/admin-dashboard/workflows/Node.js%20CI/badge.svg)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/cafdd643-2338-419f-b542-b1c2ab933938/deploy-status)](https://app.netlify.com/sites/fractal-dashboard/deploys)
 
 This repository contains the code for the Fractal administrator dashboard, which is an internal tool we use to deliver support and monitor the Fractal cloud infrastructure and user base.
 
