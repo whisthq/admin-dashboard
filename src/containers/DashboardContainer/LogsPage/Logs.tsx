@@ -1,16 +1,9 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-    faCircleNotch,
-    faTrash,
-    faClone,
-    faStar,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import 'react-tabs/style/react-tabs.css'
 
 import '../../../static/App.css'
@@ -31,8 +24,7 @@ import {
 
 import { config } from '../../../constants'
 
-import MiniGraph from './components/MiniGraph'
-import LogDebugPanel from './components/LogDebugPanel'
+import LogEntry from './components/LogEntry'
 
 export class Logs extends React.Component<any, any> {
     constructor(props: any) {
@@ -219,7 +211,9 @@ export class Logs extends React.Component<any, any> {
 
     loadBookmarkedLogs = () => {
         let component = this
-        console.log(this.state.bookmarked_logs)
+
+        console.log(this.state.bookmarked_logs) // ok
+
         if (!this.state.load_bookmarked) {
             this.setState({ load_bookmarked: true, processing: true })
             this.props.dispatch(clearLogs())
@@ -243,9 +237,98 @@ export class Logs extends React.Component<any, any> {
         }
     }
 
+    searchBar = () => {
+        return (
+            <div>
+                <input
+                    type="text"
+                    placeholder="Username"
+                    onChange={this.updateUser}
+                    onKeyPress={this.searchUserKey}
+                    style={{
+                        padding: '10px 15px',
+                        backgroundColor: '#e3e5e8',
+                        borderRadius: 3,
+                        marginRight: 10,
+                        border: 'none',
+                        height: 45,
+                        width: 300,
+                    }}
+                />
+                <Button
+                    disabled={this.state.processing}
+                    onClick={() => this.searchUser()}
+                    style={{
+                        padding: '10px 30px',
+                        fontWeight: 'bold',
+                        backgroundColor: '#111111',
+                        borderRadius: 3,
+                        marginRight: 10,
+                        border: 'none',
+                        height: 45,
+                        position: 'relative',
+                        bottom: 2,
+                        width: 120,
+                    }}
+                >
+                    Search
+                    </Button>
+                <Button
+                    disabled={this.state.processing}
+                    onClick={() => this.searchAllUsers()}
+                    style={{
+                        color: 'white',
+                        padding: '10px 30px',
+                        fontWeight: 'bold',
+                        backgroundColor: '#4636a6',
+                        borderRadius: 3,
+                        marginRight: 10,
+                        border: 'none',
+                        height: 45,
+                        position: 'relative',
+                        bottom: 2,
+                        width: 180,
+                    }}
+                >
+                    Load All Logs
+                    </Button>
+                <div
+                    onClick={this.loadBookmarkedLogs}
+                    style={{
+                        display: 'inline',
+                        position: 'absolute',
+                        right: 200,
+                    }}
+                >
+                    <div
+                        style={{
+                            padding: '8px 20px',
+                            color: '#555555',
+                            background: 'rgba(132, 132, 138, 0.1)',
+                            borderRadius: 3,
+                            display: 'flex',
+                            fontSize: 14,
+                        }}
+                    >
+                        <Form.Check
+                            type="checkbox"
+                            checked={this.state.load_bookmarked}
+                        />
+                        <div
+                            style={{
+                                marginLeft: 5,
+                            }}
+                        >
+                            Show Starred
+                            </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     render() {
         var header = []
-        let component = this
         if (this.props.logs.length > 0) {
             Object.keys(this.props.logs[0]).forEach(function (key) {
                 header.push(key)
@@ -269,91 +352,7 @@ export class Logs extends React.Component<any, any> {
                 >
                     LOGS
                 </div>
-                <div>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        onChange={this.updateUser}
-                        onKeyPress={this.searchUserKey}
-                        style={{
-                            padding: '10px 15px',
-                            backgroundColor: '#e3e5e8',
-                            borderRadius: 3,
-                            marginRight: 10,
-                            border: 'none',
-                            height: 45,
-                            width: 300,
-                        }}
-                    />
-                    <Button
-                        disabled={this.state.processing}
-                        onClick={() => this.searchUser()}
-                        style={{
-                            padding: '10px 30px',
-                            fontWeight: 'bold',
-                            backgroundColor: '#111111',
-                            borderRadius: 3,
-                            marginRight: 10,
-                            border: 'none',
-                            height: 45,
-                            position: 'relative',
-                            bottom: 2,
-                            width: 120,
-                        }}
-                    >
-                        Search
-                    </Button>
-                    <Button
-                        disabled={this.state.processing}
-                        onClick={() => this.searchAllUsers()}
-                        style={{
-                            color: 'white',
-                            padding: '10px 30px',
-                            fontWeight: 'bold',
-                            backgroundColor: '#4636a6',
-                            borderRadius: 3,
-                            marginRight: 10,
-                            border: 'none',
-                            height: 45,
-                            position: 'relative',
-                            bottom: 2,
-                            width: 180,
-                        }}
-                    >
-                        Load All Logs
-                    </Button>
-                    <div
-                        onClick={this.loadBookmarkedLogs}
-                        style={{
-                            display: 'inline',
-                            position: 'absolute',
-                            right: 200,
-                        }}
-                    >
-                        <div
-                            style={{
-                                padding: '8px 20px',
-                                color: '#555555',
-                                background: 'rgba(132, 132, 138, 0.1)',
-                                borderRadius: 3,
-                                display: 'flex',
-                                fontSize: 14,
-                            }}
-                        >
-                            <Form.Check
-                                type="checkbox"
-                                checked={this.state.load_bookmarked}
-                            />
-                            <div
-                                style={{
-                                    marginLeft: 5,
-                                }}
-                            >
-                                Show Starred
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {this.searchBar()}
                 <div>
                     {this.props.logs_fetched &&
                     this.props.logs.length === 0 &&
@@ -412,460 +411,16 @@ export class Logs extends React.Component<any, any> {
                                             this.state.last_index
                                         )
                                     )
-                                    .map(function (value: any) {
+                                    .map((value: any) => {
                                         return (
-                                            <div
-                                                style={{
-                                                    background: 'white',
-                                                    borderRadius: 5,
-                                                    padding: 30,
-                                                    marginBottom: 20,
-                                                    maxWidth:
-                                                        'calc(100% - 200px)',
-                                                }}
-                                            >
-                                                <div
-                                                    style={{
-                                                        fontSize: 12,
-                                                        height: 50,
-                                                        padding: 10,
-                                                        paddingBottom: 20,
-                                                        width: '100%',
-                                                        display: 'flex',
-                                                    }}
-                                                >
-                                                    <div
-                                                        style={{
-                                                            width: 70,
-                                                        }}
-                                                    >
-                                                        <a
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            href={
-                                                                value[
-                                                                    'server_logs'
-                                                                ]
-                                                            }
-                                                            style={{
-                                                                background:
-                                                                    '#4b3ba8',
-                                                                padding:
-                                                                    '8px 12px',
-                                                                borderRadius: 3,
-                                                                fontSize: 14,
-                                                                opacity: value[
-                                                                    'server_logs'
-                                                                ]
-                                                                    ? 1.0
-                                                                    : 0.25,
-                                                            }}
-                                                        >
-                                                            <span
-                                                                style={{
-                                                                    color:
-                                                                        'white',
-                                                                    fontWeight:
-                                                                        'bold',
-                                                                }}
-                                                            >
-                                                                Server
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            width: 70,
-                                                            marginRight: 10,
-                                                        }}
-                                                    >
-                                                        <a
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            href={
-                                                                value[
-                                                                    'client_logs'
-                                                                ]
-                                                            }
-                                                            style={{
-                                                                background:
-                                                                    '#2c45a8',
-                                                                padding:
-                                                                    '8px 12px',
-                                                                borderRadius: 3,
-                                                                fontSize: 14,
-                                                                opacity: value[
-                                                                    'client_logs'
-                                                                ]
-                                                                    ? 1.0
-                                                                    : 0.25,
-                                                            }}
-                                                        >
-                                                            <span
-                                                                style={{
-                                                                    color:
-                                                                        'white',
-                                                                    fontWeight:
-                                                                        'bold',
-                                                                }}
-                                                            >
-                                                                Client
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                    {value['user_id'] ? (
-                                                        <div
-                                                            style={{
-                                                                width: 200,
-                                                                fontWeight:
-                                                                    'bold',
-                                                                color:
-                                                                    '#4636a6',
-                                                                overflowX:
-                                                                    'scroll',
-                                                                fontSize: 13,
-                                                                position:
-                                                                    'relative',
-                                                                bottom: 1,
-                                                            }}
-                                                        >
-                                                            {value['user_id']}
-                                                        </div>
-                                                    ) : (
-                                                        <div
-                                                            style={{
-                                                                color:
-                                                                    '#888888',
-                                                                width: 200,
-                                                                overflowX:
-                                                                    'scroll',
-                                                            }}
-                                                        >
-                                                            No username
-                                                        </div>
-                                                    )}
-                                                    <div
-                                                        style={{
-                                                            textAlign: 'left',
-                                                            width: 140,
-                                                        }}
-                                                    >
-                                                        {value['last_updated']}
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            width: 100,
-                                                        }}
-                                                    >
-                                                        Conn.{' '}
-                                                        {value['connection_id']}
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            width: 250,
-                                                        }}
-                                                    >
-                                                        V. {value['version']}
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    style={{
-                                                        float: 'right',
-                                                        display: 'flex',
-                                                        bottom: 50,
-                                                        position: 'relative',
-                                                        width: 250,
-                                                    }}
-                                                >
-                                                    <div
-                                                        onClick={() =>
-                                                            component.bookmarkLogs(
-                                                                value[
-                                                                    'connection_id'
-                                                                ]
-                                                            )
-                                                        }
-                                                        className="pointerOnHover"
-                                                        style={{
-                                                            marginRight: 15,
-                                                            position:
-                                                                'relative',
-                                                            background:
-                                                                component.state
-                                                                    .bookmarked_logs &&
-                                                                component.state.bookmarked_logs.includes(
-                                                                    value[
-                                                                        'connection_id'
-                                                                    ].toString()
-                                                                )
-                                                                    ? 'rgba(75, 59, 168, 0.1)'
-                                                                    : '#f2f8ff',
-                                                            padding: '7px 15px',
-                                                            borderRadius: 3,
-                                                            color: 'white',
-                                                            fontSize: 14,
-                                                        }}
-                                                    >
-                                                        <FontAwesomeIcon
-                                                            style={{
-                                                                fontSize: 13,
-                                                                color:
-                                                                    component
-                                                                        .state
-                                                                        .bookmarked_logs &&
-                                                                    component.state.bookmarked_logs.includes(
-                                                                        value[
-                                                                            'connection_id'
-                                                                        ].toString()
-                                                                    )
-                                                                        ? '#4b3ba8'
-                                                                        : '#d5dae0',
-                                                            }}
-                                                            icon={faStar}
-                                                        />
-                                                    </div>
-                                                    <div
-                                                        onClick={() =>
-                                                            component.copyLink(
-                                                                value[
-                                                                    'connection_id'
-                                                                ]
-                                                            )
-                                                        }
-                                                        className="pointerOnHover"
-                                                        style={{
-                                                            marginRight: 15,
-                                                            position:
-                                                                'relative',
-                                                            background:
-                                                                '#4b3ba8',
-                                                            padding: '7px 15px',
-                                                            borderRadius: 3,
-                                                            color: 'white',
-                                                            fontSize: 14,
-                                                        }}
-                                                    >
-                                                        <FontAwesomeIcon
-                                                            style={{
-                                                                fontSize: 13,
-                                                                marginRight: 10,
-                                                                color: 'white',
-                                                            }}
-                                                            icon={faClone}
-                                                        />
-                                                        Copy Link
-                                                    </div>
-                                                    <Button
-                                                        onClick={() =>
-                                                            component.deleteLogs(
-                                                                value[
-                                                                    'connection_id'
-                                                                ]
-                                                            )
-                                                        }
-                                                        style={{
-                                                            color: '#e8553f',
-                                                            background:
-                                                                'rgba(176, 37, 16, 0.1)',
-                                                            border: 'none',
-                                                            position:
-                                                                'relative',
-                                                            outline: 'none',
-                                                            boxShadow: 'none',
-                                                            borderRadius: 2,
-                                                        }}
-                                                    >
-                                                        <FontAwesomeIcon
-                                                            style={{
-                                                                fontSize: 13,
-                                                            }}
-                                                            icon={faTrash}
-                                                        />
-                                                    </Button>
-                                                </div>
-                                                <div
-                                                    style={{ display: 'flex' }}
-                                                >
-                                                    <div>
-                                                        <LogDebugPanel
-                                                            log_analysis={
-                                                                component.props
-                                                                    .log_analysis
-                                                            }
-                                                            sender="server"
-                                                            filename={
-                                                                value[
-                                                                    'server_logs'
-                                                                ]
-                                                            }
-                                                            username={
-                                                                value['user_id']
-                                                                    ? value[
-                                                                          'user_id'
-                                                                      ]
-                                                                    : ''
-                                                            }
-                                                            connection_id={
-                                                                value[
-                                                                    'connection_id'
-                                                                ]
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <LogDebugPanel
-                                                            log_analysis={
-                                                                component.props
-                                                                    .log_analysis
-                                                            }
-                                                            sender="client"
-                                                            filename={
-                                                                value[
-                                                                    'client_logs'
-                                                                ]
-                                                            }
-                                                            username={
-                                                                value['user_id']
-                                                                    ? value[
-                                                                          'user_id'
-                                                                      ]
-                                                                    : ''
-                                                            }
-                                                            connection_id={
-                                                                value[
-                                                                    'connection_id'
-                                                                ]
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <Row
-                                                    style={{
-                                                        marginTop: 20,
-                                                    }}
-                                                >
-                                                    <Col lg={6} xl={3} sm={12}>
-                                                        <MiniGraph
-                                                            title="Avg. Encode Time"
-                                                            log_analysis={
-                                                                component.props
-                                                                    .log_analysis
-                                                            }
-                                                            username={
-                                                                value['user_id']
-                                                                    ? value[
-                                                                          'user_id'
-                                                                      ]
-                                                                    : ''
-                                                            }
-                                                            connection_id={
-                                                                value[
-                                                                    'connection_id'
-                                                                ]
-                                                            }
-                                                            sender="server"
-                                                            metric="encode_time"
-                                                            filename={
-                                                                value[
-                                                                    'server_logs'
-                                                                ]
-                                                            }
-                                                            unit="ms"
-                                                            scale={1000}
-                                                        />
-                                                    </Col>
-                                                    <Col lg={6} xl={3} sm={12}>
-                                                        <MiniGraph
-                                                            title="Avg. Encode Size"
-                                                            log_analysis={
-                                                                component.props
-                                                                    .log_analysis
-                                                            }
-                                                            username={
-                                                                value['user_id']
-                                                                    ? value[
-                                                                          'user_id'
-                                                                      ]
-                                                                    : ''
-                                                            }
-                                                            connection_id={
-                                                                value[
-                                                                    'connection_id'
-                                                                ]
-                                                            }
-                                                            sender="server"
-                                                            metric="encode_size"
-                                                            filename={
-                                                                value[
-                                                                    'server_logs'
-                                                                ]
-                                                            }
-                                                            unit="bytes"
-                                                            scale={1}
-                                                        />
-                                                    </Col>
-                                                    <Col lg={6} xl={3} sm={12}>
-                                                        <MiniGraph
-                                                            title="Avg. Decode Time"
-                                                            log_analysis={
-                                                                component.props
-                                                                    .log_analysis
-                                                            }
-                                                            username={
-                                                                value['user_id']
-                                                                    ? value[
-                                                                          'user_id'
-                                                                      ]
-                                                                    : ''
-                                                            }
-                                                            connection_id={
-                                                                value[
-                                                                    'connection_id'
-                                                                ]
-                                                            }
-                                                            sender="client"
-                                                            metric="decode_time"
-                                                            filename={
-                                                                value[
-                                                                    'client_logs'
-                                                                ]
-                                                            }
-                                                            unit="ms"
-                                                            scale={1000}
-                                                        />
-                                                    </Col>
-                                                    <Col lg={6} xl={3} sm={12}>
-                                                        <MiniGraph
-                                                            title="Client Latency"
-                                                            log_analysis={
-                                                                component.props
-                                                                    .log_analysis
-                                                            }
-                                                            username={
-                                                                value['user_id']
-                                                                    ? value[
-                                                                          'user_id'
-                                                                      ]
-                                                                    : ''
-                                                            }
-                                                            connection_id={
-                                                                value[
-                                                                    'connection_id'
-                                                                ]
-                                                            }
-                                                            sender="client"
-                                                            metric="latency"
-                                                            filename={
-                                                                value[
-                                                                    'client_logs'
-                                                                ]
-                                                            }
-                                                            unit="ms"
-                                                            scale={1000}
-                                                        />
-                                                    </Col>
-                                                </Row>
-                                            </div>
+                                            <LogEntry
+                                                value={value}
+                                                log_analysis={this.props.log_analysis}
+                                                bookmarked_logs={this.state.bookmarked_logs}
+                                                bookmarkLogs={this.bookmarkLogs}
+                                                copyLink={this.copyLink}
+                                                deleteLogs={this.deleteLogs}
+                                            />
                                         )
                                     })}
                             </div>
