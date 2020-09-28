@@ -51,7 +51,7 @@ export class LogEntry extends React.Component<any, any> {
                         }}
                     >
                         {text}
-                            </span>
+                    </span>
                 </a>
             </div>
         )
@@ -59,32 +59,30 @@ export class LogEntry extends React.Component<any, any> {
 
     // username text will display 'no username' if there is no username and a username in bold otherwise
     usernameText = () => {
-        return (
-            this.props.value['user_id'] ? (
-                <div
-                    style={{
-                        width: 200,
-                        fontWeight: 'bold',
-                        color: '#4636a6',
-                        overflowX: 'scroll',
-                        fontSize: 13,
-                        position: 'relative',
-                        bottom: 1,
-                    }}
-                >
-                    {this.props.value['user_id']}
-                </div>
-            ) : (
-                    <div
-                        style={{
-                            color: '#888888',
-                            width: 200,
-                            overflowX: 'scroll',
-                        }}
-                    >
-                        No username
-                    </div>
-                )
+        return this.props.value['user_id'] ? (
+            <div
+                style={{
+                    width: 200,
+                    fontWeight: 'bold',
+                    color: '#4636a6',
+                    overflowX: 'scroll',
+                    fontSize: 13,
+                    position: 'relative',
+                    bottom: 1,
+                }}
+            >
+                {this.props.value['user_id']}
+            </div>
+        ) : (
+            <div
+                style={{
+                    color: '#888888',
+                    width: 200,
+                    overflowX: 'scroll',
+                }}
+            >
+                No username
+            </div>
         )
     }
 
@@ -171,8 +169,7 @@ export class LogEntry extends React.Component<any, any> {
                             style={{
                                 fontSize: 13,
                                 color:
-                                    this.props
-                                        .bookmarked_logs &&
+                                    this.props.bookmarked_logs &&
                                     this.props.bookmarked_logs.includes(
                                         this.props.value[
                                             'connection_id'
@@ -238,9 +235,7 @@ export class LogEntry extends React.Component<any, any> {
                 <div style={{ display: 'flex' }}>
                     <div>
                         <LogDebugPanel
-                            log_analysis={
-                                this.props.log_analysis
-                            }
+                            log_analysis={this.props.log_analysis}
                             sender="server"
                             filename={this.props.value['server_logs']}
                             username={
@@ -253,9 +248,7 @@ export class LogEntry extends React.Component<any, any> {
                     </div>
                     <div>
                         <LogDebugPanel
-                            log_analysis={
-                                this.props.log_analysis
-                            }
+                            log_analysis={this.props.log_analysis}
                             sender="client"
                             filename={this.props.value['client_logs']}
                             username={
@@ -275,9 +268,7 @@ export class LogEntry extends React.Component<any, any> {
                     <Col lg={6} xl={3} sm={12}>
                         <MiniGraph
                             title="Avg. Encode Time"
-                            log_analysis={
-                                this.props.log_analysis
-                            }
+                            log_analysis={this.props.log_analysis}
                             username={
                                 this.props.value['user_id']
                                     ? this.props.value['user_id']
@@ -294,9 +285,7 @@ export class LogEntry extends React.Component<any, any> {
                     <Col lg={6} xl={3} sm={12}>
                         <MiniGraph
                             title="Avg. Encode Size"
-                            log_analysis={
-                                this.props.log_analysis
-                            }
+                            log_analysis={this.props.log_analysis}
                             username={
                                 this.props.value['user_id']
                                     ? this.props.value['user_id']
@@ -313,9 +302,7 @@ export class LogEntry extends React.Component<any, any> {
                     <Col lg={6} xl={3} sm={12}>
                         <MiniGraph
                             title="Avg. Decode Time"
-                            log_analysis={
-                                this.props.log_analysis
-                            }
+                            log_analysis={this.props.log_analysis}
                             username={
                                 this.props.value['user_id']
                                     ? this.props.value['user_id']
@@ -332,9 +319,7 @@ export class LogEntry extends React.Component<any, any> {
                     <Col lg={6} xl={3} sm={12}>
                         <MiniGraph
                             title="Client Latency"
-                            log_analysis={
-                                this.props.log_analysis
-                            }
+                            log_analysis={this.props.log_analysis}
                             username={
                                 this.props.value['user_id']
                                     ? this.props.value['user_id']

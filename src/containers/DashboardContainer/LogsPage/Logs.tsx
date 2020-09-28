@@ -272,7 +272,7 @@ export class Logs extends React.Component<any, any> {
                     }}
                 >
                     Search
-                    </Button>
+                </Button>
                 <Button
                     disabled={this.state.processing}
                     onClick={() => this.searchAllUsers()}
@@ -291,7 +291,7 @@ export class Logs extends React.Component<any, any> {
                     }}
                 >
                     Load All Logs
-                    </Button>
+                </Button>
                 <div
                     onClick={this.loadBookmarkedLogs}
                     style={{
@@ -320,7 +320,7 @@ export class Logs extends React.Component<any, any> {
                             }}
                         >
                             Show Starred
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -415,8 +415,12 @@ export class Logs extends React.Component<any, any> {
                                         return (
                                             <LogEntry
                                                 value={value}
-                                                log_analysis={this.props.log_analysis}
-                                                bookmarked_logs={this.state.bookmarked_logs}
+                                                log_analysis={
+                                                    this.props.log_analysis
+                                                }
+                                                bookmarked_logs={
+                                                    this.state.bookmarked_logs
+                                                }
                                                 bookmarkLogs={this.bookmarkLogs}
                                                 copyLink={this.copyLink}
                                                 deleteLogs={this.deleteLogs}

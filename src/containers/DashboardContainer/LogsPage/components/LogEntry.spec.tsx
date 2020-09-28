@@ -17,17 +17,23 @@ describe('<LogEntry />', () => {
     it('renders correctly', () => {
         const wrapper = shallow(
             <LogEntry
-                // buncha dummy data
-                dispatch={(items: any) => {
-                    // mock
+                value={{
+                    server_logs: 'server_logs',
+                    client_logs: 'client_logs',
+                    user_id: 'user_id',
+                    connection_id: 'connection_id',
                 }}
-                value = {{}}
-                logs_object={null}
+                log_analysis={{}}
+                bookmarked_logs={[]}
+                bookmarkLogs={(args: any) => {}}
+                copyLink={(args: any) => {}}
+                deleteLogs={(args: any) => {}}
             />
         )
 
         expect(toJson(wrapper)).toMatchSnapshot()
     })
 
-    // FIXME
+    // TODO (adriano) add tests for functionality given the callbacks passed as
+    // props and so on
 })
