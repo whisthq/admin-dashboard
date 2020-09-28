@@ -9,24 +9,26 @@ import '../../../../static/App.css'
 
 export class MiniGraph extends React.Component<any, any> {
     render() {
+        // these exist for readability
+        let filename = this.props.filename
+        let log_analysis = this.props.log_analysis
+        let metric = this.props.metric
+        let sender = this.props.sender
+        let username = this.props.username
+        let connection_id = this.props.connection_id
+
+        let query_by = username.concat('_', connection_id)
+
         if (
-            !this.props.filename ||
-            (this.props.log_analysis &&
-                this.props.log_analysis[
-                    this.props.username.concat('_', this.props.connection_id)
-                ] &&
-                this.props.log_analysis[
-                    this.props.username.concat('_', this.props.connection_id)
-                ][this.props.sender] &&
-                this.props.log_analysis[
-                    this.props.username.concat('_', this.props.connection_id)
-                ][this.props.sender][this.props.metric])
+            !filename ||
+            (log_analysis &&
+                log_analysis[query_by] &&
+                log_analysis[query_by][sender] &&
+                log_analysis[query_by][sender][metric])
         ) {
             if (
-                !this.props.filename ||
-                this.props.log_analysis[
-                    this.props.username.concat('_', this.props.connection_id)
-                ][this.props.sender][this.props.metric].output.length < 2
+                !filename ||
+                log_analysis[query_by][sender][metric].output.length < 2
             ) {
                 return (
                     <div
@@ -50,9 +52,7 @@ export class MiniGraph extends React.Component<any, any> {
                     </div>
                 )
             } else {
-                let mainPath = this.props.log_analysis[
-                    this.props.username.concat('_', this.props.connection_id)
-                ][this.props.sender][this.props.metric]
+                let mainPath = log_analysis[query_by][sender][metric]
 
                 return (
                     <div>

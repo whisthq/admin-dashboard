@@ -13,20 +13,23 @@ import '../../../../static/App.css'
 
 export class LogDebugPanel extends React.Component<any, any> {
     render() {
+        // these exist for readability
+        let filename = this.props.filename
+        let log_analysis = this.props.log_analysis
+        let sender = this.props.sender
+        let username = this.props.username
+        let connection_id = this.props.connection_id
+
+        let query_by = username.concat('_', connection_id)
+
         if (
-            !this.props.filename ||
-            (this.props.log_analysis &&
-                this.props.log_analysis[
-                    this.props.username.concat('_', this.props.connection_id)
-                ] &&
-                this.props.log_analysis[
-                    this.props.username.concat('_', this.props.connection_id)
-                ][this.props.sender] &&
-                this.props.log_analysis[
-                    this.props.username.concat('_', this.props.connection_id)
-                ][this.props.sender].debug)
+            !filename ||
+            (log_analysis &&
+                log_analysis[query_by] &&
+                log_analysis[query_by][sender] &&
+                log_analysis[query_by][sender].debug)
         ) {
-            if (!this.props.filename) {
+            if (!filename) {
                 return (
                     <div
                         style={{
@@ -47,16 +50,12 @@ export class LogDebugPanel extends React.Component<any, any> {
                                 fontSize: 12,
                             }}
                         />
-                        No {this.props.sender} logs
+                        No {sender} logs
                     </div>
                 )
             } else if (
-                !this.props.log_analysis[
-                    this.props.username.concat('_', this.props.connection_id)
-                ][this.props.sender].debug ||
-                this.props.log_analysis[
-                    this.props.username.concat('_', this.props.connection_id)
-                ][this.props.sender].debug.number_of_errors === 0
+                !log_analysis[query_by][sender].debug ||
+                log_analysis[query_by][sender].debug.number_of_errors === 0
             ) {
                 return (
                     <div
@@ -78,7 +77,7 @@ export class LogDebugPanel extends React.Component<any, any> {
                                 fontSize: 12,
                             }}
                         />
-                        No {this.props.sender} errors
+                        No {sender} errors
                     </div>
                 )
             } else {
@@ -106,21 +105,15 @@ export class LogDebugPanel extends React.Component<any, any> {
                                     }}
                                 />
                                 {
-                                    this.props.log_analysis[
-                                        this.props.username.concat(
-                                            '_',
-                                            this.props.connection_id
-                                        )
-                                    ][this.props.sender].debug.number_of_errors
+                                    log_analysis[
+                                        username.concat('_', connection_id)
+                                    ][sender].debug.number_of_errors
                                 }{' '}
-                                {this.props.sender} error(s) (
+                                {sender} error(s) (
                                 {(
-                                    this.props.log_analysis[
-                                        this.props.username.concat(
-                                            '_',
-                                            this.props.connection_id
-                                        )
-                                    ][this.props.sender].debug.error_rate * 100
+                                    log_analysis[
+                                        username.concat('_', connection_id)
+                                    ][sender].debug.error_rate * 100
                                 )
                                     .toFixed(2)
                                     .toString()}{' '}
@@ -148,16 +141,13 @@ export class LogDebugPanel extends React.Component<any, any> {
                                     fontSize: 18,
                                 }}
                             >
-                                {this.props.sender.charAt(0).toUpperCase() +
-                                    this.props.sender.slice(1)}{' '}
+                                {sender.charAt(0).toUpperCase() +
+                                    sender.slice(1)}{' '}
                                 Errors
                             </div>
-                            {this.props.log_analysis[
-                                this.props.username.concat(
-                                    '_',
-                                    this.props.connection_id
-                                )
-                            ][this.props.sender].debug.errors.map(function (
+                            {log_analysis[username.concat('_', connection_id)][
+                                sender
+                            ].debug.errors.map(function (
                                 value: any,
                                 _index: any
                             ) {
@@ -193,7 +183,7 @@ export class LogDebugPanel extends React.Component<any, any> {
                                 color: '#4b3ba8',
                             }}
                         />
-                        Scanning {this.props.sender} logs for errors
+                        Scanning {sender} logs for errors
                     </div>
                 </div>
             )
