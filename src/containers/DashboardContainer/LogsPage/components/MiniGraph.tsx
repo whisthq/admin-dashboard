@@ -14,21 +14,18 @@ export class MiniGraph extends React.Component<any, any> {
         let log_analysis = this.props.log_analysis
         let metric = this.props.metric
         let sender = this.props.sender
-        let username = this.props.username
         let connection_id = this.props.connection_id
-
-        let query_by = username.concat('_', connection_id)
 
         if (
             !filename ||
             (log_analysis &&
-                log_analysis[query_by] &&
-                log_analysis[query_by][sender] &&
-                log_analysis[query_by][sender][metric])
+                log_analysis[connection_id] &&
+                log_analysis[connection_id][sender] &&
+                log_analysis[connection_id][sender][metric])
         ) {
             if (
                 !filename ||
-                log_analysis[query_by][sender][metric].output.length < 2
+                log_analysis[connection_id][sender][metric].output.length < 2
             ) {
                 return (
                     <div
@@ -52,8 +49,7 @@ export class MiniGraph extends React.Component<any, any> {
                     </div>
                 )
             } else {
-                let mainPath = log_analysis[query_by][sender][metric]
-
+                let mainPath = log_analysis[connection_id][sender][metric]
                 return (
                     <div>
                         <div

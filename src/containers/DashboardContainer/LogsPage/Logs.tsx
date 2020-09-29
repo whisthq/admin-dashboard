@@ -212,8 +212,6 @@ export class Logs extends React.Component<any, any> {
     loadBookmarkedLogs = () => {
         let component = this
 
-        console.log(this.state.bookmarked_logs) // ok
-
         if (!this.state.load_bookmarked) {
             this.setState({ load_bookmarked: true, processing: true })
             this.props.dispatch(clearLogs())
@@ -411,9 +409,10 @@ export class Logs extends React.Component<any, any> {
                                             this.state.last_index
                                         )
                                     )
-                                    .map((value: any) => {
+                                    .map((value: any, index: number) => {
                                         return (
                                             <LogEntry
+                                                key={index}
                                                 value={value}
                                                 log_analysis={
                                                     this.props.log_analysis

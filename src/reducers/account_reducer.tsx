@@ -178,6 +178,7 @@ export default function (state = DEFAULT, action: any) {
             }
         case AccountAction.STORE_LOG_ANALYSIS:
             const payload_id = action.payload_id
+            
             const sender = action.sender
             function hasKey<O>(obj: O, key: keyof any): key is keyof O {
                 return key in obj

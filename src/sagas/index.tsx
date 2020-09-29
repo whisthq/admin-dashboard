@@ -60,6 +60,7 @@ function* loginUser(action: any) {
 
 function* fetchUserActivity() {
     const state = yield select()
+
     if (config.new_server) {
         const { json, response } = yield call(
             apiGet,
@@ -250,7 +251,6 @@ function* fetchLogs(action: any) {
             state.AccountReducer.access_token
         )
         if (json && json.logs) {
-            console.log(json.logs)
             yield put(FormAction.storeLogs(json.logs, false, true))
         } else {
             yield put(FormAction.storeLogs([], true, true))
@@ -276,8 +276,6 @@ function* fetchLogs(action: any) {
 
 function* fetchLogsByConnection(action: any) {
     const state = yield select()
-
-    console.log(action)
 
     const { json } = yield call(
         apiPost,
@@ -307,8 +305,6 @@ function* deleteLogs(action: any) {
         },
         state.AccountReducer.access_token
     )
-
-    console.log(json)
 
     if (json && json.ID) {
         yield put(FormAction.deleteLogSuccess(action.connection_id))
@@ -527,7 +523,8 @@ function* analyzeLogs(action: any) {
         json = json.json
 
         if (json) {
-            const payload_id = action.username.concat('_', action.connection_id)
+            //previously: action.username.concat('_', action.connection_id)
+            const payload_id = action.connection_id 
             yield put(FormAction.storeLogAnalysis(payload_id, json, 'client'))
         }
     }
@@ -550,7 +547,8 @@ function* analyzeLogs(action: any) {
             if (!action.username) {
                 action.username = 'null'
             }
-            const payload_id = action.username.concat('_', action.connection_id)
+            //action.username.concat('_', action.connection_id)
+            const payload_id = action.connection_id
             yield put(FormAction.storeLogAnalysis(payload_id, json, 'server'))
         }
     }

@@ -17,17 +17,14 @@ export class LogDebugPanel extends React.Component<any, any> {
         let filename = this.props.filename
         let log_analysis = this.props.log_analysis
         let sender = this.props.sender
-        let username = this.props.username
         let connection_id = this.props.connection_id
-
-        let query_by = username.concat('_', connection_id)
 
         if (
             !filename ||
             (log_analysis &&
-                log_analysis[query_by] &&
-                log_analysis[query_by][sender] &&
-                log_analysis[query_by][sender].debug)
+                log_analysis[connection_id] &&
+                log_analysis[connection_id][sender] &&
+                log_analysis[connection_id][sender].debug)
         ) {
             if (!filename) {
                 return (
@@ -54,8 +51,8 @@ export class LogDebugPanel extends React.Component<any, any> {
                     </div>
                 )
             } else if (
-                !log_analysis[query_by][sender].debug ||
-                log_analysis[query_by][sender].debug.number_of_errors === 0
+                !log_analysis[connection_id][sender].debug ||
+                log_analysis[connection_id][sender].debug.number_of_errors === 0
             ) {
                 return (
                     <div
@@ -106,13 +103,13 @@ export class LogDebugPanel extends React.Component<any, any> {
                                 />
                                 {
                                     log_analysis[
-                                        username.concat('_', connection_id)
+                                        connection_id
                                     ][sender].debug.number_of_errors
                                 }{' '}
                                 {sender} error(s) (
                                 {(
                                     log_analysis[
-                                        username.concat('_', connection_id)
+                                        connection_id
                                     ][sender].debug.error_rate * 100
                                 )
                                     .toFixed(2)
@@ -145,7 +142,7 @@ export class LogDebugPanel extends React.Component<any, any> {
                                     sender.slice(1)}{' '}
                                 Errors
                             </div>
-                            {log_analysis[username.concat('_', connection_id)][
+                            {log_analysis[connection_id][
                                 sender
                             ].debug.errors.map(function (
                                 value: any,
