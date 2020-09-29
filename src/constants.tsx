@@ -2,12 +2,8 @@
 // eslint-disable-next-line
 const production = {
     url: {
-        PRIMARY_SERVER: 'https://main-webserver.fractalcomputers.com',
+        PRIMARY_SERVER: 'main-webserver.tryfractal.com',
         WEBSITE_URL: 'https://fractal-dashboard.netlify.app',
-        GRAPHQL: 'https://newdb-wrapper.herokuapp.com/v1/graphql',
-    },
-    graphQL: {
-        SECRET: 'Fractalcomputers!',
     },
     new_server: false,
 }
@@ -15,12 +11,8 @@ const production = {
 // @ts-ignore
 const staging = {
     url: {
-        PRIMARY_SERVER: 'https://staging-webserver.fractalcomputers.com',
+        PRIMARY_SERVER: 'https://staging-webserver.tryfractal.com',
         WEBSITE_URL: 'http://localhost:3000',
-        GRAPHQL: 'https://newdb-wrapper.herokuapp.com/v1/graphql',
-    },
-    graphQL: {
-        SECRET: 'Fractalcomputers!',
     },
     new_server: true,
 }
@@ -31,10 +23,6 @@ const local = {
     url: {
         PRIMARY_SERVER: 'http://127.0.0.1:7730',
         WEBSITE_URL: 'http://localhost:3000',
-        GRAPHQL: 'https://newdb-wrapper.herokuapp.com/v1/graphql',
-    },
-    graphQL: {
-        SECRET: 'Fractalcomputers!',
     },
     new_server: true,
 }
