@@ -148,7 +148,7 @@ export class LogDebugPanel extends React.Component<any, any> {
                                 value: any,
                                 _index: any
                             ) {
-                                return <div>{value}</div>
+                                return <div key={_index}>{value}</div>
                             })}
                         </div>
                     </Popup>

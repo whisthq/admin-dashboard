@@ -4,8 +4,7 @@ const production = {
     url: {
         PRIMARY_SERVER: 'main-webserver.tryfractal.com',
         WEBSITE_URL: 'https://fractal-dashboard.netlify.app',
-    },
-    new_server: false,
+    }
 }
 
 // @ts-ignore
@@ -13,8 +12,7 @@ const staging = {
     url: {
         PRIMARY_SERVER: 'https://staging-webserver.tryfractal.com',
         WEBSITE_URL: 'http://localhost:3000',
-    },
-    new_server: true,
+    }
 }
 
 // @ts-ignore
@@ -23,9 +21,8 @@ const local = {
     url: {
         PRIMARY_SERVER: 'http://127.0.0.1:7730',
         WEBSITE_URL: 'http://localhost:3000',
-    },
-    new_server: true,
+    }
 }
 
 // TODO undo me
-export const config = process.env.NODE_ENV === 'development' ? staging : staging
+export const config = process.env.NODE_ENV === 'development' ? local : local

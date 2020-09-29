@@ -11,28 +11,13 @@ import { config } from '../constants'
 function* updateDB(action: any) {
     const state = yield select()
     if (!action.updated) {
-        if (config.new_server) {
-            const { json, response } = yield call(
-                apiGet,
-                config.url.PRIMARY_SERVER + '/report/fetchVMs',
-                state.AccountReducer.access_token
-            )
-            if (json && response.status === 200) {
-                yield put(FormAction.loadVMs(json))
-            }
-        } else {
-            const { json } = yield call(
-                apiPost,
-                config.url.PRIMARY_SERVER + '/vm/fetchall',
-                {
-                    username: action.username,
-                    password: action.password,
-                },
-                {}
-            )
-            if (json && json.payload) {
-                yield put(FormAction.loadVMs(json.payload))
-            }
+        const { json, response } = yield call(
+            apiGet,
+            config.url.PRIMARY_SERVER + '/report/fetchVMs',
+            state.AccountReducer.access_token
+        )
+        if (json && response.status === 200) {
+            yield put(FormAction.loadVMs(json))
         }
     }
 }
@@ -61,25 +46,13 @@ function* loginUser(action: any) {
 function* fetchUserActivity() {
     const state = yield select()
 
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER + '/report/fetchLoginActivity',
-            state.AccountReducer.access_token
-        )
-        if (json && response.status === 200) {
-            yield put(FormAction.userActivityFetched(json))
-        }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/tracker/fetch',
-            {},
-            state.AccountReducer.access_token
-        )
-        if (json) {
-            yield put(FormAction.userActivityFetched(json.payload))
-        }
+    const { json, response } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER + '/report/fetchLoginActivity',
+        state.AccountReducer.access_token
+    )
+    if (json && response.status === 200) {
+        yield put(FormAction.userActivityFetched(json))
     }
 }
 
@@ -87,27 +60,14 @@ function* fetchUserTable(action: any) {
     const state = yield select()
 
     if (!action.updated) {
-        if (config.new_server) {
-            const { json, response } = yield call(
-                apiGet,
-                config.url.PRIMARY_SERVER + '/report/fetchUsers',
-                state.AccountReducer.access_token
-            )
-            if (json && response.status === 200) {
-                yield put(FormAction.userTableFetched(json))
-                yield put(FormAction.fetchUserTable(true))
-            }
-        } else {
-            const { json } = yield call(
-                apiPost,
-                config.url.PRIMARY_SERVER + '/account/fetchUsers',
-                {},
-                state.AccountReducer.access_token
-            )
-            if (json && json.status === 200) {
-                yield put(FormAction.userTableFetched(json.users))
-                yield put(FormAction.fetchUserTable(true))
-            }
+        const { json, response } = yield call(
+            apiGet,
+            config.url.PRIMARY_SERVER + '/report/fetchUsers',
+            state.AccountReducer.access_token
+        )
+        if (json && response.status === 200) {
+            yield put(FormAction.userTableFetched(json))
+            yield put(FormAction.fetchUserTable(true))
         }
     }
 }
@@ -115,7 +75,6 @@ function* fetchUserTable(action: any) {
 function* fetchCustomers() {
     const state = yield select()
 
-    if (config.new_server) {
         const { json, response } = yield call(
             apiGet,
             config.url.PRIMARY_SERVER + '/report/fetchCustomers',
@@ -125,18 +84,6 @@ function* fetchCustomers() {
         if (json && response.status === 200) {
             yield put(FormAction.storeCustomers(json))
         }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/account/fetchCustomers',
-            {},
-            state.AccountReducer.access_token
-        )
-
-        if (json && json.status === 200) {
-            yield put(FormAction.storeCustomers(json.customers))
-        }
-    }
 }
 
 function* deleteUser(action: any) {
@@ -170,16 +117,9 @@ function* deleteSubscription(action: any) {
 function* startVM(action: any) {
     const state = yield select()
 
-    let body
-    if (config.new_server) {
-        body = {
-            vm_name: action.vm_name,
-            //resource_group: config.url.VM_GROUP,
-        }
-    } else {
-        body = {
-            vm_name: action.vm_name,
-        }
+    let body = {
+        vm_name: action.vm_name,
+        //resource_group: config.url.VM_GROUP,
     }
 
     const { json } = yield call(
@@ -240,37 +180,21 @@ function* getVMStatus(id: string, vm_name: string) {
     }
 }
 
+// by username
 function* fetchLogs(action: any) {
     const state = yield select()
-    if (config.new_server) {
-        const { json } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER +
-                '/logs' +
-                (action.username ? '?username=' + action.username : ''),
-            state.AccountReducer.access_token
-        )
-        if (json && json.logs) {
-            yield put(FormAction.storeLogs(json.logs, false, true))
-        } else {
-            yield put(FormAction.storeLogs([], true, true))
-        }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/logs/fetch',
-            {
-                username: action.username,
-                fetch_all: action.fetch_all,
-            },
-            state.AccountReducer.access_token
-        )
 
-        if (json && json.logs) {
-            yield put(FormAction.storeLogs(json.logs, false, true))
-        } else {
-            yield put(FormAction.storeLogs([], true, true))
-        }
+    const { json } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER +
+            '/logs' +
+            (action.username ? '?username=' + action.username : ''),
+        state.AccountReducer.access_token
+    )
+    if (json && json.logs) {
+        yield put(FormAction.storeLogs(json.logs, false, true))
+    } else {
+        yield put(FormAction.storeLogs([], true, true))
     }
 }
 
@@ -278,17 +202,14 @@ function* fetchLogsByConnection(action: any) {
     const state = yield select()
 
     const { json } = yield call(
-        apiPost,
-        config.url.PRIMARY_SERVER + '/logs/fetch',
-        {
-            connection_id: action.connection_id,
-            fetch_all: true,
-        },
+        apiGet,
+        config.url.PRIMARY_SERVER +
+        '/logs' +
+        (action.username ? '?connection_id=' + action.connection_id : ''),
         state.AccountReducer.access_token
     )
-
     if (json && json.logs) {
-        yield put(FormAction.storeLogs(json.logs, false, action.last_log))
+        yield put(FormAction.storeLogs(json.logs, false, true))
     } else {
         yield put(FormAction.storeLogs([], true, true))
     }
@@ -314,129 +235,72 @@ function* deleteLogs(action: any) {
 function* setDev(action: any) {
     const state = yield select()
 
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/vm/dev',
-            {
-                vm_name: action.vm_name,
-                dev: action.dev,
-            },
-            state.AccountReducer.access_token
-        )
-        if (json && response.status === 200) {
-            yield put(FormAction.updateDB(false))
-        }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/vm/setDev',
-            {
-                vm_name: action.vm_name,
-                dev: action.dev,
-            },
-            state.AccountReducer.access_token
-        )
-
-        if (json) {
-            yield put(FormAction.updateDB(false))
-        }
+    const { json, response } = yield call(
+        apiPost,
+        config.url.PRIMARY_SERVER + '/vm/dev',
+        {
+            vm_name: action.vm_name,
+            dev: action.dev,
+        },
+        state.AccountReducer.access_token
+    )
+    if (json && response.status === 200) {
+        yield put(FormAction.updateDB(false))
     }
 }
 
 function* setStun(action: any) {
     const state = yield select()
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/azure_disk/stun',
-            {
-                disk_name: action.disk_name,
-                using_stun: action.useStun,
-            },
-            state.AccountReducer.access_token
-        )
 
-        if (json.status === 200 && response.status === 200) {
-            yield put(FormAction.fetchDiskTable(false))
-        }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/disk/usingStun',
-            {
-                disk_name: action.disk_name,
-                using_stun: action.useStun,
-            },
-            state.AccountReducer.access_token
-        )
+    const { json, response } = yield call(
+        apiPost,
+        config.url.PRIMARY_SERVER + '/azure_disk/stun',
+        {
+            disk_name: action.disk_name,
+            using_stun: action.useStun,
+        },
+        state.AccountReducer.access_token
+    )
 
-        if (json) {
-            yield put(FormAction.fetchDiskTable(false))
-        }
+    if (json.status === 200 && response.status === 200) {
+        yield put(FormAction.fetchDiskTable(false))
     }
 }
 
 function* changeBranch(action: any) {
     const state = yield select()
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/azure_disk/branch',
-            {
-                disk_name: action.disk_name,
-                branch: action.branch,
-            },
-            state.AccountReducer.access_token
-        )
 
-        if (json.status === 200 && response.status === 200) {
-            yield put(FormAction.fetchDiskTable(false))
-        }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/disk/setVersion',
-            {
-                disk_name: action.disk_name,
-                branch: action.branch,
-            },
-            state.AccountReducer.access_token
-        )
+    const { json, response } = yield call(
+        apiPost,
+        config.url.PRIMARY_SERVER + '/azure_disk/branch',
+        {
+            disk_name: action.disk_name,
+            branch: action.branch,
+        },
+        state.AccountReducer.access_token
+    )
 
-        if (json) {
-            yield put(FormAction.fetchDiskTable(false))
-        }
+    if (json.status === 200 && response.status === 200) {
+        yield put(FormAction.fetchDiskTable(false))
     }
 }
 
 function* fetchDiskTable() {
     const state = yield select()
-    if (config.new_server) {
-        const { json, response } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER + '/report/fetchDisks',
-            state.AccountReducer.access_token
-        )
-        if (json && response.status === 200) {
-            yield put(FormAction.diskTableFetched(json))
-        }
-    } else {
-        const { json } = yield call(
-            apiPost,
-            config.url.PRIMARY_SERVER + '/disk/fetchAll',
-            {},
-            state.AccountReducer.access_token
-        )
 
-        if (json) {
-            yield put(FormAction.diskTableFetched(json.disks))
-        }
+    const { json, response } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER + '/report/fetchDisks',
+        state.AccountReducer.access_token
+    )
+    if (json && response.status === 200) {
+        yield put(FormAction.diskTableFetched(json))
     }
 }
 
 function* fetchLatestReport() {
     const state = yield select()
+
     const { json } = yield call(
         apiGet,
         config.url.PRIMARY_SERVER + '/report/latest',
@@ -450,6 +314,7 @@ function* fetchLatestReport() {
 
 function* fetchRegionReport(action: any) {
     const state = yield select()
+
     const { json } = yield call(
         apiPost,
         config.url.PRIMARY_SERVER + '/report/regionReport',
@@ -556,26 +421,15 @@ function* analyzeLogs(action: any) {
 
 function* fetchBookmarkedLogs() {
     const state = yield select()
-    if (config.new_server) {
-        const { json } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER + '/logs?bookmarked=true',
-            state.AccountReducer.access_token
-        )
 
-        if (json && json.connection_ids) {
-            yield put(FormAction.storeBookmarkedLogs(json.connection_ids))
-        }
-    } else {
-        const { json } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER + '/logs/bookmarked',
-            ''
-        )
+    const { json } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER + '/logs?bookmarked=true',
+        state.AccountReducer.access_token
+    )
 
-        if (json && json.connection_ids) {
-            yield put(FormAction.storeBookmarkedLogs(json.connection_ids))
-        }
+    if (json && json.connection_ids) {
+        yield put(FormAction.storeBookmarkedLogs(json.connection_ids))
     }
 }
 
