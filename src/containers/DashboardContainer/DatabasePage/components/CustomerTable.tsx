@@ -7,8 +7,12 @@ import '../../../../static/App.css'
 import 'antd/dist/antd.css'
 import Style from '../../../../styles/components/pageAdmin.module.css'
 
-import { fetchCustomers } from '../../../../actions/index'
+import { fetchUsers } from '../../../../actions/index'
 
+/*
+It looks like this might be deprecated soon. The customer fetch endpoints are not
+available anymore on the server so we are just getting users instead.
+*/
 export class CustomerTable extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
@@ -36,7 +40,7 @@ export class CustomerTable extends React.Component<any, any> {
             this.props.customers.length === 0 &&
             !this.state.customers_fetched
         ) {
-            this.props.dispatch(fetchCustomers())
+            this.props.dispatch(fetchUsers())
             this.setState({ customers_fetched: true })
 
             // refresh the customer table every 60 seconds
@@ -48,7 +52,7 @@ export class CustomerTable extends React.Component<any, any> {
     }
 
     getUpdatedDatabase() {
-        this.props.dispatch(fetchCustomers())
+        this.props.dispatch(fetchUsers())
     }
 
     keywordFilter = (e: any) => {

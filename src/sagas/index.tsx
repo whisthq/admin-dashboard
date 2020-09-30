@@ -8,7 +8,7 @@ import { config } from '../constants'
 // TODO (adriano) these sagas are untested since we are considering changing what we use here
 // so until we reach a stable version they won't be tested; however, after that, it may make sense to do so
 
-function* updateDB(action: any) {
+function* fetchVMs(action: any) {
     const state = yield select()
     if (!action.updated) {
         const { json, response } = yield call(
@@ -58,7 +58,6 @@ function* fetchUserActivity() {
 
 function* fetchUserTable(action: any) {
     const state = yield select()
-
     if (!action.updated) {
         const { json, response } = yield call(
             apiGet,
@@ -72,18 +71,17 @@ function* fetchUserTable(action: any) {
     }
 }
 
-function* fetchCustomers() {
+function* fetchUsers() {
     const state = yield select()
 
-        const { json, response } = yield call(
-            apiGet,
-            config.url.PRIMARY_SERVER + '/report/fetchCustomers',
-            state.AccountReducer.access_token
-        )
-
-        if (json && response.status === 200) {
-            yield put(FormAction.storeCustomers(json))
-        }
+    const { json, response } = yield call(
+        apiGet,
+        config.url.PRIMARY_SERVER + '/report/fetchUsers',
+        state.AccountReducer.access_token
+    )
+    if (json && response.status === 200) {
+        yield put(FormAction.storeUsers(json))
+    }
 }
 
 function* deleteUser(action: any) {
@@ -129,7 +127,7 @@ function* startVM(action: any) {
         state.AccountReducer.access_token
     )
 
-    yield put(FormAction.updateDB(false))
+    yield put(FormAction.fetchVMs(false))
 
     if (json) {
         if (json.ID) {
@@ -149,7 +147,7 @@ function* deallocateVM(action: any) {
         state.AccountReducer.access_token
     )
 
-    yield put(FormAction.updateDB(false))
+    yield put(FormAction.fetchVMs(false))
 
     if (json) {
         if (json.ID) {
@@ -175,7 +173,7 @@ function* getVMStatus(id: string, vm_name: string) {
     }
 
     if (json && json.output) {
-        yield put(FormAction.updateDB(false))
+        yield put(FormAction.fetchVMs(false))
         yield put(FormAction.doneUpdating(vm_name))
     }
 }
@@ -204,8 +202,8 @@ function* fetchLogsByConnection(action: any) {
     const { json } = yield call(
         apiGet,
         config.url.PRIMARY_SERVER +
-        '/logs' +
-        (action.username ? '?connection_id=' + action.connection_id : ''),
+            '/logs' +
+            (action.username ? '?connection_id=' + action.connection_id : ''),
         state.AccountReducer.access_token
     )
     if (json && json.logs) {
@@ -245,7 +243,7 @@ function* setDev(action: any) {
         state.AccountReducer.access_token
     )
     if (json && response.status === 200) {
-        yield put(FormAction.updateDB(false))
+        yield put(FormAction.fetchVMs(false))
     }
 }
 
@@ -389,7 +387,7 @@ function* analyzeLogs(action: any) {
 
         if (json) {
             //previously: action.username.concat('_', action.connection_id)
-            const payload_id = action.connection_id 
+            const payload_id = action.connection_id
             yield put(FormAction.storeLogAnalysis(payload_id, json, 'client'))
         }
     }
@@ -458,13 +456,13 @@ function* bookmarkLogs(action: any) {
 
 export default function* rootSaga() {
     yield all([
-        takeEvery(FormAction.UPDATE_DB, updateDB),
+        takeEvery(FormAction.FETCH_VMS, fetchVMs),
         takeEvery(FormAction.LOGIN_USER, loginUser),
         takeEvery(FormAction.FETCH_USER_ACTIVITY, fetchUserActivity),
         takeEvery(FormAction.FETCH_USER_TABLE, fetchUserTable),
         takeEvery(FormAction.DELETE_USER, deleteUser),
         takeEvery(FormAction.DELETE_SUBSCRIPTION, deleteSubscription),
-        takeEvery(FormAction.FETCH_CUSTOMERS, fetchCustomers),
+        takeEvery(FormAction.FETCH_USERS, fetchUsers),
         takeEvery(FormAction.START_VM, startVM),
         takeEvery(FormAction.DEALLOCATE_VM, deallocateVM),
         takeEvery(FormAction.FETCH_LOGS, fetchLogs),

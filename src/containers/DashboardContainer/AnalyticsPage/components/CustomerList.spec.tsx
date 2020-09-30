@@ -4,24 +4,24 @@ import Adapter from 'enzyme-adapter-react-16'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import toJson from 'enzyme-to-json'
 
-import { CustomerList } from './CustomerList'
+import { UserList } from './UserList'
 
 // necessary for enzyme to work
 Enzyme.configure({ adapter: new Adapter() })
 
 /*
-The customerList is a list of divs or a spinning icon depending on how many customers are passed in.
+The UserList is a list of divs or a spinning icon depending on how many customers are passed in.
 We need to test that the right divs generate for the corresponding numbers of customers and that for
 an empty customers list or '' customers we generate appropriate responses (either some spinning/loading icon
 or for a '' customer we load an empty div)
 
 We also have to test that on mount we will set 
 */
-describe('<CustomerList />', () => {
+describe('<UserList />', () => {
     // snapshot test
     it('renders correctly', () => {
         const wrapper = shallow(
-            <CustomerList
+            <UserList
                 customers={[]}
                 dispatch={(items: any) => {
                     // mock
@@ -52,7 +52,7 @@ describe('<CustomerList />', () => {
     it('displays a div per customer', () => {
         const customers: string[] = ['alice', 'bob']
         const wrapper = shallow(
-            <CustomerList
+            <UserList
                 customers={customers}
                 dispatch={(items: any) => {
                     // mock
@@ -68,7 +68,7 @@ describe('<CustomerList />', () => {
     it('displays an empty div for a customer that has a non-empty name, and otherwise empty', () => {
         const customers: string[] = ['bob', '']
         const wrapper = shallow(
-            <CustomerList
+            <UserList
                 customers={customers}
                 dispatch={(items: any) => {
                     // mock
@@ -85,7 +85,7 @@ describe('<CustomerList />', () => {
     it('displays a fontAwesomeIcon (spinner) if customers length = 0', () => {
         const customers: string[] = []
         const wrapper = shallow(
-            <CustomerList
+            <UserList
                 customers={customers}
                 dispatch={(items: any) => {
                     // mock

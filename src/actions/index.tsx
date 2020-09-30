@@ -1,5 +1,4 @@
 export const FETCH_VMS = 'FETCH_VMS'
-export const UPDATE_DB = 'UPDATE_DB'
 export const LOAD_VMS = 'LOAD_VMS'
 export const FETCH_DISK_TABLE = 'FETCH_DISK_TABLE'
 export const DISK_TABLE_FETCHED = 'DISK_TABLE_FETCHED'
@@ -10,15 +9,13 @@ export const FETCH_USER_ACTIVITY = 'FETCH_USER_ACTIVITY'
 export const USER_ACTIVITY_FETCHED = 'USER_ACTIVITY_FETCHED'
 export const FETCH_USER_TABLE = 'FETCH_USER_TABLE'
 export const USER_TABLE_FETCHED = 'USER_TABLE_FETCHED'
-export const FETCH_CUSTOMER_TABLE = 'FETCH_CUSTOMER_TABLE'
-export const CUSTOMER_TABLE_FETCHED = 'CUSTOMER_TABLE_FETCHED'
 export const DELETE_USER = 'DELETE_USER'
 export const DELETE_SUBSCRIPTION = 'DELETE_SUBSCRIPTION'
 export const STORE_JWT = 'STORE_JWT'
 export const LOGOUT = 'LOGOUT'
 export const INCREMENT_LOGIN_ATTEMPTS = 'INCREMENT_LOGIN_ATTEMPTS'
-export const FETCH_CUSTOMERS = 'FETCH_CUSTOMERS'
-export const STORE_CUSTOMERS = 'STORE_CUSTOMERS'
+export const FETCH_USERS = 'FETCH_USERS'
+export const STORE_USERS = 'STORE_USERS'
 export const START_VM = 'START_VM'
 export const DEALLOCATE_VM = 'DEALLOCATE_VM'
 export const DONE_UPDATING = 'DONE_UPDATING'
@@ -54,13 +51,6 @@ export const SET_AUTOUPDATE = 'SET_AUTOUPDATE'
 export function fetchVMs(updated: any) {
     return {
         type: FETCH_VMS,
-        updated,
-    }
-}
-
-export function updateDB(updated: any) {
-    return {
-        type: UPDATE_DB,
         updated,
     }
 }
@@ -151,20 +141,6 @@ export function deleteUser(user: any) {
     }
 }
 
-export function fetchCustomerTable(updated: any) {
-    return {
-        type: FETCH_CUSTOMER_TABLE,
-        updated,
-    }
-}
-
-export function customerTableFetched(payload: any) {
-    return {
-        type: CUSTOMER_TABLE_FETCHED,
-        payload,
-    }
-}
-
 export function deleteSubscription(user: any) {
     return {
         type: DELETE_SUBSCRIPTION,
@@ -192,16 +168,16 @@ export function incrementLoginAttempts() {
     }
 }
 
-export function fetchCustomers() {
+export function fetchUsers() {
     return {
-        type: FETCH_CUSTOMERS,
+        type: FETCH_USERS,
     }
 }
 
-export function storeCustomers(customers: any) {
+export function storeUsers(users: any) {
     return {
-        type: STORE_CUSTOMERS,
-        customers,
+        type: STORE_USERS,
+        users,
     }
 }
 

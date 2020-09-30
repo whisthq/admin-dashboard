@@ -144,8 +144,8 @@ describe('Account reducer', () => {
             },
         },
         {
-            action: AccountAction.STORE_CUSTOMERS,
-            actionMessage: AccountAction.storeCustomers('customers'),
+            action: AccountAction.STORE_USERS,
+            actionMessage: AccountAction.storeUsers('customers'),
             startState: {},
             endState: {
                 customers: 'customers',

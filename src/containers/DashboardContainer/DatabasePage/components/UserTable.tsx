@@ -21,7 +21,7 @@ export class UserTable extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        this.props.dispatch(fetchUserTable(true))
+        this.props.dispatch(fetchUserTable(false))
     }
 
     deleteUser = (user: any) => {

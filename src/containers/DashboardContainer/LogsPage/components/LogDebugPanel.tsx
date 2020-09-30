@@ -102,15 +102,13 @@ export class LogDebugPanel extends React.Component<any, any> {
                                     }}
                                 />
                                 {
-                                    log_analysis[
-                                        connection_id
-                                    ][sender].debug.number_of_errors
+                                    log_analysis[connection_id][sender].debug
+                                        .number_of_errors
                                 }{' '}
                                 {sender} error(s) (
                                 {(
-                                    log_analysis[
-                                        connection_id
-                                    ][sender].debug.error_rate * 100
+                                    log_analysis[connection_id][sender].debug
+                                        .error_rate * 100
                                 )
                                     .toFixed(2)
                                     .toString()}{' '}
