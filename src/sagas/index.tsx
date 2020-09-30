@@ -230,23 +230,7 @@ function* deleteLogs(action: any) {
     }
 }
 
-function* setDev(action: any) {
-    const state = yield select()
-
-    const { json, response } = yield call(
-        apiPost,
-        config.url.PRIMARY_SERVER + '/vm/dev',
-        {
-            vm_name: action.vm_name,
-            dev: action.dev,
-        },
-        state.AccountReducer.access_token
-    )
-    if (json && response.status === 200) {
-        yield put(FormAction.fetchVMs(false))
-    }
-}
-
+// DEPRECATED
 function* setStun(action: any) {
     const state = yield select()
 
@@ -265,6 +249,7 @@ function* setStun(action: any) {
     }
 }
 
+// DEPRECATED
 function* changeBranch(action: any) {
     const state = yield select()
 
@@ -467,7 +452,6 @@ export default function* rootSaga() {
         takeEvery(FormAction.DEALLOCATE_VM, deallocateVM),
         takeEvery(FormAction.FETCH_LOGS, fetchLogs),
         takeEvery(FormAction.DELETE_LOGS, deleteLogs),
-        takeEvery(FormAction.SET_DEV, setDev),
         takeEvery(FormAction.SET_STUN, setStun),
         takeEvery(FormAction.FETCH_DISK_TABLE, fetchDiskTable),
         takeEvery(FormAction.CHANGE_BRANCH, changeBranch),

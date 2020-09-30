@@ -14,6 +14,10 @@ import {
     setAutoupdate,
 } from '../../../../actions/index'
 
+/*
+The disk table is deprecated! You cannot change anything with the disk table since the azure endpoints no longer
+exist as we are moving to AWS containers. This will be removed soon and is left so you can see the disks.
+*/
 export class DiskTable extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
@@ -35,10 +39,12 @@ export class DiskTable extends React.Component<any, any> {
     }
 
     changeBranch = (disk_name: any, branch: any) => {
+        console.log(`changed branch`)
         this.props.dispatch(changeBranch(disk_name, branch))
     }
 
     toggleStun = (mode: any, disk_name: any) => {
+        console.log(`toggled stun`)
         if (mode == null) {
             this.props.dispatch(setStun(disk_name, true))
         } else {
@@ -47,6 +53,7 @@ export class DiskTable extends React.Component<any, any> {
     }
 
     toggleAutoupdate = (mode: any, disk_name: any) => {
+        console.log(`toggled autoupdated`)
         if (mode == null) {
             this.props.dispatch(setAutoupdate(disk_name, true))
         } else {
