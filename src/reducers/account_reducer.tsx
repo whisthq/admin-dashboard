@@ -84,10 +84,10 @@ export default function (state = DEFAULT, action: any) {
                 ...state,
                 login_attempts: state.login_attempts + 1,
             }
-        case AccountAction.STORE_CUSTOMERS:
+        case AccountAction.STORE_USERS:
             return {
                 ...state,
-                customers: action.customers,
+                customers: action.users, // TODO (adriano) rename me please
             }
         case AccountAction.START_VM:
             return {
@@ -178,6 +178,7 @@ export default function (state = DEFAULT, action: any) {
             }
         case AccountAction.STORE_LOG_ANALYSIS:
             const payload_id = action.payload_id
+
             const sender = action.sender
             function hasKey<O>(obj: O, key: keyof any): key is keyof O {
                 return key in obj

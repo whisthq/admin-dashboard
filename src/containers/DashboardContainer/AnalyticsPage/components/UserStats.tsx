@@ -13,7 +13,7 @@ import {
 
 import { fetchUserReport } from '../../../../actions/index'
 
-import CustomerList from './CustomerList'
+import UserList from './UserList'
 
 export class UserStats extends React.Component<any, any> {
     constructor(props: any) {
@@ -52,7 +52,6 @@ export class UserStats extends React.Component<any, any> {
     }
 
     handleChartSelect = (val: any) => {
-        console.log(val) // TODO (adriano) this can probably be removed
         this.setState({ timescale: val })
         this.props.dispatch(fetchUserReport(val, this.state.username))
     }
@@ -176,7 +175,7 @@ export class UserStats extends React.Component<any, any> {
                     </div>
                 )}
                 <div style={{ marginTop: 50 }}>
-                    <CustomerList openModal={this.openModal} />
+                    <UserList openModal={this.openModal} />
                 </div>
             </div>
         )

@@ -5,12 +5,7 @@ import { connect } from 'react-redux'
 import 'react-tabs/style/react-tabs.css'
 import '../../../static/App.css'
 
-import {
-    fetchUserActivity,
-    fetchUserTable,
-    deleteUser,
-    changePage,
-} from '../../../actions/index'
+import { changePage } from '../../../actions/index'
 
 import VMTable from './components/VMTable'
 import UserTable from './components/UserTable'
@@ -18,32 +13,8 @@ import CustomerTable from './components/CustomerTable'
 import DiskTable from './components/DiskTable'
 
 export class Dashboard extends React.Component<any, any> {
-    constructor(props: any) {
-        super(props)
-        this.state = {
-            loaded: false,
-            userTableFetched: false,
-        }
-    }
-
     componentDidMount() {
-        this.props.dispatch(fetchUserActivity())
         this.props.dispatch(changePage('dashboard'))
-    }
-
-    componentDidUpdate() {
-        if (
-            this.props.access_token &&
-            this.props.userTable.length === 0 &&
-            !this.state.userTableFetched
-        ) {
-            this.props.dispatch(fetchUserTable(true))
-            this.setState({ userTableFetched: true })
-        }
-    }
-
-    deleteUser = (user: any) => {
-        this.props.dispatch(deleteUser(user))
     }
 
     render() {
@@ -120,20 +91,7 @@ export class Dashboard extends React.Component<any, any> {
 
 function mapStateToProps(state: any) {
     return {
-        vm_info: state.AccountReducer.vm_info
-            ? state.AccountReducer.vm_info
-            : [],
-        vmsUpdated: state.AccountReducer.vmsUpdated,
-        activityFetched: state.AccountReducer.activityFetched,
-        userActivity: state.AccountReducer.userActivity
-            ? state.AccountReducer.userActivity
-            : [],
-        userTable: state.AccountReducer.userTable
-            ? state.AccountReducer.userTable
-            : [],
-        usersUpdated: state.AccountReducer.usersUpdated,
         access_token: state.AccountReducer.access_token,
-        login_attempts: state.AccountReducer.login_attempts,
     }
 }
 

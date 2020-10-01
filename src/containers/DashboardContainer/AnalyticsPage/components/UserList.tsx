@@ -6,9 +6,9 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import '../../../../static/App.css'
 import Style from '../../../../styles/components/pageAdmin.module.css'
 
-import { fetchCustomers } from '../../../../actions/index'
+import { fetchUsers } from '../../../../actions/index'
 
-export class CustomerList extends React.Component<any, any> {
+export class UserList extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
         this.state = {
@@ -23,7 +23,7 @@ export class CustomerList extends React.Component<any, any> {
     componentDidMount() {
         // refresh the customer table every 60 seconds
         this.intervalID = setInterval(this.getUpdatedDatabase.bind(this), 60000)
-        this.props.dispatch(fetchCustomers())
+        this.props.dispatch(fetchUsers())
     }
 
     componentWillUnmount() {
@@ -37,7 +37,7 @@ export class CustomerList extends React.Component<any, any> {
             this.props.customers.length === 0 &&
             !this.state.customers_fetched
         ) {
-            this.props.dispatch(fetchCustomers())
+            this.props.dispatch(fetchUsers())
             this.setState({ customers_fetched: true })
 
             // refresh the customer table every 60 seconds
@@ -49,7 +49,7 @@ export class CustomerList extends React.Component<any, any> {
     }
 
     getUpdatedDatabase() {
-        this.props.dispatch(fetchCustomers())
+        this.props.dispatch(fetchUsers())
     }
 
     render() {
@@ -73,14 +73,14 @@ export class CustomerList extends React.Component<any, any> {
                             value: any,
                             index: any
                         ) {
-                            if (value && value['username'] !== '') {
+                            if (value && value.name && value.name !== '') {
                                 return (
                                     <div
                                         key={index}
                                         className="pointerOnHover"
                                         onClick={() => {
                                             component.props.openModal(
-                                                value['username']
+                                                value.name
                                             )
                                         }}
                                         style={{
@@ -93,7 +93,7 @@ export class CustomerList extends React.Component<any, any> {
                                                 'rgba(136, 132, 216, 0.1)',
                                         }}
                                     >
-                                        {value['username']}
+                                        {value.name}
                                     </div>
                                 )
                             } else {
@@ -130,4 +130,4 @@ function mapStateToProps(state: any) {
     }
 }
 
-export default connect(mapStateToProps)(CustomerList)
+export default connect(mapStateToProps)(UserList)

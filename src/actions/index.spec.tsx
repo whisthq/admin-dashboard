@@ -198,22 +198,22 @@ describe('/actions/index.tsx', () => {
         expect(actions.incrementLoginAttempts()).toEqual(expectedAction)
     })
 
-    test('FETCH_CUSTOMERS', () => {
+    test('FETCH_USERS', () => {
         let expectedAction = {
-            type: actions.FETCH_CUSTOMERS,
+            type: actions.FETCH_USERS,
         }
 
-        expect(actions.fetchCustomers()).toEqual(expectedAction)
+        expect(actions.fetchUsers()).toEqual(expectedAction)
     })
 
-    test('STORE_CUSTOMERS', () => {
-        let customers: any = ['me', 'marley']
+    test('STORE_USERS', () => {
+        let users: any = ['me', 'marley']
         let expectedAction = {
-            type: actions.STORE_CUSTOMERS,
-            customers,
+            type: actions.STORE_USERS,
+            users,
         }
 
-        expect(actions.storeCustomers(customers)).toEqual(expectedAction)
+        expect(actions.storeUsers(users)).toEqual(expectedAction)
     })
 
     test('START_VM', () => {

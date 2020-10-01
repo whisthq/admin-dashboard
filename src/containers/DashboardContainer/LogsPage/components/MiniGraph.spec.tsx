@@ -116,7 +116,7 @@ describe('<MiniGraph />', () => {
                 connection_id="id"
                 metric="metric"
                 log_analysis={{
-                    user_id: {
+                    id: {
                         sender: {
                             metric: {
                                 output: [

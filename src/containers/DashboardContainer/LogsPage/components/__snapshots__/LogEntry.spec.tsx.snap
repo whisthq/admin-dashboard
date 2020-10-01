@@ -1,0 +1,416 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LogEntry /> renders correctly 1`] = `
+<div
+  style={
+    Object {
+      "background": "white",
+      "borderRadius": 5,
+      "marginBottom": 20,
+      "maxWidth": "calc(100% - 200px)",
+      "padding": 30,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "fontSize": 12,
+        "height": 50,
+        "padding": 10,
+        "paddingBottom": 20,
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "marginRight": 10,
+          "width": 70,
+        }
+      }
+    >
+      <a
+        href="server_logs"
+        rel="noopener noreferrer"
+        style={
+          Object {
+            "background": "#2c45a8",
+            "borderRadius": 3,
+            "fontSize": 14,
+            "opacity": 1,
+            "padding": "8px 12px",
+          }
+        }
+        target="_blank"
+      >
+        <span
+          style={
+            Object {
+              "color": "white",
+              "fontWeight": "bold",
+            }
+          }
+        >
+          Server
+        </span>
+      </a>
+    </div>
+    <div
+      style={
+        Object {
+          "marginRight": 10,
+          "width": 70,
+        }
+      }
+    >
+      <a
+        href="client_logs"
+        rel="noopener noreferrer"
+        style={
+          Object {
+            "background": "#2c45a8",
+            "borderRadius": 3,
+            "fontSize": 14,
+            "opacity": 1,
+            "padding": "8px 12px",
+          }
+        }
+        target="_blank"
+      >
+        <span
+          style={
+            Object {
+              "color": "white",
+              "fontWeight": "bold",
+            }
+          }
+        >
+          Client
+        </span>
+      </a>
+    </div>
+    <div
+      style={
+        Object {
+          "bottom": 1,
+          "color": "#4636a6",
+          "fontSize": 13,
+          "fontWeight": "bold",
+          "overflowX": "scroll",
+          "position": "relative",
+          "width": 200,
+        }
+      }
+    >
+      user_id
+    </div>
+    <div
+      style={
+        Object {
+          "textAlign": "left",
+          "width": 140,
+        }
+      }
+    />
+    <div
+      style={
+        Object {
+          "width": 100,
+        }
+      }
+    >
+      Conn. 
+      connection_id
+    </div>
+    <div
+      style={
+        Object {
+          "width": 250,
+        }
+      }
+    >
+      V. 
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "bottom": 50,
+        "display": "flex",
+        "float": "right",
+        "position": "relative",
+        "width": 250,
+      }
+    }
+  >
+    <div
+      className="pointerOnHover"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "#f2f8ff",
+          "borderRadius": 3,
+          "color": "white",
+          "fontSize": 14,
+          "marginRight": 15,
+          "padding": "7px 15px",
+          "position": "relative",
+        }
+      }
+    >
+      <FontAwesomeIcon
+        border={false}
+        className=""
+        fixedWidth={false}
+        flip={null}
+        icon={
+          Object {
+            "icon": Array [
+              576,
+              512,
+              Array [],
+              "f005",
+              "M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z",
+            ],
+            "iconName": "star",
+            "prefix": "fas",
+          }
+        }
+        inverse={false}
+        listItem={false}
+        mask={null}
+        pull={null}
+        pulse={false}
+        rotation={null}
+        size={null}
+        spin={false}
+        style={
+          Object {
+            "color": "#d5dae0",
+            "fontSize": 13,
+          }
+        }
+        swapOpacity={false}
+        symbol={false}
+        title=""
+        transform={null}
+      />
+    </div>
+    <div
+      className="pointerOnHover"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "#4b3ba8",
+          "borderRadius": 3,
+          "color": "white",
+          "fontSize": 14,
+          "marginRight": 15,
+          "padding": "7px 15px",
+          "position": "relative",
+        }
+      }
+    >
+      <FontAwesomeIcon
+        border={false}
+        className=""
+        fixedWidth={false}
+        flip={null}
+        icon={
+          Object {
+            "icon": Array [
+              512,
+              512,
+              Array [],
+              "f24d",
+              "M464 0c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48H176c-26.51 0-48-21.49-48-48V48c0-26.51 21.49-48 48-48h288M176 416c-44.112 0-80-35.888-80-80V128H48c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48h288c26.51 0 48-21.49 48-48v-48H176z",
+            ],
+            "iconName": "clone",
+            "prefix": "fas",
+          }
+        }
+        inverse={false}
+        listItem={false}
+        mask={null}
+        pull={null}
+        pulse={false}
+        rotation={null}
+        size={null}
+        spin={false}
+        style={
+          Object {
+            "color": "white",
+            "fontSize": 13,
+            "marginRight": 10,
+          }
+        }
+        swapOpacity={false}
+        symbol={false}
+        title=""
+        transform={null}
+      />
+      Copy Link
+    </div>
+    <Button
+      active={false}
+      disabled={false}
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "rgba(176, 37, 16, 0.1)",
+          "border": "none",
+          "borderRadius": 2,
+          "boxShadow": "none",
+          "color": "#e8553f",
+          "outline": "none",
+          "position": "relative",
+        }
+      }
+      variant="primary"
+    >
+      <FontAwesomeIcon
+        border={false}
+        className=""
+        fixedWidth={false}
+        flip={null}
+        icon={
+          Object {
+            "icon": Array [
+              448,
+              512,
+              Array [],
+              "f1f8",
+              "M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z",
+            ],
+            "iconName": "trash",
+            "prefix": "fas",
+          }
+        }
+        inverse={false}
+        listItem={false}
+        mask={null}
+        pull={null}
+        pulse={false}
+        rotation={null}
+        size={null}
+        spin={false}
+        style={
+          Object {
+            "fontSize": 13,
+          }
+        }
+        swapOpacity={false}
+        symbol={false}
+        title=""
+        transform={null}
+      />
+    </Button>
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+      }
+    }
+  >
+    <div>
+      <LogDebugPanel
+        connection_id="connection_id"
+        filename="server_logs"
+        log_analysis={Object {}}
+        sender="server"
+        username="user_id"
+      />
+    </div>
+    <div>
+      <LogDebugPanel
+        connection_id="connection_id"
+        filename="client_logs"
+        log_analysis={Object {}}
+        sender="client"
+        username="user_id"
+      />
+    </div>
+  </div>
+  <Row
+    noGutters={false}
+    style={
+      Object {
+        "marginTop": 20,
+      }
+    }
+  >
+    <Col
+      lg={6}
+      sm={12}
+      xl={3}
+    >
+      <MiniGraph
+        connection_id="connection_id"
+        filename="server_logs"
+        log_analysis={Object {}}
+        metric="encode_time"
+        scale={1000}
+        sender="server"
+        title="Avg. Encode Time"
+        unit="ms"
+        username="user_id"
+      />
+    </Col>
+    <Col
+      lg={6}
+      sm={12}
+      xl={3}
+    >
+      <MiniGraph
+        connection_id="connection_id"
+        filename="server_logs"
+        log_analysis={Object {}}
+        metric="encode_size"
+        scale={1}
+        sender="server"
+        title="Avg. Encode Size"
+        unit="bytes"
+        username="user_id"
+      />
+    </Col>
+    <Col
+      lg={6}
+      sm={12}
+      xl={3}
+    >
+      <MiniGraph
+        connection_id="connection_id"
+        filename="client_logs"
+        log_analysis={Object {}}
+        metric="decode_time"
+        scale={1000}
+        sender="client"
+        title="Avg. Decode Time"
+        unit="ms"
+        username="user_id"
+      />
+    </Col>
+    <Col
+      lg={6}
+      sm={12}
+      xl={3}
+    >
+      <MiniGraph
+        connection_id="connection_id"
+        filename="client_logs"
+        log_analysis={Object {}}
+        metric="latency"
+        scale={1000}
+        sender="client"
+        title="Client Latency"
+        unit="ms"
+        username="user_id"
+      />
+    </Col>
+  </Row>
+</div>
+`;
