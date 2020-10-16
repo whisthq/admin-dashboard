@@ -22,6 +22,8 @@ The `master` branch autopublishes to [https://fractal-dashboard.netlify.app](htt
 
 Basic continuous integration is set up for this project. For every push or PR, basic NodeJS tests will be compiled and run within GitHub Actions. This will also attempt to format the code via Prettier and inform you if your code is not properly formatted. You should make sure that every pull request to `master` passes the build in GitHub Actions, and that you pre-formatted the code via Prettier beforehand. 
 
+To minimize the risk of bugs, we enforce that all PR's be warning-free. You can see warnings in the terminal where the website is running locally; if a PR has warnings, the CI will fail. Note that the Netlify deploys will fail due to warnings, to enforce this design philosophy.
+
 ## Testing
 
 We use Jest and Enzyme for testing. With `yarn` you should be able to install all the dependencies and `yarn test` should run the tests. If it fails you may need the Jest CLI globally installed. Unit tests are included as `.spec.tsx` files next to the files they test for easy development. Tests of functions are called "test" and tests of React components are called "it" (though these two are actually aliases of each other). CSS Styling properties are not rigorously tested.
