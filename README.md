@@ -1,8 +1,5 @@
 # Fractal Admin Dashboard
 
-![Node.js CI](https://github.com/fractalcomputers/admin-dashboard/workflows/Node.js%20CI/badge.svg)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/cafdd643-2338-419f-b542-b1c2ab933938/deploy-status)](https://app.netlify.com/sites/fractal-dashboard/deploys)
-
 **THIS REPOSITORY WAS ARCHIVED FOLLOWING OUR TRANSITION FROM VIRTUAL MACHINES TO CONTAINERS, FOR WHICH WE ALSO PRODUCTIONIZED OUR WORKFLOWS AND STARTED USING EXISTING TOOLS LIKE TABLEPLUS, HASURA AND DATADOG TO HANDLE ANALYTICS, DATABASE VISUALIZATION, AND MORE. THE REPOSITORY IS LEFT AS ARCHIVED HERE FOR REFERENCE.**
 
 This repository contains the code for the Fractal administrator dashboard, which is an internal tool we use to deliver support and monitor the Fractal cloud infrastructure and user base. 
